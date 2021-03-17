@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(App());
 }
 
 class MyApp extends StatelessWidget {
@@ -125,6 +125,10 @@ class MyFirstWidget extends StatelessWidget {
       ),
     );
   }
+
+  /*Type testMethod() {
+    return context.runtimeType;
+  }*/
 }
 
 class MyFirstStateFulWidget extends StatefulWidget {
@@ -143,6 +147,22 @@ class _MyFirstStateFulWidgetState extends State<MyFirstStateFulWidget> {
       child: Center(
         child: Text('Hello!'),
       ),
+    );
+  }
+
+  Type testMethod() {
+    return context.runtimeType;
+  }
+}
+
+class App extends StatelessWidget {
+  const App({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MyFirstWidget(),
+      title: "Places",
     );
   }
 }
