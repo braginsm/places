@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(App());
 }
 
 class MyApp extends StatelessWidget {
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyFirstStateFulWidget(),
     );
   }
 }
@@ -108,6 +108,61 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class MyFirstWidget extends StatelessWidget {
+  const MyFirstWidget({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    int _count = 0;
+    print(++_count);
+    return Container(
+      child: Center(
+        child: Text('Hello!'),
+      ),
+    );
+  }
+
+  /*Type testMethod() {
+    return context.runtimeType;
+  }*/
+}
+
+class MyFirstStateFulWidget extends StatefulWidget {
+  MyFirstStateFulWidget({Key key}) : super(key: key);
+
+  @override
+  _MyFirstStateFulWidgetState createState() => _MyFirstStateFulWidgetState();
+}
+
+class _MyFirstStateFulWidgetState extends State<MyFirstStateFulWidget> {
+  @override
+  Widget build(BuildContext context) {
+    int _count = 0;
+    print(++_count);
+    return Container(
+      child: Center(
+        child: Text('Hello!'),
+      ),
+    );
+  }
+
+  Type testMethod() {
+    return context.runtimeType;
+  }
+}
+
+class App extends StatelessWidget {
+  const App({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MyFirstWidget(),
+      title: "Places",
     );
   }
 }
