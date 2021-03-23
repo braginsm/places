@@ -19,7 +19,6 @@ class _SightListScreenState extends State<SightListScreen> {
           padding: EdgeInsets.fromLTRB(16, 64, 16, 322),
           child: RichText(
             text: TextSpan(
-              text: "", 
               children: [ //не нашел способа стилизации только первого символа TextSpan по этому разделил на подстроки, для их стилизации
                 TextSpan(
                   text: "С",
