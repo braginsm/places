@@ -5,5 +5,5 @@ class Sight {
   String details = ""; // - описание достопримечательности
   String type = ""; // - тип достопримечательности.
 
-  Sight({name, double lat, double lon, String url, String details, String type});
+  Sight({this.name, this.lat, this.lon, this.url, this.details, this.type});
 }
