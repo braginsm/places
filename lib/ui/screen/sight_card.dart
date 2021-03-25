@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 
-class SightCard extends StatelessWidget {
-  Sight _sight;
+import '../res/text_styles.dart';
 
-  SightCard(Sight sight) {
-    _sight = sight;
-  }
+class SightCard extends StatelessWidget {
+  final Sight sight;
+  const SightCard(this.sight, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize( 
+      appBar: PreferredSize(
         preferredSize: Size(double.infinity, 360),
         child: Container(
           width: double.infinity,
@@ -21,25 +20,24 @@ class SightCard extends StatelessWidget {
                 color: Colors.amber,
               ),
               Positioned(
-                top: 36,
-                left: 16,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  child: Center(
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.black,
-                        size: 15,
-                      ),
-                      onPressed: () => Navigator.of(context).pop(),
+                  top: 36,
+                  left: 16,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
                     ),
-                  ),
-                )
-              )
+                    child: Center(
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.black,
+                          size: 15,
+                        ),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ),
+                  ))
             ],
           ),
         ),
@@ -49,13 +47,9 @@ class SightCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(_sight.name,
-              style: TextStyle(
-                color: Color(0xff3B3E5B),
-                fontFamily: "Roboto",
-                fontSize: 24,
-                fontWeight: FontWeight.w700
-              ),
+            Text(
+              sight.name,
+              style: textBold24.copyWith(color: Color(0xff3B3E5B)),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -63,41 +57,26 @@ class SightCard extends StatelessWidget {
               margin: EdgeInsets.only(top: 2),
               child: Row(
                 children: [
-                  Text(_sight.type,
-                    style: TextStyle(
-                      color: Color(0xff3B3E5B),
-                      fontFamily: "Roboto",
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700
-                    ),
+                  Text(
+                    sight.type,
+                    style: textBold.copyWith(color: Color(0xff3B3E5B)),
                     maxLines: 1,
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 16),
-                    child: Text(
-                      "закрыто до 09:00",
-                      style: TextStyle(
-                        color: Color(0xff7C7E92),
-                        fontFamily: "Roboto",
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400
-                      ),
-                      maxLines: 1,
-                    )
-                  ),
+                      margin: EdgeInsets.only(left: 16),
+                      child: Text(
+                        "закрыто до 09:00",
+                        style: textRegular.copyWith(color: Color(0xff7C7E92)),
+                        maxLines: 1,
+                      )),
                 ],
               ),
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 24),
               child: Text(
-                _sight.details,
-                style: TextStyle(
-                  color: Color(0xff3B3E5B),
-                  fontFamily: "Roboto",
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400
-                ),
+                sight.details,
+                style: textRegular.copyWith(color: Color(0xff3B3E5B)),
               ),
             ),
             Container(
@@ -111,13 +90,7 @@ class SightCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   "ПОСТРОИТЬ МАРШРУТ",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: "Roboto",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.03
-                  ),
+                  style: textBold.copyWith(color: Colors.white),
                 ),
               ),
             ),
@@ -136,13 +109,10 @@ class SightCard extends StatelessWidget {
                       child: Center(
                         child: Text(
                           'Запланировать',
-                          style: TextStyle(
-                            color: Color(0xff7C7E92).withOpacity(0.56),
-                            fontFamily: "Roboto",
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
+                          style: textRegular.copyWith(
+                            color: Color(0xff7C7E92).withOpacity(0.56)
                           ),
-                        )
+                        ),
                       ),
                     ),
                   ),
@@ -150,16 +120,11 @@ class SightCard extends StatelessWidget {
                     child: Container(
                       height: 40,
                       child: Center(
-                        child: Text(
-                          'В Избранное',
-                          style: TextStyle(
-                            color: Color(0xff3B3E5B),
-                            fontFamily: "Roboto",
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        )
-                      ),
+                          child: Text(
+                        'В Избранное',
+                        style: textRegular.copyWith(color: Color(0xff3B3E5B) 
+                        ),
+                      )),
                     ),
                   )
                 ],

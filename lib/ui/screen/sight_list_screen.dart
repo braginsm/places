@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 
+import '../res/text_styles.dart';
+
 class SightListScreen extends StatefulWidget {
   SightListScreen({Key key}) : super(key: key);
 
@@ -21,11 +23,7 @@ class _SightListScreenState extends State<SightListScreen> {
           padding: EdgeInsets.fromLTRB(16, 64, 16, 16),
           child: Text(
             "Список интересных мест",
-            style: TextStyle(
-                color: Color(0xff252849),
-                fontWeight: FontWeight.bold,
-                fontSize: 32,
-                fontFamily: "Roboto"),
+            style: textBold32.copyWith(color: Color(0xff252849)),
             textAlign: TextAlign.left,
             maxLines: 2,
           ),
@@ -45,11 +43,9 @@ class _SightListScreenState extends State<SightListScreen> {
 }
 
 class SightListItem extends StatelessWidget {
-  Sight _sight = Sight();
 
-  SightListItem(Sight sight) {
-    _sight = sight;
-  }
+  final Sight sight;
+  const SightListItem(this.sight, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -73,13 +69,8 @@ class SightListItem extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: 16, left: 16),
                   child: Text(
-                    _sight.type,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight
-                            .w700, //толщину шрифта беру из фигмы, но выглядит он тоньше
-                        fontSize: 14,
-                        fontFamily: "Roboto"),
+                    sight.type,
+                    style: textRegular.copyWith(color: Colors.white),
                   ),
                 ),
                 Positioned(
@@ -109,13 +100,8 @@ class SightListItem extends StatelessWidget {
                 width: double.infinity,
                 height: 40,
                 child: Text(
-                  _sight.name,
-                  style: TextStyle(
-                      color: Color(0xff3B3E5B),
-                      fontWeight: FontWeight
-                          .w500, //толщину шрифта беру из фигмы, но выглядит он тоньше
-                      fontSize: 16,
-                      fontFamily: "Roboto"),
+                  sight.name,
+                  style: textMedium16.copyWith(color: Color(0xff3B3E5B)),
                   textAlign: TextAlign.left,
                   maxLines: 2,
                 ),
@@ -125,12 +111,8 @@ class SightListItem extends StatelessWidget {
                 width: double.infinity,
                 height: 18,
                 child: Text(
-                  _sight.details,
-                  style: TextStyle(
-                      color: Color(0xff7C7E92),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                      fontFamily: "Roboto"),
+                  sight.details,
+                  style: textRegular16.copyWith(color: Color(0xff7C7E92)),
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.ellipsis,
                 ),
