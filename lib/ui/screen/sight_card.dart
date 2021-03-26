@@ -43,10 +43,13 @@ class SightCard extends StatelessWidget {
         ),
       ),
       body: Container(
-        margin: EdgeInsets.only(top: 24, left: 16, right: 16),
+        margin: EdgeInsets.only(left: 16, right: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 24,
+            ),
             Text(
               sight.name,
               style: textBold24.copyWith(color: Color(0xff3B3E5B)),
@@ -74,15 +77,10 @@ class SightCard extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 24),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: 180
-                ),
-                child: Text(
-                  sight.details,
-                  style: textRegular.copyWith(color: Color(0xff3B3E5B)),
-                ),
-              )
+              child: Text(
+                sight.details,
+                style: textRegular.copyWith(color: Color(0xff3B3E5B)),
+              ),
             ),
             Container(
               margin: EdgeInsets.only(bottom: 24),
