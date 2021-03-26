@@ -74,14 +74,9 @@ class SightCard extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 24),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: 180
-                ),
-                child: Text(
-                  sight.details,
-                  style: textRegular.copyWith(color: Color(0xff3B3E5B)),
-                ),
+              child: Text(
+                sight.details,
+                style: textRegular.copyWith(color: Color(0xff3B3E5B)),
               ),
             ),
             Container(
