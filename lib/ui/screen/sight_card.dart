@@ -22,24 +22,25 @@ class SightCard extends StatelessWidget {
                   color: Colors.amber,
                 ),
                 Positioned(
-                    top: 36,
-                    left: 16,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.black,
-                            size: 15,
-                          ),
-                          onPressed: () => Navigator.of(context).pop(),
+                  top: 36,
+                  left: 16,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    child: Center(
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.black,
+                          size: 15,
                         ),
+                        onPressed: () => Navigator.of(context).pop(),
                       ),
-                    ))
+                    ),
+                  )
+                )
               ],
             ),
           ),
