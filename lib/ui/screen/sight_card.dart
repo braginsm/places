@@ -12,35 +12,38 @@ class SightCard extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 360),
-        child: Container(
-          width: double.infinity,
-          child: Stack(
-            children: [
-              Container(
-                color: Colors.amber,
-              ),
-              Positioned(
-                  top: 36,
-                  left: 16,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    child: Center(
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.black,
-                          size: 15,
-                        ),
-                        onPressed: () => Navigator.of(context).pop(),
+        child: AspectRatio(
+          aspectRatio: 3 / 2,
+          child: Container(
+            width: double.infinity,
+            child: Stack(
+              children: [
+                Container(
+                  color: Colors.amber,
+                ),
+                Positioned(
+                    top: 36,
+                    left: 16,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
                       ),
-                    ),
-                  ))
-            ],
+                      child: Center(
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.black,
+                            size: 15,
+                          ),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      ),
+                    ))
+              ],
+            ),
           ),
-        ),
+        )
       ),
       body: Container(
         margin: EdgeInsets.only(left: 16, right: 16),
