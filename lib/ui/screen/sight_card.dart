@@ -12,14 +12,16 @@ class SightCard extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 360),
-        child: Container(
-          width: double.infinity,
-          child: Stack(
-            children: [
-              Container(
-                color: Colors.amber,
-              ),
-              Positioned(
+        child: AspectRatio(
+          aspectRatio: 3 / 2,
+          child: Container(
+            width: double.infinity,
+            child: Stack(
+              children: [
+                Container(
+                  color: Colors.amber,
+                ),
+                Positioned(
                   top: 36,
                   left: 16,
                   child: Container(
@@ -37,16 +39,21 @@ class SightCard extends StatelessWidget {
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                     ),
-                  ))
-            ],
+                  )
+                )
+              ],
+            ),
           ),
-        ),
+        )
       ),
       body: Container(
-        margin: EdgeInsets.only(top: 24, left: 16, right: 16),
+        margin: EdgeInsets.only(left: 16, right: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 24,
+            ),
             Text(
               sight.name,
               style: textBold24.copyWith(color: Color(0xff3B3E5B)),
