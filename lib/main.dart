@@ -165,7 +165,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SightListScreen(),
+      home: SightCard(mocks[1]),
       title: "Places",
     );
   }
