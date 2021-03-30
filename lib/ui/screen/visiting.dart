@@ -35,29 +35,20 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 borderRadius: BorderRadius.circular(40),
               ),
               child: TabBar(
-                onTap: (index) {
-                // Tab index when user select it, it start from zero
-                },
                 tabs: [
-                  Container(
-                    child: Center(child: Text("0"),),
-                    height: 40,
-                    width: 164,
-                    decoration: BoxDecoration(
-                      color: Color(0xff3B3E5B),
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                  ),
-                  Container(
-                    child: Center(child: Text("1"),),
-                    height: 40,
-                    width: 164,
-                    decoration: BoxDecoration(
-                      color: Color(0xff3B3E5B),
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                  ),
+                  Tab(text: "Хочу посетить"),
+                  Tab(text: "Посетил")
                 ],
+                unselectedLabelColor: Color(0xff7C7E92).withOpacity(0.56),
+                labelColor: Colors.white,
+                unselectedLabelStyle: textBold,
+                labelStyle: textBold,
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicator: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(40),
+                  color: Color(0xff3B3E5B),
+                ),
               ),
             ),
           ),
