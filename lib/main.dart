@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'mocks.dart';
 import 'ui/screen/sight_card.dart';
-import 'ui/screen/sight_list_screen.dart';
+import 'ui/screen/sight_list.dart';
+import 'ui/screen/visiting.dart';
 
 void main() {
   runApp(App());
@@ -165,7 +166,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SightCard(mocks[1]),
+      home: VisitingScreen(),
       title: "Places",
     );
   }
