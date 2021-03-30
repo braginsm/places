@@ -55,17 +55,32 @@ class SightListItem extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 16),
       child: Column(children: [
         Container(
-            width: double.infinity,
-            height: 96,
-            decoration: BoxDecoration(
-                color: Colors.blueGrey,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                )),
             child: Stack(
               children: [
-                Container(), //контейнер для превью места
+                Container(
+                  width: double.infinity,
+                  height: 96,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
+                    child: Image.network(
+                      sight.url,
+                      fit: BoxFit.fitWidth,
+                      loadingBuilder:(BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+                        if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null ? 
+                                  loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+                                  : null,
+                            ),
+                          );
+                      },
+                    ),
+                  )
+                ),
                 Container(
                   margin: EdgeInsets.only(top: 16, left: 16),
                   child: Text(
