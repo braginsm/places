@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/ui/widget/empty_list.dart';
 import '../res/text_styles.dart';
 import '../../mocks.dart';
 import '../widget/bottom_navigation.dart';
@@ -58,43 +59,22 @@ class _VisitingScreenState extends State<VisitingScreen> {
         ),
         body: TabBarView(
           children: [
-            wontList.length > 0
-                ? Container(
-                    margin: EdgeInsets.all(16),
-                    width: double.infinity,
-                    child: Column(
-                        children: [for (var item in wontList) VisitItem(item)]))
-                : Center(
-                    child: Column(children: [
-                      Container(
-                        width: 64,
-                        height: 64,
-                        color: Color(0xff7C7E92).withOpacity(0.56),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 24),
-                        child: Text("Пусто",
-                            style: TextStyleSet().textMedium18.copyWith(
-                                color: Color(0xff7C7E92).withOpacity(0.56))),
-                      ),
-                      Container(
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 53, vertical: 8),
-                        child: Text(
-                          "Отмечайте понравившиеся места и они появиятся здесь.",
-                          maxLines: 2,
-                          textAlign: TextAlign.center,
-                          style: TextStyleSet().textRegular.copyWith(
-                              color: Color(0xff7C7E92).withOpacity(0.56)),
-                        ),
-                      ),
-                    ]),
-                  ),
             Container(
               margin: EdgeInsets.all(16),
               width: double.infinity,
-              child: Column(
-                  children: [for (var item in visitList) VisitItem(item)]),
+              child: wontList.length > 0
+                ? Column(
+                  children: [for (var item in wontList) VisitItem(item)]
+                )
+                : EmptyListWont(),
+            ),
+            Container(
+              margin: EdgeInsets.all(16),
+              width: double.infinity,
+              child: visitList.length > 0
+                ? Column(
+                  children: [for (var item in visitList) VisitItem(item)])
+                : EmptyListVisited(),
             ),
           ],
         ),
