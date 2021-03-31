@@ -32,7 +32,7 @@ class BottomNavigation extends StatelessWidget {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         unselectedItemColor: Color(0xff252849),
-        //selectedIconTheme: IconThemeData(),
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }
