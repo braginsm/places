@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/res/text_styles.dart';
-import 'package:places/mocks.dart';
-import 'package:places/domain/sight.dart';
+import '../res/text_styles.dart';
+import '../../mocks.dart';
+import '../widget/bottom_navigation.dart';
+import '../../domain/sight.dart';
 
 class VisitingScreen extends StatefulWidget {
   VisitingScreen({Key key}) : super(key: key);
@@ -11,7 +12,6 @@ class VisitingScreen extends StatefulWidget {
 }
 
 class _VisitingScreenState extends State<VisitingScreen> {
-
   final wontList = mocks.where((f) => f.wontVisit);
   final visitList = mocks.where((f) => f.visit);
 
@@ -58,74 +58,47 @@ class _VisitingScreenState extends State<VisitingScreen> {
         ),
         body: TabBarView(
           children: [
-            wontList.length > 0 ? Container(
-              margin: EdgeInsets.all(16),
-              width: double.infinity,
-              child: Column(children: [
-                for (var item in wontList)
-                  VisitItem(item)
-              ])
-            ) : Center(
-                child: Column(
-                  children: [
-                    Container(
-                      width: 64,
-                      height: 64,
-                      color: Color(0xff7C7E92
-).withOpacity(0.56),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 24),
-                      child: Text(
-                        "Пусто",
-                        style: textMedium18.copyWith(color: Color(0xff7C7E92
-).withOpacity(0.56))
+            wontList.length > 0
+                ? Container(
+                    margin: EdgeInsets.all(16),
+                    width: double.infinity,
+                    child: Column(
+                        children: [for (var item in wontList) VisitItem(item)]))
+                : Center(
+                    child: Column(children: [
+                      Container(
+                        width: 64,
+                        height: 64,
+                        color: Color(0xff7C7E92).withOpacity(0.56),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 53, vertical: 8),
-                      child: Text(
-                        "Отмечайте понравившиеся места и они появиятся здесь.",
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        style: textRegular.copyWith(color: Color(0xff7C7E92
-).withOpacity(0.56)),
+                      Container(
+                        margin: EdgeInsets.only(top: 24),
+                        child: Text("Пусто",
+                            style: textMedium18.copyWith(
+                                color: Color(0xff7C7E92).withOpacity(0.56))),
                       ),
-                    ),
-                  ]
-                ),
-              ),
+                      Container(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 53, vertical: 8),
+                        child: Text(
+                          "Отмечайте понравившиеся места и они появиятся здесь.",
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          style: textRegular.copyWith(
+                              color: Color(0xff7C7E92).withOpacity(0.56)),
+                        ),
+                      ),
+                    ]),
+                  ),
             Container(
               margin: EdgeInsets.all(16),
               width: double.infinity,
-              child: Column(children: [
-                for (var item in visitList)
-                  VisitItem(item)
-              ]),
+              child: Column(
+                  children: [for (var item in visitList) VisitItem(item)]),
             ),
           ],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.business),
-              label: 'Business',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              label: 'School',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
-            ),
-          ],
-          selectedItemColor: Color(0xff252849),
-        ),
+        bottomNavigationBar: BottomNavigation(),
       ),
     );
   }
