@@ -28,7 +28,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
             child: Center(
               child: Text(
                 "Избранное",
-                style: textMedium18.copyWith(color: Color(0xff252849)),
+                style: TextStyleSet().textMedium18.copyWith(color: Color(0xff252849)),
               ),
             ),
           ),
@@ -44,8 +44,8 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 tabs: [Tab(text: "Хочу посетить"), Tab(text: "Посетил")],
                 unselectedLabelColor: Color(0xff7C7E92).withOpacity(0.56),
                 labelColor: Colors.white,
-                unselectedLabelStyle: textBold,
-                labelStyle: textBold,
+                unselectedLabelStyle: TextStyleSet().textBold,
+                labelStyle: TextStyleSet().textBold,
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicator: BoxDecoration(
                   shape: BoxShape.rectangle,
@@ -74,7 +74,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                       Container(
                         margin: EdgeInsets.only(top: 24),
                         child: Text("Пусто",
-                            style: textMedium18.copyWith(
+                            style: TextStyleSet().textMedium18.copyWith(
                                 color: Color(0xff7C7E92).withOpacity(0.56))),
                       ),
                       Container(
@@ -84,7 +84,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                           "Отмечайте понравившиеся места и они появиятся здесь.",
                           maxLines: 2,
                           textAlign: TextAlign.center,
-                          style: textRegular.copyWith(
+                          style: TextStyleSet().textRegular.copyWith(
                               color: Color(0xff7C7E92).withOpacity(0.56)),
                         ),
                       ),
@@ -146,7 +146,7 @@ class VisitItem extends StatelessWidget {
                 margin: EdgeInsets.only(top: 16, left: 16),
                 child: Text(
                   sight.type,
-                  style: textRegular.copyWith(color: Colors.white),
+                  style: TextStyleSet().textRegular.copyWith(color: Colors.white),
                 ),
               ),
               Positioned(
@@ -188,7 +188,7 @@ class VisitItem extends StatelessWidget {
                 width: double.infinity,
                 child: Text(
                   sight.name,
-                  style: textMedium16.copyWith(color: Color(0xff3B3E5B)),
+                  style: TextStyleSet().textMedium16.copyWith(color: Color(0xff3B3E5B)),
                   textAlign: TextAlign.left,
                   maxLines: 2,
                 ),
@@ -201,7 +201,7 @@ class VisitItem extends StatelessWidget {
                   sight.wontVisit
                       ? "Запланировано на 12 окт. 2020"
                       : "Цель достигнута 12 окт. 2020",
-                  style: textRegular.copyWith(
+                  style: TextStyleSet().textRegular.copyWith(
                       color: Color(sight.wontVisit ? 0xff4CAF50 : 0xff7C7E92)),
                   textAlign: TextAlign.left,
                 ),
@@ -211,7 +211,7 @@ class VisitItem extends StatelessWidget {
                 width: double.infinity,
                 child: Text(
                   "закрыто до 09:00",
-                  style: textRegular.copyWith(color: Color(0xff7C7E92)),
+                  style: TextStyleSet().textRegular.copyWith(color: Color(0xff7C7E92)),
                   textAlign: TextAlign.left,
                 ),
               ),

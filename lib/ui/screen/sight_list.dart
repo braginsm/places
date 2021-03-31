@@ -23,7 +23,7 @@ class _SightListScreenState extends State<SightListScreen> {
           padding: EdgeInsets.fromLTRB(16, 64, 16, 16),
           child: Text(
             "Список интересных мест",
-            style: textBold32.copyWith(color: Color(0xff252849)),
+            style: TextStyleSet().textBold32.copyWith(color: Color(0xff252849)),
             textAlign: TextAlign.left,
             maxLines: 2,
           ),
@@ -85,7 +85,7 @@ class SightListItem extends StatelessWidget {
                   margin: EdgeInsets.only(top: 16, left: 16),
                   child: Text(
                     sight.type,
-                    style: textRegular.copyWith(color: Colors.white),
+                    style: TextStyleSet().textRegular.copyWith(color: Colors.white),
                   ),
                 ),
                 Positioned(
@@ -116,7 +116,7 @@ class SightListItem extends StatelessWidget {
                 height: 40,
                 child: Text(
                   sight.name,
-                  style: textMedium16.copyWith(color: Color(0xff3B3E5B)),
+                  style: TextStyleSet().textMedium16.copyWith(color: Color(0xff3B3E5B)),
                   textAlign: TextAlign.left,
                   maxLines: 2,
                 ),
@@ -127,7 +127,7 @@ class SightListItem extends StatelessWidget {
                 height: 18,
                 child: Text(
                   sight.details,
-                  style: textRegular16.copyWith(color: Color(0xff7C7E92)),
+                  style: TextStyleSet().textRegular16.copyWith(color: Color(0xff7C7E92)),
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.ellipsis,
                 ),

@@ -70,7 +70,7 @@ class SightCard extends StatelessWidget {
             ),
             Text(
               sight.name,
-              style: textBold24.copyWith(color: Color(0xff3B3E5B)),
+              style: TextStyleSet().textBold24.copyWith(color: Color(0xff3B3E5B)),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -80,14 +80,14 @@ class SightCard extends StatelessWidget {
                 children: [
                   Text(
                     sight.type,
-                    style: textBold.copyWith(color: Color(0xff3B3E5B)),
+                    style: TextStyleSet().textBold.copyWith(color: Color(0xff3B3E5B)),
                     maxLines: 1,
                   ),
                   Container(
                       margin: EdgeInsets.only(left: 16),
                       child: Text(
                         "закрыто до 09:00",
-                        style: textRegular.copyWith(color: Color(0xff7C7E92)),
+                        style: TextStyleSet().textRegular.copyWith(color: Color(0xff7C7E92)),
                         maxLines: 1,
                       )),
                 ],
@@ -97,7 +97,7 @@ class SightCard extends StatelessWidget {
               margin: EdgeInsets.symmetric(vertical: 24),
               child: Text(
                 sight.details,
-                style: textRegular.copyWith(color: Color(0xff3B3E5B)),
+                style: TextStyleSet().textRegular.copyWith(color: Color(0xff3B3E5B)),
               ),
             ),
             Container(
@@ -111,7 +111,7 @@ class SightCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   "ПОСТРОИТЬ МАРШРУТ",
-                  style: textBold.copyWith(color: Colors.white),
+                  style: TextStyleSet().textBold.copyWith(color: Colors.white),
                 ),
               ),
             ),
@@ -130,7 +130,7 @@ class SightCard extends StatelessWidget {
                       child: Center(
                         child: Text(
                           'Запланировать',
-                          style: textRegular.copyWith(
+                          style: TextStyleSet().textRegular.copyWith(
                             color: Color(0xff7C7E92).withOpacity(0.56)
                           ),
                         ),
@@ -143,7 +143,7 @@ class SightCard extends StatelessWidget {
                       child: Center(
                           child: Text(
                         'В Избранное',
-                        style: textRegular.copyWith(color: Color(0xff3B3E5B) 
+                        style: TextStyleSet().textRegular.copyWith(color: Color(0xff3B3E5B) 
                         ),
                       )),
                     ),
