@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/res/colors.dart';
 
 import '../res/text_styles.dart';
 
@@ -41,7 +42,7 @@ class SightCard extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
+                      color: ColorsSet.white,
                     ),
                     child: Center(
                       child: IconButton(
@@ -70,7 +71,7 @@ class SightCard extends StatelessWidget {
             ),
             Text(
               sight.name,
-              style: textBold24.copyWith(color: Color(0xff3B3E5B)),
+              style: TextStyleSet().textBold24.copyWith(color: ColorsSet.secondary),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -80,14 +81,14 @@ class SightCard extends StatelessWidget {
                 children: [
                   Text(
                     sight.type,
-                    style: textBold.copyWith(color: Color(0xff3B3E5B)),
+                    style: TextStyleSet().textBold.copyWith(color: ColorsSet.secondary),
                     maxLines: 1,
                   ),
                   Container(
                       margin: EdgeInsets.only(left: 16),
                       child: Text(
                         "закрыто до 09:00",
-                        style: textRegular.copyWith(color: Color(0xff7C7E92)),
+                        style: TextStyleSet().textRegular.copyWith(color: ColorsSet.secondary2),
                         maxLines: 1,
                       )),
                 ],
@@ -97,7 +98,7 @@ class SightCard extends StatelessWidget {
               margin: EdgeInsets.symmetric(vertical: 24),
               child: Text(
                 sight.details,
-                style: textRegular.copyWith(color: Color(0xff3B3E5B)),
+                style: TextStyleSet().textRegular.copyWith(color: ColorsSet.secondary),
               ),
             ),
             Container(
@@ -105,13 +106,13 @@ class SightCard extends StatelessWidget {
               height: 48,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Color(0xff4CAF50),
+                color: ColorsSet.green,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Center(
                 child: Text(
                   "ПОСТРОИТЬ МАРШРУТ",
-                  style: textBold.copyWith(color: Colors.white),
+                  style: TextStyleSet().textBold.copyWith(color: ColorsSet.white),
                 ),
               ),
             ),
@@ -119,7 +120,7 @@ class SightCard extends StatelessWidget {
               margin: EdgeInsets.only(bottom: 24),
               width: double.infinity,
               height: 1.6,
-              color: Color.fromARGB(142, 124, 126, 146).withOpacity(0.24),
+              color: ColorsSet.inactiveBlack.withOpacity(0.24),
             ),
             Container(
               child: Row(
@@ -130,8 +131,8 @@ class SightCard extends StatelessWidget {
                       child: Center(
                         child: Text(
                           'Запланировать',
-                          style: textRegular.copyWith(
-                            color: Color(0xff7C7E92).withOpacity(0.56)
+                          style: TextStyleSet().textRegular.copyWith(
+                            color: ColorsSet.secondary2.withOpacity(0.56)
                           ),
                         ),
                       ),
@@ -143,7 +144,7 @@ class SightCard extends StatelessWidget {
                       child: Center(
                           child: Text(
                         'В Избранное',
-                        style: textRegular.copyWith(color: Color(0xff3B3E5B) 
+                        style: TextStyleSet().textRegular.copyWith(color: ColorsSet.secondary 
                         ),
                       )),
                     ),
