@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
+import 'package:places/ui/res/colors.dart';
 
 import '../res/text_styles.dart';
 
@@ -23,7 +24,7 @@ class _SightListScreenState extends State<SightListScreen> {
           padding: EdgeInsets.fromLTRB(16, 64, 16, 16),
           child: Text(
             "Список интересных мест",
-            style: TextStyleSet().textBold32.copyWith(color: Color(0xff252849)),
+            style: TextStyleSet().textBold32.copyWith(color: ColorsSet.main),
             textAlign: TextAlign.left,
             maxLines: 2,
           ),
@@ -85,7 +86,7 @@ class SightListItem extends StatelessWidget {
                   margin: EdgeInsets.only(top: 16, left: 16),
                   child: Text(
                     sight.type,
-                    style: TextStyleSet().textRegular.copyWith(color: Colors.white),
+                    style: TextStyleSet().textRegular.copyWith(color: ColorsSet.white),
                   ),
                 ),
                 Positioned(
@@ -93,7 +94,7 @@ class SightListItem extends StatelessWidget {
                   right: 18,
                   child: Container(
                     // Контейнер кнопки сердечка
-                    color: Colors.white,
+                    color: ColorsSet.white,
                     width: 20,
                     height: 20,
                   ),
@@ -116,7 +117,7 @@ class SightListItem extends StatelessWidget {
                 height: 40,
                 child: Text(
                   sight.name,
-                  style: TextStyleSet().textMedium16.copyWith(color: Color(0xff3B3E5B)),
+                  style: TextStyleSet().textMedium16.copyWith(color: ColorsSet.secondary),
                   textAlign: TextAlign.left,
                   maxLines: 2,
                 ),
@@ -127,7 +128,7 @@ class SightListItem extends StatelessWidget {
                 height: 18,
                 child: Text(
                   sight.details,
-                  style: TextStyleSet().textRegular16.copyWith(color: Color(0xff7C7E92)),
+                  style: TextStyleSet().textRegular16.copyWith(color: ColorsSet.secondary2),
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.ellipsis,
                 ),

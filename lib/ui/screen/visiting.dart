@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/widget/empty_list.dart';
 import '../res/text_styles.dart';
 import '../../mocks.dart';
@@ -29,7 +30,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
             child: Center(
               child: Text(
                 "Избранное",
-                style: TextStyleSet().textMedium18.copyWith(color: Color(0xff252849)),
+                style: TextStyleSet().textMedium18.copyWith(color: ColorsSet.main),
               ),
             ),
           ),
@@ -43,15 +44,15 @@ class _VisitingScreenState extends State<VisitingScreen> {
               ),
               child: TabBar(
                 tabs: [Tab(text: "Хочу посетить"), Tab(text: "Посетил")],
-                unselectedLabelColor: Color(0xff7C7E92).withOpacity(0.56),
-                labelColor: Colors.white,
+                unselectedLabelColor: ColorsSet.secondary2.withOpacity(0.56),
+                labelColor: ColorsSet.white,
                 unselectedLabelStyle: TextStyleSet().textBold,
                 labelStyle: TextStyleSet().textBold,
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicator: BoxDecoration(
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(40),
-                  color: Color(0xff3B3E5B),
+                  color: ColorsSet.secondary,
                 ),
               ),
             ),
@@ -126,7 +127,7 @@ class VisitItem extends StatelessWidget {
                 margin: EdgeInsets.only(top: 16, left: 16),
                 child: Text(
                   sight.type,
-                  style: TextStyleSet().textRegular.copyWith(color: Colors.white),
+                  style: TextStyleSet().textRegular.copyWith(color: ColorsSet.white),
                 ),
               ),
               Positioned(
@@ -134,7 +135,7 @@ class VisitItem extends StatelessWidget {
                 right: 18,
                 child: Container(
                   // Контейнер кнопки сердечка
-                  color: Colors.white,
+                  color: ColorsSet.white,
                   width: 20,
                   height: 20,
                 ),
@@ -144,7 +145,7 @@ class VisitItem extends StatelessWidget {
                 right: 56,
                 child: Container(
                   // Контейнер кнопки сердечка
-                  color: Colors.white,
+                  color: ColorsSet.white,
                   width: 20,
                   height: 20,
                 ),
@@ -168,7 +169,7 @@ class VisitItem extends StatelessWidget {
                 width: double.infinity,
                 child: Text(
                   sight.name,
-                  style: TextStyleSet().textMedium16.copyWith(color: Color(0xff3B3E5B)),
+                  style: TextStyleSet().textMedium16.copyWith(color: ColorsSet.secondary),
                   textAlign: TextAlign.left,
                   maxLines: 2,
                 ),
@@ -191,7 +192,7 @@ class VisitItem extends StatelessWidget {
                 width: double.infinity,
                 child: Text(
                   "закрыто до 09:00",
-                  style: TextStyleSet().textRegular.copyWith(color: Color(0xff7C7E92)),
+                  style: TextStyleSet().textRegular.copyWith(color: ColorsSet.secondary2),
                   textAlign: TextAlign.left,
                 ),
               ),
