@@ -24,7 +24,7 @@ class _SightListScreenState extends State<SightListScreen> {
           padding: EdgeInsets.fromLTRB(16, 64, 16, 16),
           child: Text(
             "Список интересных мест",
-            style: TextStyleSet().textBold32.copyWith(color: ColorsSet.main),
+            style: TextStyleSet().textBold32.copyWith(color: ColorsLightSet.main),
             textAlign: TextAlign.left,
             maxLines: 2,
           ),
@@ -86,7 +86,7 @@ class SightListItem extends StatelessWidget {
                   margin: EdgeInsets.only(top: 16, left: 16),
                   child: Text(
                     sight.type,
-                    style: TextStyleSet().textRegular.copyWith(color: ColorsSet.white),
+                    style: TextStyleSet().textRegular.copyWith(color: Theme.of(context).canvasColor),
                   ),
                 ),
                 Positioned(
@@ -94,7 +94,7 @@ class SightListItem extends StatelessWidget {
                   right: 18,
                   child: Container(
                     // Контейнер кнопки сердечка
-                    color: ColorsSet.white,
+                    color: Theme.of(context).canvasColor,
                     width: 20,
                     height: 20,
                   ),
@@ -106,7 +106,7 @@ class SightListItem extends StatelessWidget {
             height: 92,
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-                color: Color(0xfff5f5f5),
+                color: ColorsLightSet.grey,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(16),
                   bottomRight: Radius.circular(16),
@@ -117,7 +117,7 @@ class SightListItem extends StatelessWidget {
                 height: 40,
                 child: Text(
                   sight.name,
-                  style: TextStyleSet().textMedium16.copyWith(color: ColorsSet.secondary),
+                  style: TextStyleSet().textMedium16.copyWith(color: Theme.of(context).secondaryHeaderColor),
                   textAlign: TextAlign.left,
                   maxLines: 2,
                 ),
@@ -128,7 +128,7 @@ class SightListItem extends StatelessWidget {
                 height: 18,
                 child: Text(
                   sight.details,
-                  style: TextStyleSet().textRegular16.copyWith(color: ColorsSet.secondary2),
+                  style: TextStyleSet().textRegular16.copyWith(color: ColorsLightSet.secondary2),
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.ellipsis,
                 ),

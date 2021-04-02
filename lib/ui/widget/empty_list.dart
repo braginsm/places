@@ -6,7 +6,7 @@ class EmptyListWont extends StatelessWidget {
   final icon = Container(
     width: 64,
     height: 64,
-    color: ColorsSet.secondary2.withOpacity(0.56),
+    color: ColorsLightSet.secondary2.withOpacity(0.56),
   );
   final title = "Пусто";
   final description = "Отмечайте понравившиеся места и они появиятся здесь.";
@@ -25,7 +25,7 @@ class EmptyListWont extends StatelessWidget {
             child: Text(title,
                 style: TextStyleSet()
                     .textMedium18
-                    .copyWith(color: ColorsSet.secondary2.withOpacity(0.56))),
+                    .copyWith(color: ColorsLightSet.secondary2.withOpacity(0.56))),
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 53, vertical: 8),
@@ -35,7 +35,7 @@ class EmptyListWont extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyleSet()
                   .textRegular
-                  .copyWith(color: ColorsSet.secondary2.withOpacity(0.56)),
+                  .copyWith(color: ColorsLightSet.secondary2.withOpacity(0.56)),
             ),
           ),
         ],
@@ -48,7 +48,7 @@ class EmptyListVisited extends EmptyListWont {
   final icon = Container(
     width: 64,
     height: 64,
-    color: ColorsSet.secondary2.withOpacity(0.56),
+    color: ColorsLightSet.secondary2.withOpacity(0.56),
   );
   final description = "Завершите маршрут, чтобы место попало сюда.";
 }

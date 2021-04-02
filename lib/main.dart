@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/ui/res/themes.dart';
 
 import 'mocks.dart';
 import 'ui/screen/sight_card.dart';
@@ -166,6 +167,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: lightThema,
       home: VisitingScreen(),
       title: "Places",
     );
