@@ -167,7 +167,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: lightThema,
+      theme: darkThema,//lightThema,
       home: VisitingScreen(),
       title: "Places",
     );

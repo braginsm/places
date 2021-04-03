@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/res/colors.dart';
 
 import '../res/text_styles.dart';
 
@@ -42,13 +41,13 @@ class SightCard extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Theme.of(context).canvasColor,
+                      color: Theme.of(context).appBarTheme.backgroundColor,
                     ),
                     child: Center(
                       child: IconButton(
                         icon: Icon(
                           Icons.arrow_back_ios,
-                          color: Colors.black,
+                          color: Theme.of(context).primaryColor,
                           size: 15,
                         ),
                         onPressed: () => Navigator.of(context).pop(),
@@ -71,7 +70,7 @@ class SightCard extends StatelessWidget {
             ),
             Text(
               sight.name,
-              style: TextStyleSet().textBold24.copyWith(color: Theme.of(context).secondaryHeaderColor),
+              style: TextStyleSet().textBold24.copyWith(color: Theme.of(context).primaryColor),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -81,14 +80,14 @@ class SightCard extends StatelessWidget {
                 children: [
                   Text(
                     sight.type,
-                    style: TextStyleSet().textBold.copyWith(color: Theme.of(context).secondaryHeaderColor),
+                    style: TextStyleSet().textBold.copyWith(color: Theme.of(context).hintColor),
                     maxLines: 1,
                   ),
                   Container(
                       margin: EdgeInsets.only(left: 16),
                       child: Text(
                         "закрыто до 09:00",
-                        style: TextStyleSet().textRegular.copyWith(color: ColorsLightSet.secondary2),
+                        style: TextStyleSet().textRegular.copyWith(color: Theme.of(context).unselectedWidgetColor,),
                         maxLines: 1,
                       )),
                 ],
@@ -106,13 +105,13 @@ class SightCard extends StatelessWidget {
               height: 48,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: ColorsLightSet.green,
+                color: Theme.of(context).accentColor,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Center(
                 child: Text(
                   "ПОСТРОИТЬ МАРШРУТ",
-                  style: TextStyleSet().textBold.copyWith(color: ColorsLightSet.white),
+                  style: TextStyleSet().textBold.copyWith(color: Theme.of(context).canvasColor),
                 ),
               ),
             ),
@@ -120,7 +119,7 @@ class SightCard extends StatelessWidget {
               margin: EdgeInsets.only(bottom: 24),
               width: double.infinity,
               height: 1.6,
-              color: ColorsLightSet.inactiveBlack.withOpacity(0.24),
+              color: Theme.of(context).unselectedWidgetColor.withOpacity(0.24),
             ),
             Container(
               child: Row(
@@ -132,7 +131,7 @@ class SightCard extends StatelessWidget {
                         child: Text(
                           'Запланировать',
                           style: TextStyleSet().textRegular.copyWith(
-                            color: ColorsLightSet.secondary2.withOpacity(0.56)
+                            color: Theme.of(context).hintColor.withOpacity(0.56)
                           ),
                         ),
                       ),
@@ -144,7 +143,7 @@ class SightCard extends StatelessWidget {
                       child: Center(
                           child: Text(
                         'В Избранное',
-                        style: TextStyleSet().textRegular.copyWith(color: ColorsLightSet.secondary 
+                        style: TextStyleSet().textRegular.copyWith(color: Theme.of(context).secondaryHeaderColor, 
                         ),
                       )),
                     ),

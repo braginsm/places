@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
-import 'package:places/ui/res/colors.dart';
 
 import '../res/text_styles.dart';
 
@@ -17,14 +16,12 @@ class _SightListScreenState extends State<SightListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).canvasColor,
-        shadowColor: Colors.transparent,
         toolbarHeight: 152, //высота аппбара в пикелях из фигмы
         title: Container(
           padding: EdgeInsets.fromLTRB(16, 64, 16, 16),
           child: Text(
             "Список интересных мест",
-            style: TextStyleSet().textBold32.copyWith(color: ColorsLightSet.main),
+            style: TextStyleSet().textBold32.copyWith(color: Theme.of(context).primaryColor ),
             textAlign: TextAlign.left,
             maxLines: 2,
           ),
@@ -106,7 +103,7 @@ class SightListItem extends StatelessWidget {
             height: 92,
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-                color: ColorsLightSet.grey,
+                color: Theme.of(context).backgroundColor,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(16),
                   bottomRight: Radius.circular(16),
@@ -128,13 +125,13 @@ class SightListItem extends StatelessWidget {
                 height: 18,
                 child: Text(
                   sight.details,
-                  style: TextStyleSet().textRegular16.copyWith(color: ColorsLightSet.secondary2),
+                  style: TextStyleSet().textRegular16.copyWith(color: Theme.of(context).hintColor),
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.ellipsis,
                 ),
-              )
-            ])),
-      ]),
+              ), 
+            ],),),
+      ],),
     );
   }
 }

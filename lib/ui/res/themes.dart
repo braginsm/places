@@ -5,9 +5,12 @@ import 'text_styles.dart';
 
 final lightThema = ThemeData(
   primaryColor: ColorsLightSet.main,
-  accentColor: ColorsLightSet.main,
+  accentColor: ColorsLightSet.green,
   canvasColor: ColorsLightSet.white,
   secondaryHeaderColor: ColorsLightSet.secondary,
+  hintColor: ColorsLightSet.secondary2,
+  unselectedWidgetColor: ColorsLightSet.inactiveBlack,
+  backgroundColor: ColorsLightSet.grey,
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     selectedItemColor: ColorsLightSet.main,
     showSelectedLabels: false,
@@ -29,6 +32,42 @@ final lightThema = ThemeData(
   ),
   appBarTheme: AppBarTheme(
     backgroundColor: ColorsLightSet.white,
+    shadowColor: Colors.transparent,
+  ),
+  fontFamily: 'Roboto',
+);
+
+final darkThema = ThemeData(
+  scaffoldBackgroundColor: ColorsDarkSet.main,
+  primaryColor: ColorsDarkSet.white,
+  accentColor: ColorsDarkSet.green,
+  canvasColor: ColorsDarkSet.white,
+  //secondaryHeaderColor: ColorsDarkSet.secondary2,
+  hintColor: ColorsDarkSet.secondary2,
+  unselectedWidgetColor: ColorsDarkSet.inactiveBlack,
+  backgroundColor: ColorsDarkSet.dark,
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    selectedItemColor: ColorsDarkSet.main,
+    showSelectedLabels: false,
+    showUnselectedLabels: false,
+    unselectedItemColor: ColorsDarkSet.secondary,
+    type: BottomNavigationBarType.fixed
+  ),
+  tabBarTheme: TabBarTheme(
+    unselectedLabelColor: ColorsDarkSet.secondary2.withOpacity(0.56),
+    labelColor: ColorsDarkSet.white,
+    unselectedLabelStyle: TextStyleSet().textBold,
+    labelStyle: TextStyleSet().textBold,
+    indicatorSize: TabBarIndicatorSize.tab,
+    indicator: BoxDecoration(
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.circular(40),
+      color: ColorsDarkSet.secondary,
+    ),
+  ),
+  appBarTheme: AppBarTheme(
+    backgroundColor: ColorsDarkSet.main,
+    //color: ColorsDarkSet.white,
     shadowColor: Colors.transparent,
   ),
   fontFamily: 'Roboto',

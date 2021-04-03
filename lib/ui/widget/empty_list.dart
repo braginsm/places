@@ -25,7 +25,7 @@ class EmptyListWont extends StatelessWidget {
             child: Text(title,
                 style: TextStyleSet()
                     .textMedium18
-                    .copyWith(color: ColorsLightSet.secondary2.withOpacity(0.56))),
+                    .copyWith(color: Theme.of(context).hintColor.withOpacity(0.56),),),
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 53, vertical: 8),
@@ -35,7 +35,7 @@ class EmptyListWont extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyleSet()
                   .textRegular
-                  .copyWith(color: ColorsLightSet.secondary2.withOpacity(0.56)),
+                  .copyWith(color: Theme.of(context).hintColor.withOpacity(0.56)),
             ),
           ),
         ],

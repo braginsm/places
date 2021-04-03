@@ -171,7 +171,7 @@ class VisitItem extends StatelessWidget {
                       ? "Запланировано на 12 окт. 2020"
                       : "Цель достигнута 12 окт. 2020",
                   style: TextStyleSet().textRegular.copyWith(
-                      color: Color(sight.wontVisit ? 0xff4CAF50 : 0xff7C7E92)),
+                      color: sight.wontVisit ? Theme.of(context).accentColor : Theme.of(context).hintColor,),
                   textAlign: TextAlign.left,
                 ),
               ),
