@@ -47,22 +47,23 @@ final darkThema = ThemeData(
   unselectedWidgetColor: ColorsDarkSet.inactiveBlack,
   backgroundColor: ColorsDarkSet.dark,
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    selectedItemColor: ColorsDarkSet.main,
+    selectedItemColor: ColorsDarkSet.white,
     showSelectedLabels: false,
     showUnselectedLabels: false,
     unselectedItemColor: ColorsDarkSet.secondary,
-    type: BottomNavigationBarType.fixed
+    type: BottomNavigationBarType.fixed,
+    backgroundColor: ColorsDarkSet.main, 
   ),
   tabBarTheme: TabBarTheme(
     unselectedLabelColor: ColorsDarkSet.secondary2.withOpacity(0.56),
-    labelColor: ColorsDarkSet.white,
+    labelColor: ColorsDarkSet.main,
     unselectedLabelStyle: TextStyleSet().textBold,
     labelStyle: TextStyleSet().textBold,
     indicatorSize: TabBarIndicatorSize.tab,
     indicator: BoxDecoration(
       shape: BoxShape.rectangle,
       borderRadius: BorderRadius.circular(40),
-      color: ColorsDarkSet.secondary,
+      color: ColorsDarkSet.white,
     ),
   ),
   appBarTheme: AppBarTheme(

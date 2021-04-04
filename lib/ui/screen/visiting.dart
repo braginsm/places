@@ -28,7 +28,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
             child: Center(
               child: Text(
                 "Избранное",
-                style: TextStyleSet().textMedium18.copyWith(color: ColorsLightSet.main),
+                style: TextStyleSet().textMedium18.copyWith(color: Theme.of(context).primaryColor),
               ),
             ),
           ),
@@ -37,7 +37,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
               decoration: BoxDecoration(
-                color: ColorsLightSet.grey,
+                color: Theme.of(context).backgroundColor,
                 borderRadius: BorderRadius.circular(40),
               ),
               child: TabBar(
@@ -146,7 +146,7 @@ class VisitItem extends StatelessWidget {
           height: 102,
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
-              color: ColorsLightSet.grey,
+              color: Theme.of(context).backgroundColor,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(16),
                 bottomRight: Radius.circular(16),
@@ -180,7 +180,7 @@ class VisitItem extends StatelessWidget {
                 width: double.infinity,
                 child: Text(
                   "закрыто до 09:00",
-                  style: TextStyleSet().textRegular.copyWith(color: ColorsLightSet.secondary2),
+                  style: TextStyleSet().textRegular.copyWith(color: Theme.of(context).hintColor),
                   textAlign: TextAlign.left,
                 ),
               ),
