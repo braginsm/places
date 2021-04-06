@@ -23,14 +23,12 @@ class _VisitingScreenState extends State<VisitingScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).canvasColor,
-          shadowColor: Colors.transparent,
           title: Padding(
             padding: EdgeInsets.symmetric(vertical: 16),
             child: Center(
               child: Text(
                 "Избранное",
-                style: TextStyleSet().textMedium18.copyWith(color: ColorsSet.main),
+                style: TextStyleSet().textMedium18.copyWith(color: Theme.of(context).primaryColor),
               ),
             ),
           ),
@@ -39,21 +37,11 @@ class _VisitingScreenState extends State<VisitingScreen> {
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
               decoration: BoxDecoration(
-                color: Color(0xfff5f5f5),
+                color: Theme.of(context).backgroundColor,
                 borderRadius: BorderRadius.circular(40),
               ),
               child: TabBar(
                 tabs: [Tab(text: "Хочу посетить"), Tab(text: "Посетил")],
-                unselectedLabelColor: ColorsSet.secondary2.withOpacity(0.56),
-                labelColor: ColorsSet.white,
-                unselectedLabelStyle: TextStyleSet().textBold,
-                labelStyle: TextStyleSet().textBold,
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicator: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(40),
-                  color: ColorsSet.secondary,
-                ),
               ),
             ),
           ),
@@ -127,7 +115,7 @@ class VisitItem extends StatelessWidget {
                 margin: EdgeInsets.only(top: 16, left: 16),
                 child: Text(
                   sight.type,
-                  style: TextStyleSet().textRegular.copyWith(color: ColorsSet.white),
+                  style: TextStyleSet().textRegular.copyWith(color: Theme.of(context).canvasColor),
                 ),
               ),
               Positioned(
@@ -135,7 +123,7 @@ class VisitItem extends StatelessWidget {
                 right: 18,
                 child: Container(
                   // Контейнер кнопки сердечка
-                  color: ColorsSet.white,
+                  color: Theme.of(context).canvasColor,
                   width: 20,
                   height: 20,
                 ),
@@ -145,7 +133,7 @@ class VisitItem extends StatelessWidget {
                 right: 56,
                 child: Container(
                   // Контейнер кнопки сердечка
-                  color: ColorsSet.white,
+                  color: Theme.of(context).canvasColor,
                   width: 20,
                   height: 20,
                 ),
@@ -158,7 +146,7 @@ class VisitItem extends StatelessWidget {
           height: 102,
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
-              color: Color(0xfff5f5f5),
+              color: Theme.of(context).backgroundColor,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(16),
                 bottomRight: Radius.circular(16),
@@ -169,7 +157,7 @@ class VisitItem extends StatelessWidget {
                 width: double.infinity,
                 child: Text(
                   sight.name,
-                  style: TextStyleSet().textMedium16.copyWith(color: ColorsSet.secondary),
+                  style: TextStyleSet().textMedium16.copyWith(color: Theme.of(context).secondaryHeaderColor),
                   textAlign: TextAlign.left,
                   maxLines: 2,
                 ),
@@ -183,7 +171,7 @@ class VisitItem extends StatelessWidget {
                       ? "Запланировано на 12 окт. 2020"
                       : "Цель достигнута 12 окт. 2020",
                   style: TextStyleSet().textRegular.copyWith(
-                      color: Color(sight.wontVisit ? 0xff4CAF50 : 0xff7C7E92)),
+                      color: sight.wontVisit ? Theme.of(context).accentColor : Theme.of(context).hintColor,),
                   textAlign: TextAlign.left,
                 ),
               ),
@@ -192,7 +180,7 @@ class VisitItem extends StatelessWidget {
                 width: double.infinity,
                 child: Text(
                   "закрыто до 09:00",
-                  style: TextStyleSet().textRegular.copyWith(color: ColorsSet.secondary2),
+                  style: TextStyleSet().textRegular.copyWith(color: Theme.of(context).hintColor),
                   textAlign: TextAlign.left,
                 ),
               ),

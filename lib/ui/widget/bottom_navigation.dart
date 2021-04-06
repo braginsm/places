@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/res/colors.dart';
 
 class BottomNavigation extends StatelessWidget {
   const BottomNavigation({Key key}) : super(key: key);
@@ -8,7 +7,7 @@ class BottomNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border(top: BorderSide(width: 0.8, color: ColorsSet.secondary2.withOpacity(0.56))),
+        border: Border(top: BorderSide(width: 0.8, color: Theme.of(context).hintColor.withOpacity(0.56),),),
       ),
       child: BottomNavigationBar(
         items: [
@@ -29,11 +28,6 @@ class BottomNavigation extends StatelessWidget {
             label: 'Натройки',
           ),
         ],
-        selectedItemColor: ColorsSet.main,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        unselectedItemColor: ColorsSet.main,
-        type: BottomNavigationBarType.fixed,
       ),
     );
   }

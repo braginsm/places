@@ -4,7 +4,6 @@ import 'package:flutter/painting.dart';
 class TextStyleSet {
   /// Поуолчаию
   TextStyle _text = const TextStyle(
-    fontFamily: "Roboto",
     fontStyle: FontStyle.normal,
     fontSize: 14
   );
