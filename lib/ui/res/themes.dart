@@ -36,6 +36,22 @@ final lightThema = ThemeData(
     shadowColor: Colors.transparent,
   ),
   fontFamily: 'Roboto',
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      primary: ColorsLightSet.green,
+    ),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      primary: ColorsDarkSet.main,
+      textStyle: TextStyle(
+        color: ColorsDarkSet.main,
+      ),
+    ),
+  ),
 );
 
 final darkThema = ThemeData(
@@ -79,6 +95,14 @@ final darkThema = ThemeData(
         borderRadius: BorderRadius.circular(12),
       ),
       primary: ColorsDarkSet.green,
+    ),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      primary: ColorsDarkSet.white,
+      textStyle: TextStyle(
+        color: ColorsDarkSet.white,
+      ),
     ),
   ),
 );
