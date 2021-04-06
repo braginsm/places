@@ -94,11 +94,11 @@ class SightListItem extends StatelessWidget {
               ),
               Positioned(
                 right: 0,
-                child: TextButton(
+                child: IconButton(
                   onPressed: () {
                     print("В избранное");
                   },
-                  child: SvgPicture.asset(
+                  icon: SvgPicture.asset(
                     "res/images/favorite.svg",
                     color: Theme.of(context).canvasColor,
                   ),
