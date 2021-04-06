@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BottomNavigation extends StatelessWidget {
   const BottomNavigation({Key key}) : super(key: key);
@@ -20,7 +21,7 @@ class BottomNavigation extends StatelessWidget {
             label: 'Карта',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_rounded),
+            icon: SvgPicture.asset("res/images/favorite.svg"),
             label: 'Избранное',
           ),
           BottomNavigationBarItem(
