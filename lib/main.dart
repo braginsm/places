@@ -168,7 +168,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: darkThema,//lightThema,
-      home: VisitingScreen(),
+      home: SightCard(mocks[0]),
       title: "Places",
     );
   }

@@ -6,6 +6,7 @@ import 'text_styles.dart';
 final lightThema = ThemeData(
   primaryColor: ColorsLightSet.main,
   accentColor: ColorsLightSet.green,
+  buttonColor: ColorsLightSet.green,
   canvasColor: ColorsLightSet.white,
   secondaryHeaderColor: ColorsLightSet.secondary,
   hintColor: ColorsLightSet.secondary2,
@@ -72,4 +73,12 @@ final darkThema = ThemeData(
     shadowColor: Colors.transparent,
   ),
   fontFamily: 'Roboto',
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      primary: ColorsDarkSet.green,
+    ),
+  ),
 );
