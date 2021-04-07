@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-
 class Sight {
   /// название достопримечательности
   String name = "";

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/ui/res/colors.dart';
 import '../res/text_styles.dart';
 
 class EmptyListWont extends StatelessWidget {
