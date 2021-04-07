@@ -46,11 +46,18 @@ final lightThema = ThemeData(
   ),
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
-      primary: ColorsDarkSet.main,
+      primary: ColorsLightSet.main,
       textStyle: TextStyle(
-        color: ColorsDarkSet.main,
+        color: ColorsLightSet.main,
       ),
     ),
+  ),
+  sliderTheme: SliderThemeData(
+    trackHeight: 1,
+    activeTrackColor: ColorsLightSet.green,
+    inactiveTrackColor: ColorsLightSet.inactiveBlack,
+    thumbColor: ColorsLightSet.white,
+    overlayColor: ColorsLightSet.grey.withOpacity(0.56),
   ),
 );
 
@@ -104,5 +111,12 @@ final darkThema = ThemeData(
         color: ColorsDarkSet.white,
       ),
     ),
+  ),
+  sliderTheme: SliderThemeData(
+    trackHeight: 1,
+    activeTrackColor: ColorsLightSet.green,
+    inactiveTrackColor: ColorsLightSet.inactiveBlack,
+    thumbColor: ColorsLightSet.main,
+    overlayColor: ColorsLightSet.grey.withOpacity(0.56),
   ),
 );
