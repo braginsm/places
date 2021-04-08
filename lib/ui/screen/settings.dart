@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/widget/bottom_navigation.dart';
 import 'package:provider/provider.dart';
@@ -42,10 +43,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       .textRegular16
                       .copyWith(color: Theme.of(context).primaryColor),
                 ),
-                Switch.adaptive(
-                  value: context.watch<MainState>().isDark,
-                  onChanged: (newValue) =>
-                      context.read<MainState>().changeTheme(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: FlutterSwitch(
+                    onToggle: (bool value) => context.read<MainState>().changeTheme(), 
+                    value: context.watch<MainState>().isDark,
+                    inactiveColor: Theme.of(context).unselectedWidgetColor,
+                    activeColor: Theme.of(context).accentColor,
+                    toggleSize: 28,
+                    toggleColor: Theme.of(context).scaffoldBackgroundColor,
+                  ),
                 ),
               ],
             ),
