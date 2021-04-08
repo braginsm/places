@@ -13,7 +13,8 @@ class TextStyleSet {
 
   ///Regular
   TextStyle get textRegular => _text.copyWith(fontWeight: FontWeight.normal);
-  TextStyle get textRegular16 => textRegular.copyWith(fontSize: 16.0);
+  TextStyle get textRegular16 => textRegular.copyWith(fontSize: 16);
+  TextStyle get textRegular12 => textRegular.copyWith(fontSize: 12);
 
   ///Medium
   TextStyle get textMedium => _text.copyWith(fontWeight: FontWeight.w500);

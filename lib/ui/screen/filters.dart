@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/main.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 import '../../mocks.dart';
@@ -140,7 +141,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                           )
                                       ],
                                     ),
-                                    Text(titles[j])
+                                    Text(
+                                      titles[j],
+                                      style: TextStyleSet().textRegular12.copyWith(color: Theme.of(context).primaryColor),
+                                    )
                                   ],
                                 ),
                               ),
@@ -160,7 +164,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   children: [
                     Text(
                       "Расстояние",
-                      style: TextStyleSet().textRegular16,
+                      style: TextStyleSet().textRegular16.copyWith(color: Theme.of(context).primaryColor),
                     ),
                     Text(
                       "от ${_getKm(_radius.start)} до ${_getKm(_radius.end)} км",
