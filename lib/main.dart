@@ -44,7 +44,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       //theme: darkThema,
       theme: context.watch<MainState>().theme,
-      home: SettingsScreen(),
+      home: SightListScreen(),
       title: "Places",
     );
   }

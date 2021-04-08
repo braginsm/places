@@ -49,102 +49,112 @@ class SightListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 188,
+    return Card(
+      elevation: 0,
       margin: EdgeInsets.only(bottom: 16),
-      child: Column(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      child: Stack(
         children: [
-          Container(
-              child: Stack(
+          Column(
             children: [
               Container(
-                  width: double.infinity,
-                  height: 96,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
+                child: Stack(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 96,
+                      child: Image.network(
+                        sight.url,
+                        fit: BoxFit.fitWidth,
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes
+                                  : null,
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                    child: Image.network(
-                      sight.url,
-                      fit: BoxFit.fitWidth,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes
-                                : null,
-                          ),
-                        );
-                      },
+                    Container(
+                      margin: EdgeInsets.only(top: 16, left: 16),
+                      child: Text(
+                        sight.type,
+                        style: TextStyleSet()
+                            .textRegular
+                            .copyWith(color: Theme.of(context).canvasColor),
+                      ),
                     ),
-                  )),
-              Container(
-                margin: EdgeInsets.only(top: 16, left: 16),
-                child: Text(
-                  sight.type,
-                  style: TextStyleSet()
-                      .textRegular
-                      .copyWith(color: Theme.of(context).canvasColor),
+                  ],
                 ),
               ),
-              Positioned(
-                right: 0,
-                child: IconButton(
-                  onPressed: () {
-                    print("В избранное");
-                  },
-                  icon: SvgPicture.asset(
-                    "res/images/favorite.svg",
-                    color: Theme.of(context).canvasColor,
-                  ),
+              Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 40,
+                      child: Text(
+                        sight.name,
+                        style: TextStyleSet().textMedium16.copyWith(
+                            color: Theme.of(context).secondaryHeaderColor),
+                        textAlign: TextAlign.left,
+                        maxLines: 2,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 2),
+                      width: double.infinity,
+                      height: 18,
+                      child: Text(
+                        sight.details,
+                        style: TextStyleSet()
+                            .textRegular16
+                            .copyWith(color: Theme.of(context).hintColor),
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
-          )),
-          Container(
-            width: double.infinity,
-            height: 92,
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(16),
-                  bottomRight: Radius.circular(16),
-                )),
-            child: Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 40,
-                  child: Text(
-                    sight.name,
-                    style: TextStyleSet().textMedium16.copyWith(
-                        color: Theme.of(context).secondaryHeaderColor),
-                    textAlign: TextAlign.left,
-                    maxLines: 2,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 2),
-                  width: double.infinity,
-                  height: 18,
-                  child: Text(
-                    sight.details,
-                    style: TextStyleSet()
-                        .textRegular16
-                        .copyWith(color: Theme.of(context).hintColor),
-                    textAlign: TextAlign.left,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
+          ),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              splashColor: Theme.of(context).hintColor.withOpacity(0.56),
+              highlightColor: Colors.transparent,
+              onTap: () => print("tap card"),
+              child: Container(
+                width: double.infinity,
+                height: 190,
+              ),
             ),
           ),
+          Positioned(
+            right: 0,
+            child: IconButton(
+              onPressed: () {
+                print("В избранное");
+              },
+              icon: SvgPicture.asset(
+                "res/images/favorite.svg",
+                color: Theme.of(context).canvasColor,
+              ),
+            ),
+          )
         ],
       ),
     );
