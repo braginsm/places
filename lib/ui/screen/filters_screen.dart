@@ -13,7 +13,7 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  RangeValues _radius = const RangeValues(100, 10000);
+  RangeValues _radius = RangeValues(100, 10000);
 
   String _getKm(double value) => (value / 1000).toStringAsFixed(1);
 
@@ -24,7 +24,18 @@ class _FiltersScreenState extends State<FiltersScreen> {
   /// отфильтрованный список мест
   List<Sight> sights = mocks;
 
-  List<bool> filterValues = List.generate(TickType.values.length, (index) => false);
+  /// подписи фильтров
+  final List<String> titles = [
+    "Отель",
+    "Ресторан",
+    "Особое место",
+    "Парк",
+    "Музей",
+    "Кафе"
+  ];
+
+  /// хранение значений фильтров
+  List<bool> filterValues = [];
 
   ///Определяет, попадает ли достопримечательность в выбанный радиус
   bool _inDistans(Sight sight) {
@@ -38,13 +49,20 @@ class _FiltersScreenState extends State<FiltersScreen> {
   @override
   void initState() {
     super.initState();
+
+    /// начальные значения
     sights = filterByRadius();
+    filterValues = List.generate(titles.length, (index) => false);
   }
 
   @override
   Widget build(BuildContext context) {
-    const _maxRadius = 10000;
-    const _minRadius = 100;
+    const double _maxRadius = 10000;
+    const double _minRadius = 100;
+
+    /// сетка "таблицы" фильтров
+    final lineCnt = 2;
+    final colCnt = 3;
 
     return Scaffold(
       appBar: AppBar(
@@ -62,6 +80,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
           TextButton(
             onPressed: () {
               print("Очистить");
+              setState(() {
+                filterValues = List.generate(titles.length, (index) => false);
+                _radius = RangeValues(_minRadius, _maxRadius);
+                sights = filterByRadius();
+              });
             },
             child: Text(
               "Очистить",
@@ -79,41 +102,54 @@ class _FiltersScreenState extends State<FiltersScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(16, 24, 16, 56),
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        FIlterItem(
-                          type: TickType.hotel,
+                    for (var i = 0; i < lineCnt; i++)
+                      Column(children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            for (var j = colCnt * i; j < colCnt * (i + 1); j++)
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        IconButton(
+                                          iconSize: 64,
+                                          icon: SvgPicture.asset(
+                                            "res/images/tick_$j.svg",
+                                          ),
+                                          onPressed: () {
+                                            print(titles[j]);
+                                            setState(() {
+                                              filterValues[j] =
+                                                  !filterValues[j];
+                                            });
+                                          },
+                                        ),
+                                        if (filterValues[j])
+                                          Positioned(
+                                            child: SvgPicture.asset(
+                                              "res/images/tick_choice.svg",
+                                            ),
+                                            bottom: 0,
+                                            right: 0,
+                                          )
+                                      ],
+                                    ),
+                                    Text(titles[j])
+                                  ],
+                                ),
+                              ),
+                          ],
                         ),
-                        FIlterItem(
-                          type: TickType.restourant,
+                        SizedBox(
+                          height: 24,
                         ),
-                        FIlterItem(
-                          type: TickType.particular,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        FIlterItem(
-                          type: TickType.park,
-                        ),
-                        FIlterItem(
-                          type: TickType.museum,
-                        ),
-                        FIlterItem(
-                          type: TickType.cafe,
-                        ),
-                      ],
-                    ),
+                      ]),
                   ],
                 ),
               ),
@@ -137,9 +173,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
               ),
               RangeSlider(
                 values: _radius,
-                min: _minRadius.ceilToDouble(),
-                max: _maxRadius.ceilToDouble(),
-                divisions: _maxRadius,
+                min: _minRadius,
+                max: _maxRadius,
+                divisions: _maxRadius.round(),
                 onChanged: (RangeValues values) {
                   setState(() {
                     _radius = values;
@@ -170,53 +206,3 @@ class _FiltersScreenState extends State<FiltersScreen> {
     );
   }
 }
-
-class FIlterItem extends StatelessWidget {
-  bool checked = false;
-  TickType type = TickType.cafe;
-
-  final List<String> titles = [
-    "Отель",
-    "Ресторан",
-    "Особое место",
-    "Парк",
-    "Музей",
-    "Кафе"
-  ];
-
-  FIlterItem({Key key, this.type, this.checked = false}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              IconButton(
-                iconSize: 64,
-                icon: SvgPicture.asset(
-                  "res/images/tick_${type.index}.svg",
-                ),
-                onPressed: () {
-                  print(titles[type.index]);
-                },
-              ),
-              if (checked)
-                Positioned(
-                  child: SvgPicture.asset(
-                    "res/images/tick_choice.svg",
-                  ),
-                  bottom: 0,
-                  right: 0,
-                )
-            ],
-          ),
-          Text(titles[type.index])
-        ],
-      ),
-    );
-  }
-}
-
-enum TickType { hotel, restourant, particular, park, museum, cafe }
