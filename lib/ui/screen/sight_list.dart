@@ -139,7 +139,7 @@ class SightListItem extends StatelessWidget {
               onTap: () => print("tap card"),
               child: Container(
                 width: double.infinity,
-                height: 190,
+                height: 188,
               ),
             ),
           ),
