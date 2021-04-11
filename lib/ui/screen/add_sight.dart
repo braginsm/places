@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:places/domain/sight.dart';
+import 'package:places/mocks.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/widget/delimer.dart';
 
@@ -14,6 +16,13 @@ class _AddSightScreenState extends State<AddSightScreen> {
   TextEditingController latController = TextEditingController();
   TextEditingController lonController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+
+  FocusNode nameNode = FocusNode();
+  FocusNode latNode = FocusNode();
+  FocusNode lonNode = FocusNode();
+  FocusNode descriptionNode = FocusNode();
+
+  Sight newSight = Sight();
 
   @override
   Widget build(BuildContext context) {
@@ -85,10 +94,13 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 12),
                   child: TextField(
+                    autofocus: true,
+                    focusNode: nameNode,
                     decoration: InputDecoration(
                       hintText: 'название',
                     ),
                     controller: nameController,
+                    onSubmitted: (value) => latNode.requestFocus(),
                   ),
                 ),
                 Padding(
@@ -117,6 +129,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
                                   ),
                                 ),
                                 keyboardType: TextInputType.number,
+                                focusNode: latNode,
+                                onSubmitted: (value) => lonNode.requestFocus(),
                               ),
                             ),
                           ],
@@ -138,6 +152,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
                                 padding: EdgeInsets.only(top: 12),
                                 child: TextField(
                                   controller: lonController,
+                                  focusNode: lonNode,
+                                  onSubmitted: (value) =>
+                                      descriptionNode.requestFocus(),
                                   decoration: InputDecoration(
                                     hintText: 'долгота',
                                     suffixIcon: IconButton(
@@ -174,6 +191,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 ),
                 TextField(
                   controller: descriptionController,
+                  focusNode: descriptionNode,
+                  onSubmitted: (value) => descriptionNode.unfocus(),
                   maxLines: 4,
                   decoration: InputDecoration(
                     hintText: "введите текст",
@@ -185,7 +204,14 @@ class _AddSightScreenState extends State<AddSightScreen> {
               width: double.infinity,
               padding: EdgeInsets.symmetric(vertical: 8),
               child: ElevatedButton(
-                onPressed: () => print("Создать"),
+                onPressed: () {
+                  /// Сохранение нового места
+                  newSight.name = nameController.text;
+                  newSight.lat = double.parse(latController.text);
+                  newSight.lon = double.parse(lonController.text);
+                  newSight.details = descriptionController.text;
+                  mocks.add(newSight);
+                },
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 12),
                   child: Text(
