@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/images.dart';
+import 'package:places/ui/widget/bottom_navigation.dart';
 
 import '../res/text_styles.dart';
 
@@ -40,6 +41,14 @@ class _SightListScreenState extends State<SightListScreen> {
           SightListItem(mocks[2]),
         ]),
       ),
+      bottomNavigationBar: BottomNavigation(),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => print("Новое место"),
+        elevation: 0,
+        icon: Icon(Icons.add),
+        label: Text(" НОВОЕ МЕСТО"),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
