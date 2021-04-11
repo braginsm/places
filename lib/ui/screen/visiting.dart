@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/ui/res/images.dart';
 import 'package:places/ui/widget/empty_list.dart';
 import '../res/text_styles.dart';
 import '../../mocks.dart';
@@ -140,7 +141,7 @@ class VisitItem extends StatelessWidget {
                     print(sight.wontVisit ? "Календарь" : "Поделиться");
                   },
                   icon: SvgPicture.asset(
-                    sight.wontVisit ? "res/images/calendar.svg" : "res/images/share.svg",
+                    sight.wontVisit ? ImagesPaths.calendar : ImagesPaths.share,
                     color: Theme.of(context).canvasColor,
                   ),
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/widget/bottom_navigation.dart';
 import 'package:provider/provider.dart';
@@ -71,9 +72,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       .copyWith(color: Theme.of(context).primaryColor),
                 ),
                 IconButton(
-                  icon: SvgPicture.asset(
-                    "res/images/info.svg",
-                  ),
+                  icon: SvgPicture.asset(ImagesPaths.info),
                   onPressed: () {
                     print('Смотреть туториал');
                   },

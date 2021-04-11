@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/main.dart';
+import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 import '../../mocks.dart';
@@ -120,9 +120,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                       children: [
                                         IconButton(
                                           iconSize: 64,
-                                          icon: SvgPicture.asset(
-                                            "res/images/tick_$j.svg",
-                                          ),
+                                          icon: SvgPicture.asset(ImagesPaths.ticks[j]),
                                           onPressed: () {
                                             print(titles[j]);
                                             setState(() {
@@ -133,9 +131,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                         ),
                                         if (filterValues[j])
                                           Positioned(
-                                            child: SvgPicture.asset(
-                                              "res/images/tick_choice.svg",
-                                            ),
+                                            child: SvgPicture.asset(ImagesPaths.tickChoice),
                                             bottom: 0,
                                             right: 0,
                                           )

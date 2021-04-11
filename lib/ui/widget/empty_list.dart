@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/ui/res/images.dart';
 import '../res/text_styles.dart';
 
 class EmptyListWont extends StatelessWidget {
   final icon = Container(
     width: 64,
     height: 64,
-    child: SvgPicture.asset("res/images/card.svg"),
+    child: SvgPicture.asset(ImagesPaths.card),
   );
   final title = "Пусто";
   final description = "Отмечайте понравившиеся места и они появиятся здесь.";
@@ -48,7 +49,7 @@ class EmptyListVisited extends EmptyListWont {
   final icon = Container(
     width: 64,
     height: 64,
-    child: SvgPicture.asset("res/images/go.svg"),
+    child: SvgPicture.asset(ImagesPaths.go),
   );
   final description = "Завершите маршрут, чтобы место попало сюда.";
 }

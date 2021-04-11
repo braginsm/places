@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/res/images.dart';
 
 import '../res/text_styles.dart';
 
@@ -128,8 +129,7 @@ class SightCard extends StatelessWidget {
                       children: [
                         Padding(
                           padding: EdgeInsets.only(right: 8),
-                          child: SvgPicture.asset("res/images/build_route.svg",
-                              semanticsLabel: 'Построить маршрут'),
+                          child: SvgPicture.asset(ImagesPaths.buildRoute),
                         ),
                         Text(
                           "ПОСТРОИТЬ МАРШРУТ",
@@ -162,7 +162,7 @@ class SightCard extends StatelessWidget {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8),
-                              child: SvgPicture.asset("res/images/to_plan.svg"),
+                              child: SvgPicture.asset(ImagesPaths.toPlan),
                             ),
                             Text(
                               'Запланировать',
@@ -186,10 +186,7 @@ class SightCard extends StatelessWidget {
                         children: [
                           Padding(
                             padding: EdgeInsets.all(8),
-                            child: SvgPicture.asset(
-                              "res/images/favorite.svg", 
-                              color: Theme.of(context).secondaryHeaderColor,
-                            ),
+                            child: SvgPicture.asset(ImagesPaths.favorite, color: Theme.of(context).secondaryHeaderColor,)
                           ),
                           Text(
                             'В Избранное',

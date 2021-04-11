@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
+import 'package:places/ui/res/images.dart';
 
 import '../res/text_styles.dart';
 
@@ -150,7 +151,7 @@ class SightListItem extends StatelessWidget {
                 print("В избранное");
               },
               icon: SvgPicture.asset(
-                "res/images/favorite.svg",
+                ImagesPaths.favorite,
                 color: Theme.of(context).canvasColor,
               ),
             ),
