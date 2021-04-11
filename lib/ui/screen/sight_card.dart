@@ -115,9 +115,6 @@ class SightCard extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(bottom: 24),
               child: ElevatedButton(
-                style: ButtonStyle(
-                    // height: 48,
-                    ),
                 onPressed: () {
                   print("Построить маршрут");
                 },

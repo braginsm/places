@@ -34,6 +34,8 @@ final lightThema = ThemeData(
   appBarTheme: AppBarTheme(
     backgroundColor: ColorsLightSet.white,
     shadowColor: Colors.transparent,
+    titleTextStyle: TextStyleSet().textMedium16.copyWith(color: ColorsLightSet.main),
+    centerTitle: true,
   ),
   fontFamily: 'Roboto',
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -58,6 +60,14 @@ final lightThema = ThemeData(
     inactiveTrackColor: ColorsLightSet.inactiveBlack,
     thumbColor: ColorsLightSet.white,
     overlayColor: ColorsLightSet.grey.withOpacity(0.56),
+  ),
+  primaryTextTheme: TextTheme(
+    headline6: TextStyleSet().textMedium18.copyWith(color: ColorsLightSet.main),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
   ),
 );
 
@@ -92,8 +102,9 @@ final darkThema = ThemeData(
   ),
   appBarTheme: AppBarTheme(
     backgroundColor: ColorsDarkSet.main,
-    //color: ColorsDarkSet.white,
     shadowColor: Colors.transparent,
+    titleTextStyle: TextStyleSet().textMedium16.copyWith(color: ColorsDarkSet.main),
+    centerTitle: true,
   ),
   fontFamily: 'Roboto',
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -118,5 +129,13 @@ final darkThema = ThemeData(
     inactiveTrackColor: ColorsLightSet.inactiveBlack,
     thumbColor: ColorsLightSet.main,
     overlayColor: ColorsLightSet.grey.withOpacity(0.56),
+  ),
+  primaryTextTheme: TextTheme(
+    headline6: TextStyleSet().textMedium18.copyWith(color: ColorsDarkSet.main),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
   ),
 );

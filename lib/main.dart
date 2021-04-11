@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/themes.dart';
+import 'package:places/ui/screen/add_sight.dart';
 import 'package:places/ui/screen/filters.dart';
 import 'package:places/ui/screen/settings.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +44,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: context.watch<MainState>().theme,
-      home: SettingsScreen(),
+      home: AddSightScreen(),
       title: "Places",
     );
   }

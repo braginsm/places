@@ -4,6 +4,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/widget/bottom_navigation.dart';
+import 'package:places/ui/widget/delimer.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
@@ -22,12 +23,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(
-            "Натройки",
-            style: TextStyleSet()
-                .textMedium18
-                .copyWith(color: Theme.of(context).primaryColor),
-          ),
+          child: Text("Натройки"),
         ),
         centerTitle: true,
       ),
@@ -57,11 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ],
             ),
-            Container(
-              height: 0.8,
-              width: double.infinity,
-              color: Theme.of(context).unselectedWidgetColor.withOpacity(0.056),
-            ),
+            Delimer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -79,11 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 )
               ],
             ),
-            Container(
-              height: 0.8,
-              width: double.infinity,
-              color: Theme.of(context).unselectedWidgetColor.withOpacity(0.056),
-            ),
+            Delimer(),
           ],
         ),
       ),
