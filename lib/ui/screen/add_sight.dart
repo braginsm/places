@@ -18,10 +18,16 @@ class _AddSightScreenState extends State<AddSightScreen> {
           onPressed: () {
             print("Отмена");
           },
-          child: Text("Отмена"),
+          child: Container(
+            child: Text(
+              "Отмена",
+              style: TextStyleSet().textMedium16.copyWith(color: Theme.of(context).hintColor),
+            )
+          ),
         ),
+        leadingWidth: 90,
         title: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: Text("Новое место"),
         ),
       ),
@@ -61,10 +67,89 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 12),
                   child: TextField(
-                    
+                    decoration: InputDecoration(
+                      hintText: 'название',
+                    ),
                   ),
                 ),
-                Center(child: Text("body")),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "ШИРОТА",
+                              style: TextStyleSet().textRegular.copyWith(color: Theme.of(context).unselectedWidgetColor),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(0, 12, 8, 0),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText: 'широта',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.cancel_rounded), 
+                                    onPressed: () => print("delete"),
+                                  ),
+                                ),
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "ДОЛГОТА",
+                                style: TextStyleSet().textRegular.copyWith(color: Theme.of(context).unselectedWidgetColor),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 12),
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    hintText: 'долгота',
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.cancel_rounded), 
+                                      onPressed: () => print("delete"),
+                                    ),
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 3, 0, 25),
+                  child: Text(
+                    "Указать на карте",
+                    style: TextStyleSet().textMedium16.copyWith(color: Theme.of(context).accentColor),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  child: Text(
+                    "ОПИСАНИЕ",
+                    style: TextStyleSet().textRegular.copyWith(color: Theme.of(context).unselectedWidgetColor),
+                  ),
+                ),
+                TextField(
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    hintText: "введите текст",
+                  ),
+                ),
               ],
             ),
             Container(

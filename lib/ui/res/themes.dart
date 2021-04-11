@@ -65,9 +65,23 @@ final lightThema = ThemeData(
     headline6: TextStyleSet().textMedium18.copyWith(color: ColorsLightSet.main),
   ),
   inputDecorationTheme: InputDecorationTheme(
+    contentPadding: EdgeInsets.all(16),
+    hintStyle: TextStyleSet().textRegular16.copyWith(color: ColorsLightSet.inactiveBlack),
+    isDense: true,
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: ColorsLightSet.green),
+      borderRadius: BorderRadius.circular(8),
+    ),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),
     ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: ColorsLightSet.green),
+      borderRadius: BorderRadius.circular(8),
+    ),
+  ),
+  textSelectionTheme: TextSelectionThemeData(
+    cursorColor: ColorsLightSet.main,
   ),
 );
 
