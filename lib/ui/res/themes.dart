@@ -6,6 +6,7 @@ import 'text_styles.dart';
 final lightThema = ThemeData(
   primaryColor: ColorsLightSet.main,
   accentColor: ColorsLightSet.green,
+  buttonColor: ColorsLightSet.green,
   canvasColor: ColorsLightSet.white,
   secondaryHeaderColor: ColorsLightSet.secondary,
   hintColor: ColorsLightSet.secondary2,
@@ -35,6 +36,29 @@ final lightThema = ThemeData(
     shadowColor: Colors.transparent,
   ),
   fontFamily: 'Roboto',
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      primary: ColorsLightSet.green,
+    ),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      primary: ColorsLightSet.main,
+      textStyle: TextStyle(
+        color: ColorsLightSet.main,
+      ),
+    ),
+  ),
+  sliderTheme: SliderThemeData(
+    trackHeight: 1,
+    activeTrackColor: ColorsLightSet.green,
+    inactiveTrackColor: ColorsLightSet.inactiveBlack,
+    thumbColor: ColorsLightSet.white,
+    overlayColor: ColorsLightSet.grey.withOpacity(0.56),
+  ),
 );
 
 final darkThema = ThemeData(
@@ -72,4 +96,27 @@ final darkThema = ThemeData(
     shadowColor: Colors.transparent,
   ),
   fontFamily: 'Roboto',
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      primary: ColorsDarkSet.green,
+    ),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      primary: ColorsDarkSet.white,
+      textStyle: TextStyle(
+        color: ColorsDarkSet.white,
+      ),
+    ),
+  ),
+  sliderTheme: SliderThemeData(
+    trackHeight: 1,
+    activeTrackColor: ColorsLightSet.green,
+    inactiveTrackColor: ColorsLightSet.inactiveBlack,
+    thumbColor: ColorsLightSet.main,
+    overlayColor: ColorsLightSet.grey.withOpacity(0.56),
+  ),
 );
