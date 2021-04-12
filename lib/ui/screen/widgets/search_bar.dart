@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
+import 'package:provider/provider.dart';
+
+import '../sight_search.dart';
 
 class SearchBar extends StatefulWidget {
   bool readOnly = false;
 
   Function onTap = () {};
 
-  SearchBar({Key key, this.readOnly = false, this.onTap}) : super(key: key);
+  TextEditingController controller = TextEditingController();
+
+  SearchBar({Key key, this.readOnly = false, this.onTap, this.controller})
+      : super(key: key);
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -24,6 +30,13 @@ class _SearchBarState extends State<SearchBar> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (context.read<SightSearchState>().searchBarController != null)
+      fieldController = context.read<SightSearchState>().searchBarController;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
@@ -33,6 +46,7 @@ class _SearchBarState extends State<SearchBar> {
       ),
       child: Center(
         child: TextField(
+          onChanged: (value) => context.read<SightSearchState>().search(value),
           controller: fieldController,
           readOnly: widget.readOnly,
           onTap: widget.onTap,
