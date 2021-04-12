@@ -21,6 +21,9 @@ class ColorsLightSet {
 
   ///#4CAF50
   static Color green = Color(0xff4CAF50);
+
+  ///#FCDD3D
+  static Color yellow = Color(0xffFCDD3D);
 }
 
 class ColorsDarkSet {
@@ -47,4 +50,7 @@ class ColorsDarkSet {
 
   ///#CF2A2A
   static Color red = Color(0xffCF2A2A);
+
+  ///#FCDD3D
+  static Color yellow = Color(0xffFCDD3D);
 }

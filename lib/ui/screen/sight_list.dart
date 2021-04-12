@@ -35,20 +35,47 @@ class _SightListScreenState extends State<SightListScreen> {
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 16),
         width: double.infinity,
-        child: Column(children: [
-          SightListItem(mocks[0]),
-          SightListItem(mocks[1]),
-          SightListItem(mocks[2]),
-        ]),
+        child: Stack(
+          alignment: AlignmentDirectional.bottomCenter,
+          children: [
+            SingleChildScrollView(
+              child: Column(children: [
+                SightListItem(mocks[0]),
+                SightListItem(mocks[1]),
+                SightListItem(mocks[2]),
+              ]),
+            ),
+            Positioned(
+              bottom: 16,
+              child: InkWell(
+                onTap: () => print("Добавить новое место"),
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.add,
+                          color: Theme.of(context).tabBarTheme.labelColor,
+                        ),
+                        Text(
+                          " НОВОЕ МЕСТО",
+                          style: TextStyleSet().textBold.copyWith(color: Theme.of(context).tabBarTheme.labelColor),
+                        ),
+                      ],
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    gradient: LinearGradient(colors: [Theme.of(context).indicatorColor, Theme.of(context).accentColor]),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigation(),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => print("Новое место"),
-        elevation: 0,
-        icon: Icon(Icons.add),
-        label: Text(" НОВОЕ МЕСТО"),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
