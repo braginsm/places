@@ -3,13 +3,25 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 
-class SearchBar extends StatelessWidget {
+class SearchBar extends StatefulWidget {
   bool readOnly = false;
 
   Function onTap = () {};
 
-  SearchBar({Key key, this.readOnly = false, this.onTap})
-      : super(key: key);
+  SearchBar({Key key, this.readOnly = false, this.onTap}) : super(key: key);
+
+  @override
+  _SearchBarState createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  TextEditingController fieldController = TextEditingController();
+
+  void onFilterPress() {}
+
+  void onClearPress() {
+    fieldController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +33,9 @@ class SearchBar extends StatelessWidget {
       ),
       child: Center(
         child: TextField(
-          readOnly: readOnly,
-          onTap: onTap,
+          controller: fieldController,
+          readOnly: widget.readOnly,
+          onTap: widget.onTap,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
               vertical: 10,
@@ -47,12 +60,17 @@ class SearchBar extends StatelessWidget {
               maxHeight: 40,
               maxWidth: 44,
             ),
-            suffixIcon: Padding(
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-              child: SvgPicture.asset(
-                ImagesPaths.filter,
-                color: Theme.of(context).accentColor,
-              ),
+            suffixIcon: IconButton(
+              onPressed: widget.readOnly ? onFilterPress : onClearPress,
+              icon: widget.readOnly
+                  ? SvgPicture.asset(
+                      ImagesPaths.filter,
+                      color: Theme.of(context).accentColor,
+                    )
+                  : Icon(
+                      Icons.cancel,
+                      color: Theme.of(context).primaryColor,
+                    ),
             ),
             suffixIconConstraints: BoxConstraints(
               maxHeight: 40,
