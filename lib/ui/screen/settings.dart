@@ -4,7 +4,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
-import 'package:places/ui/widget/bottom_navigation.dart';
+import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';

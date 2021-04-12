@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/images.dart';
-import 'package:places/ui/widget/bottom_navigation.dart';
+import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 
 import '../res/text_styles.dart';
 
@@ -19,16 +19,13 @@ class _SightListScreenState extends State<SightListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 152, //высота аппбара в пикелях из фигмы
         title: Container(
           padding: EdgeInsets.fromLTRB(16, 64, 16, 16),
           child: Text(
             "Список интересных мест",
-            style: TextStyleSet()
-                .textBold32
+            style: TextStyleSet().textMedium18
                 .copyWith(color: Theme.of(context).primaryColor),
             textAlign: TextAlign.left,
-            maxLines: 2,
           ),
         ),
       ),
