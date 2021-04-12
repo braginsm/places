@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/text_styles.dart';
-import 'package:places/ui/widget/delimer.dart';
+import 'package:places/ui/screen/widgets/delimer.dart';
 
 class AddSightScreen extends StatefulWidget {
   AddSightScreen({Key key}) : super(key: key);
