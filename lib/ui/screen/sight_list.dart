@@ -4,6 +4,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
+import 'package:places/ui/screen/widgets/search_bar.dart';
 
 import '../res/text_styles.dart';
 
@@ -19,14 +20,21 @@ class _SightListScreenState extends State<SightListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Container(
-          padding: EdgeInsets.fromLTRB(16, 64, 16, 16),
-          child: Text(
-            "Список интересных мест",
-            style: TextStyleSet().textMedium18
-                .copyWith(color: Theme.of(context).primaryColor),
-            textAlign: TextAlign.left,
+        title: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Text("Список интересных мест"),
+            ),
+          ],
+        ),
+        centerTitle: true,
+        bottom: PreferredSize(
+          child: SearchBar(
+            readOnly: true,
+            onTap: () => print("Поиск"),
           ),
+          preferredSize: Size(double.infinity, 64),
         ),
       ),
       body: Container(
