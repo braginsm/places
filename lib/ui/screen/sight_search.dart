@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/text_styles.dart';
+import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
@@ -140,11 +141,11 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                               ),
                         ),
                         onTap: () {
-                          print(item.name);
                           setState(() {
                             searchHistory.remove(item);
                             searchHistory.insert(0, item);
                           });
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SightCard(item)));
                         }),
                 ],
               ),
