@@ -23,7 +23,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
   void initState() {
     super.initState();
     searchHistory = [];
-    searchResult = context.watch()<SightSearchState>().searchResult;
+    searchResult = [];
     context.read<SightSearchState>().controller = searchController;
   }
 
@@ -112,10 +112,11 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                   ],
                 ),
               ),
-            if (searchResult.length > 0)
+            if (context.watch<SightSearchState>().searchResult.length > 0)
               Column(
                 children: [
-                  for (var item in searchResult)
+                  for (var item
+                      in context.watch<SightSearchState>().searchResult)
                     ListTile(
                         leading: Container(
                           width: 56,
@@ -163,12 +164,19 @@ class SightSearchState with ChangeNotifier {
 
   void search(String value) {
     print(value);
-    _searchResult =
-        mocks.where((element) => element.name.contains(value)).toList();
-    print(_searchResult.length);
+    _searchResult = value.length > 0
+        ? mocks
+            .where((element) =>
+                element.name.toLowerCase().contains(value.toLowerCase()))
+            .toList()
+        : [];
+    notifyListeners();
   }
 
   List<Sight> get searchResult => _searchResult;
 
-  void clear() => _searchResult.clear();
+  void clear() {
+    _searchResult.clear();
+    notifyListeners();
+  }
 }

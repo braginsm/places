@@ -27,6 +27,7 @@ class _SearchBarState extends State<SearchBar> {
 
   void onClearPress() {
     fieldController.clear();
+    context.read<SightSearchState>().search("");
   }
 
   @override
