@@ -49,38 +49,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
           preferredSize: Size(double.infinity, 64),
         ),
       ),
-      body: (searchHistory.length == 0 && context.watch<SightSearchState>().searchResult.length == 0) ? 
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            //crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(32),
-                child: SvgPicture.asset(
-                  ImagesPaths.search,
-                  height: 50,
-                  width: 50,
-                ),
-              ),
-              Text(
-                "Ничего не найдено.",
-                style: TextStyleSet().textMedium18.copyWith(
-                  color: Theme.of(context).unselectedWidgetColor
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8),
-                child: Text(
-                  "Попробуйте изменить параметры поиска",
-                style: TextStyleSet().textRegular.copyWith(
-                  color: Theme.of(context).unselectedWidgetColor
-                ),
-                ),
-              ),
-            ],
-          ),
-        ) : SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -100,27 +69,35 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                         children: [
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  searchHistory[i].name,
-                                  style: TextStyleSet().textRegular16.copyWith(
-                                        color: Theme.of(context).hintColor,
-                                      ),
-                                ),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.close,
-                                    color: Theme.of(context).hintColor,
+                            child: InkWell(
+                              onTap: () {
+                                searchController.text = searchHistory[i].name;
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    searchHistory[i].name,
+                                    style: TextStyleSet()
+                                        .textRegular16
+                                        .copyWith(
+                                          color: Theme.of(context).hintColor,
+                                        ),
                                   ),
-                                  onPressed: () {
-                                    setState(() {
-                                      searchHistory.removeAt(i);
-                                    });
-                                  },
-                                )
-                              ],
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: Theme.of(context).hintColor,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        searchHistory.removeAt(i);
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           if (i < searchHistory.length - 1) Delimer(),
@@ -185,6 +162,36 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                                   builder: (context) => SightCard(item)));
                         }),
                 ],
+              )
+            else
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  //crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(32),
+                      child: SvgPicture.asset(
+                        ImagesPaths.search,
+                        height: 50,
+                        width: 50,
+                      ),
+                    ),
+                    Text(
+                      "Ничего не найдено.",
+                      style: TextStyleSet().textMedium18.copyWith(
+                          color: Theme.of(context).unselectedWidgetColor),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                        "Попробуйте изменить параметры поиска",
+                        style: TextStyleSet().textRegular.copyWith(
+                            color: Theme.of(context).unselectedWidgetColor),
+                      ),
+                    ),
+                  ],
+                ),
               ),
           ],
         ),

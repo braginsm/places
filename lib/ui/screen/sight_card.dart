@@ -55,7 +55,7 @@ class SightCard extends StatelessWidget {
                               size: 15,
                             ),
                             onPressed: () {
-                              print("Back");
+                              Navigator.pop(context);
                             },
                           ),
                         ),
@@ -182,9 +182,11 @@ class SightCard extends StatelessWidget {
                       child: Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.all(8),
-                            child: SvgPicture.asset(ImagesPaths.favorite, color: Theme.of(context).secondaryHeaderColor,)
-                          ),
+                              padding: EdgeInsets.all(8),
+                              child: SvgPicture.asset(
+                                ImagesPaths.favorite,
+                                color: Theme.of(context).secondaryHeaderColor,
+                              )),
                           Text(
                             'В Избранное',
                             style: TextStyleSet().textRegular.copyWith(
