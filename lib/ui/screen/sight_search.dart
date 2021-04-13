@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
+import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +49,38 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
           preferredSize: Size(double.infinity, 64),
         ),
       ),
-      body: SingleChildScrollView(
+      body: (searchHistory.length == 0 && context.watch<SightSearchState>().searchResult.length == 0) ? 
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            //crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(32),
+                child: SvgPicture.asset(
+                  ImagesPaths.search,
+                  height: 50,
+                  width: 50,
+                ),
+              ),
+              Text(
+                "Ничего не найдено.",
+                style: TextStyleSet().textMedium18.copyWith(
+                  color: Theme.of(context).unselectedWidgetColor
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  "Попробуйте изменить параметры поиска",
+                style: TextStyleSet().textRegular.copyWith(
+                  color: Theme.of(context).unselectedWidgetColor
+                ),
+                ),
+              ),
+            ],
+          ),
+        ) : SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -145,13 +179,17 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                             searchHistory.remove(item);
                             searchHistory.insert(0, item);
                           });
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SightCard(item)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SightCard(item)));
                         }),
                 ],
               ),
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigation(),
     );
   }
 }
@@ -164,13 +202,18 @@ class SightSearchState with ChangeNotifier {
   List<Sight> _searchResult = mocks;
 
   void search(String value) {
-    print(value);
     _searchResult = value.length > 0
         ? mocks
             .where((element) =>
-                element.name.toLowerCase().contains(value.toLowerCase()))
+                element.name.toLowerCase().contains(value.toLowerCase()) &&
+                _inDistans(element))
             .toList()
         : [];
+    notifyListeners();
+  }
+
+  void filterByRadius() {
+    _searchResult = mocks.where((f) => _inDistans(f)).toList();
     notifyListeners();
   }
 
@@ -179,5 +222,39 @@ class SightSearchState with ChangeNotifier {
   void clear() {
     _searchResult.clear();
     notifyListeners();
+  }
+
+  RangeValues _radius = RangeValues(100, 10000);
+
+  RangeValues get radius => _radius;
+
+  void radiusSet(RangeValues radius) {
+    _radius = radius;
+    notifyListeners();
+  }
+
+  /// хранение значений фильтров
+  List<bool> _filterValues = List.generate(6, (index) => false);
+
+  List<bool> get filterValues => _filterValues;
+
+  void changeFilter(int i) {
+    _filterValues[i] = !_filterValues[i];
+    notifyListeners();
+  }
+
+  void cleanFilter() {
+    _filterValues = List.generate(6, (index) => false);
+    notifyListeners();
+  }
+
+  /// текущие координаты 56.84987946580704, 53.247889685270756
+  final double lat = 56.84987946580704;
+  final double lon = 53.247889685270756;
+
+  ///Определяет, попадает ли достопримечательность в выбанный радиус
+  bool _inDistans(Sight sight) {
+    final double _distans = sight.getDistans(lat, lon);
+    return _radius.start <= _distans && _radius.end >= _distans;
   }
 }
