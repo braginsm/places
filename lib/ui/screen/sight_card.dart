@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/res/images.dart';
+import 'package:places/ui/screen/widgets/image_network.dart';
 
 import '../res/text_styles.dart';
 
@@ -22,22 +23,7 @@ class SightCard extends StatelessWidget {
                 children: [
                   Container(
                     width: double.infinity,
-                    child: Image.network(
-                      sight.url,
-                      fit: BoxFit.fitWidth,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes
-                                : null,
-                          ),
-                        );
-                      },
-                    ),
+                    child: ImageNetwork(sight.url, fit: BoxFit.fitWidth),
                   ),
                   Positioned(
                       top: 36,

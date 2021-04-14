@@ -6,6 +6,7 @@ import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/screen/sight_search.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
+import 'package:places/ui/screen/widgets/image_network.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 
 import '../res/text_styles.dart';
@@ -116,22 +117,7 @@ class SightListItem extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       height: 96,
-                      child: Image.network(
-                        sight.url,
-                        fit: BoxFit.fitWidth,
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes
-                                  : null,
-                            ),
-                          );
-                        },
-                      ),
+                      child: ImageNetwork(sight.url, fit: BoxFit.fitWidth),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 16, left: 16),
