@@ -9,6 +9,7 @@ import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
+import 'dart:async';
 
 class SightSearchScreen extends StatefulWidget {
   SightSearchScreen({Key key}) : super(key: key);
@@ -35,6 +36,14 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Theme.of(context).primaryColor,
+            size: 15,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: Column(
           children: [
             Padding(
@@ -49,7 +58,9 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
           preferredSize: Size(double.infinity, 64),
         ),
       ),
-      body: SingleChildScrollView(
+      body: context.watch<SightSearchState>().showPreloader ? Center(
+        child: CircularProgressIndicator(),
+      ) : SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -208,14 +219,21 @@ class SightSearchState with ChangeNotifier {
 
   List<Sight> _searchResult = mocks;
 
+  bool showPreloader = false;
+
   void search(String value) {
-    _searchResult = value.length > 0
-        ? mocks
-            .where((element) =>
-                element.name.toLowerCase().contains(value.toLowerCase()) &&
-                _inDistans(element))
-            .toList()
-        : [];
+    showPreloader = true;
+    Timer(Duration(seconds: 3), () { // таймаут вместо запроса из сети
+      _searchResult = value.length > 0
+          ? mocks
+              .where((element) =>
+                  element.name.toLowerCase().contains(value.toLowerCase()) &&
+                  _inDistans(element))
+              .toList()
+          : [];
+      showPreloader = false;
+      notifyListeners();
+    });
     notifyListeners();
   }
 

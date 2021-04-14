@@ -13,7 +13,6 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  RangeValues _radius = RangeValues(100, 10000);
 
   String _getKm(double value) => (value / 1000).toStringAsFixed(1);
 
@@ -26,14 +25,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
     "Музей",
     "Кафе"
   ];
-
-  @override
-  void initState() {
-    super.initState();
-
-    /// начальные значения
-    context.read<SightSearchState>().filterByRadius();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +44,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
             size: 15,
           ),
           onPressed: () {
-            print("Back");
+            Navigator.pop(context);
           },
         ),
         actions: [
@@ -106,7 +97,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                                 .changeFilter(j);
                                           },
                                         ),
-                                        if (context.watch<SightSearchState>().filterValues[j])
+                                        if (context
+                                            .watch<SightSearchState>()
+                                            .filterValues[j])
                                           Positioned(
                                             child: SvgPicture.asset(
                                                 ImagesPaths.tickChoice),
@@ -147,7 +140,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                           .copyWith(color: Theme.of(context).primaryColor),
                     ),
                     Text(
-                      "от ${_getKm(_radius.start)} до ${_getKm(_radius.end)} км",
+                      "от ${_getKm(context.watch<SightSearchState>().radius.start)} до ${_getKm(context.watch<SightSearchState>().radius.end)} км",
                       style: TextStyleSet()
                           .textRegular16
                           .copyWith(color: Theme.of(context).hintColor),
@@ -173,7 +166,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
             height: 48,
             child: ElevatedButton(
               onPressed: () {
-                print("Показать");
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => SightSearchScreen()));
               },
               child: Text(
                 "ПОКАЗАТЬ (${context.watch<SightSearchState>().searchResult.length})",

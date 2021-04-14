@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
+import 'package:places/ui/screen/filters.dart';
 import 'package:provider/provider.dart';
 
 import '../sight_search.dart';
@@ -23,7 +24,17 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> {
   TextEditingController fieldController = TextEditingController();
 
-  void onFilterPress() {}
+  final textFieldFocusNode = FocusNode();
+
+  bool _suffixTap = false;
+
+  void onFilterPress() {
+    setState(() {
+      _suffixTap = true;
+    });
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => FiltersScreen()));
+  }
 
   void onClearPress() {
     fieldController.clear();
@@ -39,6 +50,7 @@ class _SearchBarState extends State<SearchBar> {
 
   @override
   Widget build(BuildContext context) {
+    _suffixTap = false;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       decoration: BoxDecoration(
@@ -47,10 +59,13 @@ class _SearchBarState extends State<SearchBar> {
       ),
       child: Center(
         child: TextField(
+          focusNode: textFieldFocusNode,
           onChanged: (value) => context.read<SightSearchState>().search(value),
           controller: fieldController,
           readOnly: widget.readOnly,
-          onTap: widget.onTap,
+          onTap: () {
+            if (!_suffixTap) widget.onTap();
+          },
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
               vertical: 10,
