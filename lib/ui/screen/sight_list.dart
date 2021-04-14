@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/images.dart';
+import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/screen/sight_search.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
@@ -185,7 +186,7 @@ class SightListItem extends StatelessWidget {
             child: InkWell(
               splashColor: Theme.of(context).hintColor.withOpacity(0.56),
               highlightColor: Colors.transparent,
-              onTap: () => print("tap card"),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SightCard(sight))),
               child: Container(
                 width: double.infinity,
                 height: 188,
