@@ -64,7 +64,7 @@ class _SearchBarState extends State<SearchBar> {
           controller: fieldController,
           readOnly: widget.readOnly,
           onTap: () {
-            !_suffixTap ? widget.onTap() : print("");
+            if (!_suffixTap) widget.onTap();
           },
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
