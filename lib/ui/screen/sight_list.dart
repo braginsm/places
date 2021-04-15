@@ -3,6 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/images.dart';
+import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/screen/sight_search.dart';
+import 'package:places/ui/screen/widgets/bottom_navigation.dart';
+import 'package:places/ui/screen/widgets/image_network.dart';
+import 'package:places/ui/screen/widgets/search_bar.dart';
 
 import '../res/text_styles.dart';
 
@@ -18,28 +23,73 @@ class _SightListScreenState extends State<SightListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 152, //высота аппбара в пикелях из фигмы
-        title: Container(
-          padding: EdgeInsets.fromLTRB(16, 64, 16, 16),
-          child: Text(
-            "Список интересных мест",
-            style: TextStyleSet()
-                .textBold32
-                .copyWith(color: Theme.of(context).primaryColor),
-            textAlign: TextAlign.left,
-            maxLines: 2,
-          ),
+        title: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Text("Список интересных мест"),
+            ),
+          ],
+        ),
+        centerTitle: true,
+        bottom: PreferredSize(
+          child: SearchBar(
+              readOnly: true,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SightSearchScreen()));
+              }),
+          preferredSize: Size(double.infinity, 64),
         ),
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 16),
         width: double.infinity,
-        child: Column(children: [
-          SightListItem(mocks[0]),
-          SightListItem(mocks[1]),
-          SightListItem(mocks[2]),
-        ]),
+        child: Stack(
+          alignment: AlignmentDirectional.bottomCenter,
+          children: [
+            SingleChildScrollView(
+              child: Column(children: [
+                SightListItem(mocks[0]),
+                SightListItem(mocks[1]),
+                SightListItem(mocks[2]),
+              ]),
+            ),
+            Positioned(
+              bottom: 16,
+              child: InkWell(
+                onTap: () => print("Добавить новое место"),
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.add,
+                          color: Theme.of(context).tabBarTheme.labelColor,
+                        ),
+                        Text(
+                          " НОВОЕ МЕСТО",
+                          style: TextStyleSet().textBold.copyWith(
+                              color: Theme.of(context).tabBarTheme.labelColor),
+                        ),
+                      ],
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    gradient: LinearGradient(colors: [
+                      Theme.of(context).indicatorColor,
+                      Theme.of(context).accentColor
+                    ]),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
+      bottomNavigationBar: BottomNavigation(),
     );
   }
 }
@@ -67,22 +117,7 @@ class SightListItem extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       height: 96,
-                      child: Image.network(
-                        sight.url,
-                        fit: BoxFit.fitWidth,
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes
-                                  : null,
-                            ),
-                          );
-                        },
-                      ),
+                      child: ImageNetwork(sight.url, fit: BoxFit.fitWidth),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 16, left: 16),
@@ -137,7 +172,7 @@ class SightListItem extends StatelessWidget {
             child: InkWell(
               splashColor: Theme.of(context).hintColor.withOpacity(0.56),
               highlightColor: Colors.transparent,
-              onTap: () => print("tap card"),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SightCard(sight))),
               child: Container(
                 width: double.infinity,
                 height: 188,

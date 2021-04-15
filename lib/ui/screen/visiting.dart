@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/images.dart';
-import 'package:places/ui/widget/empty_list.dart';
+import 'package:places/ui/screen/widgets/empty_list.dart';
 import '../res/text_styles.dart';
 import '../../mocks.dart';
-import '../widget/bottom_navigation.dart';
+import './widgets/bottom_navigation.dart';
 import '../../domain/sight.dart';
 
 class VisitingScreen extends StatefulWidget {

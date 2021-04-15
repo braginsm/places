@@ -11,4 +11,6 @@ class ImagesPaths {
   static String share = "res/images/share.svg";
   static String go = "res/images/go.svg";
   static String card = "res/images/card.svg";
+  static String filter = "res/images/filter.svg";
+  static String search = "res/images/search.svg";
 }

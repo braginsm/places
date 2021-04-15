@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/themes.dart';
+import 'package:places/ui/screen/add_sight.dart';
 import 'package:places/ui/screen/filters.dart';
 import 'package:places/ui/screen/settings.dart';
+import 'package:places/ui/screen/sight_search.dart';
 import 'package:provider/provider.dart';
 
 import 'mocks.dart';
@@ -16,6 +18,9 @@ void main() {
         ChangeNotifierProvider(
           create: (BuildContext context) => MainState(),
         ),
+        ChangeNotifierProvider(
+          create: (BuildContext context) => SightSearchState(),
+        )
       ],
       child: App(),
     ),
@@ -43,7 +48,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: context.watch<MainState>().theme,
-      home: SettingsScreen(),
+      home: SightListScreen(),
       title: "Places",
     );
   }

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
-
-import '../../mocks.dart';
+import './sight_search.dart';
+import 'package:provider/provider.dart';
 
 class FiltersScreen extends StatefulWidget {
   FiltersScreen({Key key}) : super(key: key);
@@ -14,16 +13,8 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  RangeValues _radius = RangeValues(100, 10000);
 
   String _getKm(double value) => (value / 1000).toStringAsFixed(1);
-
-  /// текущие координаты 56.84987946580704, 53.247889685270756
-  final double lat = 56.84987946580704;
-  final double lon = 53.247889685270756;
-
-  /// отфильтрованный список мест
-  List<Sight> sights = mocks;
 
   /// подписи фильтров
   final List<String> titles = [
@@ -34,27 +25,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
     "Музей",
     "Кафе"
   ];
-
-  /// хранение значений фильтров
-  List<bool> filterValues = [];
-
-  ///Определяет, попадает ли достопримечательность в выбанный радиус
-  bool _inDistans(Sight sight) {
-    final double _distans = sight.getDistans(lat, lon);
-    return _radius.start <= _distans && _radius.end >= _distans;
-  }
-
-  /// возвращает список достопримечательностей отфильтрованный по выбранному радиусу
-  List<Sight> filterByRadius() => mocks.where((f) => _inDistans(f)).toList();
-
-  @override
-  void initState() {
-    super.initState();
-
-    /// начальные значения
-    sights = filterByRadius();
-    filterValues = List.generate(titles.length, (index) => false);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,18 +44,17 @@ class _FiltersScreenState extends State<FiltersScreen> {
             size: 15,
           ),
           onPressed: () {
-            print("Back");
+            Navigator.pop(context);
           },
         ),
         actions: [
           TextButton(
             onPressed: () {
-              print("Очистить");
-              setState(() {
-                filterValues = List.generate(titles.length, (index) => false);
-                _radius = RangeValues(_minRadius, _maxRadius);
-                sights = filterByRadius();
-              });
+              context.read<SightSearchState>().cleanFilter();
+              context
+                  .read<SightSearchState>()
+                  .radiusSet(RangeValues(_minRadius, _maxRadius));
+              context.read<SightSearchState>().filterByRadius();
             },
             child: Text(
               "Очистить",
@@ -120,18 +89,20 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                       children: [
                                         IconButton(
                                           iconSize: 64,
-                                          icon: SvgPicture.asset(ImagesPaths.ticks[j]),
+                                          icon: SvgPicture.asset(
+                                              ImagesPaths.ticks[j]),
                                           onPressed: () {
-                                            print(titles[j]);
-                                            setState(() {
-                                              filterValues[j] =
-                                                  !filterValues[j];
-                                            });
+                                            context
+                                                .read<SightSearchState>()
+                                                .changeFilter(j);
                                           },
                                         ),
-                                        if (filterValues[j])
+                                        if (context
+                                            .watch<SightSearchState>()
+                                            .filterValues[j])
                                           Positioned(
-                                            child: SvgPicture.asset(ImagesPaths.tickChoice),
+                                            child: SvgPicture.asset(
+                                                ImagesPaths.tickChoice),
                                             bottom: 0,
                                             right: 0,
                                           )
@@ -139,7 +110,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                     ),
                                     Text(
                                       titles[j],
-                                      style: TextStyleSet().textRegular12.copyWith(color: Theme.of(context).primaryColor),
+                                      style: TextStyleSet()
+                                          .textRegular12
+                                          .copyWith(
+                                              color: Theme.of(context)
+                                                  .primaryColor),
                                     )
                                   ],
                                 ),
@@ -160,10 +135,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   children: [
                     Text(
                       "Расстояние",
-                      style: TextStyleSet().textRegular16.copyWith(color: Theme.of(context).primaryColor),
+                      style: TextStyleSet()
+                          .textRegular16
+                          .copyWith(color: Theme.of(context).primaryColor),
                     ),
                     Text(
-                      "от ${_getKm(_radius.start)} до ${_getKm(_radius.end)} км",
+                      "от ${_getKm(context.watch<SightSearchState>().radius.start)} до ${_getKm(context.watch<SightSearchState>().radius.end)} км",
                       style: TextStyleSet()
                           .textRegular16
                           .copyWith(color: Theme.of(context).hintColor),
@@ -172,17 +149,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 ),
               ),
               RangeSlider(
-                values: _radius,
+                values: context.watch<SightSearchState>().radius,
                 min: _minRadius,
                 max: _maxRadius,
                 divisions: _maxRadius.round(),
                 onChanged: (RangeValues values) {
-                  setState(() {
-                    _radius = values;
-                    sights = filterByRadius();
-                    print(sights
-                        .length); // вывожу в консоль кол-во достопримечательностей после фильтрации
-                  });
+                  context.read<SightSearchState>().radiusSet(values);
+                  context.read<SightSearchState>().filterByRadius();
                 },
               ),
             ],
@@ -193,10 +166,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
             height: 48,
             child: ElevatedButton(
               onPressed: () {
-                print("Показать");
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => SightSearchScreen()));
               },
               child: Text(
-                "ПОКАЗАТЬ (${sights.length})",
+                "ПОКАЗАТЬ (${context.watch<SightSearchState>().searchResult.length})",
                 style: TextStyleSet().textBold,
               ),
             ),
