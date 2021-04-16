@@ -8,8 +8,7 @@ final List<Sight> mocks = [
     url: "https://fs.tonkosti.ru/sized/f700x700/c4/7b/c47bld9e0hs08c88s40cck84s.jpg",
     details: "Свято-Михайловский собор, расположенный в Центральном районе Ижевска, считается визитной карточкой города и символом возрождения духовной жизни Удмуртии и всей России.",
     type: "религия",
-    wontVisit: true,
-    visit: false,
+    wontDate: DateTime.now(),
   ),
   Sight(
     name: "Ижевский арсенал",
@@ -18,8 +17,7 @@ final List<Sight> mocks = [
     url: "https://fs.tonkosti.ru/sized/f700x700/dh/cd/dhcdpt6uwi8848gkk4ok0swcs.jpg",
     details: "Национальный музей Удмуртской Республики имени Кузебая Герда, или ижевский Арсенал, — один из самых больших в Удмуртии музеев с богатой экспозицией. Рядом со зданием бывшего Арсенала находится множество достопримечательностей: мемориал «Вечный огонь», памятник удмуртскому поэту Кузебаю Герду.",
     type: "музей",
-    wontVisit: true,
-    visit: false,
+    wontDate: DateTime.now(),
   ),
   Sight(
     name: "Ижевский зоопарк",
@@ -28,7 +26,7 @@ final List<Sight> mocks = [
     url: "https://fs.tonkosti.ru/sized/f700x700/7g/s7/7gs7uwcyackk0g0kk44w4kogo.jpg",
     details: "Ижевский зоопарк – одна из главных достопримечательностей столицы Удмуртии. Ижевский зоопарк считается одним из самых крупных и богатых в Приволжье. Общая площадь зоопарка составляет целых 16 гектаров.",
     type: "развлечения",
-    visit: true,
-    wontVisit: true,
+    visitDate: DateTime.now(),
+    wontDate: DateTime.now(),
   ),
 ];

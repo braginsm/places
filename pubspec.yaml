@@ -16,6 +16,7 @@ dependencies:
   flutter_svg: ^0.19.3
   provider: ^5.0.0
   flutter_switch: ^0.3.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

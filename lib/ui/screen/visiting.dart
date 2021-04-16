@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/widgets/empty_list.dart';
 import 'package:places/ui/screen/widgets/image_network.dart';
+import 'package:places/ui/screen/widgets/sight_item.dart';
 import '../res/text_styles.dart';
 import '../../mocks.dart';
 import './widgets/bottom_navigation.dart';
@@ -16,14 +17,14 @@ class VisitingState with ChangeNotifier {
   //TODO: когда появятся идентификаторы мест, пердлать на них.
   void removeWont(String name) {
     for (var i = 0; i < mocks.length; i++)
-      if (mocks[i].name == name) mocks[i].wontVisit = false;
+      if (mocks[i].name == name) mocks[i].wontDate = null;
     notifyListeners();
   }
 
   //TODO: когда появятся идентификаторы мест, пердлать на них.
   void removeVisit(String name) {
     for (var i = 0; i < mocks.length; i++)
-      if (mocks[i].name == name) mocks[i].visit = false;
+      if (mocks[i].name == name) mocks[i].visitDate = null;
     notifyListeners();
   }
 }
@@ -78,7 +79,26 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 child: context.watch<VisitingState>().wontList.length > 0
                     ? Column(children: [
                         for (var item in context.watch<VisitingState>().wontList)
-                          VisitItem(item)
+                          SightItem(item, actions: [
+                            IconButton(
+                              onPressed: () {
+                                print("Календарь");
+                              },
+                              icon: SvgPicture.asset(
+                                ImagesPaths.calendar,
+                                color: Theme.of(context).canvasColor,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                context.read<VisitingState>().removeWont(item.name);
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                color: Theme.of(context).canvasColor,
+                              ),
+                            ),
+                          ],)
                       ])
                     : EmptyListWont(),
               ),
@@ -91,7 +111,26 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 child: context.watch<VisitingState>().visitList.length > 0
                     ? Column(children: [
                         for (var item in context.watch<VisitingState>().visitList)
-                          VisitItem(item)
+                          SightItem(item, actions: [
+                            IconButton(
+                              onPressed: () {
+                                print("Поделиться");
+                              },
+                              icon: SvgPicture.asset(
+                                ImagesPaths.share,
+                                color: Theme.of(context).canvasColor,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                context.read<VisitingState>().removeVisit(item.name);
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                color: Theme.of(context).canvasColor,
+                              ),
+                            ),
+                          ],),
                       ])
                     : EmptyListVisited(),
               ),
