@@ -72,7 +72,6 @@ class _VisitingScreenState extends State<VisitingScreen> {
         body: TabBarView(
           children: [
             SingleChildScrollView(
-              key: Key('wontList'),
               child: Container(
                 margin: EdgeInsets.all(16),
                 width: double.infinity,
@@ -104,7 +103,6 @@ class _VisitingScreenState extends State<VisitingScreen> {
               ),
             ),
             SingleChildScrollView(
-              key: Key('visitList'),
               child: Container(
                 margin: EdgeInsets.all(16),
                 width: double.infinity,
