@@ -8,11 +8,11 @@ import 'package:provider/provider.dart';
 import '../sight_search.dart';
 
 class SearchBar extends StatefulWidget {
-  bool readOnly = false;
+  final bool readOnly;
 
-  Function onTap = () {};
+  final Function onTap;
 
-  TextEditingController controller = TextEditingController();
+  final TextEditingController controller;
 
   SearchBar({Key key, this.readOnly = false, this.onTap, this.controller})
       : super(key: key);
