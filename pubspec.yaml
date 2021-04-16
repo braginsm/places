@@ -13,9 +13,9 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  flutter_svg: ^0.19.3
+  flutter_svg: ^0.21.0+1
   provider: ^5.0.0
-  flutter_switch: ^0.3.0
+  flutter_switch: ^0.3.1
   intl: ^0.17.0
 
 dev_dependencies:
