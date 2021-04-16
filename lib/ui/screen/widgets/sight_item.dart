@@ -73,12 +73,12 @@ class SightItem extends StatelessWidget {
                       width: double.infinity,
                       child: Text(
                         sight.visit
-                            ? "Цель достигнута ${DateFormat.yMMMd(Localizations.localeOf(context).toString()).format(sight.visitDate).toString()}"
-                            : "Запланировано на ${DateFormat.yMMMd(Localizations.localeOf(context).toString()).format(sight.wontDate)}",
+                            ? "Цель достигнута ${DateFormat.yMMMd().format(sight.visitDate)}"
+                            : "Запланировано на ${DateFormat.yMMMd().format(sight.wontDate)}",
                         style: TextStyleSet().textRegular.copyWith(
-                              color: sight.wontVisit
-                                  ? Theme.of(context).accentColor
-                                  : Theme.of(context).hintColor,
+                              color: sight.visit
+                                  ? Theme.of(context).hintColor
+                                  : Theme.of(context).accentColor,
                             ),
                         textAlign: TextAlign.left,
                       ),

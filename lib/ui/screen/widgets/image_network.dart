@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ImageNetwork extends StatelessWidget {
-  final String url = "";
+  String url = "";
 
-  final BoxFit fit = BoxFit.fill;
+  BoxFit fit = BoxFit.fill;
 
-  const ImageNetwork(url, {Key key, fit = BoxFit.fill}) : super(key: key);
+  ImageNetwork(this.url, {Key key, this.fit = BoxFit.fill}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
