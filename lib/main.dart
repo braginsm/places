@@ -20,6 +20,9 @@ void main() {
         ),
         ChangeNotifierProvider(
           create: (BuildContext context) => SightSearchState(),
+        ),
+        ChangeNotifierProvider(
+          create: (BuildContext context) => VisitingState()
         )
       ],
       child: App(),

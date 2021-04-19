@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ImageNetwork extends StatelessWidget {
-  String url = "";
+  final String url;
 
-  BoxFit fit = BoxFit.fill;
+  final BoxFit fit;
 
   ImageNetwork(this.url, {Key key, this.fit = BoxFit.fill}) : super(key: key);
 

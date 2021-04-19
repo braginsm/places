@@ -2,10 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/widgets/empty_list.dart';
+import 'package:places/ui/screen/widgets/image_network.dart';
+import 'package:places/ui/screen/widgets/sight_item.dart';
 import '../res/text_styles.dart';
 import '../../mocks.dart';
 import './widgets/bottom_navigation.dart';
 import '../../domain/sight.dart';
+import 'package:provider/provider.dart';
+
+class VisitingState with ChangeNotifier {
+  List<Sight> get wontList => mocks.where((f) => f.wontVisit).toList();
+  List<Sight> get visitList => mocks.where((f) => f.visit).toList();
+
+  //TODO: когда появятся идентификаторы мест, пердлать на них.
+  void removeWont(String name) {
+    for (var i = 0; i < mocks.length; i++)
+      if (mocks[i].name == name) mocks[i].wontDate = null;
+    notifyListeners();
+  }
+
+  //TODO: когда появятся идентификаторы мест, пердлать на них.
+  void removeVisit(String name) {
+    for (var i = 0; i < mocks.length; i++)
+      if (mocks[i].name == name) mocks[i].visitDate = null;
+    notifyListeners();
+  }
+}
 
 class VisitingScreen extends StatefulWidget {
   VisitingScreen({Key key}) : super(key: key);
@@ -15,15 +37,13 @@ class VisitingScreen extends StatefulWidget {
 }
 
 class _VisitingScreenState extends State<VisitingScreen> {
-  final wontList = mocks.where((f) => f.wontVisit);
-  final visitList = mocks.where((f) => f.visit);
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          leadingWidth: 0,
           title: Padding(
             padding: EdgeInsets.symmetric(vertical: 16),
             child: Center(
@@ -51,21 +71,67 @@ class _VisitingScreenState extends State<VisitingScreen> {
         ),
         body: TabBarView(
           children: [
-            Container(
-              margin: EdgeInsets.all(16),
-              width: double.infinity,
-              child: wontList.length > 0
-                  ? Column(
-                      children: [for (var item in wontList) VisitItem(item)])
-                  : EmptyListWont(),
+            SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.all(16),
+                width: double.infinity,
+                child: context.watch<VisitingState>().wontList.length > 0
+                    ? Column(children: [
+                        for (var item in context.watch<VisitingState>().wontList)
+                          SightItem(item, actions: [
+                            IconButton(
+                              onPressed: () {
+                                print("Календарь");
+                              },
+                              icon: SvgPicture.asset(
+                                ImagesPaths.calendar,
+                                color: Theme.of(context).canvasColor,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                context.read<VisitingState>().removeWont(item.name);
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                color: Theme.of(context).canvasColor,
+                              ),
+                            ),
+                          ],)
+                      ])
+                    : EmptyListWont(),
+              ),
             ),
-            Container(
-              margin: EdgeInsets.all(16),
-              width: double.infinity,
-              child: visitList.length > 0
-                  ? Column(
-                      children: [for (var item in visitList) VisitItem(item)])
-                  : EmptyListVisited(),
+            SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.all(16),
+                width: double.infinity,
+                child: context.watch<VisitingState>().visitList.length > 0
+                    ? Column(children: [
+                        for (var item in context.watch<VisitingState>().visitList)
+                          SightItem(item, actions: [
+                            IconButton(
+                              onPressed: () {
+                                print("Поделиться");
+                              },
+                              icon: SvgPicture.asset(
+                                ImagesPaths.share,
+                                color: Theme.of(context).canvasColor,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                context.read<VisitingState>().removeVisit(item.name);
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                color: Theme.of(context).canvasColor,
+                              ),
+                            ),
+                          ],),
+                      ])
+                    : EmptyListVisited(),
+              ),
             ),
           ],
         ),
@@ -96,22 +162,7 @@ class VisitItem extends StatelessWidget {
                       topLeft: Radius.circular(16),
                       topRight: Radius.circular(16),
                     ),
-                    child: Image.network(
-                      sight.url,
-                      fit: BoxFit.fitWidth,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes
-                                : null,
-                          ),
-                        );
-                      },
-                    ),
+                    child: ImageNetwork(sight.url, fit: BoxFit.fitWidth),
                   )),
               Container(
                 margin: EdgeInsets.only(top: 16, left: 16),
@@ -126,7 +177,9 @@ class VisitItem extends StatelessWidget {
                 right: 0,
                 child: IconButton(
                   onPressed: () {
-                    print("Удалить");
+                    sight.wontVisit 
+                    ? context.read<VisitingState>().removeWont(sight.name)
+                    : context.read<VisitingState>().removeVisit(sight.name);
                   },
                   icon: Icon(
                     Icons.close,

@@ -16,13 +16,21 @@ class Sight {
   ///тип достопримечательности
   String type = "";
 
-  ///Хочу посетить
-  bool wontVisit = false;
+  ///Хочу посетить в дату
+  DateTime wontDate;
 
   ///Посещал
-  bool visit = false;
+  DateTime visitDate;
 
-  Sight({this.name, this.lat, this.lon, this.url, this.details, this.type, this.wontVisit, this.visit});
+  Sight(
+      {this.name,
+      this.lat,
+      this.lon,
+      this.url,
+      this.details,
+      this.type,
+      this.wontDate,
+      this.visitDate});
 
   ///Возвращает кол-во метров от Sight до точки с координатами lat, lon
   double getDistans(double lat, double lon) {
@@ -32,4 +40,8 @@ class Sight {
     var dy = (lat - this.lat).abs() * ky;
     return sqrt(dx * dx + dy * dy);
   }
+
+  //геттеры 
+  bool get wontVisit => wontDate != null && wontDate.difference(DateTime.now()).inDays >= 0;
+  bool get visit => visitDate != null && visitDate.difference(DateTime.now()).inDays <= 0;
 }

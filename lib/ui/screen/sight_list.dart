@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/images.dart';
-import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/screen/sight_search.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
-import 'package:places/ui/screen/widgets/image_network.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
+import 'package:places/ui/screen/widgets/sight_item.dart';
 
 import '../res/text_styles.dart';
 
@@ -49,9 +47,17 @@ class _SightListScreenState extends State<SightListScreen> {
           children: [
             SingleChildScrollView(
               child: Column(children: [
-                SightListItem(mocks[0]),
-                SightListItem(mocks[1]),
-                SightListItem(mocks[2]),
+                for (var item in mocks) SightItem(item, actions: [
+                  IconButton(
+                    onPressed: () {
+                      print("В избранное");
+                    },
+                    icon: SvgPicture.asset(
+                      ImagesPaths.favorite,
+                      color: Theme.of(context).canvasColor,
+                    ),
+                  ),
+                ],),
               ]),
             ),
             Positioned(
@@ -90,109 +96,6 @@ class _SightListScreenState extends State<SightListScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigation(),
-    );
-  }
-}
-
-class SightListItem extends StatelessWidget {
-  final Sight sight;
-  const SightListItem(this.sight, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      margin: EdgeInsets.only(bottom: 16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Stack(
-        children: [
-          Column(
-            children: [
-              Container(
-                child: Stack(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 96,
-                      child: ImageNetwork(sight.url, fit: BoxFit.fitWidth),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 16, left: 16),
-                      child: Text(
-                        sight.type,
-                        style: TextStyleSet()
-                            .textRegular
-                            .copyWith(color: Theme.of(context).canvasColor),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 40,
-                      child: Text(
-                        sight.name,
-                        style: TextStyleSet().textMedium16.copyWith(
-                            color: Theme.of(context).secondaryHeaderColor),
-                        textAlign: TextAlign.left,
-                        maxLines: 2,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 2),
-                      width: double.infinity,
-                      height: 18,
-                      child: Text(
-                        sight.details,
-                        style: TextStyleSet()
-                            .textRegular16
-                            .copyWith(color: Theme.of(context).hintColor),
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              splashColor: Theme.of(context).hintColor.withOpacity(0.56),
-              highlightColor: Colors.transparent,
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SightCard(sight))),
-              child: Container(
-                width: double.infinity,
-                height: 188,
-              ),
-            ),
-          ),
-          Positioned(
-            right: 0,
-            child: IconButton(
-              onPressed: () {
-                print("В избранное");
-              },
-              icon: SvgPicture.asset(
-                ImagesPaths.favorite,
-                color: Theme.of(context).canvasColor,
-              ),
-            ),
-          )
-        ],
-      ),
     );
   }
 }
