@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
+import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
 
@@ -24,6 +26,13 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
   Sight newSight = Sight();
 
+  ///Моковые данные картинок
+  List<String> images = [
+    "https://lifeglobe.net/x/entry/6591/1a.jpg",
+    "https://www.freezone.net/upload/medialibrary/7e9/7e9ba16fe427b1dfd99e07ea7cc522d2.jpg",
+    "https://tur-ray.ru/wp-content/uploads/2017/11/maska-skorbi.jpg"
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,10 +53,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
           )),
         ),
         leadingWidth: 90,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Text("Новое место"),
-        ),
+        title: Text("Новое место"),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
@@ -58,11 +64,72 @@ class _AddSightScreenState extends State<AddSightScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: SvgPicture.asset(ImagesPaths.plus),
+                            iconSize: 72,
+                            onPressed: () => print('add'),
+                          ),
+                          for (var item in images)
+                            Dismissible(
+                              key: ValueKey(item),
+                              direction: DismissDirection.up,
+                              onDismissed: (direction) {
+                                setState(() {
+                                  images.remove(item);
+                                });
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Stack(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () => print(item),
+                                      child: Container(
+                                        width: 72,
+                                        height: 72,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(12),
+                                          image: DecorationImage(
+                                              image: Image.network(item).image,
+                                              fit: BoxFit.fill),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.cancel,
+                                          color:
+                                              Theme.of(context).backgroundColor,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            images.remove(item);
+                                          });
+                                        },
+                                        padding: EdgeInsets.all(0),
+                                      ),
+                                      right: -6,
+                                      top: -6,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
                   Text(
                     "КАТЕГОРИЯ",
-                    style: TextStyleSet()
-                        .textRegular
-                        .copyWith(color: Theme.of(context).unselectedWidgetColor),
+                    style: TextStyleSet().textRegular.copyWith(
+                        color: Theme.of(context).unselectedWidgetColor),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 14),
@@ -88,14 +155,13 @@ class _AddSightScreenState extends State<AddSightScreen> {
                   ),
                   Text(
                     "НАЗВАНИЕ",
-                    style: TextStyleSet()
-                        .textRegular
-                        .copyWith(color: Theme.of(context).unselectedWidgetColor),
+                    style: TextStyleSet().textRegular.copyWith(
+                        color: Theme.of(context).unselectedWidgetColor),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 12),
                     child: TextField(
-                      autofocus: true,
+                      //autofocus: true,
                       focusNode: nameNode,
                       decoration: InputDecoration(
                         hintText: 'название',
@@ -115,8 +181,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
                               Text(
                                 "ШИРОТА",
                                 style: TextStyleSet().textRegular.copyWith(
-                                    color:
-                                        Theme.of(context).unselectedWidgetColor),
+                                    color: Theme.of(context)
+                                        .unselectedWidgetColor),
                               ),
                               Padding(
                                 padding: EdgeInsets.fromLTRB(0, 12, 8, 0),
@@ -131,7 +197,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
                                   ),
                                   keyboardType: TextInputType.number,
                                   focusNode: latNode,
-                                  onSubmitted: (value) => lonNode.requestFocus(),
+                                  onSubmitted: (value) =>
+                                      lonNode.requestFocus(),
                                 ),
                               ),
                             ],
