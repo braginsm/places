@@ -5,6 +5,7 @@ import 'package:places/mocks.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
+import 'package:provider/provider.dart';
 
 class AddSightScreen extends StatefulWidget {
   AddSightScreen({Key key}) : super(key: key);
@@ -25,13 +26,6 @@ class _AddSightScreenState extends State<AddSightScreen> {
   FocusNode descriptionNode = FocusNode();
 
   Sight newSight = Sight();
-
-  ///Моковые данные картинок
-  List<String> images = [
-    "https://lifeglobe.net/x/entry/6591/1a.jpg",
-    "https://www.freezone.net/upload/medialibrary/7e9/7e9ba16fe427b1dfd99e07ea7cc522d2.jpg",
-    "https://tur-ray.ru/wp-content/uploads/2017/11/maska-skorbi.jpg"
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +50,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
         title: Text("Новое место"),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+        padding: EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,58 +64,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          IconButton(
-                            icon: SvgPicture.asset(ImagesPaths.plus),
-                            iconSize: 72,
-                            onPressed: () => print('add'),
-                          ),
-                          for (var item in images)
-                            Dismissible(
-                              key: ValueKey(item),
-                              direction: DismissDirection.up,
-                              onDismissed: (direction) {
-                                setState(() {
-                                  images.remove(item);
-                                });
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Stack(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () => print(item),
-                                      child: Container(
-                                        width: 72,
-                                        height: 72,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(12),
-                                          image: DecorationImage(
-                                              image: Image.network(item).image,
-                                              fit: BoxFit.fill),
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      child: IconButton(
-                                        icon: Icon(
-                                          Icons.cancel,
-                                          color:
-                                              Theme.of(context).backgroundColor,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            images.remove(item);
-                                          });
-                                        },
-                                        padding: EdgeInsets.all(0),
-                                      ),
-                                      right: -6,
-                                      top: -6,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                          AddImageItem(),
+                          for (var item in context.watch<AddSightState>().images)
+                            AddImageItem(img: item),
                         ],
                       ),
                     ),
@@ -296,5 +241,82 @@ class _AddSightScreenState extends State<AddSightScreen> {
         ),
       ),
     );
+  }
+}
+
+class AddSightState with ChangeNotifier {
+  ///Моковые данные картинок
+  List<String> _images = [
+    "https://lifeglobe.net/x/entry/6591/1a.jpg",
+    "https://www.freezone.net/upload/medialibrary/7e9/7e9ba16fe427b1dfd99e07ea7cc522d2.jpg",
+    "https://tur-ray.ru/wp-content/uploads/2017/11/maska-skorbi.jpg"
+  ];
+
+  List<String> get images => _images;
+
+  void removeImage(img) {
+    images.remove(img);
+    notifyListeners();
+  }
+}
+
+class AddImageItem extends StatefulWidget {
+  final String img;
+  AddImageItem({Key key, this.img}) : super(key: key);
+
+  @override
+  _AddImageItemState createState() => _AddImageItemState();
+}
+
+class _AddImageItemState extends State<AddImageItem> {
+  @override
+  Widget build(BuildContext context) {
+    return (widget.img == null || widget.img.length == 0)
+        ? IconButton(
+            icon: SvgPicture.asset(ImagesPaths.plus),
+            iconSize: 72,
+            onPressed: () => print('add'),
+          )
+        : Dismissible(
+            key: ValueKey(widget.img),
+            direction: DismissDirection.up,
+            onDismissed: (direction) {
+              context.read<AddSightState>().removeImage(widget.img);
+            },
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Stack(
+                children: [
+                  GestureDetector(
+                    onTap: () => print(widget.img),
+                    child: Container(
+                      width: 72,
+                      height: 72,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        image: DecorationImage(
+                            image: Image.network(widget.img).image,
+                            fit: BoxFit.fill),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.cancel,
+                        color: Theme.of(context).backgroundColor,
+                      ),
+                      onPressed: () {
+                        context.read<AddSightState>().removeImage(widget.img);
+                      },
+                      padding: EdgeInsets.all(0),
+                    ),
+                    right: -6,
+                    top: -6,
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }
