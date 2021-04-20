@@ -78,26 +78,30 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 child: context.watch<VisitingState>().wontList.length > 0
                     ? Column(children: [
                         for (var item in context.watch<VisitingState>().wontList)
-                          SightItem(item, actions: [
-                            IconButton(
-                              onPressed: () {
-                                print("Календарь");
-                              },
-                              icon: SvgPicture.asset(
-                                ImagesPaths.calendar,
-                                color: Theme.of(context).canvasColor,
+                          SightItem(
+                            item,
+                            onDismissed: (dismissDirection) => context.read<VisitingState>().removeWont(item.name),
+                            actions: [
+                              IconButton(
+                                onPressed: () {
+                                  print("Календарь");
+                                },
+                                icon: SvgPicture.asset(
+                                  ImagesPaths.calendar,
+                                  color: Theme.of(context).canvasColor,
+                                ),
                               ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                context.read<VisitingState>().removeWont(item.name);
-                              },
-                              icon: Icon(
-                                Icons.close,
-                                color: Theme.of(context).canvasColor,
+                              IconButton(
+                                onPressed: () {
+                                  context.read<VisitingState>().removeWont(item.name);
+                                },
+                                icon: Icon(
+                                  Icons.close,
+                                  color: Theme.of(context).canvasColor,
+                                ),
                               ),
-                            ),
-                          ],)
+                            ],
+                          ),
                       ])
                     : EmptyListWont(),
               ),
@@ -109,26 +113,30 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 child: context.watch<VisitingState>().visitList.length > 0
                     ? Column(children: [
                         for (var item in context.watch<VisitingState>().visitList)
-                          SightItem(item, actions: [
-                            IconButton(
-                              onPressed: () {
-                                print("Поделиться");
-                              },
-                              icon: SvgPicture.asset(
-                                ImagesPaths.share,
-                                color: Theme.of(context).canvasColor,
+                          SightItem(
+                            item, 
+                            onDismissed: (dismissDirection) => context.read<VisitingState>().removeWont(item.name),
+                            actions: [
+                              IconButton(
+                                onPressed: () {
+                                  print("Поделиться");
+                                },
+                                icon: SvgPicture.asset(
+                                  ImagesPaths.share,
+                                  color: Theme.of(context).canvasColor,
+                                ),
                               ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                context.read<VisitingState>().removeVisit(item.name);
-                              },
-                              icon: Icon(
-                                Icons.close,
-                                color: Theme.of(context).canvasColor,
+                              IconButton(
+                                onPressed: () {
+                                  context.read<VisitingState>().removeVisit(item.name);
+                                },
+                                icon: Icon(
+                                  Icons.close,
+                                  color: Theme.of(context).canvasColor,
+                                ),
                               ),
-                            ),
-                          ],),
+                            ],
+                          ),
                       ])
                     : EmptyListVisited(),
               ),
