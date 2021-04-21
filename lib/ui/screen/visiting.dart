@@ -11,8 +11,12 @@ import '../../domain/sight.dart';
 import 'package:provider/provider.dart';
 
 class VisitingState with ChangeNotifier {
-  List<Sight> get wontList => mocks.where((f) => f.wontVisit).toList();
-  List<Sight> get visitList => mocks.where((f) => f.visit).toList();
+
+  List<Sight> _wontList = mocks.where((f) => f.wontVisit).toList();
+  List<Sight> _visitList = mocks.where((f) => f.visit).toList();
+
+  List<Sight> get wontList => _wontList;
+  List<Sight> get visitList => _visitList;
 
   //TODO: когда появятся идентификаторы мест, пердлать на них.
   void removeWont(String name) {
@@ -25,6 +29,18 @@ class VisitingState with ChangeNotifier {
   void removeVisit(String name) {
     for (var i = 0; i < mocks.length; i++)
       if (mocks[i].name == name) mocks[i].visitDate = null;
+    notifyListeners();
+  }
+
+  void moveWont(Sight after, Sight sight) {
+    _wontList.remove(sight);
+    _wontList.insert(_wontList.indexOf(after) + 1, sight);
+    notifyListeners();
+  }
+
+  void moveVizit(Sight after, Sight sight) {
+    _wontList.remove(sight);
+    _wontList.insert(_wontList.indexOf(after) + 1, sight);
     notifyListeners();
   }
 }
@@ -77,28 +93,57 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 width: double.infinity,
                 child: context.watch<VisitingState>().wontList.length > 0
                     ? Column(children: [
-                        for (var item in context.watch<VisitingState>().wontList)
-                          SightItem(
-                            item,
-                            onDismissed: (dismissDirection) => context.read<VisitingState>().removeWont(item.name),
-                            actions: [
-                              IconButton(
-                                onPressed: () {
-                                  print("Календарь");
-                                },
-                                icon: SvgPicture.asset(
-                                  ImagesPaths.calendar,
-                                  color: Theme.of(context).canvasColor,
-                                ),
+                        for (var item
+                            in context.watch<VisitingState>().wontList)
+                          Column(
+                            children: [
+                              SightItem(
+                                item,
+                                onDismissed: (dismissDirection) => context
+                                    .read<VisitingState>()
+                                    .removeWont(item.name),
+                                actions: [
+                                  IconButton(
+                                    onPressed: () {
+                                      print("Календарь");
+                                    },
+                                    icon: SvgPicture.asset(
+                                      ImagesPaths.calendar,
+                                      color: Theme.of(context).canvasColor,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      context
+                                          .read<VisitingState>()
+                                          .removeWont(item.name);
+                                    },
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: Theme.of(context).canvasColor,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              IconButton(
-                                onPressed: () {
-                                  context.read<VisitingState>().removeWont(item.name);
+                              DragTarget<Sight>(
+                                onAccept: (sight) {
+                                  print(
+                                      "отпустил ${sight.name} под ${item.name}");
+                                  context
+                                    .read<VisitingState>()
+                                    .moveWont(item, sight);
                                 },
-                                icon: Icon(
-                                  Icons.close,
-                                  color: Theme.of(context).canvasColor,
-                                ),
+                                builder: (context, a, b) {
+                                  // КОнтейнер для приема виджета при сортировке
+                                  return Container(
+                                    width: double.infinity,
+                                    height: 20,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Theme.of(context).backgroundColor,
+                                    ),
+                                  ); // : SizedBox.shrink();
+                                },
                               ),
                             ],
                           ),
@@ -112,10 +157,13 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 width: double.infinity,
                 child: context.watch<VisitingState>().visitList.length > 0
                     ? Column(children: [
-                        for (var item in context.watch<VisitingState>().visitList)
+                        for (var item
+                            in context.watch<VisitingState>().visitList)
                           SightItem(
-                            item, 
-                            onDismissed: (dismissDirection) => context.read<VisitingState>().removeWont(item.name),
+                            item,
+                            onDismissed: (dismissDirection) => context
+                                .read<VisitingState>()
+                                .removeWont(item.name),
                             actions: [
                               IconButton(
                                 onPressed: () {
@@ -128,7 +176,9 @@ class _VisitingScreenState extends State<VisitingScreen> {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  context.read<VisitingState>().removeVisit(item.name);
+                                  context
+                                      .read<VisitingState>()
+                                      .removeVisit(item.name);
                                 },
                                 icon: Icon(
                                   Icons.close,
@@ -185,9 +235,9 @@ class VisitItem extends StatelessWidget {
                 right: 0,
                 child: IconButton(
                   onPressed: () {
-                    sight.wontVisit 
-                    ? context.read<VisitingState>().removeWont(sight.name)
-                    : context.read<VisitingState>().removeVisit(sight.name);
+                    sight.wontVisit
+                        ? context.read<VisitingState>().removeWont(sight.name)
+                        : context.read<VisitingState>().removeVisit(sight.name);
                   },
                   icon: Icon(
                     Icons.close,
