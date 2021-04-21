@@ -11,24 +11,35 @@ import '../../domain/sight.dart';
 import 'package:provider/provider.dart';
 
 class VisitingState with ChangeNotifier {
-
   List<Sight> _wontList = mocks.where((f) => f.wontVisit).toList();
   List<Sight> _visitList = mocks.where((f) => f.visit).toList();
 
   List<Sight> get wontList => _wontList;
   List<Sight> get visitList => _visitList;
 
+  bool _showTarget = false;
+
+  void togleShowTarget() {
+    _showTarget = !_showTarget;
+    notifyListeners();
+  }
+
+  bool get wontDragTarget => _wontList.length > 1 && _showTarget;
+  bool get visitDragTarget => _visitList.length > 1 && _showTarget;
+
   //TODO: когда появятся идентификаторы мест, пердлать на них.
-  void removeWont(String name) {
+  void removeWont(Sight sight) {
     for (var i = 0; i < mocks.length; i++)
-      if (mocks[i].name == name) mocks[i].wontDate = null;
+      if (mocks[i].name == sight.name) mocks[i].wontDate = null;
+    _wontList.remove(sight);
     notifyListeners();
   }
 
   //TODO: когда появятся идентификаторы мест, пердлать на них.
-  void removeVisit(String name) {
+  void removeVisit(Sight sight) {
     for (var i = 0; i < mocks.length; i++)
-      if (mocks[i].name == name) mocks[i].visitDate = null;
+      if (mocks[i].name == sight.name) mocks[i].visitDate = null;
+    _visitList.remove(sight);
     notifyListeners();
   }
 
@@ -101,8 +112,28 @@ class _VisitingScreenState extends State<VisitingScreen> {
                                 item,
                                 onDismissed: (dismissDirection) => context
                                     .read<VisitingState>()
-                                    .removeWont(item.name),
+                                    .removeWont(item),
                                 actions: [
+                                  Draggable<Sight>(
+                                    data: item,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8),
+                                      child: Icon(
+                                        Icons.sort,
+                                        color: Theme.of(context).canvasColor,
+                                      ),
+                                    ),
+                                    feedback: Container(
+                                      child: SightItem(item),
+                                      width: 300,
+                                    ),
+                                    onDragStarted: () {
+                                      context.read<VisitingState>().togleShowTarget();
+                                    },
+                                    onDragEnd: (details) {
+                                      context.read<VisitingState>().togleShowTarget();
+                                    },
+                                  ),
                                   IconButton(
                                     onPressed: () {
                                       print("Календарь");
@@ -116,7 +147,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                                     onPressed: () {
                                       context
                                           .read<VisitingState>()
-                                          .removeWont(item.name);
+                                          .removeWont(item);
                                     },
                                     icon: Icon(
                                       Icons.close,
@@ -127,17 +158,18 @@ class _VisitingScreenState extends State<VisitingScreen> {
                               ),
                               DragTarget<Sight>(
                                 onAccept: (sight) {
-                                  print(
-                                      "отпустил ${sight.name} под ${item.name}");
                                   context
-                                    .read<VisitingState>()
-                                    .moveWont(item, sight);
+                                      .read<VisitingState>()
+                                      .moveWont(item, sight);
                                 },
                                 builder: (context, a, b) {
-                                  // КОнтейнер для приема виджета при сортировке
                                   return Container(
                                     width: double.infinity,
-                                    height: 20,
+                                    height: context
+                                            .watch<VisitingState>()
+                                            .wontDragTarget
+                                        ? 20
+                                        : 0,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12),
                                       color: Theme.of(context).backgroundColor,
@@ -161,10 +193,23 @@ class _VisitingScreenState extends State<VisitingScreen> {
                             in context.watch<VisitingState>().visitList)
                           SightItem(
                             item,
-                            onDismissed: (dismissDirection) => context
-                                .read<VisitingState>()
-                                .removeWont(item.name),
+                            onDismissed: (dismissDirection) =>
+                                context.read<VisitingState>().removeWont(item),
                             actions: [
+                              Draggable<Sight>(
+                                data: item,
+                                child: Padding(
+                                  padding: EdgeInsets.all(8),
+                                  child: Icon(
+                                    Icons.sort,
+                                    color: Theme.of(context).canvasColor,
+                                  ),
+                                ),
+                                feedback: Container(
+                                  child: SightItem(item),
+                                  width: 300,
+                                ),
+                              ),
                               IconButton(
                                 onPressed: () {
                                   print("Поделиться");
@@ -178,7 +223,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                                 onPressed: () {
                                   context
                                       .read<VisitingState>()
-                                      .removeVisit(item.name);
+                                      .removeVisit(item);
                                 },
                                 icon: Icon(
                                   Icons.close,
@@ -195,125 +240,6 @@ class _VisitingScreenState extends State<VisitingScreen> {
         ),
         bottomNavigationBar: BottomNavigation(),
       ),
-    );
-  }
-}
-
-class VisitItem extends StatelessWidget {
-  final Sight sight;
-  const VisitItem(this.sight, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(bottom: 16),
-      child: Column(children: [
-        Container(
-          child: Stack(
-            children: [
-              Container(
-                  width: double.infinity,
-                  height: 96,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
-                    ),
-                    child: ImageNetwork(sight.url, fit: BoxFit.fitWidth),
-                  )),
-              Container(
-                margin: EdgeInsets.only(top: 16, left: 16),
-                child: Text(
-                  sight.type,
-                  style: TextStyleSet()
-                      .textRegular
-                      .copyWith(color: Theme.of(context).canvasColor),
-                ),
-              ),
-              Positioned(
-                right: 0,
-                child: IconButton(
-                  onPressed: () {
-                    sight.wontVisit
-                        ? context.read<VisitingState>().removeWont(sight.name)
-                        : context.read<VisitingState>().removeVisit(sight.name);
-                  },
-                  icon: Icon(
-                    Icons.close,
-                    color: Theme.of(context).canvasColor,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 36,
-                child: IconButton(
-                  onPressed: () {
-                    print(sight.wontVisit ? "Календарь" : "Поделиться");
-                  },
-                  icon: SvgPicture.asset(
-                    sight.wontVisit ? ImagesPaths.calendar : ImagesPaths.share,
-                    color: Theme.of(context).canvasColor,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          width: double.infinity,
-          height: 102,
-          padding: EdgeInsets.all(16),
-          decoration: BoxDecoration(
-              color: Theme.of(context).backgroundColor,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(16),
-                bottomRight: Radius.circular(16),
-              )),
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                child: Text(
-                  sight.name,
-                  style: TextStyleSet()
-                      .textMedium16
-                      .copyWith(color: Theme.of(context).secondaryHeaderColor),
-                  textAlign: TextAlign.left,
-                  maxLines: 2,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 2),
-                width: double.infinity,
-                height: 28,
-                child: Text(
-                  sight.wontVisit
-                      ? "Запланировано на 12 окт. 2020"
-                      : "Цель достигнута 12 окт. 2020",
-                  style: TextStyleSet().textRegular.copyWith(
-                        color: sight.wontVisit
-                            ? Theme.of(context).accentColor
-                            : Theme.of(context).hintColor,
-                      ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 2),
-                width: double.infinity,
-                child: Text(
-                  "закрыто до 09:00",
-                  style: TextStyleSet()
-                      .textRegular
-                      .copyWith(color: Theme.of(context).hintColor),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ]),
     );
   }
 }
