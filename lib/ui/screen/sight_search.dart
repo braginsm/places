@@ -147,7 +147,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             image: DecorationImage(
-                              image: Image.network(item.url).image,
+                              image: Image.network(item.url[0]).image,
                               fit: BoxFit.cover,
                             ),
                           ),

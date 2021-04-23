@@ -70,7 +70,7 @@ class SightItem extends StatelessWidget {
                     Container(
                         width: double.infinity,
                         height: 96,
-                        child: ImageNetwork(sight.url, fit: BoxFit.fitWidth),
+                        child: ImageNetwork(sight.url[0], fit: BoxFit.fitWidth),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 16, left: 16),

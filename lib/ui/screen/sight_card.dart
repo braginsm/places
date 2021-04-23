@@ -23,7 +23,7 @@ class SightCard extends StatelessWidget {
                 children: [
                   Container(
                     width: double.infinity,
-                    child: ImageNetwork(sight.url, fit: BoxFit.fitWidth),
+                    child: ImageNetwork(sight.url[0], fit: BoxFit.fitWidth),
                   ),
                   Positioned(
                       top: 36,
