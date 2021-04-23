@@ -13,6 +13,7 @@ final lightThema = ThemeData(
   unselectedWidgetColor: ColorsLightSet.inactiveBlack,
   backgroundColor: ColorsLightSet.grey,
   indicatorColor: ColorsLightSet.yellow,
+  errorColor: ColorsLightSet.red,
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     selectedItemColor: ColorsLightSet.main,
     showSelectedLabels: false,
