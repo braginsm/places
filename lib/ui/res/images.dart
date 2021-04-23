@@ -3,6 +3,9 @@ class ImagesPaths {
   static List<String> ticks = [
     for (var i = 0; i < 6; i++) "res/images/tick_$i.svg"
   ];
+  static List<String> tutorial = [
+    for (var i = 0; i < 3; i++) "res/images/tutorial_$i.svg"
+  ];
   static String info = "res/images/info.svg";
   static String buildRoute = "res/images/build_route.svg";
   static String toPlan = "res/images/to_plan.svg";
