@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/images.dart';
+import 'package:places/ui/screen/add_sight.dart';
 import 'package:places/ui/screen/sight_search.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
@@ -34,7 +35,10 @@ class _SightListScreenState extends State<SightListScreen> {
           child: SearchBar(
               readOnly: true,
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SightSearchScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SightSearchScreen()));
               }),
           preferredSize: Size(double.infinity, 64),
         ),
@@ -45,25 +49,30 @@ class _SightListScreenState extends State<SightListScreen> {
         child: Stack(
           alignment: AlignmentDirectional.bottomCenter,
           children: [
-            SingleChildScrollView(
-              child: Column(children: [
-                for (var item in mocks) SightItem(item, actions: [
-                  IconButton(
-                    onPressed: () {
-                      print("В избранное");
-                    },
-                    icon: SvgPicture.asset(
-                      ImagesPaths.favorite,
-                      color: Theme.of(context).canvasColor,
-                    ),
-                  ),
-                ],),
-              ]),
-            ),
+            ListView.builder(
+                itemCount: mocks.length,
+                itemBuilder: (context, index) {
+                  final item = mocks[index];
+                  return SightItem(
+                    item,
+                    actions: [
+                      IconButton(
+                        onPressed: () {
+                          print("В избранное");
+                        },
+                        icon: SvgPicture.asset(
+                          ImagesPaths.favorite,
+                          color: Theme.of(context).canvasColor,
+                        ),
+                      ),
+                    ],
+                  );
+                }),
             Positioned(
               bottom: 16,
               child: InkWell(
-                onTap: () => print("Добавить новое место"),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddSightScreen())),
                 child: Container(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
