@@ -85,6 +85,11 @@ final lightThema = ThemeData(
   textSelectionTheme: TextSelectionThemeData(
     cursorColor: ColorsLightSet.main,
   ),
+  scrollbarTheme: ScrollbarThemeData(
+    thumbColor: MaterialStateProperty.all(ColorsLightSet.main),
+    radius: Radius.circular(8),
+    thickness: MaterialStateProperty.all(8),
+  ),
 );
 
 final darkThema = ThemeData(
