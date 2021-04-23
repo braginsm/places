@@ -190,7 +190,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                               item,
                               onDismissed: (dismissDirection) => context
                                   .read<VisitingState>()
-                                  .removeWont(item),
+                                  .removeVisit(item),
                               actions: [
                                 Draggable<Sight>(
                                   data: item,
