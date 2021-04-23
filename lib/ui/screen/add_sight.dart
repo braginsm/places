@@ -271,7 +271,7 @@ class AddImageItem extends StatefulWidget {
 class _AddImageItemState extends State<AddImageItem> {
   @override
   Widget build(BuildContext context) {
-    return (widget.img == null || widget.img.length == 0)
+    return (widget.img == null || widget.img.isEmpty)
         ? IconButton(
             icon: SvgPicture.asset(ImagesPaths.plus),
             iconSize: 72,

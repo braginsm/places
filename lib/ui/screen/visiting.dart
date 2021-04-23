@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/widgets/empty_list.dart';
-import 'package:places/ui/screen/widgets/image_network.dart';
 import 'package:places/ui/screen/widgets/sight_item.dart';
 import '../res/text_styles.dart';
 import '../../mocks.dart';
