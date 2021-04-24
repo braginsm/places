@@ -58,155 +58,173 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
           preferredSize: Size(double.infinity, 64),
         ),
       ),
-      body: context.watch<SightSearchState>().showPreloader ? Center(
-        child: CircularProgressIndicator(),
-      ) : SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (searchHistory.length > 0)
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "ВЫ ИСКАЛИ",
-                      style: TextStyleSet().textRegular.copyWith(
-                          color: Theme.of(context).unselectedWidgetColor),
-                    ),
-                    for (var i = 0; i < searchHistory.length; i++)
-                      Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: InkWell(
-                              onTap: () {
-                                searchController.text = searchHistory[i].name;
-                              },
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    searchHistory[i].name,
-                                    style: TextStyleSet()
-                                        .textRegular16
-                                        .copyWith(
-                                          color: Theme.of(context).hintColor,
-                                        ),
-                                  ),
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.close,
-                                      color: Theme.of(context).hintColor,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        searchHistory.removeAt(i);
-                                      });
-                                    },
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          if (i < searchHistory.length - 1) Delimer(),
-                        ],
-                      ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          searchHistory.clear();
-                          searchController.clear();
-                        });
-                      },
-                      child: Text(
-                        "Очистить историю",
-                        style: TextStyleSet().textMedium16.copyWith(
-                              color: Theme.of(context).accentColor,
-                            ),
-                      ),
-                      style: TextButton.styleFrom(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            if (context.watch<SightSearchState>().searchResult.length > 0)
-              Column(
-                children: [
-                  for (var item
-                      in context.watch<SightSearchState>().searchResult)
-                    ListTile(
-                        leading: Container(
-                          width: 56,
-                          height: 56,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            image: DecorationImage(
-                              image: Image.network(item.url[0]).image,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        title: Text(
-                          item.name,
-                          style: TextStyleSet().textMedium16,
-                        ),
-                        subtitle: Text(
-                          item.type,
-                          style: TextStyleSet().textRegular.copyWith(
-                                color: Theme.of(context).hintColor,
-                              ),
-                        ),
-                        onTap: () {
-                          setState(() {
-                            searchHistory.remove(item);
-                            searchHistory.insert(0, item);
-                          });
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SightCard(item)));
-                        }),
-                ],
-              )
-            else
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  //crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(32),
-                      child: SvgPicture.asset(
-                        ImagesPaths.search,
-                        height: 50,
-                        width: 50,
-                      ),
-                    ),
-                    Text(
-                      "Ничего не найдено.",
-                      style: TextStyleSet().textMedium18.copyWith(
-                          color: Theme.of(context).unselectedWidgetColor),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Text(
-                        "Попробуйте изменить параметры поиска",
+      body: context.watch<SightSearchState>().showPreloader
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (searchHistory.length > 0)
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "ВЫ ИСКАЛИ",
                         style: TextStyleSet().textRegular.copyWith(
                             color: Theme.of(context).unselectedWidgetColor),
                       ),
-                    ),
-                  ],
+                      Container(
+                        height: 64.0 * searchHistory.length,
+                        child: ListView.builder(
+                          itemCount: searchHistory.length,
+                          itemBuilder: (context, index) {
+                            final item = searchHistory[index];
+                            return Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(vertical: 8),
+                                  child: InkWell(
+                                    onTap: () {
+                                      searchController.text = item.name;
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          item.name,
+                                          style: TextStyleSet()
+                                              .textRegular16
+                                              .copyWith(
+                                                color: Theme.of(context)
+                                                    .hintColor,
+                                              ),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.close,
+                                            color:
+                                                Theme.of(context).hintColor,
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              searchHistory.removeAt(index);
+                                            });
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                if (index < searchHistory.length - 1)
+                                  Delimer(),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            searchHistory.clear();
+                            searchController.clear();
+                          });
+                        },
+                        child: Text(
+                          "Очистить историю",
+                          style: TextStyleSet().textMedium16.copyWith(
+                                color: Theme.of(context).accentColor,
+                              ),
+                        ),
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 0, vertical: 8),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-          ],
-        ),
-      ),
+              if (context.watch<SightSearchState>().searchResult.isNotEmpty)
+                Flexible(
+                  child: ListView.builder(
+                    itemCount:
+                        context.watch<SightSearchState>().searchResult.length,
+                    itemBuilder: (context, index) {
+                      final item = context
+                          .watch<SightSearchState>()
+                          .searchResult[index];
+                      return ListTile(
+                          leading: Container(
+                            width: 56,
+                            height: 56,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              image: DecorationImage(
+                                image: Image.network(item.url[0]).image,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          title: Text(
+                            item.name,
+                            style: TextStyleSet().textMedium16,
+                          ),
+                          subtitle: Text(
+                            item.type,
+                            style: TextStyleSet().textRegular.copyWith(
+                                  color: Theme.of(context).hintColor,
+                                ),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              searchHistory.remove(item);
+                              searchHistory.insert(0, item);
+                            });
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SightCard(item)));
+                          });
+                    },
+                  ),
+                )
+              else
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    //crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(32),
+                        child: SvgPicture.asset(
+                          ImagesPaths.search,
+                          height: 50,
+                          width: 50,
+                        ),
+                      ),
+                      Text(
+                        "Ничего не найдено.",
+                        style: TextStyleSet().textMedium18.copyWith(
+                            color: Theme.of(context).unselectedWidgetColor),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Text(
+                          "Попробуйте изменить параметры поиска",
+                          style: TextStyleSet().textRegular.copyWith(
+                              color:
+                                  Theme.of(context).unselectedWidgetColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
       bottomNavigationBar: BottomNavigation(),
     );
   }
@@ -223,7 +241,8 @@ class SightSearchState with ChangeNotifier {
 
   void search(String value) {
     showPreloader = true;
-    Timer(Duration(seconds: 3), () { // таймаут вместо запроса из сети
+    Timer(Duration(seconds: 3), () {
+      // таймаут вместо запроса из сети
       _searchResult = value.length > 0
           ? mocks
               .where((element) =>

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/images.dart';
+import 'package:places/ui/screen/add_sight.dart';
 import 'package:places/ui/screen/sight_search.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
@@ -34,66 +35,73 @@ class _SightListScreenState extends State<SightListScreen> {
           child: SearchBar(
               readOnly: true,
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SightSearchScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SightSearchScreen()));
               }),
           preferredSize: Size(double.infinity, 64),
         ),
       ),
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16),
-        width: double.infinity,
-        child: Stack(
-          alignment: AlignmentDirectional.bottomCenter,
-          children: [
-            SingleChildScrollView(
-              child: Column(children: [
-                for (var item in mocks) SightItem(item, actions: [
-                  IconButton(
-                    onPressed: () {
-                      print("В избранное");
-                    },
-                    icon: SvgPicture.asset(
-                      ImagesPaths.favorite,
-                      color: Theme.of(context).canvasColor,
-                    ),
-                  ),
-                ],),
-              ]),
-            ),
-            Positioned(
-              bottom: 16,
-              child: InkWell(
-                onTap: () => print("Добавить новое место"),
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: Theme.of(context).tabBarTheme.labelColor,
+      body: Stack(
+        alignment: AlignmentDirectional.bottomCenter,
+        children: [
+          ListView.builder(
+              itemCount: mocks.length,
+              itemBuilder: (context, index) {
+                final item = mocks[index];
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: SightItem(
+                    item,
+                    actions: [
+                      IconButton(
+                        onPressed: () {
+                          print("В избранное");
+                        },
+                        icon: SvgPicture.asset(
+                          ImagesPaths.favorite,
+                          color: Theme.of(context).canvasColor,
                         ),
-                        Text(
-                          " НОВОЕ МЕСТО",
-                          style: TextStyleSet().textBold.copyWith(
-                              color: Theme.of(context).tabBarTheme.labelColor),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    gradient: LinearGradient(colors: [
-                      Theme.of(context).indicatorColor,
-                      Theme.of(context).accentColor
-                    ]),
+                );
+              }),
+          Positioned(
+            bottom: 16,
+            child: InkWell(
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AddSightScreen())),
+              child: Container(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 12, horizontal: 16),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.add,
+                        color: Theme.of(context).tabBarTheme.labelColor,
+                      ),
+                      Text(
+                        " НОВОЕ МЕСТО",
+                        style: TextStyleSet().textBold.copyWith(
+                            color: Theme.of(context).tabBarTheme.labelColor),
+                      ),
+                    ],
                   ),
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  gradient: LinearGradient(colors: [
+                    Theme.of(context).indicatorColor,
+                    Theme.of(context).accentColor
+                  ]),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigation(),
     );
