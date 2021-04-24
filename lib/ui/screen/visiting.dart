@@ -97,148 +97,183 @@ class _VisitingScreenState extends State<VisitingScreen> {
         ),
         body: TabBarView(
           children: [
-            SingleChildScrollView(
-              child: Container(
-                margin: EdgeInsets.all(16),
-                width: double.infinity,
-                child: context.watch<VisitingState>().wontList.length > 0
-                    ? Column(children: [
-                        for (var item
-                            in context.watch<VisitingState>().wontList)
-                          Column(
-                            children: [
-                              SightItem(
-                                item,
-                                onDismissed: (dismissDirection) => context
-                                    .read<VisitingState>()
-                                    .removeWont(item),
-                                actions: [
-                                  Draggable<Sight>(
-                                    data: item,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(8),
-                                      child: Icon(
-                                        Icons.sort,
-                                        color: Theme.of(context).canvasColor,
-                                      ),
-                                    ),
-                                    feedback: Container(
-                                      child: SightItem(item),
-                                      width: 300,
-                                    ),
-                                    onDragStarted: () {
-                                      context.read<VisitingState>().togleShowTarget();
-                                    },
-                                    onDragEnd: (details) {
-                                      context.read<VisitingState>().togleShowTarget();
-                                    },
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      print("Календарь");
-                                    },
-                                    icon: SvgPicture.asset(
-                                      ImagesPaths.calendar,
+            context.watch<VisitingState>().wontList.length > 0
+                ? ListView.builder(
+                    itemCount: context.watch<VisitingState>().wontList.length,
+                    itemBuilder: (context, index) {
+                      final item =
+                          context.watch<VisitingState>().wontList[index];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            SightItem(
+                              item,
+                              onDismissed: (dismissDirection) => context
+                                  .read<VisitingState>()
+                                  .removeWont(item),
+                              actions: [
+                                Draggable<Sight>(
+                                  data: item,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Icon(
+                                      Icons.sort,
                                       color: Theme.of(context).canvasColor,
                                     ),
                                   ),
-                                  IconButton(
-                                    onPressed: () {
-                                      context
-                                          .read<VisitingState>()
-                                          .removeWont(item);
-                                    },
-                                    icon: Icon(
-                                      Icons.close,
-                                      color: Theme.of(context).canvasColor,
-                                    ),
+                                  feedback: Container(
+                                    child: SightItem(item),
+                                    width: 300,
                                   ),
-                                ],
-                              ),
-                              DragTarget<Sight>(
-                                onAccept: (sight) {
-                                  context
-                                      .read<VisitingState>()
-                                      .moveWont(item, sight);
-                                },
-                                builder: (context, a, b) {
-                                  return Container(
-                                    width: double.infinity,
-                                    height: context
-                                            .watch<VisitingState>()
-                                            .wontDragTarget
-                                        ? 20
-                                        : 0,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: Theme.of(context).backgroundColor,
-                                    ),
-                                  ); // : SizedBox.shrink();
-                                },
-                              ),
-                            ],
-                          ),
-                      ])
-                    : EmptyListWont(),
-              ),
-            ),
-            SingleChildScrollView(
-              child: Container(
-                margin: EdgeInsets.all(16),
-                width: double.infinity,
-                child: context.watch<VisitingState>().visitList.length > 0
-                    ? Column(children: [
-                        for (var item
-                            in context.watch<VisitingState>().visitList)
-                          SightItem(
-                            item,
-                            onDismissed: (dismissDirection) =>
-                                context.read<VisitingState>().removeWont(item),
-                            actions: [
-                              Draggable<Sight>(
-                                data: item,
-                                child: Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Icon(
-                                    Icons.sort,
+                                  onDragStarted: () {
+                                    context
+                                        .read<VisitingState>()
+                                        .togleShowTarget();
+                                  },
+                                  onDragEnd: (details) {
+                                    context
+                                        .read<VisitingState>()
+                                        .togleShowTarget();
+                                  },
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    print("Календарь");
+                                  },
+                                  icon: SvgPicture.asset(
+                                    ImagesPaths.calendar,
                                     color: Theme.of(context).canvasColor,
                                   ),
                                 ),
-                                feedback: Container(
-                                  child: SightItem(item),
-                                  width: 300,
+                                IconButton(
+                                  onPressed: () {
+                                    context
+                                        .read<VisitingState>()
+                                        .removeWont(item);
+                                  },
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: Theme.of(context).canvasColor,
+                                  ),
                                 ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  print("Поделиться");
-                                },
-                                icon: SvgPicture.asset(
-                                  ImagesPaths.share,
-                                  color: Theme.of(context).canvasColor,
+                              ],
+                            ),
+                            VisitingDragTarget(
+                              item: item,
+                              onAccept: (sight) {
+                                context
+                                    .read<VisitingState>()
+                                    .moveWont(item, sight);
+                              },
+                              show: context
+                                          .watch<VisitingState>()
+                                          .wontDragTarget,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  )
+                : EmptyListWont(),
+            context.watch<VisitingState>().visitList.length > 0
+                ? ListView.builder(
+                    itemCount: context.watch<VisitingState>().visitList.length,
+                    itemBuilder: (context, index) {
+                      final item =
+                          context.watch<VisitingState>().visitList[index];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            SightItem(
+                              item,
+                              onDismissed: (dismissDirection) => context
+                                  .read<VisitingState>()
+                                  .removeWont(item),
+                              actions: [
+                                Draggable<Sight>(
+                                  data: item,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Icon(
+                                      Icons.sort,
+                                      color: Theme.of(context).canvasColor,
+                                    ),
+                                  ),
+                                  feedback: Container(
+                                    child: SightItem(item),
+                                    width: 300,
+                                  ),
                                 ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  context
-                                      .read<VisitingState>()
-                                      .removeVisit(item);
-                                },
-                                icon: Icon(
-                                  Icons.close,
-                                  color: Theme.of(context).canvasColor,
+                                IconButton(
+                                  onPressed: () {
+                                    print("Поделиться");
+                                  },
+                                  icon: SvgPicture.asset(
+                                    ImagesPaths.share,
+                                    color: Theme.of(context).canvasColor,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                      ])
-                    : EmptyListVisited(),
-              ),
-            ),
+                                IconButton(
+                                  onPressed: () {
+                                    context
+                                        .read<VisitingState>()
+                                        .removeVisit(item);
+                                  },
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: Theme.of(context).canvasColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            VisitingDragTarget(
+                              item: item,
+                              onAccept: (sight) {
+                                context
+                                    .read<VisitingState>()
+                                    .moveVizit(item, sight);
+                              },
+                              show: context
+                                          .watch<VisitingState>()
+                                          .visitDragTarget,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  )
+                : EmptyListVisited(),
           ],
         ),
         bottomNavigationBar: BottomNavigation(),
       ),
+    );
+  }
+}
+
+class VisitingDragTarget extends StatelessWidget {
+  final Sight item;
+  final bool show;
+  final Function onAccept;
+  const VisitingDragTarget({Key key, @required this.item, this.show, this.onAccept(sight)})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DragTarget<Sight>(
+      onAccept: onAccept,
+      builder: (context, a, b) {
+        return Container(
+          width: double.infinity,
+          height: show ? 20 : 0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: Theme.of(context).backgroundColor,
+          ),
+        ); // : SizedBox.shrink();
+      },
     );
   }
 }
