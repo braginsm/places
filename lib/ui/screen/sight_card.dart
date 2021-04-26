@@ -17,9 +17,6 @@ class SightCard extends StatelessWidget {
         slivers: [
           SliverAppBar(
             automaticallyImplyLeading: false,
-            //pinned: true,
-            //snap: true,
-            //floating: true,
             expandedHeight: 360,
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
