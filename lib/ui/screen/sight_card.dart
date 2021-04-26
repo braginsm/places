@@ -16,14 +16,23 @@ class SightCard extends StatelessWidget {
       appBar: PreferredSize(
           preferredSize: Size(double.infinity, 360),
           child: AspectRatio(
-            aspectRatio: 3 / 2,
+            aspectRatio: 1 / 2,
             child: Container(
               width: double.infinity,
               child: Stack(
                 children: [
-                  Container(
-                    width: double.infinity,
-                    child: ImageNetwork(sight.url, fit: BoxFit.fitWidth),
+                  Scrollbar(
+                    isAlwaysShown: true,
+                    child: PageView.builder(
+                      itemCount: sight.url.length,
+                      itemBuilder: (context, index) {
+                        final item = sight.url[index];
+                        return Container(
+                          width: double.infinity,
+                          child: ImageNetwork(item, fit: BoxFit.fitWidth),
+                        );
+                      },
+                    ),
                   ),
                   Positioned(
                       top: 36,
@@ -131,7 +140,8 @@ class SightCard extends StatelessWidget {
                 margin: EdgeInsets.only(bottom: 24),
                 width: double.infinity,
                 height: 1.6,
-                color: Theme.of(context).unselectedWidgetColor.withOpacity(0.24),
+                color:
+                    Theme.of(context).unselectedWidgetColor.withOpacity(0.24),
               ),
               Container(
                 child: Row(
@@ -177,7 +187,8 @@ class SightCard extends StatelessWidget {
                             Text(
                               'В Избранное',
                               style: TextStyleSet().textRegular.copyWith(
-                                    color: Theme.of(context).secondaryHeaderColor,
+                                    color:
+                                        Theme.of(context).secondaryHeaderColor,
                                   ),
                             ),
                           ],

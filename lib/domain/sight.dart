@@ -8,7 +8,7 @@ class Sight {
   double lat = 0, lon = 0;
 
   ///путь до фотографии в интернете
-  String url = "";
+  List<String> url = [];
 
   ///описание достопримечательности
   String details = "";
