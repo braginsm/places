@@ -28,15 +28,20 @@ class _SightListScreenState extends State<SightListScreen> {
               leadingWidth: 0,
               pinned: true,
               automaticallyImplyLeading: false,
-              expandedHeight: 200,
+              expandedHeight: 150,
               flexibleSpace: FlexibleSpaceBar(
-                title: Container(
-                  child: Text(
-                    "Список интересных мест",
-                    maxLines: 2,
-                  )
+                title: Text(
+                  "Список интересных мест",
+                  maxLines: 2,
                 ),
-                background: SearchBar(
+                centerTitle: true,
+                titlePadding: EdgeInsets.all(16),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: PreferredSize(
+                preferredSize: Size(double.infinity, 64),
+                child: SearchBar(
                   readOnly: true,
                   onTap: () {
                     Navigator.push(
