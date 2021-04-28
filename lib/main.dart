@@ -5,6 +5,7 @@ import 'package:places/ui/screen/filters.dart';
 import 'package:places/ui/screen/onboarding.dart';
 import 'package:places/ui/screen/settings.dart';
 import 'package:places/ui/screen/sight_search.dart';
+import 'package:places/ui/screen/splash.dart';
 import 'package:provider/provider.dart';
 
 import 'mocks.dart';
@@ -55,7 +56,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: context.watch<MainState>().theme,
-      home: OnboardingScreen(),
+      home: SplashScreen(),
       title: "Places",
     );
   }
