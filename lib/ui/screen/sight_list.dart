@@ -21,87 +21,104 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Column(
+      body: SafeArea(
+        child: Stack(
+          alignment: AlignmentDirectional.bottomCenter,
           children: [
-            Padding(
-              padding: EdgeInsets.all(16),
-              child: Text("Список интересных мест"),
-            ),
-          ],
-        ),
-        centerTitle: true,
-        bottom: PreferredSize(
-          child: SearchBar(
-              readOnly: true,
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SightSearchScreen()));
-              }),
-          preferredSize: Size(double.infinity, 64),
-        ),
-      ),
-      body: Stack(
-        alignment: AlignmentDirectional.bottomCenter,
-        children: [
-          ListView.builder(
-              itemCount: mocks.length,
-              itemBuilder: (context, index) {
-                final item = mocks[index];
-                return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: SightItem(
-                    item,
-                    actions: [
-                      IconButton(
-                        onPressed: () {
-                          print("В избранное");
-                        },
-                        icon: SvgPicture.asset(
-                          ImagesPaths.favorite,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-          Positioned(
-            bottom: 16,
-            child: InkWell(
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AddSightScreen())),
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 12, horizontal: 16),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.add,
-                        color: Theme.of(context).tabBarTheme.labelColor,
-                      ),
-                      Text(
-                        " НОВОЕ МЕСТО",
-                        style: TextStyleSet().textBold.copyWith(
-                            color: Theme.of(context).tabBarTheme.labelColor),
-                      ),
-                    ],
+            CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  leadingWidth: 0,
+                  pinned: true,
+                  automaticallyImplyLeading: false,
+                  expandedHeight: 150,
+                  flexibleSpace: FlexibleSpaceBar(
+                    title: Text(
+                      "Список интересных мест",
+                      maxLines: 2,
+                    ),
+                    centerTitle: true,
+                    titlePadding: EdgeInsets.all(16),
                   ),
                 ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
-                  gradient: LinearGradient(colors: [
-                    Theme.of(context).indicatorColor,
-                    Theme.of(context).accentColor
-                  ]),
+                SliverToBoxAdapter(
+                  child: PreferredSize(
+                    preferredSize: Size(double.infinity, 64),
+                    child: SearchBar(
+                      readOnly: true,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SightSearchScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      final item = mocks[index];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: SightItem(
+                          item,
+                          actions: [
+                            IconButton(
+                              onPressed: () {
+                                print("В избранное");
+                              },
+                              icon: SvgPicture.asset(
+                                ImagesPaths.favorite,
+                                color: Theme.of(context).canvasColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    childCount: mocks.length,
+                  ),
+                ),
+              ],
+            ),
+            Positioned(
+              bottom: 16,
+              child: InkWell(
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddSightScreen())),
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.add,
+                          color: Theme.of(context).tabBarTheme.labelColor,
+                        ),
+                        Text(
+                          " НОВОЕ МЕСТО",
+                          style: TextStyleSet().textBold.copyWith(
+                              color: Theme.of(context).tabBarTheme.labelColor),
+                        ),
+                      ],
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    gradient: LinearGradient(colors: [
+                      Theme.of(context).indicatorColor,
+                      Theme.of(context).accentColor
+                    ]),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigation(),
     );
