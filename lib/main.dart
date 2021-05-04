@@ -33,7 +33,6 @@ void main() {
       child: App(),
     ),
   );
-  //runApp(App());
 }
 
 class MainState with ChangeNotifier {

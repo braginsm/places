@@ -35,10 +35,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       appBar: AppBar(
         actions: [
           TextButton(
-            onPressed: () => Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => SightListScreen()),
-                (route) => false),
+            onPressed: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => SightListScreen()),
+            ),
             child: Text(
               "Пропустить",
               style: TextStyleSet()
@@ -122,7 +122,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     height: 64,
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     child: (_tutorialItems.length == _curentPage + 1) ? ElevatedButton(
-                      onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (contex) => SightListScreen()), (route) => false),
+                      onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => SightListScreen(),),),
                       child: Container(
                         child: Padding(
                           padding: EdgeInsets.all(16),
