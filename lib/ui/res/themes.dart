@@ -90,6 +90,9 @@ final lightThema = ThemeData(
     radius: Radius.circular(8),
     thickness: MaterialStateProperty.all(8),
   ),
+  bottomSheetTheme: BottomSheetThemeData(
+    backgroundColor: Colors.transparent,
+  ),
 );
 
 final darkThema = ThemeData(
