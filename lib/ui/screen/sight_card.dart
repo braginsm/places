@@ -6,9 +6,16 @@ import 'package:places/ui/screen/widgets/image_network.dart';
 
 import '../res/text_styles.dart';
 
-class SightCard extends StatelessWidget {
+class SightCard extends StatefulWidget {
   final Sight sight;
   const SightCard(this.sight, {Key key}) : super(key: key);
+
+  @override
+  _SightCardState createState() => _SightCardState();
+}
+
+class _SightCardState extends State<SightCard> {
+  int _curentImage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -23,17 +30,41 @@ class SightCard extends StatelessWidget {
                 width: double.infinity,
                 child: Stack(
                   children: [
-                    Scrollbar(
-                      isAlwaysShown: true,
-                      child: PageView.builder(
-                        itemCount: sight.url.length,
-                        itemBuilder: (context, index) {
-                          final item = sight.url[index];
-                          return Container(
-                            width: double.infinity,
-                            child: ImageNetwork(item, fit: BoxFit.cover),
-                          );
-                        },
+                    PageView.builder(
+                      itemCount: widget.sight.url.length,
+                      onPageChanged: (value) {
+                        setState(() {
+                          _curentImage = value;
+                        });
+                      },
+                      itemBuilder: (context, index) {
+                        final item = widget.sight.url[index];
+                        return Container(
+                          width: double.infinity,
+                          child: ImageNetwork(item, fit: BoxFit.cover),
+                        );
+                      },
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      child: Container(
+                        height: 8,
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          children: [
+                            for (var i = 0; i < widget.sight.url.length; i++)
+                              Expanded(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: _curentImage == i
+                                        ? Theme.of(context).primaryColor
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                              )
+                          ],
+                        ),
                       ),
                     ),
                     Positioned(
@@ -42,7 +73,8 @@ class SightCard extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Theme.of(context).appBarTheme.backgroundColor,
+                            color:
+                                Theme.of(context).appBarTheme.backgroundColor,
                           ),
                           child: Center(
                             child: IconButton(
@@ -69,7 +101,7 @@ class SightCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    sight.name,
+                    widget.sight.name,
                     style: TextStyleSet()
                         .textBold24
                         .copyWith(color: Theme.of(context).primaryColor),
@@ -81,7 +113,7 @@ class SightCard extends StatelessWidget {
                     child: Row(
                       children: [
                         Text(
-                          sight.type,
+                          widget.sight.type,
                           style: TextStyleSet()
                               .textBold
                               .copyWith(color: Theme.of(context).hintColor),
@@ -92,7 +124,8 @@ class SightCard extends StatelessWidget {
                             child: Text(
                               "закрыто до 09:00",
                               style: TextStyleSet().textRegular.copyWith(
-                                    color: Theme.of(context).unselectedWidgetColor,
+                                    color:
+                                        Theme.of(context).unselectedWidgetColor,
                                   ),
                               maxLines: 1,
                             )),
@@ -102,10 +135,9 @@ class SightCard extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 24),
                     child: Text(
-                      sight.details,
-                      style: TextStyleSet()
-                          .textRegular
-                          .copyWith(color: Theme.of(context).secondaryHeaderColor),
+                      widget.sight.details,
+                      style: TextStyleSet().textRegular.copyWith(
+                          color: Theme.of(context).secondaryHeaderColor),
                     ),
                   ),
                   Container(
@@ -126,9 +158,8 @@ class SightCard extends StatelessWidget {
                               ),
                               Text(
                                 "ПОСТРОИТЬ МАРШРУТ",
-                                style: TextStyleSet()
-                                    .textBold
-                                    .copyWith(color: Theme.of(context).canvasColor),
+                                style: TextStyleSet().textBold.copyWith(
+                                    color: Theme.of(context).canvasColor),
                               ),
                             ],
                           ),
@@ -140,8 +171,9 @@ class SightCard extends StatelessWidget {
                     margin: EdgeInsets.only(bottom: 24),
                     width: double.infinity,
                     height: 1.6,
-                    color:
-                        Theme.of(context).unselectedWidgetColor.withOpacity(0.24),
+                    color: Theme.of(context)
+                        .unselectedWidgetColor
+                        .withOpacity(0.24),
                   ),
                   Container(
                     child: Row(
@@ -182,13 +214,14 @@ class SightCard extends StatelessWidget {
                                     padding: EdgeInsets.all(8),
                                     child: SvgPicture.asset(
                                       ImagesPaths.favorite,
-                                      color: Theme.of(context).secondaryHeaderColor,
+                                      color: Theme.of(context)
+                                          .secondaryHeaderColor,
                                     )),
                                 Text(
                                   'В Избранное',
                                   style: TextStyleSet().textRegular.copyWith(
-                                        color:
-                                            Theme.of(context).secondaryHeaderColor,
+                                        color: Theme.of(context)
+                                            .secondaryHeaderColor,
                                       ),
                                 ),
                               ],
