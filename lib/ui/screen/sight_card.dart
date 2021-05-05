@@ -31,7 +31,7 @@ class SightCard extends StatelessWidget {
                           final item = sight.url[index];
                           return Container(
                             width: double.infinity,
-                            child: ImageNetwork(item, fit: BoxFit.fitWidth),
+                            child: ImageNetwork(item, fit: BoxFit.cover),
                           );
                         },
                       ),
