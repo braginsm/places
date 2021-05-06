@@ -68,20 +68,19 @@ class _SightCardState extends State<SightCard> {
                       ),
                     ),
                     Positioned(
-                        top: 36,
-                        left: 16,
+                        top: 16,
+                        right: 16,
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(40),
                             color:
                                 Theme.of(context).appBarTheme.backgroundColor,
                           ),
                           child: Center(
                             child: IconButton(
                               icon: Icon(
-                                Icons.arrow_back_ios,
+                                Icons.clear_rounded,
                                 color: Theme.of(context).primaryColor,
-                                size: 15,
                               ),
                               onPressed: () {
                                 Navigator.pop(context);

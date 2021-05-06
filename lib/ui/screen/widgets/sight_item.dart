@@ -155,16 +155,16 @@ class SightItem extends StatelessWidget {
               child: InkWell(
                 splashColor: Theme.of(context).hintColor.withOpacity(0.56),
                 highlightColor: Colors.transparent,
-                onTap: () => showBottomSheet(
+                onTap: () => showModalBottomSheet(
                     context: context,
-                    builder: (context) {
+                    isScrollControlled: true,
+                    builder: (_) {
                       return BottomSheet(
                         builder: (BuildContext context) {
-                          return Container(
-                            height: MediaQuery.of(context).size.height - 200,
+                          return ConstrainedBox(
+                            constraints: BoxConstraints(maxHeight: 500),
                             child: Stack(
                               alignment: AlignmentDirectional.topCenter,
-
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.only(
