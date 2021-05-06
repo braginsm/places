@@ -6,6 +6,7 @@ import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/sight_card.dart';
 
 import 'package:intl/intl.dart';
+import 'package:places/ui/screen/widgets/sight_bottomsheet.dart';
 
 import 'image_network.dart';
 
@@ -156,40 +157,12 @@ class SightItem extends StatelessWidget {
                 splashColor: Theme.of(context).hintColor.withOpacity(0.56),
                 highlightColor: Colors.transparent,
                 onTap: () => showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (_) {
-                      return BottomSheet(
-                        builder: (BuildContext context) {
-                          return ConstrainedBox(
-                            constraints: BoxConstraints(maxHeight: 500),
-                            child: Stack(
-                              alignment: AlignmentDirectional.topCenter,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(16),
-                                    topRight: Radius.circular(16),
-                                  ),
-                                  child: SightCard(sight)
-                                ),
-                                Positioned(
-                                  child: Icon(
-                                    Icons.minimize_rounded,
-                                    color: Theme.of(context).backgroundColor,
-                                    size: 40,
-                                  ),
-                                  top: 12,
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                        onClosing: () {
-                          print("Bottomsheet close");
-                        },
-                      );
-                    }),
+                  context: context,
+                  builder: (_) {
+                    return SightBottomheet(sight: sight);
+                  },
+                  isScrollControlled: true,
+                ),
                 child: Container(
                   width: double.infinity,
                   height: 188,
