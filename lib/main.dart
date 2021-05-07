@@ -4,16 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/themes.dart';
 import 'package:places/ui/screen/add_sight.dart';
-import 'package:places/ui/screen/filters.dart';
-import 'package:places/ui/screen/onboarding.dart';
-import 'package:places/ui/screen/settings.dart';
 import 'package:places/ui/screen/sight_search.dart';
 import 'package:places/ui/screen/splash.dart';
 import 'package:provider/provider.dart';
-
-import 'mocks.dart';
-import 'ui/screen/sight_card.dart';
-import 'ui/screen/sight_list.dart';
 import 'ui/screen/visiting.dart';
 
 void main() {

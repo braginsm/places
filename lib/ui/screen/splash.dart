@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/ui/screen/onboarding.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
@@ -29,13 +30,28 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void _navigateToNext() {
+  Future<void> _navigateToNext() async {
     // имитация запроса данных
-    Future dataUpload = Future.delayed(Duration(seconds: 5), () => true);
-    
-    isInitialized = Future.delayed(
-            Duration(seconds: 2), () => "Переход на следующий экран")
-        .then((value) => dataUpload.then(
-            (val) => val ? print("${DateTime.now()} $value") : print("Error data not found")));
+    Future dataUpload = Future.delayed(Duration(seconds: 1), () => true);
+
+    try {
+      isInitialized = await Future.delayed(Duration(seconds: 2), () async {
+        if (await dataUpload) {
+          print("${DateTime.now()}");
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return OnboardingScreen();
+              },
+            ),
+          );
+        } else
+          throw Exception("Ошибка загрузки данных");
+        return;
+      });
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
