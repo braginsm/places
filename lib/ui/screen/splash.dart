@@ -30,17 +30,28 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void _navigateToNext() {
+  Future<void> _navigateToNext() async {
     // имитация запроса данных
-    Future dataUpload = Future.delayed(Duration(seconds: 5), () => true);
+    Future dataUpload = Future.delayed(Duration(seconds: 1), () => true);
 
-    isInitialized = Future.delayed(
-        Duration(seconds: 2),
-        () => Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) {
-              return OnboardingScreen();
-            },),),).then((value) => dataUpload.then((val) => val
-        ? print("${DateTime.now()} $value")
-        : print("Error data not found")));
+    try {
+      isInitialized = await Future.delayed(Duration(seconds: 2), () async {
+        if (await dataUpload) {
+          print("${DateTime.now()}");
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return OnboardingScreen();
+              },
+            ),
+          );
+        } else
+          throw Exception("Ошибка загрузки данных");
+        return;
+      });
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
