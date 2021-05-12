@@ -6,6 +6,7 @@ import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/sight_card.dart';
 
 import 'package:intl/intl.dart';
+import 'package:places/ui/screen/widgets/sight_bottomsheet.dart';
 
 import 'image_network.dart';
 
@@ -16,7 +17,8 @@ class SightItem extends StatelessWidget {
   const SightItem(
     this.sight, {
     Key key,
-    this.actions = const <Widget>[], this.onDismissed,
+    this.actions = const <Widget>[],
+    this.onDismissed,
   }) : super(key: key);
 
   @override
@@ -24,11 +26,13 @@ class SightItem extends StatelessWidget {
     return Dismissible(
       key: ValueKey(sight),
       onDismissed: onDismissed,
-      direction: onDismissed != null ? DismissDirection.endToStart : DismissDirection.none,
+      direction: onDismissed != null
+          ? DismissDirection.endToStart
+          : DismissDirection.none,
       background: Container(
         alignment: AlignmentDirectional.centerEnd,
         margin: EdgeInsets.symmetric(vertical: 8),
-        decoration: BoxDecoration( 
+        decoration: BoxDecoration(
           color: Theme.of(context).errorColor,
           borderRadius: BorderRadius.circular(12),
         ),
@@ -47,7 +51,9 @@ class SightItem extends StatelessWidget {
               ),
               Text(
                 "Удалить",
-                style: TextStyleSet().textMedium.copyWith(color: Theme.of(context).canvasColor),
+                style: TextStyleSet()
+                    .textMedium
+                    .copyWith(color: Theme.of(context).canvasColor),
               ),
             ],
           ),
@@ -68,9 +74,9 @@ class SightItem extends StatelessWidget {
                 child: Stack(
                   children: [
                     Container(
-                        width: double.infinity,
-                        height: 96,
-                        child: ImageNetwork(sight.url[0], fit: BoxFit.fitWidth),
+                      width: double.infinity,
+                      height: 96,
+                      child: ImageNetwork(sight.url[0], fit: BoxFit.fitWidth),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 16, left: 16),
@@ -96,9 +102,8 @@ class SightItem extends StatelessWidget {
                       width: double.infinity,
                       child: Text(
                         sight.name,
-                        style: TextStyleSet()
-                            .textMedium16
-                            .copyWith(color: Theme.of(context).secondaryHeaderColor),
+                        style: TextStyleSet().textMedium16.copyWith(
+                            color: Theme.of(context).secondaryHeaderColor),
                         textAlign: TextAlign.left,
                         maxLines: 2,
                       ),
@@ -151,7 +156,13 @@ class SightItem extends StatelessWidget {
               child: InkWell(
                 splashColor: Theme.of(context).hintColor.withOpacity(0.56),
                 highlightColor: Colors.transparent,
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SightCard(sight))),
+                onTap: () => showModalBottomSheet(
+                  context: context,
+                  builder: (_) {
+                    return SightBottomheet(sight: sight);
+                  },
+                  isScrollControlled: true,
+                ),
                 child: Container(
                   width: double.infinity,
                   height: 188,
