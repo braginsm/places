@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/mocks.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/widgets/image_network.dart';
 
@@ -16,6 +17,14 @@ class SightCard extends StatefulWidget {
 
 class _SightCardState extends State<SightCard> {
   int _curentImage = 0;
+
+  bool _inWont = false;
+
+  @override
+  void initState() {
+    _inWont = mocks[mocks.indexOf(widget.sight)].wontVisit;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,21 +189,44 @@ class _SightCardState extends State<SightCard> {
                         Expanded(
                           child: Center(
                             child: TextButton(
-                              onPressed: () {
-                                print("Запланировать");
+                              onPressed: () async {
+                                var res = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime.now(),
+                                  lastDate:
+                                      DateTime.now().add(Duration(days: 90)),
+                                );
+                                if (res != null) {
+                                  mocks[mocks.indexOf(widget.sight)].wontDate =
+                                      res;
+                                  setState(() {
+                                    _inWont = mocks[mocks.indexOf(widget.sight)].wontVisit;
+                                  });
+                                }
                               },
                               child: Row(
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(8),
-                                    child: SvgPicture.asset(ImagesPaths.toPlan),
+                                    child: SvgPicture.asset(
+                                      ImagesPaths.toPlan,
+                                      color: _inWont
+                                          ? Theme.of(context)
+                                              .hintColor
+                                              .withOpacity(0.56)
+                                          : Theme.of(context).primaryColor,
+                                    ),
                                   ),
                                   Text(
                                     'Запланировать',
                                     style: TextStyleSet().textRegular.copyWith(
-                                        color: Theme.of(context)
-                                            .hintColor
-                                            .withOpacity(0.56)),
+                                          color: _inWont
+                                              ? Theme.of(context)
+                                                  .hintColor
+                                                  .withOpacity(0.56)
+                                              : Theme.of(context).primaryColor,
+                                        ),
                                   ),
                                 ],
                               ),

@@ -138,8 +138,16 @@ class _VisitingScreenState extends State<VisitingScreen> {
                                   },
                                 ),
                                 IconButton(
-                                  onPressed: () {
-                                    print("Календарь");
+                                  onPressed: () async {
+                                    var res = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime.now(),
+                                      lastDate:
+                                          DateTime.now().add(Duration(days: 90)),
+                                    );
+                                    mocks[mocks.indexOf(item)].wontDate =
+                                      res;
                                   },
                                   icon: SvgPicture.asset(
                                     ImagesPaths.calendar,
