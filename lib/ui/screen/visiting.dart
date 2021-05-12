@@ -107,7 +107,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
                           children: [
-                            SightItem(
+                            DismissibleSightItem(
                               item,
                               onDismissed: (dismissDirection) => context
                                   .read<VisitingState>()
@@ -194,7 +194,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
                           children: [
-                            SightItem(
+                            DismissibleSightItem(
                               item,
                               onDismissed: (dismissDirection) => context
                                   .read<VisitingState>()
