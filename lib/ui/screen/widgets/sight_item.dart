@@ -60,7 +60,7 @@ class SightItem extends StatelessWidget {
         ),
       ),
       child: Card(
-        color: Colors.transparent,
+        color: Theme.of(context).backgroundColor,
         elevation: 0,
         margin: EdgeInsets.symmetric(vertical: 8),
         shape: RoundedRectangleBorder(
@@ -69,88 +69,69 @@ class SightItem extends StatelessWidget {
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: Stack(
           children: [
-            Column(children: [
-              Container(
-                child: Stack(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 96,
-                      child: ImageNetwork(sight.url[0], fit: BoxFit.fitWidth),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 16, left: 16),
-                      child: Text(
-                        sight.type,
-                        style: TextStyleSet()
-                            .textRegular
-                            .copyWith(color: Theme.of(context).canvasColor),
-                      ),
-                    ),
-                  ],
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 96,
+                  child: ImageNetwork(sight.url[0], fit: BoxFit.fitWidth),
                 ),
-              ),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                SizedBox(
+                  height: 16,
                 ),
-                child: Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      child: Text(
-                        sight.name,
-                        style: TextStyleSet().textMedium16.copyWith(
-                            color: Theme.of(context).secondaryHeaderColor),
-                        textAlign: TextAlign.left,
-                        maxLines: 2,
-                      ),
-                    ),
-                    if (sight.wontVisit || sight.visit)
-                      Container(
-                        margin: EdgeInsets.only(top: 2),
-                        width: double.infinity,
-                        child: Text(
-                          sight.visit
-                              ? "Цель достигнута ${DateFormat.yMMMd().format(sight.visitDate)}"
-                              : "Запланировано на ${DateFormat.yMMMd().format(sight.wontDate)}",
-                          style: TextStyleSet().textRegular.copyWith(
-                                color: sight.visit
-                                    ? Theme.of(context).hintColor
-                                    : Theme.of(context).accentColor,
-                              ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                    Container(
-                      margin: EdgeInsets.only(top: 2),
-                      width: double.infinity,
-                      child: Text(
-                        "закрыто до 09:00",
-                        style: TextStyleSet()
-                            .textRegular
-                            .copyWith(color: Theme.of(context).hintColor),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 2),
-                      width: double.infinity,
-                      child: Text(
-                        sight.details,
-                        style: TextStyleSet()
-                            .textRegular16
-                            .copyWith(color: Theme.of(context).hintColor),
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    sight.name,
+                    style: TextStyleSet().textMedium16.copyWith(
+                        color: Theme.of(context).secondaryHeaderColor),
+                    textAlign: TextAlign.left,
+                    maxLines: 2,
+                  ),
                 ),
-              ),
-            ]),
+                if (sight.wontVisit || sight.visit)
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+                    child: Text(
+                      sight.visit
+                          ? "Цель достигнута ${DateFormat.yMMMd().format(sight.visitDate)}"
+                          : "Запланировано на ${DateFormat.yMMMd().format(sight.wontDate)}",
+                      style: TextStyleSet().textRegular.copyWith(
+                            color: sight.visit
+                                ? Theme.of(context).hintColor
+                                : Theme.of(context).accentColor,
+                          ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+                  child: Text(
+                    "закрыто до 09:00",
+                    style: TextStyleSet()
+                        .textRegular
+                        .copyWith(color: Theme.of(context).hintColor),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+                  child: Text(
+                    sight.details,
+                    style: TextStyleSet()
+                        .textRegular16
+                        .copyWith(color: Theme.of(context).hintColor),
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+              ],
+            ),
             Material(
               color: Colors.transparent,
               child: InkWell(
@@ -173,6 +154,15 @@ class SightItem extends StatelessWidget {
               right: 0,
               child: Row(
                 children: actions,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+              child: Text(
+                sight.type,
+                style: TextStyleSet()
+                    .textRegular
+                    .copyWith(color: Theme.of(context).canvasColor),
               ),
             ),
           ],

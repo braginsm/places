@@ -50,38 +50,14 @@ class _SightListScreenState extends State<SightListScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SightSearchScreen(),
+                            builder: (context) => SightSearchScreen(),
                           ),
                         );
                       },
                     ),
                   ),
                 ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      final item = mocks[index];
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: SightItem(
-                          item,
-                          actions: [
-                            IconButton(
-                              onPressed: () {
-                                print("В избранное");
-                              },
-                              icon: SvgPicture.asset(
-                                ImagesPaths.favorite,
-                                color: Theme.of(context).canvasColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    childCount: mocks.length,
-                  ),
-                ),
+                SightSliverList(),
               ],
             ),
             Positioned(
@@ -122,5 +98,69 @@ class _SightListScreenState extends State<SightListScreen> {
       ),
       bottomNavigationBar: BottomNavigation(),
     );
+  }
+}
+
+class SightSliverList extends StatelessWidget {
+  const SightSliverList({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if ((MediaQuery.of(context).orientation == Orientation.portrait)) {
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+            final item = mocks[index];
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: SightItem(
+                item,
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      print("В избранное");
+                    },
+                    icon: SvgPicture.asset(
+                      ImagesPaths.favorite,
+                      color: Theme.of(context).canvasColor,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          childCount: mocks.length,
+        ),
+      );
+    } else {
+      return SliverGrid(
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+            final item = mocks[index];
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: SightItem(
+                item,
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      print("В избранное");
+                    },
+                    icon: SvgPicture.asset(
+                      ImagesPaths.favorite,
+                      color: Theme.of(context).canvasColor,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          childCount: mocks.length,
+        ),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+        ),
+      );
+    }
   }
 }
