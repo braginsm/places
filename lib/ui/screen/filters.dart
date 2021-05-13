@@ -69,10 +69,19 @@ class _FiltersScreenState extends State<FiltersScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16,),
+                child: Text(
+                  "КАТЕГОРИИ",
+                  style: TextStyleSet()
+                      .textRegular
+                      .copyWith(color: Theme.of(context).unselectedWidgetColor),
+                ),
+              ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

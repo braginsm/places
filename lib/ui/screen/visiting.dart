@@ -74,7 +74,6 @@ class VisitingScreen extends StatefulWidget {
 }
 
 class _VisitingScreenState extends State<VisitingScreen> {
-  DateTime _visitDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
