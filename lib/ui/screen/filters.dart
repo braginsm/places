@@ -13,18 +13,7 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-
   String _getKm(double value) => (value / 1000).toStringAsFixed(1);
-
-  /// подписи фильтров
-  final List<String> titles = [
-    "Отель",
-    "Ресторан",
-    "Особое место",
-    "Парк",
-    "Музей",
-    "Кафе"
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +21,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
     const double _minRadius = 100;
 
     /// сетка "таблицы" фильтров
-    final lineCnt = 2;
-    final colCnt = 3;
+    final bool oneLine = MediaQuery.of(context).size.height <= 800;
+    final int lineCnt = oneLine ? 1 : 2;
+    final int colCnt = lineCnt > 1 ? 3 : context.watch<SightSearchState>().titles.length;
 
     return Scaffold(
       appBar: AppBar(
@@ -69,64 +59,29 @@ class _FiltersScreenState extends State<FiltersScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    for (var i = 0; i < lineCnt; i++)
-                      Column(children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            for (var j = colCnt * i; j < colCnt * (i + 1); j++)
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        IconButton(
-                                          iconSize: 64,
-                                          icon: SvgPicture.asset(
-                                              ImagesPaths.ticks[j]),
-                                          onPressed: () {
-                                            context
-                                                .read<SightSearchState>()
-                                                .changeFilter(j);
-                                          },
-                                        ),
-                                        if (context
-                                            .watch<SightSearchState>()
-                                            .filterValues[j])
-                                          Positioned(
-                                            child: SvgPicture.asset(
-                                                ImagesPaths.tickChoice),
-                                            bottom: 0,
-                                            right: 0,
-                                          )
-                                      ],
-                                    ),
-                                    Text(
-                                      titles[j],
-                                      style: TextStyleSet()
-                                          .textRegular12
-                                          .copyWith(
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                    )
-                                  ],
-                                ),
-                              ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                      ]),
-                  ],
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 16,
                 ),
+                child: Text(
+                  "КАТЕГОРИИ",
+                  style: TextStyleSet()
+                      .textRegular
+                      .copyWith(color: Theme.of(context).unselectedWidgetColor),
+                ),
+              ),
+              if (oneLine) SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: FiltersWidget(
+                  colCnt: colCnt, 
+                  lineCnt: lineCnt, 
+                ),
+              ) else FiltersWidget(
+                colCnt: colCnt, 
+                lineCnt: lineCnt, 
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
@@ -167,7 +122,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
             child: ElevatedButton(
               onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => SightSearchScreen()));
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SightSearchScreen()));
               },
               child: Text(
                 "ПОКАЗАТЬ (${context.watch<SightSearchState>().searchResult.length})",
@@ -177,6 +134,87 @@ class _FiltersScreenState extends State<FiltersScreen> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class FiltersWidget extends StatelessWidget {
+  final int lineCnt;
+
+  final int colCnt;
+
+  const FiltersWidget({Key key, @required this.lineCnt, @required this.colCnt})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          for (var i = 0; i < lineCnt; i++)
+            Column(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  for (var j = colCnt * i; j < colCnt * (i + 1); j++)
+                    if (lineCnt > 1) Expanded(
+                      child: FilterItemWidget(text: context.watch<SightSearchState>().titles[j], path: ImagesPaths.ticks[j],),
+                    ) else FilterItemWidget(text: context.watch<SightSearchState>().titles[j], path: ImagesPaths.ticks[j],),
+                ],
+              ),
+              SizedBox(
+                height: 24,
+              ),
+            ]),
+        ],
+      ),
+    );
+  }
+}
+
+class FilterItemWidget extends StatelessWidget {
+  final String text;
+  final String path;
+  const FilterItemWidget({Key key, this.text, this.path}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: IconButton(
+                iconSize: 64,
+                icon: SvgPicture.asset(path),
+                onPressed: () {
+                  context
+                      .read<SightSearchState>()
+                      .changeFilter(text);
+                },
+              ),
+            ),
+            if (context
+                .watch<SightSearchState>()
+                .filterValue(text))
+              Positioned(
+                child:
+                    SvgPicture.asset(ImagesPaths.tickChoice),
+                bottom: 0,
+                right: 0,
+              )
+          ],
+        ),
+        Text(
+          text,
+          style: TextStyleSet().textRegular12.copyWith(
+              color: Theme.of(context).primaryColor),
+          maxLines: 1,
+        )
+      ],
     );
   }
 }

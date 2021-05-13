@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/images.dart';
@@ -26,18 +29,14 @@ class VisitingState with ChangeNotifier {
   bool get wontDragTarget => _wontList.length > 1 && _showTarget;
   bool get visitDragTarget => _visitList.length > 1 && _showTarget;
 
-  //TODO: когда появятся идентификаторы мест, пердлать на них.
   void removeWont(Sight sight) {
-    for (var i = 0; i < mocks.length; i++)
-      if (mocks[i].name == sight.name) mocks[i].wontDate = null;
+    mocks[mocks.indexOf(sight)].wontDate = null;
     _wontList.remove(sight);
     notifyListeners();
   }
 
-  //TODO: когда появятся идентификаторы мест, пердлать на них.
   void removeVisit(Sight sight) {
-    for (var i = 0; i < mocks.length; i++)
-      if (mocks[i].name == sight.name) mocks[i].visitDate = null;
+    mocks[mocks.indexOf(sight)].visitDate = null;
     _visitList.remove(sight);
     notifyListeners();
   }
@@ -51,6 +50,18 @@ class VisitingState with ChangeNotifier {
   void moveVizit(Sight after, Sight sight) {
     _wontList.remove(sight);
     _wontList.insert(_wontList.indexOf(after) + 1, sight);
+    notifyListeners();
+  }
+
+  void setWont(Sight sight, DateTime date) {
+    _wontList.contains(sight);
+    mocks[mocks.indexOf(sight)].wontDate = date;
+    notifyListeners();
+  }
+
+  void setVizit(Sight sight, DateTime date) {
+    _visitList.contains(sight);
+    mocks[mocks.indexOf(sight)].visitDate = date;
     notifyListeners();
   }
 }
@@ -138,17 +149,8 @@ class _VisitingScreenState extends State<VisitingScreen> {
                                   },
                                 ),
                                 IconButton(
-                                  onPressed: () async {
-                                    var res = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime.now(),
-                                      lastDate:
-                                          DateTime.now().add(Duration(days: 90)),
-                                    );
-                                    mocks[mocks.indexOf(item)].wontDate =
-                                      res;
-                                  },
+                                  onPressed: () =>
+                                      _showDatePicker(context, item),
                                   icon: SvgPicture.asset(
                                     ImagesPaths.calendar,
                                     color: Theme.of(context).canvasColor,
@@ -174,9 +176,8 @@ class _VisitingScreenState extends State<VisitingScreen> {
                                     .read<VisitingState>()
                                     .moveWont(item, sight);
                               },
-                              show: context
-                                          .watch<VisitingState>()
-                                          .wontDragTarget,
+                              show:
+                                  context.watch<VisitingState>().wontDragTarget,
                             ),
                           ],
                         ),
@@ -244,8 +245,8 @@ class _VisitingScreenState extends State<VisitingScreen> {
                                     .moveVizit(item, sight);
                               },
                               show: context
-                                          .watch<VisitingState>()
-                                          .visitDragTarget,
+                                  .watch<VisitingState>()
+                                  .visitDragTarget,
                             ),
                           ],
                         ),
@@ -259,13 +260,31 @@ class _VisitingScreenState extends State<VisitingScreen> {
       ),
     );
   }
+
+  Future<void> _showDatePicker(BuildContext context, Sight item) async {
+    if (Platform.isIOS) {
+      showCupertinoModalPopup(
+        context: context,
+        builder: (_) => CupertinoWontDateModal(item),
+      );
+    } else {
+      var res = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(Duration(days: 90)),
+      );
+      context.read<VisitingState>().setWont(item, res);
+    }
+  }
 }
 
 class VisitingDragTarget extends StatelessWidget {
   final Sight item;
   final bool show;
   final Function onAccept;
-  const VisitingDragTarget({Key key, @required this.item, this.show, this.onAccept(sight)})
+  const VisitingDragTarget(
+      {Key key, @required this.item, this.show, this.onAccept(sight)})
       : super(key: key);
 
   @override
@@ -282,6 +301,55 @@ class VisitingDragTarget extends StatelessWidget {
           ),
         ); // : SizedBox.shrink();
       },
+    );
+  }
+}
+
+class CupertinoWontDateModal extends StatefulWidget {
+  final Sight sight;
+  const CupertinoWontDateModal(this.sight, {Key key}) : super(key: key);
+
+  @override
+  _CupertinoWontDateModalState createState() => _CupertinoWontDateModalState();
+}
+
+class _CupertinoWontDateModalState extends State<CupertinoWontDateModal> {
+  DateTime _dateTime = DateTime.now();
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 250,
+      color: Color.fromARGB(255, 255, 255, 255),
+      child: Column(
+        children: [
+          Container(
+            height: 180,
+            child: CupertinoDatePicker(
+                initialDateTime: DateTime.now(),
+                onDateTimeChanged: (res) {
+                  setState(() {
+                    _dateTime = res;
+                  });
+                }),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              CupertinoButton(
+                child: Text("Отмена"), 
+                onPressed: () => Navigator.pop(context),
+              ),
+              CupertinoButton(
+                child: Text("ОК"), 
+                onPressed: () {
+                  context.read<VisitingState>().setWont(widget.sight, _dateTime);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
