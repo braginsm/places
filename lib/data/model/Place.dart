@@ -1,6 +1,20 @@
+import 'package:enum_to_string/enum_to_string.dart';
+
+enum PlaceType {
+  temple,
+  monument,
+  park,
+  theatre,
+  museum,
+  hotel,
+  restaurant,
+  cafe,
+  other
+}
+
 class Place {
   /// id места
-  String id = "";
+  int id = 0;
 
   /// название достопримечательности
   String name = "";
@@ -18,10 +32,17 @@ class Place {
   String description = "";
 
   ///тип достопримечательности
-  String placeType = "";
+  PlaceType placeType = PlaceType.other;
 
   /// конструктор
-  Place({this.description, this.id, this.lat, this.lon, this.name, this.placeType, this.urls});
+  Place(
+      {this.description,
+      this.id,
+      this.lat,
+      this.lon,
+      this.name,
+      this.placeType,
+      this.urls});
 
   /// конструктор по данным
   Place.fromJson(Map<String, dynamic> data)
@@ -31,5 +52,5 @@ class Place {
         lon = data['lon'],
         urls = data['urls'],
         description = data['description'],
-        placeType = data['placeType'];
+        placeType = EnumToString.fromString(PlaceType.values, data['placeType']);
 }
