@@ -1,7 +1,6 @@
-import 'package:dio/dio.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:places/data/httpClient.dart';
 import 'package:places/ui/res/themes.dart';
 import 'package:places/ui/screen/add_sight.dart';
 import 'package:places/ui/screen/sight_search.dart';
@@ -10,8 +9,6 @@ import 'package:provider/provider.dart';
 import 'ui/screen/visiting.dart';
 
 Future<void> main() async {
-  Response res = await HttpClient().get("/users");
-
   runApp(
     MultiProvider(
       providers: [
