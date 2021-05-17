@@ -63,168 +63,166 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
               child: CircularProgressIndicator(),
             )
           : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (searchHistory.length > 0)
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "ВЫ ИСКАЛИ",
-                        style: TextStyleSet().textRegular.copyWith(
-                            color: Theme.of(context).unselectedWidgetColor),
-                      ),
-                      Container(
-                        height: 64.0 * searchHistory.length,
-                        child: ListView.builder(
-                          itemCount: searchHistory.length,
-                          itemBuilder: (context, index) {
-                            final item = searchHistory[index];
-                            return Column(
-                              children: [
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(vertical: 8),
-                                  child: InkWell(
-                                    onTap: () {
-                                      searchController.text = item.name;
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          item.name,
-                                          style: TextStyleSet()
-                                              .textRegular16
-                                              .copyWith(
-                                                color: Theme.of(context)
-                                                    .hintColor,
-                                              ),
-                                        ),
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.close,
-                                            color:
-                                                Theme.of(context).hintColor,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (searchHistory.length > 0)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "ВЫ ИСКАЛИ",
+                          style: TextStyleSet().textRegular.copyWith(
+                              color: Theme.of(context).unselectedWidgetColor),
+                        ),
+                        Container(
+                          height: 64.0 * searchHistory.length,
+                          child: ListView.builder(
+                            itemCount: searchHistory.length,
+                            itemBuilder: (context, index) {
+                              final item = searchHistory[index];
+                              return Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 8),
+                                    child: InkWell(
+                                      onTap: () {
+                                        searchController.text = item.name;
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            item.name,
+                                            style: TextStyleSet()
+                                                .textRegular16
+                                                .copyWith(
+                                                  color: Theme.of(context)
+                                                      .hintColor,
+                                                ),
                                           ),
-                                          onPressed: () {
-                                            setState(() {
-                                              searchHistory.removeAt(index);
-                                            });
-                                          },
-                                        )
-                                      ],
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.close,
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                searchHistory.removeAt(index);
+                                              });
+                                            },
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                                if (index < searchHistory.length - 1)
-                                  Delimer(),
-                              ],
-                            );
+                                  if (index < searchHistory.length - 1)
+                                    Delimer(),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              searchHistory.clear();
+                              searchController.clear();
+                            });
                           },
+                          child: Text(
+                            "Очистить историю",
+                            style: TextStyleSet().textMedium16.copyWith(
+                                  color: Theme.of(context).accentColor,
+                                ),
+                          ),
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 8),
+                          ),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            searchHistory.clear();
-                            searchController.clear();
-                          });
-                        },
-                        child: Text(
-                          "Очистить историю",
-                          style: TextStyleSet().textMedium16.copyWith(
-                                color: Theme.of(context).accentColor,
-                              ),
-                        ),
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 0, vertical: 8),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              if (context.watch<SightSearchState>().searchResult.isNotEmpty)
-                Flexible(
-                  child: ListView.builder(
-                    itemCount:
-                        context.watch<SightSearchState>().searchResult.length,
-                    itemBuilder: (context, index) {
-                      final item = context
-                          .watch<SightSearchState>()
-                          .searchResult[index];
-                      return ListTile(
-                          leading: Container(
-                            width: 56,
-                            height: 56,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              image: DecorationImage(
-                                image: Image.network(item.url[0]).image,
-                                fit: BoxFit.cover,
+                if (context.watch<SightSearchState>().searchResult.isNotEmpty)
+                  Flexible(
+                    child: ListView.builder(
+                      itemCount:
+                          context.watch<SightSearchState>().searchResult.length,
+                      itemBuilder: (context, index) {
+                        final item = context
+                            .watch<SightSearchState>()
+                            .searchResult[index];
+                        return ListTile(
+                            leading: Container(
+                              width: 56,
+                              height: 56,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                image: DecorationImage(
+                                  image: Image.network(item.url[0]).image,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                          ),
-                          title: Text(
-                            item.name,
-                            style: TextStyleSet().textMedium16,
-                          ),
-                          subtitle: Text(
-                            item.type,
-                            style: TextStyleSet().textRegular.copyWith(
-                                  color: Theme.of(context).hintColor,
-                                ),
-                          ),
-                          onTap: () {
-                            setState(() {
-                              searchHistory.remove(item);
-                              searchHistory.insert(0, item);
+                            title: Text(
+                              item.name,
+                              style: TextStyleSet().textMedium16,
+                            ),
+                            subtitle: Text(
+                              item.type,
+                              style: TextStyleSet().textRegular.copyWith(
+                                    color: Theme.of(context).hintColor,
+                                  ),
+                            ),
+                            onTap: () {
+                              setState(() {
+                                searchHistory.remove(item);
+                                searchHistory.insert(0, item);
+                              });
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SightCard(item)));
                             });
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SightCard(item)));
-                          });
-                    },
-                  ),
-                )
-              else
-                Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    //crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(32),
-                        child: SvgPicture.asset(
-                          ImagesPaths.search,
-                          height: 50,
-                          width: 50,
+                      },
+                    ),
+                  )
+                else
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      //crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(32),
+                          child: SvgPicture.asset(
+                            ImagesPaths.search,
+                            height: 50,
+                            width: 50,
+                          ),
                         ),
-                      ),
-                      Text(
-                        "Ничего не найдено.",
-                        style: TextStyleSet().textMedium18.copyWith(
-                            color: Theme.of(context).unselectedWidgetColor),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text(
-                          "Попробуйте изменить параметры поиска",
-                          style: TextStyleSet().textRegular.copyWith(
-                              color:
-                                  Theme.of(context).unselectedWidgetColor),
+                        Text(
+                          "Ничего не найдено.",
+                          style: TextStyleSet().textMedium18.copyWith(
+                              color: Theme.of(context).unselectedWidgetColor),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(
+                            "Попробуйте изменить параметры поиска",
+                            style: TextStyleSet().textRegular.copyWith(
+                                color: Theme.of(context).unselectedWidgetColor),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-            ],
-          ),
+              ],
+            ),
       bottomNavigationBar: BottomNavigation(),
     );
   }
@@ -280,10 +278,23 @@ class SightSearchState with ChangeNotifier {
   /// хранение значений фильтров
   List<bool> _filterValues = List.generate(6, (index) => false);
 
-  List<bool> get filterValues => _filterValues;
+  bool filterValue(String name) => _filterValues[_titles.indexOf(name)];
 
-  void changeFilter(int i) {
-    _filterValues[i] = !_filterValues[i];
+  /// подписи фильтров
+  final List<String> _titles = [
+    "Отель",
+    "Ресторан",
+    "Особое место",
+    "Парк",
+    "Музей",
+    "Кафе"
+  ];
+
+  List<String> get titles => _titles;
+
+  void changeFilter(String name) {
+    final index = _titles.indexOf(name);
+    _filterValues[index] = !_filterValues[index];
     notifyListeners();
   }
 
