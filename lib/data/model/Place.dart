@@ -20,12 +20,16 @@ class Place {
   ///тип достопримечательности
   String placeType = "";
 
-  Place.fromJson(Map<String, dynamic> data):
-    id = data['id'],
-    name = data['name'],
-    lat = data['lat'],
-    lon = data['lon'],
-    urls = data['urls'],
-    description = data['description'],
-    placeType = data['placeType'];
+  /// конструктор
+  Place({this.description, this.id, this.lat, this.lon, this.name, this.placeType, this.urls});
+
+  /// конструктор по данным
+  Place.fromJson(Map<String, dynamic> data)
+      : id = data['id'],
+        name = data['name'],
+        lat = data['lat'],
+        lon = data['lon'],
+        urls = data['urls'],
+        description = data['description'],
+        placeType = data['placeType'];
 }
