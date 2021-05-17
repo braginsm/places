@@ -11,7 +11,6 @@ import 'ui/screen/visiting.dart';
 
 Future<void> main() async {
   Response res = await HttpClient().get("/users");
-  print(res.data);
 
   runApp(
     MultiProvider(

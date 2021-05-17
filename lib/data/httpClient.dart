@@ -12,20 +12,20 @@ class HttpClient {
       responseType: ResponseType.json,
     );
     _dio = Dio(_options);
-    /*_dio.interceptors.add(InterceptorsWrapper(
+    _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
-        print("Request options: ${options.data.toString()}");
-        return options;
+        print('send request：path:${options.path}，baseURL:${options.baseUrl}');
+        return handler.next(options);
       },
       onResponse: (Response response, ResponseInterceptorHandler handler) {
         print("Response: ${response.data.toString()}");
-        return response;
+        return handler.next(response);
       },
-      onError: (DioError error, ErrorInterceptorHandler handler) {
-        print("Error: ${error.error.toString()}");
-        return error;
+      onError: (DioError err, ErrorInterceptorHandler handler) {
+        print("Error: ${err.error.toString()}");
+        handler.next(err);
       },
-    ));*/
+    ));
   }
 
   Future<Response> get(String uri) async {
