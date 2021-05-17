@@ -1,18 +1,8 @@
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:places/data/model/Place.dart';
 
-enum PlaceType {
-  temple,
-  monument,
-  park,
-  theatre,
-  museum,
-  hotel,
-  restaurant,
-  cafe,
-  other
-}
-
-class Place {
+///Модель данных ответа на запрос фильтра мест. От модели данных места Place отличается наличием поля distance, в котором при ответе будет расстояние от запрошенной точки
+class PlaceDto {
   /// id места
   final int id;
 
@@ -34,23 +24,29 @@ class Place {
   ///тип достопримечательности
   final PlaceType placeType;
 
+  ///расстояние от запрошенной точки
+  final double distance;
+
   /// конструктор
-  Place(
+  PlaceDto(
       {this.description,
       this.id,
       this.lat,
       this.lon,
       this.name,
       this.placeType,
-      this.urls});
+      this.urls,
+      this.distance});
 
   /// конструктор по данным
-  Place.fromJson(Map<String, dynamic> data)
+  PlaceDto.fromJson(Map<String, dynamic> data)
       : id = data['id'],
         name = data['name'],
         lat = data['lat'],
         lon = data['lon'],
         urls = data['urls'],
         description = data['description'],
-        placeType = EnumToString.fromString(PlaceType.values, data['placeType']);
+        distance = data['distance'],
+        placeType =
+            EnumToString.fromString(PlaceType.values, data['placeType']);
 }
