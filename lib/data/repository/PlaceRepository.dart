@@ -24,7 +24,7 @@ class PlaceRepository extends Repository {
   }
 
   /// Получение места по его id
-  Future<Place> getById(String id) async {
+  Future<Place> getById(int id) async {
     try {
       Response res = await dio.get("/place/$id");
       var data = _checkStatus(res);
@@ -35,7 +35,7 @@ class PlaceRepository extends Repository {
   }
 
   /// Удаление места по его id
-  Future<bool> deleteById(String id) async {
+  Future<bool> deleteById(int id) async {
     try {
       Response res = await dio.delete("/place/$id");
       _checkStatus(res);

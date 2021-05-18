@@ -50,7 +50,7 @@ class Place {
         name = data['name'],
         lat = data['lat'],
         lon = data['lon'],
-        urls = data['urls'],
+        urls = (data['urls'] as List<dynamic>).map((e) => e.toString()).toList(),
         description = data['description'],
         placeType = EnumToString.fromString(PlaceType.values, data['placeType']);
 }

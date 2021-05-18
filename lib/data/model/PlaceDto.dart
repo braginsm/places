@@ -44,7 +44,7 @@ class PlaceDto {
         name = data['name'],
         lat = data['lat'],
         lon = data['lon'],
-        urls = data['urls'],
+        urls = (data['urls'] as List<dynamic>).map((e) => e.toString()).toList(),
         description = data['description'],
         distance = data['distance'],
         placeType =
