@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:places/data/model/Place.dart';
+import 'package:places/data/model/PlaceDto.dart';
+import 'package:places/data/model/PlacesFilterRequestDto.dart';
 import 'package:places/data/repository/repository.dart';
 
 class PlaceRepository extends Repository {
@@ -87,6 +89,16 @@ class PlaceRepository extends Repository {
       Response res = await dio.put('/place/${place.id}', data: place);
       var data = _checkStatus(res);
       return Place.fromJson(data);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<List<Place>> filtered(PlacesFilterRequestDto filter) async {
+    try {
+      Response res = await dio.post('/filtered_places', data: filter);
+      var data = _checkStatus(res);
+      return data.map((element) => PlaceDto.fromJson(element)).toList();
     } catch (e) {
       throw e;
     }
