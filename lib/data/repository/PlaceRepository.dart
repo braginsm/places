@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:places/data/model/Place.dart';
-import 'package:places/data/model/PlaceDto.dart';
-import 'package:places/data/model/PlacesFilterRequestDto.dart';
 import 'package:places/data/repository/repository.dart';
 
 class PlaceRepository extends Repository {

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:enum_to_string/enum_to_string.dart';
 
 enum PlaceType {
@@ -53,4 +55,13 @@ class Place {
         urls = (data['urls'] as List<dynamic>).map((e) => e.toString()).toList(),
         description = data['description'],
         placeType = EnumToString.fromString(PlaceType.values, data['placeType']);
+
+  ///Возвращает кол-во метров от Place до точки с координатами lat, lon
+  double getDistans(double lat, double lon) {
+    final double ky = 40000 / 0.36;
+    final double kx = cos(pi * lat / 180) * ky;
+    var dx = (lon - this.lon).abs() * kx;
+    var dy = (lat - this.lat).abs() * ky;
+    return sqrt(dx * dx + dy * dy);
+  }
 }
