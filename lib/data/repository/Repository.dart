@@ -16,14 +16,28 @@ class Repository {
         print('send request：path:${options.path}，baseURL:${options.baseUrl}');
         return handler.next(options);
       },
-      onResponse: (Response response, ResponseInterceptorHandler handler) {
-        print("Response: ${response.data.toString()}");
-        return handler.next(response);
-      },
+      onResponse: _onResponse,
       onError: (DioError err, ErrorInterceptorHandler handler) {
         print("Error: ${err.error.toString()}");
         handler.next(err);
       },
     ));
+  }
+
+  void _onResponse(Response response, ResponseInterceptorHandler handler) {
+    /// Проверка статуса запроса
+    switch (response.statusCode) {
+      case 200:
+        return handler.next(response);
+        break;
+      case 400:
+      case 409:
+        throw Exception(response.data['error']);
+        break;
+      case 404:
+        throw Exception("No object found.");
+      default:
+        throw Exception("error: status code ${response.statusCode}");
+    }
   }
 }

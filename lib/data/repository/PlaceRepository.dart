@@ -8,29 +8,11 @@ import 'package:places/data/repository/repository.dart';
 
 class PlaceRepository extends Repository {
 
-  /// Проверка статуса запроса
-  static dynamic _checkStatus(Response response) {
-    switch (response.statusCode) {
-      case 200:
-        return response.data;
-        break;
-      case 400:
-      case 409:
-        throw Exception(response.data['error']);
-        break;
-      case 404:
-        throw Exception("No object found.");
-      default:
-        throw Exception("error: status code ${response.statusCode}");
-    }
-  }
-
   /// Получение места по его id
   Future<Place> getById(int id) async {
     try {
       Response res = await dio.get("/place/$id");
-      var data = _checkStatus(res);
-      return Place.fromJson(data);
+      return Place.fromJson(res.data);
     } catch (e) {
       throw e;
     }
@@ -39,8 +21,7 @@ class PlaceRepository extends Repository {
   /// Удаление места по его id
   Future<bool> deleteById(int id) async {
     try {
-      Response res = await dio.delete("/place/$id");
-      _checkStatus(res);
+      await dio.delete("/place/$id");
       return true;
     } catch (e) {
       throw e;
@@ -65,8 +46,7 @@ class PlaceRepository extends Repository {
     if (sortBy != null) queryParameters['sortBy'] = sortBy;
     try {
       Response res = await dio.get("/place", queryParameters: queryParameters);
-      var data = _checkStatus(res);
-      return data.map((element) => Place.fromJson(element)).toList();
+      return res.data.map((element) => Place.fromJson(element)).toList();
     } catch (e) {
       throw e;
     }
@@ -76,8 +56,7 @@ class PlaceRepository extends Repository {
   Future<Place> save(Place place) async {
     try {
       Response res = await dio.post('/place', data: place);
-      var data = _checkStatus(res);
-      return Place.fromJson(data);
+      return Place.fromJson(res.data);
     } catch (e) {
       throw e;
     }
@@ -87,18 +66,7 @@ class PlaceRepository extends Repository {
   Future<Place> update(Place place) async {
     try {
       Response res = await dio.put('/place/${place.id}', data: place);
-      var data = _checkStatus(res);
-      return Place.fromJson(data);
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  Future<List<Place>> filtered(PlacesFilterRequestDto filter) async {
-    try {
-      Response res = await dio.post('/filtered_places', data: filter);
-      var data = _checkStatus(res);
-      return data.map((element) => PlaceDto.fromJson(element)).toList();
+      return Place.fromJson(res.data);
     } catch (e) {
       throw e;
     }
