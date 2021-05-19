@@ -121,7 +121,7 @@ class _SightCardState extends State<SightCard> {
                     child: Row(
                       children: [
                         Text(
-                          widget.sight.placeType.toString(),
+                          widget.sight.placeTypeName,
                           style: TextStyleSet()
                               .textBold
                               .copyWith(color: Theme.of(context).hintColor),

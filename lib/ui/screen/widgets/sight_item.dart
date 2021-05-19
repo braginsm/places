@@ -119,7 +119,7 @@ class SightItem extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: Text(
-              sight.placeType.toString(),
+              sight.placeTypeName,
               style: TextStyleSet()
                   .textRegular
                   .copyWith(color: Theme.of(context).canvasColor),

@@ -13,7 +13,8 @@ class Repository {
     dio = Dio(_options);
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
-        print('send request：path:${options.path}，baseURL:${options.baseUrl}');
+        print(
+            'send request to URL:${options.baseUrl}${options.path} with params: ${options.queryParameters}');
         return handler.next(options);
       },
       onResponse: _onResponse,

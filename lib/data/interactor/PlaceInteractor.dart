@@ -19,7 +19,7 @@ class PlaceInteractor {
   ///Получение списка интересных мест
   Future<List<Place>> getPlaces([int radius = 0, String category = '']) async {
     List<Place> places = await PlaceRepository().getByParameters(
-      count: 100,
+      count: 10,
     );
     places.forEach((element) {
       if ((radius > 0 && radius < element.getDistans(currentLat, currentLon)) ||

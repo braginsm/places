@@ -21,10 +21,11 @@ class SightListScreen extends StatefulWidget {
 class _SightListScreenState extends State<SightListScreen> {
   List<Place> _placeList = [];
 
-  @override
-  Future<void> initState() async {
-    super.initState();
-    _placeList = await PlaceInteractor().getPlaces();
+  Future<void> _getPlaces() async {
+    var res = await PlaceInteractor().getPlaces();
+    setState(() {
+      _placeList = res;
+    });
   }
 
   @override
@@ -66,7 +67,19 @@ class _SightListScreenState extends State<SightListScreen> {
                     ),
                   ),
                 ),
-                SightSliverList(_placeList),
+                (_placeList.isEmpty) ? SliverToBoxAdapter(
+                  child: Builder(
+                    builder: (_) {
+                      _getPlaces();
+                      return Container(
+                        height: 200,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    },
+                  ),
+                ) : SightSliverList(_placeList),
               ],
             ),
             Positioned(

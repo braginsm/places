@@ -43,7 +43,8 @@ class PlaceRepository extends Repository {
     if (sortBy != null) queryParameters['sortBy'] = sortBy;
     try {
       Response res = await dio.get("/place", queryParameters: queryParameters);
-      return (res.data as List<dynamic>).map((e) => Place.fromJson(e)).toList();
+      return (res.data as List<dynamic>)
+        .map((e) => Place.fromJson(e)).toList();
     } catch (e) {
       throw e;
     }

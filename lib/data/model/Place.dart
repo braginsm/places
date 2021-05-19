@@ -52,16 +52,30 @@ class Place {
         name = data['name'],
         lat = data['lat'],
         lon = data['lon'],
-        urls = (data['urls'] as List<dynamic>).map((e) => e.toString()).toList(),
+        urls =
+            (data['urls'] as List<dynamic>).map((e) => e.toString()).toList(),
         description = data['description'],
-        placeType = EnumToString.fromString(PlaceType.values, data['placeType']);
+        placeType =
+            EnumToString.fromString(PlaceType.values, data['placeType']);
 
   ///Возвращает кол-во метров от Place до точки с координатами lat, lon
   double getDistans(double currentLat, double currentlon) {
     final double ky = 40000 / 0.36;
     final double kx = cos(pi * lat / 180) * ky;
-    var dx = (currentLat - lon ?? 0).abs() * kx;
-    var dy = (currentlon - lat ?? 0).abs() * ky;
+    var dx = (currentLat - (lon ?? 0)).abs() * kx;
+    var dy = (currentlon - (lat ?? 0)).abs() * ky;
     return sqrt(dx * dx + dy * dy);
   }
+
+  String get placeTypeName => [
+        "храм",
+        "памятник",
+        "парк",
+        "театр",
+        "музей",
+        "отель",
+        "ресторан",
+        "кафе",
+        "другое"
+      ].elementAt(placeType.index);
 }
