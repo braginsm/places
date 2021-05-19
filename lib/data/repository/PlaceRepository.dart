@@ -5,7 +5,6 @@ import 'package:places/data/model/Place.dart';
 import 'package:places/data/repository/repository.dart';
 
 class PlaceRepository extends Repository {
-
   /// Получение места по его id
   Future<Place> getById(int id) async {
     try {
@@ -35,7 +34,7 @@ class PlaceRepository extends Repository {
     String pagePrior,
     List<String> sortBy,
   }) async {
-    Map<String, dynamic> queryParameters;
+    Map<String, dynamic> queryParameters = {};
     if (count != null) queryParameters['count'] = count;
     if (offset != null) queryParameters['offset'] = offset;
     if (pageBy != null) queryParameters['pageBy'] = pageBy;
@@ -44,7 +43,7 @@ class PlaceRepository extends Repository {
     if (sortBy != null) queryParameters['sortBy'] = sortBy;
     try {
       Response res = await dio.get("/place", queryParameters: queryParameters);
-      return res.data.map((element) => Place.fromJson(element)).toList();
+      return (res.data as List<dynamic>).map((e) => Place.fromJson(e)).toList();
     } catch (e) {
       throw e;
     }

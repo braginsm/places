@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/data/model/Place.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 
-import 'package:intl/intl.dart';
 import 'package:places/ui/screen/widgets/sight_bottomsheet.dart';
 
 import 'image_network.dart';
 
 class SightItem extends StatelessWidget {
-  final Sight sight;
+  final Place sight;
   final List<Widget> actions;
   const SightItem(
     this.sight, {
@@ -36,7 +36,7 @@ class SightItem extends StatelessWidget {
               Container(
                 width: double.infinity,
                 height: 96,
-                child: ImageNetwork(sight.url[0], fit: BoxFit.cover),
+                child: ImageNetwork(sight.urls[0], fit: BoxFit.cover),
               ),
               SizedBox(
                 height: 16,
@@ -51,21 +51,21 @@ class SightItem extends StatelessWidget {
                   maxLines: 2,
                 ),
               ),
-              if (sight.wontVisit || sight.visit)
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-                  child: Text(
-                    sight.visit
-                        ? "Цель достигнута ${DateFormat.yMMMd().format(sight.visitDate)}"
-                        : "Запланировано на ${DateFormat.yMMMd().format(sight.wontDate)}",
-                    style: TextStyleSet().textRegular.copyWith(
-                          color: sight.visit
-                              ? Theme.of(context).hintColor
-                              : Theme.of(context).accentColor,
-                        ),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
+              // if (sight.wontVisit || sight.visit)
+              //   Padding(
+              //     padding: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+              //     child: Text(
+              //       sight.visit
+              //           ? "Цель достигнута ${DateFormat.yMMMd().format(sight.visitDate)}"
+              //           : "Запланировано на ${DateFormat.yMMMd().format(sight.wontDate)}",
+              //       style: TextStyleSet().textRegular.copyWith(
+              //             color: sight.visit
+              //                 ? Theme.of(context).hintColor
+              //                 : Theme.of(context).accentColor,
+              //           ),
+              //       textAlign: TextAlign.left,
+              //     ),
+              //   ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
                 child: Text(
@@ -79,7 +79,7 @@ class SightItem extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
                 child: Text(
-                  sight.details,
+                  sight.description,
                   style: TextStyleSet()
                       .textRegular16
                       .copyWith(color: Theme.of(context).hintColor),
@@ -119,7 +119,7 @@ class SightItem extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: Text(
-              sight.type,
+              sight.placeType.toString(),
               style: TextStyleSet()
                   .textRegular
                   .copyWith(color: Theme.of(context).canvasColor),
@@ -132,7 +132,7 @@ class SightItem extends StatelessWidget {
 }
 
 class DismissibleSightItem extends StatelessWidget {
-  final Sight sight;
+  final Place sight;
   final List<Widget> actions;
   final Function(DismissDirection) onDismissed;
   const DismissibleSightItem(this.sight, {Key key, this.actions, @required this.onDismissed}) : super(key: key);

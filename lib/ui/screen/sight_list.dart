@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/mocks.dart';
+import 'package:places/data/interactor/PlaceInteractor.dart';
+import 'package:places/data/model/Place.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/add_sight.dart';
 import 'package:places/ui/screen/sight_search.dart';
@@ -18,6 +19,14 @@ class SightListScreen extends StatefulWidget {
 }
 
 class _SightListScreenState extends State<SightListScreen> {
+  List<Place> _placeList = [];
+
+  @override
+  Future<void> initState() async {
+    super.initState();
+    _placeList = await PlaceInteractor().getPlaces();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +66,7 @@ class _SightListScreenState extends State<SightListScreen> {
                     ),
                   ),
                 ),
-                SightSliverList(),
+                SightSliverList(_placeList),
               ],
             ),
             Positioned(
@@ -102,7 +111,8 @@ class _SightListScreenState extends State<SightListScreen> {
 }
 
 class SightSliverList extends StatelessWidget {
-  const SightSliverList({Key key}) : super(key: key);
+  final List<Place> placeList;
+  const SightSliverList(this.placeList, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +120,7 @@ class SightSliverList extends StatelessWidget {
       return SliverList(
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
-            final item = mocks[index];
+            final item = placeList[index];
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: SightItem(
@@ -129,14 +139,14 @@ class SightSliverList extends StatelessWidget {
               ),
             );
           },
-          childCount: mocks.length,
+          childCount: placeList.length,
         ),
       );
     } else {
       return SliverGrid(
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
-            final item = mocks[index];
+            final item = placeList[index];
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: SightItem(
@@ -155,7 +165,7 @@ class SightSliverList extends StatelessWidget {
               ),
             );
           },
-          childCount: mocks.length,
+          childCount: placeList.length,
         ),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,

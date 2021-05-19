@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/data/model/Place.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/widgets/image_network.dart';
@@ -8,7 +8,7 @@ import 'package:places/ui/screen/widgets/image_network.dart';
 import '../res/text_styles.dart';
 
 class SightCard extends StatefulWidget {
-  final Sight sight;
+  final Place sight;
   const SightCard(this.sight, {Key key}) : super(key: key);
 
   @override
@@ -22,7 +22,7 @@ class _SightCardState extends State<SightCard> {
 
   @override
   void initState() {
-    _inWont = mocks[mocks.indexOf(widget.sight)].wontVisit;
+    //_inWont = mocks[mocks.indexOf(widget.sight)].wontVisit;
     super.initState();
   }
 
@@ -40,14 +40,14 @@ class _SightCardState extends State<SightCard> {
                 child: Stack(
                   children: [
                     PageView.builder(
-                      itemCount: widget.sight.url.length,
+                      itemCount: widget.sight.urls.length,
                       onPageChanged: (value) {
                         setState(() {
                           _curentImage = value;
                         });
                       },
                       itemBuilder: (context, index) {
-                        final item = widget.sight.url[index];
+                        final item = widget.sight.urls[index];
                         return Container(
                           width: double.infinity,
                           child: ImageNetwork(item, fit: BoxFit.cover),
@@ -61,7 +61,7 @@ class _SightCardState extends State<SightCard> {
                         width: MediaQuery.of(context).size.width,
                         child: Row(
                           children: [
-                            for (var i = 0; i < widget.sight.url.length; i++)
+                            for (var i = 0; i < widget.sight.urls.length; i++)
                               Expanded(
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -121,7 +121,7 @@ class _SightCardState extends State<SightCard> {
                     child: Row(
                       children: [
                         Text(
-                          widget.sight.type,
+                          widget.sight.placeType.toString(),
                           style: TextStyleSet()
                               .textBold
                               .copyWith(color: Theme.of(context).hintColor),
@@ -143,7 +143,7 @@ class _SightCardState extends State<SightCard> {
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 24),
                     child: Text(
-                      widget.sight.details,
+                      widget.sight.description,
                       style: TextStyleSet().textRegular.copyWith(
                           color: Theme.of(context).secondaryHeaderColor),
                     ),
@@ -197,13 +197,13 @@ class _SightCardState extends State<SightCard> {
                                   lastDate:
                                       DateTime.now().add(Duration(days: 90)),
                                 );
-                                if (res != null) {
-                                  mocks[mocks.indexOf(widget.sight)].wontDate =
-                                      res;
-                                  setState(() {
-                                    _inWont = mocks[mocks.indexOf(widget.sight)].wontVisit;
-                                  });
-                                }
+                                // if (res != null) {
+                                //   mocks[mocks.indexOf(widget.sight)].wontDate =
+                                //       res;
+                                //   setState(() {
+                                //     _inWont = mocks[mocks.indexOf(widget.sight)].wontVisit;
+                                //   });
+                                // }
                               },
                               child: Row(
                                 children: [

@@ -183,10 +183,10 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                                 searchHistory.remove(item);
                                 searchHistory.insert(0, item);
                               });
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SightCard(item)));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => SightCard(item)));
                             });
                       },
                     ),

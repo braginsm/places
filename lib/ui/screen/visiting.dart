@@ -3,21 +3,18 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/data/interactor/PlaceInteractor.dart';
+import 'package:places/data/model/Place.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/widgets/empty_list.dart';
 import 'package:places/ui/screen/widgets/sight_item.dart';
 import '../res/text_styles.dart';
-import '../../mocks.dart';
 import './widgets/bottom_navigation.dart';
-import '../../domain/sight.dart';
 import 'package:provider/provider.dart';
 
 class VisitingState with ChangeNotifier {
-  List<Sight> _wontList = mocks.where((f) => f.wontVisit).toList();
-  List<Sight> _visitList = mocks.where((f) => f.visit).toList();
-
-  List<Sight> get wontList => _wontList;
-  List<Sight> get visitList => _visitList;
+  List<Place> get wontList => PlaceInteractor().getFavoritesPlaces();
+  List<Place> get visitList => PlaceInteractor().getVisitPlaces();
 
   bool _showTarget = false;
 
@@ -26,42 +23,40 @@ class VisitingState with ChangeNotifier {
     notifyListeners();
   }
 
-  bool get wontDragTarget => _wontList.length > 1 && _showTarget;
-  bool get visitDragTarget => _visitList.length > 1 && _showTarget;
+  bool get wontDragTarget => wontList.length > 1 && _showTarget;
+  bool get visitDragTarget => visitList.length > 1 && _showTarget;
 
-  void removeWont(Sight sight) {
-    mocks[mocks.indexOf(sight)].wontDate = null;
-    _wontList.remove(sight);
+  void removeWont(Place sight) {
+    PlaceInteractor().removeFromFavorites(sight);
     notifyListeners();
   }
 
-  void removeVisit(Sight sight) {
-    mocks[mocks.indexOf(sight)].visitDate = null;
-    _visitList.remove(sight);
+  void removeVisit(Place sight) {
+    PlaceInteractor().removeFromFavorites(sight);
     notifyListeners();
   }
 
-  void moveWont(Sight after, Sight sight) {
-    _wontList.remove(sight);
-    _wontList.insert(_wontList.indexOf(after) + 1, sight);
+  // void moveWont(Place after, Sight sight) {
+  //   _wontList.remove(sight);
+  //   _wontList.insert(_wontList.indexOf(after) + 1, sight);
+  //   notifyListeners();
+  // }
+
+  // void moveVizit(Sight after, Sight sight) {
+  //   _wontList.remove(sight);
+  //   _wontList.insert(_wontList.indexOf(after) + 1, sight);
+  //   notifyListeners();
+  // }
+
+  void setWont(Place place, DateTime date) {
+    PlaceInteractor().addToFavorites(place);
+    //mocks[mocks.indexOf(sight)].wontDate = date;
     notifyListeners();
   }
 
-  void moveVizit(Sight after, Sight sight) {
-    _wontList.remove(sight);
-    _wontList.insert(_wontList.indexOf(after) + 1, sight);
-    notifyListeners();
-  }
-
-  void setWont(Sight sight, DateTime date) {
-    _wontList.contains(sight);
-    mocks[mocks.indexOf(sight)].wontDate = date;
-    notifyListeners();
-  }
-
-  void setVizit(Sight sight, DateTime date) {
-    _visitList.contains(sight);
-    mocks[mocks.indexOf(sight)].visitDate = date;
+  void setVizit(Place place, DateTime date) {
+    PlaceInteractor().addToVisitingPlaces(place);
+    //mocks[mocks.indexOf(sight)].visitDate = date;
     notifyListeners();
   }
 }
@@ -124,7 +119,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                                   .read<VisitingState>()
                                   .removeWont(item),
                               actions: [
-                                Draggable<Sight>(
+                                Draggable<Place>(
                                   data: item,
                                   child: Padding(
                                     padding: EdgeInsets.all(8),
@@ -172,9 +167,9 @@ class _VisitingScreenState extends State<VisitingScreen> {
                             VisitingDragTarget(
                               item: item,
                               onAccept: (sight) {
-                                context
-                                    .read<VisitingState>()
-                                    .moveWont(item, sight);
+                                // context
+                                //     .read<VisitingState>()
+                                //     .moveWont(item, sight);
                               },
                               show:
                                   context.watch<VisitingState>().wontDragTarget,
@@ -201,7 +196,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                                   .read<VisitingState>()
                                   .removeWont(item),
                               actions: [
-                                Draggable<Sight>(
+                                Draggable<Place>(
                                   data: item,
                                   child: Padding(
                                     padding: EdgeInsets.all(8),
@@ -240,9 +235,9 @@ class _VisitingScreenState extends State<VisitingScreen> {
                             VisitingDragTarget(
                               item: item,
                               onAccept: (sight) {
-                                context
-                                    .read<VisitingState>()
-                                    .moveVizit(item, sight);
+                                // context
+                                //     .read<VisitingState>()
+                                //     .moveVizit(item, sight);
                               },
                               show: context
                                   .watch<VisitingState>()
@@ -261,7 +256,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
     );
   }
 
-  Future<void> _showDatePicker(BuildContext context, Sight item) async {
+  Future<void> _showDatePicker(BuildContext context, Place item) async {
     if (Platform.isIOS) {
       showCupertinoModalPopup(
         context: context,
@@ -280,7 +275,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
 }
 
 class VisitingDragTarget extends StatelessWidget {
-  final Sight item;
+  final Place item;
   final bool show;
   final Function onAccept;
   const VisitingDragTarget(
@@ -289,7 +284,7 @@ class VisitingDragTarget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DragTarget<Sight>(
+    return DragTarget<Place>(
       onAccept: onAccept,
       builder: (context, a, b) {
         return Container(
@@ -306,7 +301,7 @@ class VisitingDragTarget extends StatelessWidget {
 }
 
 class CupertinoWontDateModal extends StatefulWidget {
-  final Sight sight;
+  final Place sight;
   const CupertinoWontDateModal(this.sight, {Key key}) : super(key: key);
 
   @override
@@ -336,13 +331,15 @@ class _CupertinoWontDateModalState extends State<CupertinoWontDateModal> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               CupertinoButton(
-                child: Text("Отмена"), 
+                child: Text("Отмена"),
                 onPressed: () => Navigator.pop(context),
               ),
               CupertinoButton(
-                child: Text("ОК"), 
+                child: Text("ОК"),
                 onPressed: () {
-                  context.read<VisitingState>().setWont(widget.sight, _dateTime);
+                  context
+                      .read<VisitingState>()
+                      .setWont(widget.sight, _dateTime);
                   Navigator.pop(context);
                 },
               ),
