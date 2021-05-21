@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:places/data/interactor/PlaceInteractor.dart';
+import 'package:places/data/model/Place.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/mocks.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/widgets/add_image_item.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
@@ -23,8 +24,6 @@ class _AddSightScreenState extends State<AddSightScreen> {
   FocusNode latNode = FocusNode();
   FocusNode lonNode = FocusNode();
   FocusNode descriptionNode = FocusNode();
-
-  Sight newSight = Sight();
 
   @override
   Widget build(BuildContext context) {
@@ -64,16 +63,16 @@ class _AddSightScreenState extends State<AddSightScreen> {
                       scrollDirection: Axis.horizontal,
                       itemCount: context.watch<AddSightState>().images.length,
                       itemBuilder: (context, index) {
-                        final img = context.watch<AddSightState>().images[index];
+                        final img =
+                            context.watch<AddSightState>().images[index];
                         return AddImageItem(img: img);
                       },
                     ),
                   ),
                   Text(
                     "КАТЕГОРИЯ",
-                    style: TextStyleSet()
-                        .textRegular
-                        .copyWith(color: Theme.of(context).unselectedWidgetColor),
+                    style: TextStyleSet().textRegular.copyWith(
+                        color: Theme.of(context).unselectedWidgetColor),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 14),
@@ -99,9 +98,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
                   ),
                   Text(
                     "НАЗВАНИЕ",
-                    style: TextStyleSet()
-                        .textRegular
-                        .copyWith(color: Theme.of(context).unselectedWidgetColor),
+                    style: TextStyleSet().textRegular.copyWith(
+                        color: Theme.of(context).unselectedWidgetColor),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 12),
@@ -126,8 +124,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
                               Text(
                                 "ШИРОТА",
                                 style: TextStyleSet().textRegular.copyWith(
-                                    color:
-                                        Theme.of(context).unselectedWidgetColor),
+                                    color: Theme.of(context)
+                                        .unselectedWidgetColor),
                               ),
                               Padding(
                                 padding: EdgeInsets.fromLTRB(0, 12, 8, 0),
@@ -142,7 +140,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
                                   ),
                                   keyboardType: TextInputType.number,
                                   focusNode: latNode,
-                                  onSubmitted: (value) => lonNode.requestFocus(),
+                                  onSubmitted: (value) =>
+                                      lonNode.requestFocus(),
                                 ),
                               ),
                             ],
@@ -217,12 +216,13 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 padding: EdgeInsets.symmetric(vertical: 8),
                 child: ElevatedButton(
                   onPressed: () {
-                    /// Сохранение нового места
-                    newSight.name = nameController.text;
-                    newSight.lat = double.parse(latController.text);
-                    newSight.lon = double.parse(lonController.text);
-                    newSight.details = descriptionController.text;
-                    mocks.add(newSight);
+                    PlaceInteractor().addNewPlace(Place(
+                      name: nameController.text,
+                      lat: double.parse(latController.text),
+                      lon: double.parse(lonController.text),
+                      description: descriptionController.text,
+                    ));
+                    Navigator.pop(context);
                   },
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 12),

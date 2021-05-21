@@ -9,6 +9,9 @@ import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:places/ui/screen/widgets/sight_item.dart';
 
+import 'package:provider/provider.dart';
+import 'package:places/ui/screen/visiting.dart';
+
 import '../res/text_styles.dart';
 
 class SightListScreen extends StatefulWidget {
@@ -67,19 +70,21 @@ class _SightListScreenState extends State<SightListScreen> {
                     ),
                   ),
                 ),
-                (_placeList.isEmpty) ? SliverToBoxAdapter(
-                  child: Builder(
-                    builder: (_) {
-                      _getPlaces();
-                      return Container(
-                        height: 200,
-                        child: Center(
-                          child: CircularProgressIndicator(),
+                (_placeList.isEmpty)
+                    ? SliverToBoxAdapter(
+                        child: Builder(
+                          builder: (_) {
+                            _getPlaces();
+                            return Container(
+                              height: 200,
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
-                ) : SightSliverList(_placeList),
+                      )
+                    : SightSliverList(_placeList),
               ],
             ),
             Positioned(
@@ -141,7 +146,7 @@ class SightSliverList extends StatelessWidget {
                 actions: [
                   IconButton(
                     onPressed: () {
-                      print("В избранное");
+                      PlaceInteractor().toggleFavorites(item);
                     },
                     icon: SvgPicture.asset(
                       ImagesPaths.favorite,
@@ -167,7 +172,7 @@ class SightSliverList extends StatelessWidget {
                 actions: [
                   IconButton(
                     onPressed: () {
-                      print("В избранное");
+                      context.read<VisitingState>().setWont(item, DateTime.now());
                     },
                     icon: SvgPicture.asset(
                       ImagesPaths.favorite,

@@ -49,14 +49,12 @@ class VisitingState with ChangeNotifier {
   // }
 
   void setWont(Place place, DateTime date) {
-    PlaceInteractor().addToFavorites(place);
-    //mocks[mocks.indexOf(sight)].wontDate = date;
+    PlaceInteractor().toggleFavorites(place);
     notifyListeners();
   }
 
   void setVizit(Place place, DateTime date) {
     PlaceInteractor().addToVisitingPlaces(place);
-    //mocks[mocks.indexOf(sight)].visitDate = date;
     notifyListeners();
   }
 }

@@ -5,10 +5,11 @@ import 'package:places/data/repository/PlaceRepository.dart';
 final double currentLat = 56.84987946580704;
 final double currentLon = 53.247889685270756;
 
-class PlaceInteractor {
-  List<Place> _favorites = [];
-  List<Place> _viziting = [];
+/// временное хранение списков
+List<Place> favoriteList = [];
+List<Place> visitList = [];
 
+class PlaceInteractor {
   List<Place> _sortByDistance(List<Place> list) {
     list.sort((a, b) => a
         .getDistans(currentLat, currentLon)
@@ -35,19 +36,22 @@ class PlaceInteractor {
   }
 
   ///Получить список избранных мест, отсортированных по удаленности
-  List<Place> getFavoritesPlaces() => _sortByDistance(_favorites);
+  List<Place> getFavoritesPlaces() => _sortByDistance(favoriteList);
 
-  ///Добавить место в список избранных
-  void addToFavorites(Place place) => _favorites.contains(place);
+  ///Добавить место в список избранных 
+  void addToFavorites(Place place) => favoriteList.contains(place) ? null : favoriteList.add(place);
+
+  /// добавляет/удаляет место из избранного
+  void toggleFavorites(Place place) => favoriteList.contains(place) ? removeFromFavorites(place) : addToFavorites(place);
 
   ///Удалить место из списка избранных
-  void removeFromFavorites(Place place) => _favorites.remove(place);
+  void removeFromFavorites(Place place) => favoriteList.remove(place);
 
   ///Получить посещенные места
-  List<Place> getVisitPlaces() => _viziting;
+  List<Place> getVisitPlaces() => visitList;
 
   ///Добавить место в посещенные
-  void addToVisitingPlaces(Place place) => _viziting.contains(place);
+  void addToVisitingPlaces(Place place) => visitList.contains(place) ? null : visitList.add(place);
 
   ///Добавить новое место
   Future<Place> addNewPlace(Place place) async {
