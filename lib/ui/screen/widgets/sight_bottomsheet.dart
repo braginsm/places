@@ -30,7 +30,7 @@ class SightBottomheet extends StatelessWidget {
                 topRight: Radius.circular(16),
               ),
               //child: SightCard(sight)
-              child: SightCard(sight),
+              child: SightCard(sight.id),
             ),
           ),
           Positioned(

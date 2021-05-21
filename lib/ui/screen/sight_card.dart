@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
-import 'package:places/mocks.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/widgets/image_network.dart';
 
 import '../res/text_styles.dart';
 
 class SightCard extends StatefulWidget {
-  final Place sight;
-  const SightCard(this.sight, {Key key}) : super(key: key);
+  final int id;
+  const SightCard(this.id, {Key key}) : super(key: key);
 
   @override
   _SightCardState createState() => _SightCardState();
@@ -20,16 +20,34 @@ class _SightCardState extends State<SightCard> {
 
   bool _inWont = false;
 
+  Place _place;
+
+  void _getPlace() async {
+    Place place = await PlaceInteractor().getPlaceDetails(widget.id);
+    setState(() {
+      _place = place;
+    });
+  }
+
   @override
   void initState() {
-    //_inWont = mocks[mocks.indexOf(widget.sight)].wontVisit;
+    //_inWont = mocks[mocks.indexOf(_place)].wontVisit;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
+      body: (_place == null)
+        ? Builder(
+            builder: (BuildContext context) {
+              _getPlace();
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          )
+        : CustomScrollView(
         slivers: [
           SliverAppBar(
             automaticallyImplyLeading: false,
@@ -40,14 +58,14 @@ class _SightCardState extends State<SightCard> {
                 child: Stack(
                   children: [
                     PageView.builder(
-                      itemCount: widget.sight.urls.length,
+                      itemCount: _place.urls.length,
                       onPageChanged: (value) {
                         setState(() {
                           _curentImage = value;
                         });
                       },
                       itemBuilder: (context, index) {
-                        final item = widget.sight.urls[index];
+                        final item = _place.urls[index];
                         return Container(
                           width: double.infinity,
                           child: ImageNetwork(item, fit: BoxFit.cover),
@@ -61,7 +79,7 @@ class _SightCardState extends State<SightCard> {
                         width: MediaQuery.of(context).size.width,
                         child: Row(
                           children: [
-                            for (var i = 0; i < widget.sight.urls.length; i++)
+                            for (var i = 0; i < _place.urls.length; i++)
                               Expanded(
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -109,7 +127,7 @@ class _SightCardState extends State<SightCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.sight.name,
+                    _place.name,
                     style: TextStyleSet()
                         .textBold24
                         .copyWith(color: Theme.of(context).primaryColor),
@@ -121,7 +139,7 @@ class _SightCardState extends State<SightCard> {
                     child: Row(
                       children: [
                         Text(
-                          widget.sight.placeTypeName,
+                          _place.placeTypeName,
                           style: TextStyleSet()
                               .textBold
                               .copyWith(color: Theme.of(context).hintColor),
@@ -143,7 +161,7 @@ class _SightCardState extends State<SightCard> {
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 24),
                     child: Text(
-                      widget.sight.description,
+                      _place.description,
                       style: TextStyleSet().textRegular.copyWith(
                           color: Theme.of(context).secondaryHeaderColor),
                     ),
@@ -198,10 +216,10 @@ class _SightCardState extends State<SightCard> {
                                       DateTime.now().add(Duration(days: 90)),
                                 );
                                 // if (res != null) {
-                                //   mocks[mocks.indexOf(widget.sight)].wontDate =
+                                //   mocks[mocks.indexOf(_place)].wontDate =
                                 //       res;
                                 //   setState(() {
-                                //     _inWont = mocks[mocks.indexOf(widget.sight)].wontVisit;
+                                //     _inWont = mocks[mocks.indexOf(_place)].wontVisit;
                                 //   });
                                 // }
                               },
