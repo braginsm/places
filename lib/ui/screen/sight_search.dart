@@ -19,16 +19,12 @@ class SightSearchScreen extends StatefulWidget {
 }
 
 class _SightSearchScreenState extends State<SightSearchScreen> {
-  List<Sight> searchHistory = [];
-  List<Sight> searchResult = [];
 
   TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    searchHistory = [];
-    searchResult = [];
     context.read<SightSearchState>().controller = searchController;
   }
 
@@ -233,33 +229,23 @@ class SightSearchState with ChangeNotifier {
 
   set controller(TextEditingController val) => searchBarController = val;
 
-  List<Sight> _searchResult = mocks;
+  List<PLace> _searchResult = [];
 
   bool showPreloader = false;
 
-  void search(String value) {
+  void search(String value) async {
     showPreloader = true;
-    Timer(Duration(seconds: 3), () {
-      // таймаут вместо запроса из сети
-      _searchResult = value.length > 0
-          ? mocks
-              .where((element) =>
-                  element.name.toLowerCase().contains(value.toLowerCase()) &&
-                  _inDistans(element))
-              .toList()
-          : [];
-      showPreloader = false;
-      notifyListeners();
-    });
+    _searchResult = value.lenght > 0 ? await SerachInteractor().filtered(value) : []
+    showPreloader = false;
     notifyListeners();
   }
 
   void filterByRadius() {
-    _searchResult = mocks.where((f) => _inDistans(f)).toList();
+    //_searchResult = mocks.where((f) => _inDistans(f)).toList();
     notifyListeners();
   }
 
-  List<Sight> get searchResult => _searchResult;
+  List<PLace> get searchResult => _searchResult;
 
   void clear() {
     _searchResult.clear();
