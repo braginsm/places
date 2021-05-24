@@ -14,7 +14,7 @@ class Repository {
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
         print(
-            'send request to URL:${options.baseUrl}${options.path} with params: ${options.queryParameters}');
+            'send request to URL:${options.baseUrl}${options.path} with params: ${options.queryParameters}' + (options.method.toString()));
         return handler.next(options);
       },
       onResponse: _onResponse,

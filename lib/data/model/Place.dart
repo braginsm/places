@@ -67,7 +67,7 @@ class Place {
     return sqrt(dx * dx + dy * dy);
   }
 
-  String get placeTypeName => [
+  static final List<String> ruPlaceTypeNames = [
         "храм",
         "памятник",
         "парк",
@@ -77,5 +77,7 @@ class Place {
         "ресторан",
         "кафе",
         "другое"
-      ].elementAt(placeType.index);
+      ];
+
+  String get placeTypeName => ruPlaceTypeNames.elementAt(placeType.index);
 }

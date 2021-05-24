@@ -269,14 +269,7 @@ class SightSearchState with ChangeNotifier {
   bool filterValue(String name) => _filterValues[_titles.indexOf(name)];
 
   /// подписи фильтров
-  final List<String> _titles = [
-    "Отель",
-    "Ресторан",
-    "Особое место",
-    "Парк",
-    "Музей",
-    "Кафе"
-  ];
+  final List<String> _titles = Place.ruPlaceTypeNames;
 
   List<String> get titles => _titles;
 
