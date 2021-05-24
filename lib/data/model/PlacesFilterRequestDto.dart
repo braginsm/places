@@ -11,13 +11,13 @@ class PlacesFilterRequestDto {
   final double lon;
 
   ///Радиус поиска
-  final double radius;
+  final int radius;
 
   ///Фильтр со списком типов мест
-  final List<PlaceType> typeFilter;
+  final List<String> typeFilter;
 
   ///Фильтр по наименованию места
-  final List<String> nameFilter;
+  final String nameFilter;
 
   PlacesFilterRequestDto(
       {this.lat, this.lon, this.nameFilter, this.radius, this.typeFilter});
