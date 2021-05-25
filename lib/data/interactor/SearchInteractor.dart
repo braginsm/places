@@ -6,13 +6,15 @@ import 'package:places/data/repository/PlaceDtoRepository.dart';
 List<PlaceDto> searchHistory = [];
 
 class SerachInteractor {
-  Future<List<PlaceDto>> searchPlacesByName(String name) async {
-    return await PlaceDtoRepository().filtered(PlacesFilterRequestDto(
+  Future<List<PlaceDto>> searchPlacesByName(String name,
+      {double radius = 10000000.0}) async {
+    var filter = PlacesFilterRequestDto(
       lat: currentLat,
       lon: currentLon,
-      radius: 0,
+      radius: radius,
       typeFilter: ['name'],
       nameFilter: name,
-    ));
+    );
+    return await PlaceDtoRepository().filtered(filter);
   }
 }

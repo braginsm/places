@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:places/data/model/Place.dart';
 
@@ -5,19 +7,19 @@ class PlacesFilterRequestDto {
   ///Модель данных с параметрами фильтра. Все поля не обязательные, но параметры "lat", "lat" и "radius" зависят друг от друга, поэтому если указан один из них, то остальные два становятся обязательными
 
   ///Широта
-  final double lat;
+  double lat;
 
   ///Долгота
-  final double lon;
+  double lon;
 
-  ///Радиус поиска
-  final int radius;
+  ///Радиус поиска в метрах
+  double radius;
 
   ///Фильтр со списком типов мест
-  final List<String> typeFilter;
+  List<String> typeFilter;
 
   ///Фильтр по наименованию места
-  final String nameFilter;
+  String nameFilter;
 
   PlacesFilterRequestDto(
       {this.lat, this.lon, this.nameFilter, this.radius, this.typeFilter});
@@ -28,4 +30,14 @@ class PlacesFilterRequestDto {
         radius = data['radius'],
         typeFilter = data['typeFilter'].map((element) => EnumToString.fromString(PlaceType.values, element)).toList(),
         nameFilter = data['nameFilter'];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'lat': lat,
+      'lng': lon,
+      'radius': radius,
+      'typeFilter': typeFilter,
+      'nameFilter': nameFilter,
+    };
+  }
 }

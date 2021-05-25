@@ -2,8 +2,8 @@ import 'package:places/data/model/Place.dart';
 import 'package:places/data/repository/PlaceRepository.dart';
 
 /// мок места положения
-final double currentLat = 56.84987946580704;
-final double currentLon = 53.247889685270756;
+final double currentLat = /*56.84987946580704;*/ 55.749054;
+final double currentLon = /*53.247889685270756;*/ 37.623162;
 
 /// временное хранение списков
 List<Place> favoriteList = [];
@@ -38,11 +38,14 @@ class PlaceInteractor {
   ///Получить список избранных мест, отсортированных по удаленности
   List<Place> getFavoritesPlaces() => _sortByDistance(favoriteList);
 
-  ///Добавить место в список избранных 
-  void addToFavorites(Place place) => favoriteList.contains(place) ? null : favoriteList.add(place);
+  ///Добавить место в список избранных
+  void addToFavorites(Place place) =>
+      favoriteList.contains(place) ? null : favoriteList.add(place);
 
   /// добавляет/удаляет место из избранного
-  void toggleFavorites(Place place) => favoriteList.contains(place) ? removeFromFavorites(place) : addToFavorites(place);
+  void toggleFavorites(Place place) => favoriteList.contains(place)
+      ? removeFromFavorites(place)
+      : addToFavorites(place);
 
   ///Удалить место из списка избранных
   void removeFromFavorites(Place place) => favoriteList.remove(place);
@@ -51,7 +54,8 @@ class PlaceInteractor {
   List<Place> getVisitPlaces() => visitList;
 
   ///Добавить место в посещенные
-  void addToVisitingPlaces(Place place) => visitList.contains(place) ? null : visitList.add(place);
+  void addToVisitingPlaces(Place place) =>
+      visitList.contains(place) ? null : visitList.add(place);
 
   ///Добавить новое место
   Future<Place> addNewPlace(Place place) async {
