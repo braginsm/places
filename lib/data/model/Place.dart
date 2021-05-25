@@ -58,6 +58,18 @@ class Place {
         placeType =
             EnumToString.fromString(PlaceType.values, data['placeType']);
 
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "name": name,
+      "lat": lat,
+      "lng": lon,
+      "urls": urls,
+      "description": description,
+      "placeType": EnumToString.convertToString(placeType),
+    };
+  }
+
   ///Возвращает кол-во метров от Place до точки с координатами lat, lon
   double getDistans(double currentLat, double currentlon) {
     final double ky = 40000 / 0.36;
@@ -68,16 +80,16 @@ class Place {
   }
 
   static final List<String> ruPlaceTypeNames = [
-        "храм",
-        "памятник",
-        "парк",
-        "театр",
-        "музей",
-        "отель",
-        "ресторан",
-        "кафе",
-        "другое"
-      ];
+    "храм",
+    "памятник",
+    "парк",
+    "театр",
+    "музей",
+    "отель",
+    "ресторан",
+    "кафе",
+    "другое"
+  ];
 
   String get placeTypeName => ruPlaceTypeNames.elementAt(placeType.index);
 }

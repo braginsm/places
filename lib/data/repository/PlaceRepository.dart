@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:places/data/model/Place.dart';
@@ -53,7 +54,7 @@ class PlaceRepository extends Repository {
   /// Сохранение нового места
   Future<Place> save(Place place) async {
     try {
-      Response res = await dio.post('/place', data: place);
+      Response res = await dio.post('/place', data: jsonEncode(place));
       return Place.fromJson(res.data);
     } catch (e) {
       throw e;
@@ -63,7 +64,7 @@ class PlaceRepository extends Repository {
   /// Обновление данных места
   Future<Place> update(Place place) async {
     try {
-      Response res = await dio.put('/place/${place.id}', data: place);
+      Response res = await dio.put('/place/${place.id}', data: jsonEncode(place));
       return Place.fromJson(res.data);
     } catch (e) {
       throw e;
