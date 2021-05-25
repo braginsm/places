@@ -14,7 +14,7 @@ class Repository {
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
         print(
-            'send request to URL:${options.baseUrl}${options.path} with params: ${options.queryParameters}' + (options.method.toString()));
+            'send request to URL:${options.baseUrl}${options.path} with params: ${options.queryParameters} ${options.data}');
         return handler.next(options);
       },
       onResponse: _onResponse,
@@ -29,6 +29,7 @@ class Repository {
     /// Проверка статуса запроса
     switch (response.statusCode) {
       case 200:
+        print("responce data: ${response.data}");
         return handler.next(response);
         break;
       case 400:

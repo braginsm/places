@@ -234,7 +234,7 @@ class SightSearchState with ChangeNotifier {
   void search(String value) async {
     showPreloader = true;
     if (value.length > 0) {
-      _searchResult = await SerachInteractor().searchPlacesByName(value, );
+      _searchResult = await SerachInteractor().searchPlacesByName(value/*, radius: _radius.end*/);
     } else {
       _searchResult = [];
     }
