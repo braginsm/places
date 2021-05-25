@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/themes.dart';
@@ -6,6 +5,7 @@ import 'package:places/ui/screen/add_sight.dart';
 import 'package:places/ui/screen/sight_search.dart';
 import 'package:places/ui/screen/splash.dart';
 import 'package:provider/provider.dart';
+import 'data/interactor/SettingsInteractor.dart';
 import 'ui/screen/visiting.dart';
 
 Future<void> main() async {
@@ -31,14 +31,12 @@ Future<void> main() async {
 }
 
 class MainState with ChangeNotifier {
-  bool _isLight = true;
+  ThemeData get theme => themeIsBlack ? darkThema : lightThema;
 
-  ThemeData get theme => _isLight ? lightThema : darkThema;
-
-  bool get isDark => !_isLight;
+  bool get isDark => themeIsBlack;
 
   void changeTheme() {
-    _isLight = !_isLight;
+    SettingsInteractor().toggleTheme();
     notifyListeners();
   }
 }
