@@ -58,7 +58,7 @@ class PlaceInteractor {
       visitList.contains(place) ? null : visitList.add(place);
 
   ///Добавить новое место
-  Future<Place> addNewPlace(Place place) async {
-    return await PlaceRepository().save(place);
+  Future<Place> addNewPlace(Place place) {
+    return PlaceRepository().save(place);
   }
 }
