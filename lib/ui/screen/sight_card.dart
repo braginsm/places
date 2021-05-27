@@ -219,6 +219,7 @@ class _SightCardState extends State<SightCard> {
                                         lastDate: DateTime.now()
                                             .add(Duration(days: 90)),
                                       );
+                                      print(res);
                                       // if (res != null) {
                                       //   mocks[mocks.indexOf(_place)].wontDate =
                                       //       res;
