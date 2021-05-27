@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/data/model/Place.dart';
 
 import '../sight_card.dart';
 
 class SightBottomheet extends StatelessWidget {
-  final Sight sight;
+  final Place sight;
 
   const SightBottomheet({Key key, @required this.sight}) : super(key: key);
 
@@ -30,7 +30,7 @@ class SightBottomheet extends StatelessWidget {
                 topRight: Radius.circular(16),
               ),
               //child: SightCard(sight)
-              child: SightCard(sight),
+              child: SightCard(sight.id),
             ),
           ),
           Positioned(

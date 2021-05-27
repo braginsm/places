@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/domain/sight.dart';
-import 'package:places/mocks.dart';
+import 'package:places/data/interactor/SearchInteractor.dart';
+import 'package:places/data/model/Place.dart';
+import 'package:places/data/model/PlaceDto.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
-import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
-import 'dart:async';
 
 class SightSearchScreen extends StatefulWidget {
   SightSearchScreen({Key key}) : super(key: key);
@@ -19,16 +18,11 @@ class SightSearchScreen extends StatefulWidget {
 }
 
 class _SightSearchScreenState extends State<SightSearchScreen> {
-  List<Sight> searchHistory = [];
-  List<Sight> searchResult = [];
-
   TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    searchHistory = [];
-    searchResult = [];
     context.read<SightSearchState>().controller = searchController;
   }
 
@@ -163,7 +157,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 image: DecorationImage(
-                                  image: Image.network(item.url[0]).image,
+                                  image: Image.network(item.urls.first).image,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -173,7 +167,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                               style: TextStyleSet().textMedium16,
                             ),
                             subtitle: Text(
-                              item.type,
+                              item.placeTypeName,
                               style: TextStyleSet().textRegular.copyWith(
                                     color: Theme.of(context).hintColor,
                                   ),
@@ -183,10 +177,10 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                                 searchHistory.remove(item);
                                 searchHistory.insert(0, item);
                               });
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SightCard(item)));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => SightCard(item)));
                             });
                       },
                     ),
@@ -233,33 +227,27 @@ class SightSearchState with ChangeNotifier {
 
   set controller(TextEditingController val) => searchBarController = val;
 
-  List<Sight> _searchResult = mocks;
+  List<PlaceDto> _searchResult = searchHistory;
 
   bool showPreloader = false;
 
-  void search(String value) {
+  void search(String value) async {
     showPreloader = true;
-    Timer(Duration(seconds: 3), () {
-      // таймаут вместо запроса из сети
-      _searchResult = value.length > 0
-          ? mocks
-              .where((element) =>
-                  element.name.toLowerCase().contains(value.toLowerCase()) &&
-                  _inDistans(element))
-              .toList()
-          : [];
-      showPreloader = false;
-      notifyListeners();
-    });
+    if (value.length > 0) {
+      _searchResult = await SerachInteractor().searchPlacesByName(value/*, radius: _radius.end*/);
+    } else {
+      _searchResult = [];
+    }
+    showPreloader = false;
     notifyListeners();
   }
 
   void filterByRadius() {
-    _searchResult = mocks.where((f) => _inDistans(f)).toList();
+    _searchResult = _searchResult.where((f) => _inDistans(f)).toList();
     notifyListeners();
   }
 
-  List<Sight> get searchResult => _searchResult;
+  List<PlaceDto> get searchResult => _searchResult;
 
   void clear() {
     _searchResult.clear();
@@ -276,19 +264,12 @@ class SightSearchState with ChangeNotifier {
   }
 
   /// хранение значений фильтров
-  List<bool> _filterValues = List.generate(6, (index) => false);
+  List<bool> _filterValues = List.generate(PlaceType.other.index, (index) => false);
 
   bool filterValue(String name) => _filterValues[_titles.indexOf(name)];
 
   /// подписи фильтров
-  final List<String> _titles = [
-    "Отель",
-    "Ресторан",
-    "Особое место",
-    "Парк",
-    "Музей",
-    "Кафе"
-  ];
+  final List<String> _titles = Place.ruPlaceTypeNames;
 
   List<String> get titles => _titles;
 
@@ -303,13 +284,8 @@ class SightSearchState with ChangeNotifier {
     notifyListeners();
   }
 
-  /// текущие координаты 56.84987946580704, 53.247889685270756
-  final double lat = 56.84987946580704;
-  final double lon = 53.247889685270756;
-
   ///Определяет, попадает ли достопримечательность в выбанный радиус
-  bool _inDistans(Sight sight) {
-    final double _distans = sight.getDistans(lat, lon);
-    return _radius.start <= _distans && _radius.end >= _distans;
+  bool _inDistans(PlaceDto place) {
+    return _radius.start <= place.distance && _radius.end >= place.distance;
   }
 }

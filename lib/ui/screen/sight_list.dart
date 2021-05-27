@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/mocks.dart';
+import 'package:places/data/interactor/PlaceInteractor.dart';
+import 'package:places/data/model/Place.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/add_sight.dart';
 import 'package:places/ui/screen/sight_search.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:places/ui/screen/widgets/sight_item.dart';
+
+import 'package:provider/provider.dart';
+import 'package:places/ui/screen/visiting.dart';
 
 import '../res/text_styles.dart';
 
@@ -18,6 +22,15 @@ class SightListScreen extends StatefulWidget {
 }
 
 class _SightListScreenState extends State<SightListScreen> {
+  List<Place> _placeList = [];
+
+  Future<void> _getPlaces() async {
+    var res = await PlaceInteractor().getPlaces();
+    setState(() {
+      _placeList = res;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +70,21 @@ class _SightListScreenState extends State<SightListScreen> {
                     ),
                   ),
                 ),
-                SightSliverList(),
+                (_placeList.isEmpty)
+                    ? SliverToBoxAdapter(
+                        child: Builder(
+                          builder: (_) {
+                            _getPlaces();
+                            return Container(
+                              height: 200,
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : SightSliverList(_placeList),
               ],
             ),
             Positioned(
@@ -102,7 +129,8 @@ class _SightListScreenState extends State<SightListScreen> {
 }
 
 class SightSliverList extends StatelessWidget {
-  const SightSliverList({Key key}) : super(key: key);
+  final List<Place> placeList;
+  const SightSliverList(this.placeList, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +138,7 @@ class SightSliverList extends StatelessWidget {
       return SliverList(
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
-            final item = mocks[index];
+            final item = placeList[index];
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: SightItem(
@@ -118,7 +146,7 @@ class SightSliverList extends StatelessWidget {
                 actions: [
                   IconButton(
                     onPressed: () {
-                      print("В избранное");
+                      PlaceInteractor().toggleFavorites(item);
                     },
                     icon: SvgPicture.asset(
                       ImagesPaths.favorite,
@@ -129,14 +157,14 @@ class SightSliverList extends StatelessWidget {
               ),
             );
           },
-          childCount: mocks.length,
+          childCount: placeList.length,
         ),
       );
     } else {
       return SliverGrid(
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
-            final item = mocks[index];
+            final item = placeList[index];
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: SightItem(
@@ -144,7 +172,7 @@ class SightSliverList extends StatelessWidget {
                 actions: [
                   IconButton(
                     onPressed: () {
-                      print("В избранное");
+                      context.read<VisitingState>().setWont(item, DateTime.now());
                     },
                     icon: SvgPicture.asset(
                       ImagesPaths.favorite,
@@ -155,7 +183,7 @@ class SightSliverList extends StatelessWidget {
               ),
             );
           },
-          childCount: mocks.length,
+          childCount: placeList.length,
         ),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
