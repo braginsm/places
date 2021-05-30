@@ -153,64 +153,64 @@ class SightSliverList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if ((MediaQuery.of(context).orientation == Orientation.portrait)) {
-      return SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            final item = placeList[index];
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: SightItem(
-                item,
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      PlaceInteractor().toggleFavorites(item);
-                    },
-                    icon: SvgPicture.asset(
-                      ImagesPaths.favorite,
-                      color: Theme.of(context).canvasColor,
+    return OrientationBuilder(
+      builder: (context, orientations) {
+        return (orientations == Orientation.portrait) ? SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              final item = placeList[index];
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: SightItem(
+                  item,
+                  actions: [
+                    IconButton(
+                      onPressed: () {
+                        PlaceInteractor().toggleFavorites(item);
+                      },
+                      icon: SvgPicture.asset(
+                        ImagesPaths.favorite,
+                        color: Theme.of(context).canvasColor,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
-          childCount: placeList.length,
-        ),
-      );
-    } else {
-      return SliverGrid(
-        delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            final item = placeList[index];
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: SightItem(
-                item,
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      context
-                          .read<VisitingState>()
-                          .setWont(item, DateTime.now());
-                    },
-                    icon: SvgPicture.asset(
-                      ImagesPaths.favorite,
-                      color: Theme.of(context).canvasColor,
+                  ],
+                ),
+              );
+            },
+            childCount: placeList.length,
+          ),
+        ) : SliverGrid(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              final item = placeList[index];
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: SightItem(
+                  item,
+                  actions: [
+                    IconButton(
+                      onPressed: () {
+                        context
+                            .read<VisitingState>()
+                            .setWont(item, DateTime.now());
+                      },
+                      icon: SvgPicture.asset(
+                        ImagesPaths.favorite,
+                        color: Theme.of(context).canvasColor,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
-          childCount: placeList.length,
-        ),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1.5,
-        ),
-      );
-    }
+                  ],
+                ),
+              );
+            },
+            childCount: placeList.length,
+          ),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 1.5,
+          ),
+        );
+      },
+    );
   }
 }
