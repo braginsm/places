@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
@@ -14,23 +16,8 @@ import 'package:places/ui/screen/visiting.dart';
 
 import '../res/text_styles.dart';
 
-class SightListScreen extends StatefulWidget {
-  SightListScreen({Key key}) : super(key: key);
-
-  @override
-  _SightListScreenState createState() => _SightListScreenState();
-}
-
-class _SightListScreenState extends State<SightListScreen> {
-  List<Place> _placeList = [];
-
-  Future<void> _getPlaces() async {
-    var res = await PlaceInteractor().getPlaces();
-    setState(() {
-      _placeList = res;
-    });
-  }
-
+class SightListScreen extends StatelessWidget {
+  const SightListScreen({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,21 +57,7 @@ class _SightListScreenState extends State<SightListScreen> {
                     ),
                   ),
                 ),
-                (_placeList.isEmpty)
-                    ? SliverToBoxAdapter(
-                        child: Builder(
-                          builder: (_) {
-                            _getPlaces();
-                            return Container(
-                              height: 200,
-                              child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    : SightSliverList(_placeList),
+                StreamSliverList(),
               ],
             ),
             Positioned(
@@ -128,68 +101,116 @@ class _SightListScreenState extends State<SightListScreen> {
   }
 }
 
+class StreamSliverList extends StatefulWidget {
+  StreamSliverList({Key key}) : super(key: key);
+
+  @override
+  _StreamSliverListState createState() => _StreamSliverListState();
+}
+
+class _StreamSliverListState extends State<StreamSliverList> {
+  StreamController _controller = new StreamController<List<Place>>();
+
+  Future<void> _getPlaceList(int offset) async {
+    var res = await PlaceInteractor().getPlaces(offset: offset);
+    _controller.sink.add(res);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //TODO: Сделать подгрузку следуюущих мест при скроле
+    _getPlaceList(0);
+    return StreamBuilder<List<Place>>(
+      initialData: [],
+      stream: _controller.stream,
+      builder: (context, snapshot) {
+        return (snapshot.connectionState == ConnectionState.waiting)
+            ? SliverToBoxAdapter(
+                child: Container(
+                  height: 200,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).accentColor,
+                    ),
+                  ),
+                ),
+              )
+            : SightSliverList(snapshot.data);
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.close();
+    super.dispose();
+  }
+}
+
 class SightSliverList extends StatelessWidget {
   final List<Place> placeList;
   const SightSliverList(this.placeList, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if ((MediaQuery.of(context).orientation == Orientation.portrait)) {
-      return SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            final item = placeList[index];
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: SightItem(
-                item,
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      PlaceInteractor().toggleFavorites(item);
-                    },
-                    icon: SvgPicture.asset(
-                      ImagesPaths.favorite,
-                      color: Theme.of(context).canvasColor,
+    return OrientationBuilder(
+      builder: (context, orientations) {
+        return (orientations == Orientation.portrait) ? SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              final item = placeList[index];
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: SightItem(
+                  item,
+                  actions: [
+                    IconButton(
+                      onPressed: () {
+                        PlaceInteractor().toggleFavorites(item);
+                      },
+                      icon: SvgPicture.asset(
+                        ImagesPaths.favorite,
+                        color: Theme.of(context).canvasColor,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
-          childCount: placeList.length,
-        ),
-      );
-    } else {
-      return SliverGrid(
-        delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            final item = placeList[index];
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: SightItem(
-                item,
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      context.read<VisitingState>().setWont(item, DateTime.now());
-                    },
-                    icon: SvgPicture.asset(
-                      ImagesPaths.favorite,
-                      color: Theme.of(context).canvasColor,
+                  ],
+                ),
+              );
+            },
+            childCount: placeList.length,
+          ),
+        ) : SliverGrid(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              final item = placeList[index];
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: SightItem(
+                  item,
+                  actions: [
+                    IconButton(
+                      onPressed: () {
+                        context
+                            .read<VisitingState>()
+                            .setWont(item, DateTime.now());
+                      },
+                      icon: SvgPicture.asset(
+                        ImagesPaths.favorite,
+                        color: Theme.of(context).canvasColor,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
-          childCount: placeList.length,
-        ),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1.5,
-        ),
-      );
-    }
+                  ],
+                ),
+              );
+            },
+            childCount: placeList.length,
+          ),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 1.5,
+          ),
+        );
+      },
+    );
   }
 }
