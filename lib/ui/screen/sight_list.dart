@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
+import 'package:places/data/repository/NetworkExeption.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/add_sight.dart';
 import 'package:places/ui/screen/sight_search.dart';
+import 'package:places/ui/screen/smthError.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:places/ui/screen/widgets/sight_item.dart';
@@ -112,8 +114,14 @@ class _StreamSliverListState extends State<StreamSliverList> {
   StreamController _controller = new StreamController<List<Place>>();
 
   Future<void> _getPlaceList(int offset) async {
-    var res = await PlaceInteractor().getPlaces(offset: offset);
-    _controller.sink.add(res);
+    try {
+      var res = await PlaceInteractor().getPlaces(offset: offset);
+      _controller.sink.add(res);
+    } on NetworkExeption catch (e) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) {
+        return SmthError();
+      }));
+    }
   }
 
   @override

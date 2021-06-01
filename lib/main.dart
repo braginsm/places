@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:places/ui/res/themes.dart';
 import 'package:places/ui/screen/add_sight.dart';
 import 'package:places/ui/screen/sight_search.dart';
-import 'package:places/ui/screen/smthError.dart';
 import 'package:places/ui/screen/splash.dart';
 import 'package:provider/provider.dart';
 import 'data/interactor/SettingsInteractor.dart';

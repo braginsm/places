@@ -4,7 +4,7 @@ class Repository {
   Dio dio;
   Repository() {
     BaseOptions _options = BaseOptions(
-      baseUrl: "https://test-backend-flutter.surfstudio.ru",
+      baseUrl: "https://test-backend-flutter.surfstudio.rus",
       connectTimeout: 5000,
       receiveTimeout: 5000,
       sendTimeout: 5000,
