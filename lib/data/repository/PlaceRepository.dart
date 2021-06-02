@@ -6,14 +6,16 @@ import 'package:places/data/model/Place.dart';
 import 'package:places/data/repository/repository.dart';
 import 'package:places/data/res/endPoints.dart';
 
+import 'NetworkExeption.dart';
+
 class PlaceRepository extends Repository {
   /// Получение места по его id
   Future<Place> getById(int id) async {
     try {
       Response res = await dio.get("${EndPoint.place}/$id");
       return Place.fromJson(res.data);
-    } catch (e) {
-      rethrow;
+    } on DioError catch (e) {
+      throw NetworkExeption(e);
     }
   }
 
@@ -22,8 +24,8 @@ class PlaceRepository extends Repository {
     try {
       await dio.delete("${EndPoint.place}/$id");
       return true;
-    } catch (e) {
-      rethrow;
+    } on DioError catch (e) {
+      throw NetworkExeption(e);
     }
   }
 
@@ -46,8 +48,8 @@ class PlaceRepository extends Repository {
     try {
       Response res = await dio.get(EndPoint.place, queryParameters: queryParameters);
       return (res.data as List<dynamic>).map((e) => Place.fromJson(e)).toList();
-    } catch (e) {
-      rethrow;
+    } on DioError catch (e) {
+      throw NetworkExeption(e);
     }
   }
 
@@ -56,8 +58,8 @@ class PlaceRepository extends Repository {
     try {
       Response res = await dio.post(EndPoint.place, data: jsonEncode(place));
       return Place.fromJson(res.data);
-    } catch (e) {
-      rethrow;
+    } on DioError catch (e) {
+      throw NetworkExeption(e);
     }
   }
 
@@ -67,8 +69,8 @@ class PlaceRepository extends Repository {
       Response res =
           await dio.put('${EndPoint.place}/${place.id}', data: jsonEncode(place));
       return Place.fromJson(res.data);
-    } catch (e) {
-      rethrow;
+    } on DioError catch (e) {
+      throw NetworkExeption(e);
     }
   }
 }

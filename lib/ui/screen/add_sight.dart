@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
+import 'package:places/data/repository/NetworkExeption.dart';
 import 'package:places/ui/res/text_styles.dart';
+import 'package:places/ui/screen/smthError.dart';
 import 'package:places/ui/screen/widgets/add_image_item.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +25,22 @@ class _AddSightScreenState extends State<AddSightScreen> {
   FocusNode latNode = FocusNode();
   FocusNode lonNode = FocusNode();
   FocusNode descriptionNode = FocusNode();
+
+  void _addPlace() {
+    try {
+      PlaceInteractor().addNewPlace(Place(
+        name: nameController.text,
+        lat: double.parse(latController.text),
+        lon: double.parse(lonController.text),
+        description: descriptionController.text,
+      ));
+      Navigator.pop(context);
+    } on NetworkExeption catch (e) {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+        return SmthError();
+      }));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -214,15 +232,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 8),
                 child: ElevatedButton(
-                  onPressed: () {
-                    PlaceInteractor().addNewPlace(Place(
-                      name: nameController.text,
-                      lat: double.parse(latController.text),
-                      lon: double.parse(lonController.text),
-                      description: descriptionController.text,
-                    ));
-                    Navigator.pop(context);
-                  },
+                  onPressed: _addPlace,
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 12),
                     child: Text(
