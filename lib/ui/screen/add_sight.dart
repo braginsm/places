@@ -28,7 +28,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
   void _addPlace() {
     try {
-      PlaceInteractor().addNewPlace(Place(
+      context.read<PlaceInteractor>().addNewPlace(Place(
         name: nameController.text,
         lat: double.parse(latController.text),
         lon: double.parse(lonController.text),

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/ui/res/themes.dart';
 import 'package:places/ui/screen/add_sight.dart';
 import 'package:places/ui/screen/sight_search.dart';
@@ -24,6 +25,7 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (BuildContext context) => AddSightState(),
         ),
+        Provider(create: (_) => PlaceInteractor(),),
       ],
       child: App(),
     ),
