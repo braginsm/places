@@ -28,7 +28,7 @@ class _SightCardState extends State<SightCard> {
 
   void _getPlace() async {
     try {
-      Place place = await PlaceInteractor().getPlaceDetails(widget.id);
+      Place place = await context.read<PlaceInteractor>().getPlaceDetails(widget.id);
       setState(() {
         _place = place;
       });
