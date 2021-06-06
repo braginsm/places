@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobx/mobx.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
 import 'package:places/data/repository/NetworkExeption.dart';
-import 'package:places/data/repository/PlaceRepository.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/add_sight.dart';
 import 'package:places/ui/screen/sight_search.dart';
@@ -124,14 +124,9 @@ class _StreamSliverListState extends State<StreamSliverList> {
   @override
   void initState() {
     super.initState();
-    _store = PlaceListStore(PlaceRepository());
-    _getPlaceList();
-  }
-
-  void _getPlaceList() {
+    _store = PlaceListStore(context.read<PlaceInteractor>());
     try {
-      var res = _store.getPlaceListFuture.value;
-      _controller.sink.add(res);
+      _store.getPlaceList();
     } on NetworkExeption catch (e) {
       Navigator.push(context, MaterialPageRoute(builder: (_) {
         return SmthError();
@@ -141,18 +136,16 @@ class _StreamSliverListState extends State<StreamSliverList> {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (BuildContext context) {
-        return StreamBuilder<List<Place>>(
-          initialData: [],
-          stream: _controller.stream,
-          builder: (context, snapshot) {
-            return (snapshot.connectionState == ConnectionState.waiting)
-                ? SliverPreloader()
-                : SightSliverList(snapshot.data, widget.orientation);
-          },
-        );
-      },
+    return Provider<PlaceListStore>(
+      create: (_) => _store,
+      child: Observer(
+        builder: (BuildContext context) {
+          return (_store.getPlaceListFuture.status == FutureStatus.pending)
+              ? SliverPreloader()
+              : SightSliverList(
+                  _store.getPlaceListFuture.value, widget.orientation);
+        },
+      ),
     );
   }
 
@@ -183,7 +176,7 @@ class SightSliverList extends StatelessWidget {
                     actions: [
                       IconButton(
                         onPressed: () {
-                          context.read<PlaceInteractor>().toggleFavorites(item);
+                          context.read<PlaceListStore>().toggleFavorites(item);
                         },
                         icon: SvgPicture.asset(
                           ImagesPaths.favorite,
