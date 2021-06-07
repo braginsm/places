@@ -19,6 +19,8 @@ dependencies:
   intl: ^0.17.0
   dio: ^4.0.0
   enum_to_string: ^2.0.1
+  flutter_bloc: ^7.0.1
+  equatable: ^2.0.2
 
 dev_dependencies:
   flutter_test:
