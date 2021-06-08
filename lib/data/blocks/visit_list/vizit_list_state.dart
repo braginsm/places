@@ -11,11 +11,21 @@ abstract class VisitListState extends Equatable {
 /// состояние загрузки данных
 class VisitListLoadingInProgress extends VisitListState {}
 
-/// состояние загруженных данных
+/// состояние загруженных посещенных мест
 class VisitListLoadingSuccess extends VisitListState {
+  final List<Place> visitList;
+
+  VisitListLoadingSuccess(this.visitList);
+
+  @override
+  List<Object> get props => [visitList];
+}
+
+/// состояние загруженных избранных мест
+class FavoritListLoadingSuccess extends VisitListState {
   final List<Place> favoritList;
 
-  VisitListLoadingSuccess(this.favoritList);
+  FavoritListLoadingSuccess(this.favoritList);
 
   @override
   List<Object> get props => [favoritList];
