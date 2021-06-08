@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobx/mobx.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
 import 'package:places/data/repository/NetworkExeption.dart';
@@ -12,6 +14,7 @@ import 'package:places/ui/screen/smthError.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:places/ui/screen/widgets/sight_item.dart';
+import 'package:places/data/store/place_list/place_list_store.dart';
 
 import 'package:provider/provider.dart';
 import 'package:places/ui/screen/visiting.dart';
@@ -27,45 +30,43 @@ class SightListScreen extends StatelessWidget {
         child: Stack(
           alignment: AlignmentDirectional.bottomCenter,
           children: [
-            OrientationBuilder(
-              builder: (context, orientation) {
-                return CustomScrollView(
-                  slivers: [
-                    SliverAppBar(
-                      leadingWidth: 0,
-                      pinned: true,
-                      automaticallyImplyLeading: false,
-                      expandedHeight: 150,
-                      flexibleSpace: FlexibleSpaceBar(
-                        title: Text(
-                          "Список интересных мест",
-                          maxLines: 2,
-                        ),
-                        centerTitle: true,
-                        titlePadding: EdgeInsets.all(16),
+            OrientationBuilder(builder: (context, orientation) {
+              return CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    leadingWidth: 0,
+                    pinned: true,
+                    automaticallyImplyLeading: false,
+                    expandedHeight: 150,
+                    flexibleSpace: FlexibleSpaceBar(
+                      title: Text(
+                        "Список интересных мест",
+                        maxLines: 2,
+                      ),
+                      centerTitle: true,
+                      titlePadding: EdgeInsets.all(16),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: PreferredSize(
+                      preferredSize: Size(double.infinity, 64),
+                      child: SearchBar(
+                        readOnly: true,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SightSearchScreen(),
+                            ),
+                          );
+                        },
                       ),
                     ),
-                    SliverToBoxAdapter(
-                      child: PreferredSize(
-                        preferredSize: Size(double.infinity, 64),
-                        child: SearchBar(
-                          readOnly: true,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SightSearchScreen(),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    StreamSliverList(orientation),
-                  ],
-                );
-              }
-            ),
+                  ),
+                  StreamSliverList(orientation),
+                ],
+              );
+            }),
             Positioned(
               bottom: 16,
               child: InkWell(
@@ -118,11 +119,14 @@ class StreamSliverList extends StatefulWidget {
 
 class _StreamSliverListState extends State<StreamSliverList> {
   StreamController _controller = new StreamController<List<Place>>();
+  PlaceListStore _store;
 
-  Future<void> _getPlaceList(int offset) async {
+  @override
+  void initState() {
+    super.initState();
+    _store = PlaceListStore(context.read<PlaceInteractor>());
     try {
-      var res = await context.read<PlaceInteractor>().getPlaces(offset: offset);
-      _controller.sink.add(res);
+      _store.getPlaceList();
     } on NetworkExeption catch (e) {
       Navigator.push(context, MaterialPageRoute(builder: (_) {
         return SmthError();
@@ -132,16 +136,16 @@ class _StreamSliverListState extends State<StreamSliverList> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Сделать подгрузку следуюущих мест при скроле
-    _getPlaceList(0);
-    return StreamBuilder<List<Place>>(
-      initialData: [],
-      stream: _controller.stream,
-      builder: (context, snapshot) {
-        return (snapshot.connectionState == ConnectionState.waiting)
-            ? SliverPreloader()
-            : SightSliverList(snapshot.data, widget.orientation);
-      },
+    return Provider<PlaceListStore>(
+      create: (_) => _store,
+      child: Observer(
+        builder: (BuildContext context) {
+          return (_store.getPlaceListFuture.status == FutureStatus.pending)
+              ? SliverPreloader()
+              : SightSliverList(
+                  _store.getPlaceListFuture.value, widget.orientation);
+        },
+      ),
     );
   }
 
@@ -155,66 +159,68 @@ class _StreamSliverListState extends State<StreamSliverList> {
 class SightSliverList extends StatelessWidget {
   final List<Place> placeList;
   final Orientation orientation;
-  const SightSliverList(this.placeList, this.orientation, {Key key}) : super(key: key);
+  const SightSliverList(this.placeList, this.orientation, {Key key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return (orientation == Orientation.portrait)
-      ? SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              final item = placeList[index];
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: SightItem(
-                  item,
-                  actions: [
-                    IconButton(
-                      onPressed: () {
-                        context.read<PlaceInteractor>().toggleFavorites(item);
-                      },
-                      icon: SvgPicture.asset(
-                        ImagesPaths.favorite,
-                        color: Theme.of(context).canvasColor,
+        ? SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                final item = placeList[index];
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: SightItem(
+                    item,
+                    actions: [
+                      IconButton(
+                        onPressed: () {
+                          context.read<PlaceListStore>().toggleFavorites(item);
+                        },
+                        icon: SvgPicture.asset(
+                          ImagesPaths.favorite,
+                          color: Theme.of(context).canvasColor,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            childCount: placeList.length,
-          ),
-      ) : SliverGrid(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              final item = placeList[index];
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: SightItem(
-                  item,
-                  actions: [
-                    IconButton(
-                      onPressed: () {
-                        context
-                            .read<VisitingState>()
-                            .setWont(item, DateTime.now());
-                      },
-                      icon: SvgPicture.asset(
-                        ImagesPaths.favorite,
-                        color: Theme.of(context).canvasColor,
+                    ],
+                  ),
+                );
+              },
+              childCount: placeList.length,
+            ),
+          )
+        : SliverGrid(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                final item = placeList[index];
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: SightItem(
+                    item,
+                    actions: [
+                      IconButton(
+                        onPressed: () {
+                          context
+                              .read<VisitingState>()
+                              .setWont(item, DateTime.now());
+                        },
+                        icon: SvgPicture.asset(
+                          ImagesPaths.favorite,
+                          color: Theme.of(context).canvasColor,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            childCount: placeList.length,
-          ),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 1.5,
-          ),
-      );
+                    ],
+                  ),
+                );
+              },
+              childCount: placeList.length,
+            ),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 1.5,
+            ),
+          );
   }
 }
 
