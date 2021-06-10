@@ -20,13 +20,3 @@ class VisitListLoadingSuccess extends VisitListState {
   @override
   List<Object> get props => [visitList];
 }
-
-/// состояние загруженных избранных мест
-class FavoritListLoadingSuccess extends VisitListState {
-  final List<Place> favoritList;
-
-  FavoritListLoadingSuccess(this.favoritList);
-
-  @override
-  List<Object> get props => [favoritList];
-}

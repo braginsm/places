@@ -16,29 +16,32 @@ class VisitListBlock extends Bloc<VisitListEvent, VisitListState> {
   @override
   Stream<VisitListState> mapEventToState(VisitListEvent event) async* {
     if (event is VisitListLoadEvent) {
-      yield* _mapVisitListLoadToState();
+      yield* _mapVisitListLoadEventToState();
     }
-    if (event is FavoritListLoadEvent) {
-      yield* _mapFavoritListLoadToState();
+
+    if (event is VisitItemToVisitEvent) {
+      yield* _mapVisitItemToVisitEventToState();
     }
-    if (event is VisitItemToFavoritEvent) {
-      yield* _mapVisitItemToFavoritToState();
+
+    if (event is VisitItemRemoveFromVisitEvent) {
+      yield* _mapVisitItemRemoveFromVisitEventToState();
     }
   }
 
-  Stream<VisitListState> _mapVisitListLoadToState() async* {
-    final List<Place> favoritList = _placeInteractor.getVisitPlaces();
-    yield VisitListLoadingSuccess(favoritList);
+  Stream<VisitListState> _mapVisitListLoadEventToState() async* {
+    final List<Place> vizitList = _placeInteractor.getVisitPlaces();
+    yield VisitListLoadingSuccess(vizitList);
   }
 
-  Stream<VisitListState> _mapFavoritListLoadToState() async* {
-    final List<Place> favoritList = _placeInteractor.getFavoritesPlaces();
-    yield FavoritListLoadingSuccess(favoritList);
+  Stream<VisitListState> _mapVisitItemToVisitEventToState() async* {
+    if (place != null) _placeInteractor.addToVisitingPlaces(place);
+    final List<Place> vizitList = _placeInteractor.getVisitPlaces();
+    yield VisitListLoadingSuccess(vizitList);
   }
 
-  Stream<VisitListState> _mapVisitItemToFavoritToState() async* {
-    _placeInteractor.addToFavorites(place);
-    final List<Place> favoritList = _placeInteractor.getFavoritesPlaces();
-    yield FavoritListLoadingSuccess(favoritList);
+  Stream<VisitListState> _mapVisitItemRemoveFromVisitEventToState() async* {
+    if (place != null) _placeInteractor.removeFromFavorites(place);
+    final List<Place> vizitList = _placeInteractor.getVisitPlaces();
+    yield VisitListLoadingSuccess(vizitList);
   }
 }

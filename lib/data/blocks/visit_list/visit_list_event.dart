@@ -11,15 +11,6 @@ abstract class VisitListEvent extends Equatable {
 /// событие начала закгрузки посещенных мест
 class VisitListLoadEvent extends VisitListEvent {}
 
-/// событие начала закгрузки избранных мест
-class FavoritListLoadEvent extends VisitListEvent {}
-
-/// событие добавления элемента списка в избранное
-class VisitItemToFavoritEvent extends VisitListEvent {}
-
-/// событие удаления элемента списка из избранного
-class VisitItemRemoveFromFavoritEvent extends VisitListEvent {}
-
 /// событие добавления элемента списка в посещенное
 class VisitItemToVisitEvent extends VisitListEvent {}
 
