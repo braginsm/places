@@ -233,9 +233,7 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
                           children: [
                             DismissibleSightItem(
                               item,
-                              onDismissed: (dismissDirection) => context
-                                  .read<VisitingState>()
-                                  .removeWont(item),
+                              onDismissed: (dismissDirection) => _block.add(VisitItemRemoveFromFavoritEvent(item)),
                               actions: [
                                 Draggable<Place>(
                                   data: item,
@@ -270,11 +268,8 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
                                   ),
                                 ),
                                 IconButton(
-                                  onPressed: () {
-                                    context
-                                        .read<VisitingState>()
-                                        .removeWont(item);
-                                  },
+                                  onPressed: () => 
+                                    _block.add(VisitItemRemoveFromFavoritEvent(item)),
                                   icon: Icon(
                                     Icons.close,
                                     color: Theme.of(context).canvasColor,

@@ -8,9 +8,8 @@ import 'favorit_list_state.dart';
 /// блок экрана списка избанных мест
 class FavoritListBloc extends Bloc<FavoritListEvent, FavoritListState> {
   final PlaceInteractor _placeInteractor;
-  final Place place;
 
-  FavoritListBloc(this._placeInteractor, {this.place})
+  FavoritListBloc(this._placeInteractor)
       : super(FavoritListLoadingInProgress());
 
   @override
@@ -20,11 +19,11 @@ class FavoritListBloc extends Bloc<FavoritListEvent, FavoritListState> {
     }
 
     if (event is VisitItemToFavoritEvent) {
-      yield* _mapVisitItemToFavoritEventToState();
+      yield* _mapVisitItemToFavoritEventToState(event.place);
     }
 
     if (event is VisitItemRemoveFromFavoritEvent) {
-      yield* _mapVisitItemRemoveFromFavoritEventToState();
+      yield* _mapVisitItemRemoveFromFavoritEventToState(event.place);
     }
   }
 
@@ -33,14 +32,14 @@ class FavoritListBloc extends Bloc<FavoritListEvent, FavoritListState> {
     yield FavoritListLoadingSuccess(favoritList);
   }
 
-  Stream<FavoritListState> _mapVisitItemToFavoritEventToState() async* {
-    if (place != null) _placeInteractor.addToFavorites(place);
+  Stream<FavoritListState> _mapVisitItemToFavoritEventToState(Place place) async* {
+    _placeInteractor.addToFavorites(place);
     final List<Place> favoritList = _placeInteractor.getFavoritesPlaces();
     yield FavoritListLoadingSuccess(favoritList);
   }
 
-  Stream<FavoritListState> _mapVisitItemRemoveFromFavoritEventToState() async* {
-    if (place != null) _placeInteractor.removeFromFavorites(place);
+  Stream<FavoritListState> _mapVisitItemRemoveFromFavoritEventToState(Place place) async* {
+    _placeInteractor.removeFromFavorites(place);
     final List<Place> favoritList = _placeInteractor.getFavoritesPlaces();
     yield FavoritListLoadingSuccess(favoritList);
   }
