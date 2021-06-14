@@ -6,11 +6,11 @@ import 'favorit_list_event.dart';
 import 'favorit_list_state.dart';
 
 /// блок экрана списка избанных мест
-class VisitListBlock extends Bloc<FavoritListEvent, FavoritListState> {
+class FavoritListBloc extends Bloc<FavoritListEvent, FavoritListState> {
   final PlaceInteractor _placeInteractor;
   final Place place;
 
-  VisitListBlock(this._placeInteractor, {this.place})
+  FavoritListBloc(this._placeInteractor, {this.place})
       : super(FavoritListLoadingInProgress());
 
   @override

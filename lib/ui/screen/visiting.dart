@@ -2,7 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/data/blocks/favorit_list/favorit_list_bloc.dart';
+import 'package:places/data/blocks/favorit_list/favorit_list_event.dart';
+import 'package:places/data/blocks/favorit_list/favorit_list_state.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
 import 'package:places/ui/res/images.dart';
@@ -100,7 +104,8 @@ class _VisitingScreenState extends State<VisitingScreen> {
           ),
         ),
         body: TabBarView(
-          children: [_FavoritTabItemWidget(),
+          children: [
+            _FavoritTabItemWidget(),
             context.watch<VisitingState>().visitList.length > 0
                 ? _VisitTabItemWidget()
                 : EmptyListVisited(),
@@ -189,90 +194,114 @@ class _CupertinoWontDateModalState extends State<CupertinoWontDateModal> {
   }
 }
 
-
-class _FavoritTabItemWidget extends StatelessWidget {
+class _FavoritTabItemWidget extends StatefulWidget {
   const _FavoritTabItemWidget({Key key}) : super(key: key);
 
   @override
+  __FavoritTabItemWidgetState createState() => __FavoritTabItemWidgetState();
+}
+
+class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
+  FavoritListBloc _block;
+
+  @override
+  void initState() {
+    super.initState();
+    _block = FavoritListBloc(context.read<PlaceInteractor>())..add(FavoritListLoadEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return 
-      context.watch<VisitingState>().wontList.isEmpty
-        ? EmptyListWont()
-        : ListView.builder(
-          itemCount: context.watch<VisitingState>().wontList.length,
-          itemBuilder: (context, index) {
-            final item =
-                context.watch<VisitingState>().wontList[index];
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  DismissibleSightItem(
-                    item,
-                    onDismissed: (dismissDirection) => context
-                        .read<VisitingState>()
-                        .removeWont(item),
-                    actions: [
-                      Draggable<Place>(
-                        data: item,
-                        child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Icon(
-                            Icons.sort,
-                            color: Theme.of(context).canvasColor,
-                          ),
+    return BlocProvider<FavoritListBloc>(
+      create: (context) => _block,
+      child: BlocBuilder<FavoritListBloc, FavoritListState>(
+        builder: (context, state) {
+          if (state is FavoritListLoadingInProgress) {
+            return _ListPreloaderWidget();
+          }
+          if (state is FavoritListLoadingSuccess) {
+            final placeList = state.favoritList;
+            return placeList.isEmpty
+                ? EmptyListWont()
+                : ListView.builder(
+                    itemCount: placeList.length,
+                    itemBuilder: (context, index) {
+                      final item = placeList[index];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            DismissibleSightItem(
+                              item,
+                              onDismissed: (dismissDirection) => context
+                                  .read<VisitingState>()
+                                  .removeWont(item),
+                              actions: [
+                                Draggable<Place>(
+                                  data: item,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Icon(
+                                      Icons.sort,
+                                      color: Theme.of(context).canvasColor,
+                                    ),
+                                  ),
+                                  feedback: Container(
+                                    child: SightItem(item),
+                                    width: 300,
+                                  ),
+                                  onDragStarted: () {
+                                    context
+                                        .read<VisitingState>()
+                                        .togleShowTarget();
+                                  },
+                                  onDragEnd: (details) {
+                                    context
+                                        .read<VisitingState>()
+                                        .togleShowTarget();
+                                  },
+                                ),
+                                IconButton(
+                                  onPressed: () =>
+                                      _showDatePicker(context, item),
+                                  icon: SvgPicture.asset(
+                                    ImagesPaths.calendar,
+                                    color: Theme.of(context).canvasColor,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    context
+                                        .read<VisitingState>()
+                                        .removeWont(item);
+                                  },
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: Theme.of(context).canvasColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            VisitingDragTarget(
+                              item: item,
+                              onAccept: (sight) {
+                                // context
+                                //     .read<VisitingState>()
+                                //     .moveWont(item, sight);
+                              },
+                              show:
+                                  context.watch<VisitingState>().wontDragTarget,
+                            ),
+                          ],
                         ),
-                        feedback: Container(
-                          child: SightItem(item),
-                          width: 300,
-                        ),
-                        onDragStarted: () {
-                          context
-                              .read<VisitingState>()
-                              .togleShowTarget();
-                        },
-                        onDragEnd: (details) {
-                          context
-                              .read<VisitingState>()
-                              .togleShowTarget();
-                        },
-                      ),
-                      IconButton(
-                        onPressed: () =>
-                            _showDatePicker(context, item),
-                        icon: SvgPicture.asset(
-                          ImagesPaths.calendar,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          context
-                              .read<VisitingState>()
-                              .removeWont(item);
-                        },
-                        icon: Icon(
-                          Icons.close,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                  VisitingDragTarget(
-                    item: item,
-                    onAccept: (sight) {
-                      // context
-                      //     .read<VisitingState>()
-                      //     .moveWont(item, sight);
+                      );
                     },
-                    show:
-                        context.watch<VisitingState>().wontDragTarget,
-                  ),
-                ],
-              ),
-            );
-          },
-        );
+                  );
+          }
+          throw ArgumentError("Неожиданное состояние в _FavoritTabItemWidget");
+        },
+      ),
+    );
   }
 }
 
@@ -299,74 +328,68 @@ class _VisitTabItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return context.watch<VisitingState>().visitList.isEmpty
-      ? EmptyListVisited()
-      : ListView.builder(
-          itemCount: context.watch<VisitingState>().visitList.length,
-          itemBuilder: (context, index) {
-            final item =
-                context.watch<VisitingState>().visitList[index];
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  DismissibleSightItem(
-                    item,
-                    onDismissed: (dismissDirection) => context
-                        .read<VisitingState>()
-                        .removeWont(item),
-                    actions: [
-                      Draggable<Place>(
-                        data: item,
-                        child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Icon(
-                            Icons.sort,
+        ? EmptyListVisited()
+        : ListView.builder(
+            itemCount: context.watch<VisitingState>().visitList.length,
+            itemBuilder: (context, index) {
+              final item = context.watch<VisitingState>().visitList[index];
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    DismissibleSightItem(
+                      item,
+                      onDismissed: (dismissDirection) =>
+                          context.read<VisitingState>().removeWont(item),
+                      actions: [
+                        Draggable<Place>(
+                          data: item,
+                          child: Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Icon(
+                              Icons.sort,
+                              color: Theme.of(context).canvasColor,
+                            ),
+                          ),
+                          feedback: Container(
+                            child: SightItem(item),
+                            width: 300,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            print("Поделиться");
+                          },
+                          icon: SvgPicture.asset(
+                            ImagesPaths.share,
                             color: Theme.of(context).canvasColor,
                           ),
                         ),
-                        feedback: Container(
-                          child: SightItem(item),
-                          width: 300,
+                        IconButton(
+                          onPressed: () {
+                            context.read<VisitingState>().removeVisit(item);
+                          },
+                          icon: Icon(
+                            Icons.close,
+                            color: Theme.of(context).canvasColor,
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          print("Поделиться");
-                        },
-                        icon: SvgPicture.asset(
-                          ImagesPaths.share,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          context
-                              .read<VisitingState>()
-                              .removeVisit(item);
-                        },
-                        icon: Icon(
-                          Icons.close,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                  VisitingDragTarget(
-                    item: item,
-                    onAccept: (sight) {
-                      // context
-                      //     .read<VisitingState>()
-                      //     .moveVizit(item, sight);
-                    },
-                    show: context
-                        .watch<VisitingState>()
-                        .visitDragTarget,
-                  ),
-                ],
-              ),
-            );
-          },
-        );
+                      ],
+                    ),
+                    VisitingDragTarget(
+                      item: item,
+                      onAccept: (sight) {
+                        // context
+                        //     .read<VisitingState>()
+                        //     .moveVizit(item, sight);
+                      },
+                      show: context.watch<VisitingState>().visitDragTarget,
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
   }
 }
 

@@ -6,11 +6,11 @@ import 'visit_list_event.dart';
 import 'vizit_list_state.dart';
 
 /// блок экрана списка избанных мест
-class VisitListBlock extends Bloc<VisitListEvent, VisitListState> {
+class VisitListBloc extends Bloc<VisitListEvent, VisitListState> {
   final PlaceInteractor _placeInteractor;
   final Place place;
 
-  VisitListBlock(this._placeInteractor, {this.place})
+  VisitListBloc(this._placeInteractor, {this.place})
       : super(VisitListLoadingInProgress());
 
   @override
