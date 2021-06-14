@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:places/data/model/Place.dart';
 
 /// базовый эвент списка избранных мест
 abstract class VisitListEvent extends Equatable {
@@ -12,7 +13,19 @@ abstract class VisitListEvent extends Equatable {
 class VisitListLoadEvent extends VisitListEvent {}
 
 /// событие добавления элемента списка в посещенное
-class VisitItemToVisitEvent extends VisitListEvent {}
+class VisitItemToVisitEvent extends VisitListEvent {
+  final Place place;
+  const VisitItemToVisitEvent(this.place);
+
+  @override
+  List<Object> get props => [place];
+}
 
 /// событие удаления элемента списка из посещенных
-class VisitItemRemoveFromVisitEvent extends VisitListEvent {}
+class VisitItemRemoveFromVisitEvent extends VisitListEvent {
+  final Place place;
+  const VisitItemRemoveFromVisitEvent(this.place);
+
+  @override
+  List<Object> get props => [place];
+}

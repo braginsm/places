@@ -19,11 +19,15 @@ class FavoritListBloc extends Bloc<FavoritListEvent, FavoritListState> {
     }
 
     if (event is VisitItemToFavoritEvent) {
-      yield* _mapVisitItemToFavoritEventToState(event.place);
+      yield* _mapVisitItemToFavoritEventToState(event);
     }
 
     if (event is VisitItemRemoveFromFavoritEvent) {
-      yield* _mapVisitItemRemoveFromFavoritEventToState(event.place);
+      yield* _mapVisitItemRemoveFromFavoritEventToState(event);
+    }
+
+    if (event is FavoritItemMoveEvent) {
+      yield* _mapFavoritItemMoveEventToState(event);
     }
   }
 
@@ -32,15 +36,22 @@ class FavoritListBloc extends Bloc<FavoritListEvent, FavoritListState> {
   }
 
   Stream<FavoritListState> _mapVisitItemToFavoritEventToState(
-      Place place) async* {
-    _placeInteractor.addToFavorites(place);
+      VisitItemToFavoritEvent event) async* {
+    _placeInteractor.addToFavorites(event.place);
     yield FavoritListLoadingInProgress();
     yield FavoritListLoadingSuccess(_placeInteractor.getFavoritesPlaces());
   }
 
   Stream<FavoritListState> _mapVisitItemRemoveFromFavoritEventToState(
-      Place place) async* {
-    _placeInteractor.removeFromFavorites(place);
+      VisitItemRemoveFromFavoritEvent event) async* {
+    _placeInteractor.removeFromFavorites(event.place);
+    yield FavoritListLoadingInProgress();
+    yield FavoritListLoadingSuccess(_placeInteractor.getFavoritesPlaces());
+  }
+
+  Stream<FavoritListState> _mapFavoritItemMoveEventToState(
+      FavoritItemMoveEvent event) async* {
+    _placeInteractor.moveFavorites(event.after, event.place);
     yield FavoritListLoadingInProgress();
     yield FavoritListLoadingSuccess(_placeInteractor.getFavoritesPlaces());
   }

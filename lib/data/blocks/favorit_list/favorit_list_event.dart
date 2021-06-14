@@ -15,7 +15,7 @@ class FavoritListLoadEvent extends FavoritListEvent {}
 /// событие добавления элемента списка в избранное
 class VisitItemToFavoritEvent extends FavoritListEvent {
   final Place place;
-  VisitItemToFavoritEvent(this.place):super();
+  VisitItemToFavoritEvent(this.place) : super();
 
   @override
   List<Object> get props => [place];
@@ -24,7 +24,19 @@ class VisitItemToFavoritEvent extends FavoritListEvent {
 /// событие удаления элемента списка из избранного
 class VisitItemRemoveFromFavoritEvent extends FavoritListEvent {
   final Place place;
-  VisitItemRemoveFromFavoritEvent(this.place):super();
+  VisitItemRemoveFromFavoritEvent(this.place) : super();
+
+  @override
+  List<Object> get props => [place];
+}
+
+/// событие перемещения элемента
+class FavoritItemMoveEvent extends FavoritListEvent {
+  final Place after;
+  final Place place;
+  FavoritItemMoveEvent(
+    this.after, this.place,
+  ) : super();
 
   @override
   List<Object> get props => [place];

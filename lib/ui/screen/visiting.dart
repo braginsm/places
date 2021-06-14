@@ -7,6 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/data/blocks/favorit_list/favorit_list_bloc.dart';
 import 'package:places/data/blocks/favorit_list/favorit_list_event.dart';
 import 'package:places/data/blocks/favorit_list/favorit_list_state.dart';
+import 'package:places/data/blocks/visit_list/visit_list_event.dart';
+import 'package:places/data/blocks/visit_list/vizit_list_bloc.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
 import 'package:places/ui/res/images.dart';
@@ -20,16 +22,6 @@ class VisitingState with ChangeNotifier {
   List<Place> get wontList => PlaceInteractor().getFavoritesPlaces();
   List<Place> get visitList => PlaceInteractor().getVisitPlaces();
 
-  bool _showTarget = false;
-
-  void togleShowTarget() {
-    _showTarget = !_showTarget;
-    notifyListeners();
-  }
-
-  bool get wontDragTarget => wontList.length > 1 && _showTarget;
-  bool get visitDragTarget => visitList.length > 1 && _showTarget;
-
   void removeWont(Place sight) {
     PlaceInteractor().removeFromFavorites(sight);
     notifyListeners();
@@ -39,12 +31,6 @@ class VisitingState with ChangeNotifier {
     PlaceInteractor().removeFromFavorites(sight);
     notifyListeners();
   }
-
-  // void moveWont(Place after, Sight sight) {
-  //   _wontList.remove(sight);
-  //   _wontList.insert(_wontList.indexOf(after) + 1, sight);
-  //   notifyListeners();
-  // }
 
   // void moveVizit(Sight after, Sight sight) {
   //   _wontList.remove(sight);
@@ -203,11 +189,19 @@ class _FavoritTabItemWidget extends StatefulWidget {
 
 class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
   FavoritListBloc _block;
+  bool _showTarget = false;
 
   @override
   void initState() {
     super.initState();
-    _block = FavoritListBloc(context.read<PlaceInteractor>())..add(FavoritListLoadEvent());
+    _block = FavoritListBloc(context.read<PlaceInteractor>())
+      ..add(FavoritListLoadEvent());
+  }
+
+  void _togleShowTarget() {
+    setState(() {
+      _showTarget = !_showTarget;
+    });
   }
 
   @override
@@ -233,7 +227,8 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
                           children: [
                             DismissibleSightItem(
                               item,
-                              onDismissed: (dismissDirection) => _block.add(VisitItemRemoveFromFavoritEvent(item)),
+                              onDismissed: (dismissDirection) => _block
+                                  .add(VisitItemRemoveFromFavoritEvent(item)),
                               actions: [
                                 Draggable<Place>(
                                   data: item,
@@ -248,15 +243,9 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
                                     child: SightItem(item),
                                     width: 300,
                                   ),
-                                  onDragStarted: () {
-                                    context
-                                        .read<VisitingState>()
-                                        .togleShowTarget();
-                                  },
+                                  onDragStarted: _togleShowTarget,
                                   onDragEnd: (details) {
-                                    context
-                                        .read<VisitingState>()
-                                        .togleShowTarget();
+                                    _togleShowTarget();
                                   },
                                 ),
                                 IconButton(
@@ -268,8 +257,8 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
                                   ),
                                 ),
                                 IconButton(
-                                  onPressed: () => 
-                                    _block.add(VisitItemRemoveFromFavoritEvent(item)),
+                                  onPressed: () => _block.add(
+                                      VisitItemRemoveFromFavoritEvent(item)),
                                   icon: Icon(
                                     Icons.close,
                                     color: Theme.of(context).canvasColor,
@@ -280,12 +269,9 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
                             VisitingDragTarget(
                               item: item,
                               onAccept: (sight) {
-                                // context
-                                //     .read<VisitingState>()
-                                //     .moveWont(item, sight);
+                                _block.add(FavoritItemMoveEvent(item, sight));
                               },
-                              show:
-                                  context.watch<VisitingState>().wontDragTarget,
+                              show: _showTarget,
                             ),
                           ],
                         ),
@@ -317,8 +303,30 @@ Future<void> _showDatePicker(BuildContext context, Place item) async {
   }
 }
 
-class _VisitTabItemWidget extends StatelessWidget {
+class _VisitTabItemWidget extends StatefulWidget {
   const _VisitTabItemWidget({Key key}) : super(key: key);
+
+  @override
+  __VisitTabItemWidgetState createState() => __VisitTabItemWidgetState();
+}
+
+class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
+  VisitListBloc _block;
+
+  bool _showTarget = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _block = VisitListBloc(context.read<PlaceInteractor>())
+      ..add(VisitListLoadEvent());
+  }
+
+  void _togleShowTarget() {
+    setState(() {
+      _showTarget = !_showTarget;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -335,7 +343,7 @@ class _VisitTabItemWidget extends StatelessWidget {
                     DismissibleSightItem(
                       item,
                       onDismissed: (dismissDirection) =>
-                          context.read<VisitingState>().removeWont(item),
+                          _block.add(VisitItemRemoveFromVisitEvent(item)),
                       actions: [
                         Draggable<Place>(
                           data: item,
@@ -361,9 +369,7 @@ class _VisitTabItemWidget extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {
-                            context.read<VisitingState>().removeVisit(item);
-                          },
+                          onPressed: () => _block.add(VisitItemRemoveFromVisitEvent(item)),
                           icon: Icon(
                             Icons.close,
                             color: Theme.of(context).canvasColor,
@@ -378,7 +384,7 @@ class _VisitTabItemWidget extends StatelessWidget {
                         //     .read<VisitingState>()
                         //     .moveVizit(item, sight);
                       },
-                      show: context.watch<VisitingState>().visitDragTarget,
+                      show: _showTarget,
                     ),
                   ],
                 ),
