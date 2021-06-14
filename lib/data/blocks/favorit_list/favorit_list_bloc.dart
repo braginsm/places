@@ -28,19 +28,20 @@ class FavoritListBloc extends Bloc<FavoritListEvent, FavoritListState> {
   }
 
   Stream<FavoritListState> _mapFavoritListLoadEventToState() async* {
-    final List<Place> favoritList = _placeInteractor.getFavoritesPlaces();
-    yield FavoritListLoadingSuccess(favoritList);
+    yield FavoritListLoadingSuccess(_placeInteractor.getFavoritesPlaces());
   }
 
-  Stream<FavoritListState> _mapVisitItemToFavoritEventToState(Place place) async* {
+  Stream<FavoritListState> _mapVisitItemToFavoritEventToState(
+      Place place) async* {
     _placeInteractor.addToFavorites(place);
-    final List<Place> favoritList = _placeInteractor.getFavoritesPlaces();
-    yield FavoritListLoadingSuccess(favoritList);
+    yield FavoritListLoadingInProgress();
+    yield FavoritListLoadingSuccess(_placeInteractor.getFavoritesPlaces());
   }
 
-  Stream<FavoritListState> _mapVisitItemRemoveFromFavoritEventToState(Place place) async* {
+  Stream<FavoritListState> _mapVisitItemRemoveFromFavoritEventToState(
+      Place place) async* {
     _placeInteractor.removeFromFavorites(place);
-    final List<Place> favoritList = _placeInteractor.getFavoritesPlaces();
-    yield FavoritListLoadingSuccess(favoritList);
+    yield FavoritListLoadingInProgress();
+    yield FavoritListLoadingSuccess(_placeInteractor.getFavoritesPlaces());
   }
 }
