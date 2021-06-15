@@ -9,6 +9,7 @@ import 'package:places/data/blocks/favorit_list/favorit_list_event.dart';
 import 'package:places/data/blocks/favorit_list/favorit_list_state.dart';
 import 'package:places/data/blocks/visit_list/visit_list_event.dart';
 import 'package:places/data/blocks/visit_list/vizit_list_bloc.dart';
+import 'package:places/data/blocks/visit_list/vizit_list_state.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
 import 'package:places/ui/res/images.dart';
@@ -19,25 +20,6 @@ import './widgets/bottom_navigation.dart';
 import 'package:provider/provider.dart';
 
 class VisitingState with ChangeNotifier {
-  List<Place> get wontList => PlaceInteractor().getFavoritesPlaces();
-  List<Place> get visitList => PlaceInteractor().getVisitPlaces();
-
-  void removeWont(Place sight) {
-    PlaceInteractor().removeFromFavorites(sight);
-    notifyListeners();
-  }
-
-  void removeVisit(Place sight) {
-    PlaceInteractor().removeFromFavorites(sight);
-    notifyListeners();
-  }
-
-  // void moveVizit(Sight after, Sight sight) {
-  //   _wontList.remove(sight);
-  //   _wontList.insert(_wontList.indexOf(after) + 1, sight);
-  //   notifyListeners();
-  // }
-
   void setWont(Place place, DateTime date) {
     PlaceInteractor().toggleFavorites(place);
     notifyListeners();
@@ -92,9 +74,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
         body: TabBarView(
           children: [
             _FavoritTabItemWidget(),
-            context.watch<VisitingState>().visitList.length > 0
-                ? _VisitTabItemWidget()
-                : EmptyListVisited(),
+            _VisitTabItemWidget(),
           ],
         ),
         bottomNavigationBar: BottomNavigation(),
@@ -313,8 +293,6 @@ class _VisitTabItemWidget extends StatefulWidget {
 class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
   VisitListBloc _block;
 
-  bool _showTarget = false;
-
   @override
   void initState() {
     super.initState();
@@ -322,75 +300,75 @@ class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
       ..add(VisitListLoadEvent());
   }
 
-  void _togleShowTarget() {
-    setState(() {
-      _showTarget = !_showTarget;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return context.watch<VisitingState>().visitList.isEmpty
-        ? EmptyListVisited()
-        : ListView.builder(
-            itemCount: context.watch<VisitingState>().visitList.length,
-            itemBuilder: (context, index) {
-              final item = context.watch<VisitingState>().visitList[index];
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    DismissibleSightItem(
-                      item,
-                      onDismissed: (dismissDirection) =>
-                          _block.add(VisitItemRemoveFromVisitEvent(item)),
-                      actions: [
-                        Draggable<Place>(
-                          data: item,
-                          child: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Icon(
-                              Icons.sort,
-                              color: Theme.of(context).canvasColor,
+    return BlocProvider<VisitListBloc>(
+      create: (context) => _block,
+      child: BlocBuilder<VisitListBloc, VisitListState>(
+        builder: (context, state) {
+          if (state is VisitListLoadingInProgress) {
+            return _ListPreloaderWidget();
+          }
+          if (state is VisitListLoadingSuccess) {
+            final placeList = state.visitList;
+            return placeList.isEmpty
+                ? EmptyListVisited()
+                : ListView.builder(
+                    itemCount: placeList.length,
+                    itemBuilder: (context, index) {
+                      final item = placeList[index];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            DismissibleSightItem(
+                              item,
+                              onDismissed: (dismissDirection) => _block
+                                  .add(VisitItemRemoveFromVisitEvent(item)),
+                              actions: [
+                                Draggable<Place>(
+                                  data: item,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Icon(
+                                      Icons.sort,
+                                      color: Theme.of(context).canvasColor,
+                                    ),
+                                  ),
+                                  feedback: Container(
+                                    child: SightItem(item),
+                                    width: 300,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    print("Поделиться");
+                                  },
+                                  icon: SvgPicture.asset(
+                                    ImagesPaths.share,
+                                    color: Theme.of(context).canvasColor,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () => _block
+                                      .add(VisitItemRemoveFromVisitEvent(item)),
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: Theme.of(context).canvasColor,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          feedback: Container(
-                            child: SightItem(item),
-                            width: 300,
-                          ),
+                          ],
                         ),
-                        IconButton(
-                          onPressed: () {
-                            print("Поделиться");
-                          },
-                          icon: SvgPicture.asset(
-                            ImagesPaths.share,
-                            color: Theme.of(context).canvasColor,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () => _block.add(VisitItemRemoveFromVisitEvent(item)),
-                          icon: Icon(
-                            Icons.close,
-                            color: Theme.of(context).canvasColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    VisitingDragTarget(
-                      item: item,
-                      onAccept: (sight) {
-                        // context
-                        //     .read<VisitingState>()
-                        //     .moveVizit(item, sight);
-                      },
-                      show: _showTarget,
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
+                      );
+                    },
+                  );
+          }
+          throw ArgumentError("Неожиданное состояние в _VisitTabItemWidget");
+        },
+      ),
+    );
   }
 }
 
@@ -401,7 +379,9 @@ class _ListPreloaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: Theme.of(context).accentColor,
+        ),
       ),
     );
   }

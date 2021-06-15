@@ -57,6 +57,12 @@ class PlaceInteractor {
     favoriteList.insert(favoriteList.indexOf(after) + 1, place);
   }
 
+  ///Перемещает place за after
+  void moveVisit(Place after, Place place) {
+    visitList.remove(place);
+    visitList.insert(visitList.indexOf(after) + 1, place);
+  }
+
   ///Получить посещенные места
   List<Place> getVisitPlaces() => visitList;
 
