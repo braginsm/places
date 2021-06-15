@@ -8,10 +8,8 @@ import 'vizit_list_state.dart';
 /// блок экрана списка избанных мест
 class VisitListBloc extends Bloc<VisitListEvent, VisitListState> {
   final PlaceInteractor _placeInteractor;
-  final Place place;
 
-  VisitListBloc(this._placeInteractor, {this.place})
-      : super(VisitListLoadingInProgress());
+  VisitListBloc(this._placeInteractor) : super(VisitListLoadingInProgress());
 
   @override
   Stream<VisitListState> mapEventToState(VisitListEvent event) async* {
@@ -20,11 +18,11 @@ class VisitListBloc extends Bloc<VisitListEvent, VisitListState> {
     }
 
     if (event is VisitItemToVisitEvent) {
-      yield* _mapVisitItemToVisitEventToState();
+      yield* _mapVisitItemToVisitEventToState(event);
     }
 
     if (event is VisitItemRemoveFromVisitEvent) {
-      yield* _mapVisitItemRemoveFromVisitEventToState();
+      yield* _mapVisitItemRemoveFromVisitEventToState(event);
     }
   }
 
@@ -33,15 +31,17 @@ class VisitListBloc extends Bloc<VisitListEvent, VisitListState> {
     yield VisitListLoadingSuccess(vizitList);
   }
 
-  Stream<VisitListState> _mapVisitItemToVisitEventToState() async* {
-    if (place != null) _placeInteractor.addToVisitingPlaces(place);
-    final List<Place> vizitList = _placeInteractor.getVisitPlaces();
-    yield VisitListLoadingSuccess(vizitList);
+  Stream<VisitListState> _mapVisitItemToVisitEventToState(
+      VisitItemToVisitEvent event) async* {
+    _placeInteractor.addToVisitingPlaces(event.place);
+    yield VisitListLoadingInProgress();
+    yield VisitListLoadingSuccess(_placeInteractor.getVisitPlaces());
   }
 
-  Stream<VisitListState> _mapVisitItemRemoveFromVisitEventToState() async* {
-    if (place != null) _placeInteractor.removeFromFavorites(place);
-    final List<Place> vizitList = _placeInteractor.getVisitPlaces();
-    yield VisitListLoadingSuccess(vizitList);
+  Stream<VisitListState> _mapVisitItemRemoveFromVisitEventToState(
+      VisitItemRemoveFromVisitEvent event) async* {
+    _placeInteractor.removeFromFavorites(event.place);
+    yield VisitListLoadingInProgress();
+    yield VisitListLoadingSuccess(_placeInteractor.getVisitPlaces());
   }
 }

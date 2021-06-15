@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
-import 'package:places/data/model/Place.dart';
 
 import 'favorit_list_event.dart';
 import 'favorit_list_state.dart';
