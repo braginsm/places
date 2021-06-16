@@ -2,7 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/data/blocks/favorit_list/favorit_list_bloc.dart';
+import 'package:places/data/blocks/favorit_list/favorit_list_event.dart';
+import 'package:places/data/blocks/favorit_list/favorit_list_state.dart';
+import 'package:places/data/blocks/visit_list/visit_list_event.dart';
+import 'package:places/data/blocks/visit_list/vizit_list_bloc.dart';
+import 'package:places/data/blocks/visit_list/vizit_list_state.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
 import 'package:places/ui/res/images.dart';
@@ -13,41 +20,6 @@ import './widgets/bottom_navigation.dart';
 import 'package:provider/provider.dart';
 
 class VisitingState with ChangeNotifier {
-  List<Place> get wontList => PlaceInteractor().getFavoritesPlaces();
-  List<Place> get visitList => PlaceInteractor().getVisitPlaces();
-
-  bool _showTarget = false;
-
-  void togleShowTarget() {
-    _showTarget = !_showTarget;
-    notifyListeners();
-  }
-
-  bool get wontDragTarget => wontList.length > 1 && _showTarget;
-  bool get visitDragTarget => visitList.length > 1 && _showTarget;
-
-  void removeWont(Place sight) {
-    PlaceInteractor().removeFromFavorites(sight);
-    notifyListeners();
-  }
-
-  void removeVisit(Place sight) {
-    PlaceInteractor().removeFromFavorites(sight);
-    notifyListeners();
-  }
-
-  // void moveWont(Place after, Sight sight) {
-  //   _wontList.remove(sight);
-  //   _wontList.insert(_wontList.indexOf(after) + 1, sight);
-  //   notifyListeners();
-  // }
-
-  // void moveVizit(Sight after, Sight sight) {
-  //   _wontList.remove(sight);
-  //   _wontList.insert(_wontList.indexOf(after) + 1, sight);
-  //   notifyListeners();
-  // }
-
   void setWont(Place place, DateTime date) {
     PlaceInteractor().toggleFavorites(place);
     notifyListeners();
@@ -101,174 +73,13 @@ class _VisitingScreenState extends State<VisitingScreen> {
         ),
         body: TabBarView(
           children: [
-            context.watch<VisitingState>().wontList.length > 0
-                ? ListView.builder(
-                    itemCount: context.watch<VisitingState>().wontList.length,
-                    itemBuilder: (context, index) {
-                      final item =
-                          context.watch<VisitingState>().wontList[index];
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          children: [
-                            DismissibleSightItem(
-                              item,
-                              onDismissed: (dismissDirection) => context
-                                  .read<VisitingState>()
-                                  .removeWont(item),
-                              actions: [
-                                Draggable<Place>(
-                                  data: item,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8),
-                                    child: Icon(
-                                      Icons.sort,
-                                      color: Theme.of(context).canvasColor,
-                                    ),
-                                  ),
-                                  feedback: Container(
-                                    child: SightItem(item),
-                                    width: 300,
-                                  ),
-                                  onDragStarted: () {
-                                    context
-                                        .read<VisitingState>()
-                                        .togleShowTarget();
-                                  },
-                                  onDragEnd: (details) {
-                                    context
-                                        .read<VisitingState>()
-                                        .togleShowTarget();
-                                  },
-                                ),
-                                IconButton(
-                                  onPressed: () =>
-                                      _showDatePicker(context, item),
-                                  icon: SvgPicture.asset(
-                                    ImagesPaths.calendar,
-                                    color: Theme.of(context).canvasColor,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    context
-                                        .read<VisitingState>()
-                                        .removeWont(item);
-                                  },
-                                  icon: Icon(
-                                    Icons.close,
-                                    color: Theme.of(context).canvasColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            VisitingDragTarget(
-                              item: item,
-                              onAccept: (sight) {
-                                // context
-                                //     .read<VisitingState>()
-                                //     .moveWont(item, sight);
-                              },
-                              show:
-                                  context.watch<VisitingState>().wontDragTarget,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  )
-                : EmptyListWont(),
-            context.watch<VisitingState>().visitList.length > 0
-                ? ListView.builder(
-                    itemCount: context.watch<VisitingState>().visitList.length,
-                    itemBuilder: (context, index) {
-                      final item =
-                          context.watch<VisitingState>().visitList[index];
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          children: [
-                            DismissibleSightItem(
-                              item,
-                              onDismissed: (dismissDirection) => context
-                                  .read<VisitingState>()
-                                  .removeWont(item),
-                              actions: [
-                                Draggable<Place>(
-                                  data: item,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8),
-                                    child: Icon(
-                                      Icons.sort,
-                                      color: Theme.of(context).canvasColor,
-                                    ),
-                                  ),
-                                  feedback: Container(
-                                    child: SightItem(item),
-                                    width: 300,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    print("Поделиться");
-                                  },
-                                  icon: SvgPicture.asset(
-                                    ImagesPaths.share,
-                                    color: Theme.of(context).canvasColor,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    context
-                                        .read<VisitingState>()
-                                        .removeVisit(item);
-                                  },
-                                  icon: Icon(
-                                    Icons.close,
-                                    color: Theme.of(context).canvasColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            VisitingDragTarget(
-                              item: item,
-                              onAccept: (sight) {
-                                // context
-                                //     .read<VisitingState>()
-                                //     .moveVizit(item, sight);
-                              },
-                              show: context
-                                  .watch<VisitingState>()
-                                  .visitDragTarget,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  )
-                : EmptyListVisited(),
+            _FavoritTabItemWidget(),
+            _VisitTabItemWidget(),
           ],
         ),
         bottomNavigationBar: BottomNavigation(),
       ),
     );
-  }
-
-  Future<void> _showDatePicker(BuildContext context, Place item) async {
-    if (Platform.isIOS) {
-      showCupertinoModalPopup(
-        context: context,
-        builder: (_) => CupertinoWontDateModal(item),
-      );
-    } else {
-      var res = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(Duration(days: 90)),
-      );
-      context.read<VisitingState>().setWont(item, res);
-    }
   }
 }
 
@@ -344,6 +155,233 @@ class _CupertinoWontDateModalState extends State<CupertinoWontDateModal> {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _FavoritTabItemWidget extends StatefulWidget {
+  const _FavoritTabItemWidget({Key key}) : super(key: key);
+
+  @override
+  __FavoritTabItemWidgetState createState() => __FavoritTabItemWidgetState();
+}
+
+class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
+  FavoritListBloc _block;
+  bool _showTarget = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _block = FavoritListBloc(context.read<PlaceInteractor>())
+      ..add(FavoritListLoadEvent());
+  }
+
+  void _togleShowTarget() {
+    setState(() {
+      _showTarget = !_showTarget;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<FavoritListBloc>(
+      create: (context) => _block,
+      child: BlocBuilder<FavoritListBloc, FavoritListState>(
+        builder: (context, state) {
+          if (state is FavoritListLoadingInProgress) {
+            return _ListPreloaderWidget();
+          }
+          if (state is FavoritListLoadingSuccess) {
+            final placeList = state.favoritList;
+            return placeList.isEmpty
+                ? EmptyListWont()
+                : ListView.builder(
+                    itemCount: placeList.length,
+                    itemBuilder: (context, index) {
+                      final item = placeList[index];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            DismissibleSightItem(
+                              item,
+                              onDismissed: (dismissDirection) => _block
+                                  .add(VisitItemRemoveFromFavoritEvent(item)),
+                              actions: [
+                                Draggable<Place>(
+                                  data: item,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Icon(
+                                      Icons.sort,
+                                      color: Theme.of(context).canvasColor,
+                                    ),
+                                  ),
+                                  feedback: Container(
+                                    child: SightItem(item),
+                                    width: 300,
+                                  ),
+                                  onDragStarted: _togleShowTarget,
+                                  onDragEnd: (details) {
+                                    _togleShowTarget();
+                                  },
+                                ),
+                                IconButton(
+                                  onPressed: () =>
+                                      _showDatePicker(context, item),
+                                  icon: SvgPicture.asset(
+                                    ImagesPaths.calendar,
+                                    color: Theme.of(context).canvasColor,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () => _block.add(
+                                      VisitItemRemoveFromFavoritEvent(item)),
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: Theme.of(context).canvasColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            VisitingDragTarget(
+                              item: item,
+                              onAccept: (sight) {
+                                _block.add(FavoritItemMoveEvent(item, sight));
+                              },
+                              show: _showTarget,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+          }
+          throw ArgumentError("Неожиданное состояние в _FavoritTabItemWidget");
+        },
+      ),
+    );
+  }
+}
+
+Future<void> _showDatePicker(BuildContext context, Place item) async {
+  if (Platform.isIOS) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) => CupertinoWontDateModal(item),
+    );
+  } else {
+    var res = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 90)),
+    );
+    context.read<VisitingState>().setWont(item, res);
+  }
+}
+
+class _VisitTabItemWidget extends StatefulWidget {
+  const _VisitTabItemWidget({Key key}) : super(key: key);
+
+  @override
+  __VisitTabItemWidgetState createState() => __VisitTabItemWidgetState();
+}
+
+class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
+  VisitListBloc _block;
+
+  @override
+  void initState() {
+    super.initState();
+    _block = VisitListBloc(context.read<PlaceInteractor>())
+      ..add(VisitListLoadEvent());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<VisitListBloc>(
+      create: (context) => _block,
+      child: BlocBuilder<VisitListBloc, VisitListState>(
+        builder: (context, state) {
+          if (state is VisitListLoadingInProgress) {
+            return _ListPreloaderWidget();
+          }
+          if (state is VisitListLoadingSuccess) {
+            final placeList = state.visitList;
+            return placeList.isEmpty
+                ? EmptyListVisited()
+                : ListView.builder(
+                    itemCount: placeList.length,
+                    itemBuilder: (context, index) {
+                      final item = placeList[index];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            DismissibleSightItem(
+                              item,
+                              onDismissed: (dismissDirection) => _block
+                                  .add(VisitItemRemoveFromVisitEvent(item)),
+                              actions: [
+                                Draggable<Place>(
+                                  data: item,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Icon(
+                                      Icons.sort,
+                                      color: Theme.of(context).canvasColor,
+                                    ),
+                                  ),
+                                  feedback: Container(
+                                    child: SightItem(item),
+                                    width: 300,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    print("Поделиться");
+                                  },
+                                  icon: SvgPicture.asset(
+                                    ImagesPaths.share,
+                                    color: Theme.of(context).canvasColor,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () => _block
+                                      .add(VisitItemRemoveFromVisitEvent(item)),
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: Theme.of(context).canvasColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+          }
+          throw ArgumentError("Неожиданное состояние в _VisitTabItemWidget");
+        },
+      ),
+    );
+  }
+}
+
+class _ListPreloaderWidget extends StatelessWidget {
+  const _ListPreloaderWidget({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: CircularProgressIndicator(
+          color: Theme.of(context).accentColor,
+        ),
       ),
     );
   }
