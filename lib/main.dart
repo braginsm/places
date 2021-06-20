@@ -27,9 +27,6 @@ void main() {
           create: (BuildContext context) => MainState(),
         ),
         ChangeNotifierProvider(
-          create: (BuildContext context) => SightSearchState(),
-        ),
-        ChangeNotifierProvider(
           create: (BuildContext context) => VisitingState(),
         ),
         ChangeNotifierProvider(
@@ -37,6 +34,9 @@ void main() {
         ),
         Provider(
           create: (_) => PlaceInteractor(),
+        ),
+        Provider(
+          create: (_) => SerachInteractor(),
         ),
       ],
       child: App(

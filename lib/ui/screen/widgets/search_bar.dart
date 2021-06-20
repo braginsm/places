@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/data/interactor/SearchInteractor.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/filters.dart';
 import 'package:provider/provider.dart';
-
-import '../sight_search.dart';
 
 class SearchBar extends StatefulWidget {
   final bool readOnly;
@@ -38,14 +37,14 @@ class _SearchBarState extends State<SearchBar> {
 
   void onClearPress() {
     fieldController.clear();
-    context.read<SightSearchState>().search("");
+    context.read<SerachInteractor>().search("");
   }
 
   @override
   void initState() {
     super.initState();
-    if (context.read<SightSearchState>().searchBarController != null)
-      fieldController = context.read<SightSearchState>().searchBarController;
+    if (context.read<SerachInteractor>().searchBarController != null)
+      fieldController = context.read<SerachInteractor>().searchBarController;
   }
 
   @override
@@ -60,7 +59,7 @@ class _SearchBarState extends State<SearchBar> {
       child: Center(
         child: TextField(
           focusNode: textFieldFocusNode,
-          onChanged: (value) => context.read<SightSearchState>().search(value),
+          onChanged: (value) => context.read<SerachInteractor>().search(value),
           controller: fieldController,
           readOnly: widget.readOnly,
           onTap: () {

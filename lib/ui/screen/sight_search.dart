@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/data/interactor/SearchInteractor.dart';
-import 'package:places/data/model/Place.dart';
-import 'package:places/data/model/PlaceDto.dart';
 import 'package:places/data/redux/action/search_action.dart';
 import 'package:places/data/redux/state/app_state.dart';
 import 'package:places/data/redux/state/search_state.dart';
@@ -12,7 +10,6 @@ import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
-import 'package:provider/provider.dart';
 
 class SightSearchScreen extends StatefulWidget {
   SightSearchScreen({Key key}) : super(key: key);
@@ -238,71 +235,3 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
     );
   }
 }
-
-/*class SightSearchState with ChangeNotifier {
-  TextEditingController searchBarController = TextEditingController();
-
-  set controller(TextEditingController val) => searchBarController = val;
-
-  List<PlaceDto> _searchResult = searchHistory;
-
-  bool showPreloader = false;
-
-  void search(String value) async {
-    showPreloader = true;
-    if (value.length > 0) {
-      _searchResult = await SerachInteractor().searchPlacesByName(value/*, radius: _radius.end*/);
-    } else {
-      _searchResult = [];
-    }
-    showPreloader = false;
-    notifyListeners();
-  }
-
-  void filterByRadius() {
-    _searchResult = _searchResult.where((f) => _inDistans(f)).toList();
-    notifyListeners();
-  }
-
-  List<PlaceDto> get searchResult => _searchResult;
-
-  void clear() {
-    _searchResult.clear();
-    notifyListeners();
-  }
-
-  RangeValues _radius = RangeValues(100, 10000);
-
-  RangeValues get radius => _radius;
-
-  void radiusSet(RangeValues radius) {
-    _radius = radius;
-    notifyListeners();
-  }
-
-  /// хранение значений фильтров
-  List<bool> _filterValues = List.generate(PlaceType.other.index, (index) => false);
-
-  bool filterValue(String name) => _filterValues[_titles.indexOf(name)];
-
-  /// подписи фильтров
-  final List<String> _titles = Place.ruPlaceTypeNames;
-
-  List<String> get titles => _titles;
-
-  void changeFilter(String name) {
-    final index = _titles.indexOf(name);
-    _filterValues[index] = !_filterValues[index];
-    notifyListeners();
-  }
-
-  void cleanFilter() {
-    _filterValues = List.generate(6, (index) => false);
-    notifyListeners();
-  }
-
-  ///Определяет, попадает ли достопримечательность в выбанный радиус
-  bool _inDistans(PlaceDto place) {
-    return _radius.start <= place.distance && _radius.end >= place.distance;
-  }
-}*/
