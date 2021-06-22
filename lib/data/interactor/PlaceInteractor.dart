@@ -75,3 +75,4 @@ class PlaceInteractor {
     return PlaceRepository().save(place);
   }
 }
+/// тест токен
