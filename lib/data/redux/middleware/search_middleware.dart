@@ -14,6 +14,5 @@ class SearchMiddleware implements MiddlewareClass<AppState> {
       var result = await _serachInteractor.searchPlacesByName(action.name);
       store.dispatch(ResultSearch(result));
     }
-    throw UnimplementedError();
   }
 }

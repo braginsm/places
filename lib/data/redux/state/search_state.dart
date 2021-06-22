@@ -6,7 +6,11 @@ abstract class SearchState {}
 class SearchInitialState extends SearchState {}
 
 ///состояние процесса загрузки
-class SearchLoadingState extends SearchState {}
+class SearchLoadingState extends SearchState {
+  final String name;
+
+  SearchLoadingState(this.name);
+}
 
 ///состояние отображения результата
 class SearchDataState extends SearchState {

@@ -140,7 +140,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
             ),
           StoreConnector<AppState, SearchState>(
             onInit: (store) {
-              store.dispatch(InitSearch());
+              store.dispatch(ResultSearch([]));
             },
             converter: (store) {
               return store.state.searchState;

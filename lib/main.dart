@@ -8,7 +8,6 @@ import 'package:places/data/redux/reducer/reducer.dart';
 import 'package:places/data/redux/state/app_state.dart';
 import 'package:places/ui/res/themes.dart';
 import 'package:places/ui/screen/add_sight.dart';
-import 'package:places/ui/screen/sight_search.dart';
 import 'package:places/ui/screen/splash.dart';
 import 'package:provider/provider.dart';
 import 'package:redux/redux.dart';
@@ -16,9 +15,13 @@ import 'data/interactor/SettingsInteractor.dart';
 import 'ui/screen/visiting.dart';
 
 void main() {
-  final store = Store<AppState>(reducer, initialState: AppState(), middleware: [
-    SearchMiddleware(SerachInteractor()),
-  ]);
+  final store = Store<AppState>(
+    reducer, 
+    initialState: AppState(), 
+    middleware: [
+      SearchMiddleware(SerachInteractor()),
+    ],
+  );
 
   runApp(
     MultiProvider(

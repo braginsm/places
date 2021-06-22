@@ -9,7 +9,7 @@ List<PlaceDto> searchHistory = [];
 
 class SerachInteractor {
   Future<List<PlaceDto>> searchPlacesByName(String name,
-      {double radius = 10000000.0}) async {
+      {double radius = 100000000.0}) async {
     var filter = PlacesFilterRequestDto(
       lat: currentLat,
       lon: currentLon,
@@ -36,7 +36,7 @@ class SerachInteractor {
   void search(String value) async {
     showPreloader = true;
     if (value.length > 0) {
-      _searchResult = await SerachInteractor().searchPlacesByName(value/*, radius: _radius.end*/);
+      _searchResult = await SerachInteractor().searchPlacesByName(value, radius: _radius.end);
     } else {
       _searchResult = [];
     }
