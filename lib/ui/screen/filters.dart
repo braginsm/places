@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/data/interactor/SearchInteractor.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 import './sight_search.dart';
@@ -23,7 +24,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
     /// сетка "таблицы" фильтров
     final bool oneLine = MediaQuery.of(context).size.height <= 800;
     final int lineCnt = oneLine ? 1 : 2;
-    final int colCnt = lineCnt > 1 ? 3 : context.watch<SightSearchState>().titles.length;
+    final int colCnt = lineCnt > 1 ? 3 : context.watch<SerachInteractor>().titles.length;
 
     return Scaffold(
       appBar: AppBar(
@@ -40,11 +41,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              context.read<SightSearchState>().cleanFilter();
+              context.read<SerachInteractor>().cleanFilter();
               context
-                  .read<SightSearchState>()
+                  .read<SerachInteractor>()
                   .radiusSet(RangeValues(_minRadius, _maxRadius));
-              context.read<SightSearchState>().filterByRadius();
+              context.read<SerachInteractor>().filterByRadius();
             },
             child: Text(
               "Очистить",
@@ -95,7 +96,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                           .copyWith(color: Theme.of(context).primaryColor),
                     ),
                     Text(
-                      "от ${_getKm(context.watch<SightSearchState>().radius.start)} до ${_getKm(context.watch<SightSearchState>().radius.end)} км",
+                      "от ${_getKm(context.watch<SerachInteractor>().radius.start)} до ${_getKm(context.watch<SerachInteractor>().radius.end)} км",
                       style: TextStyleSet()
                           .textRegular16
                           .copyWith(color: Theme.of(context).hintColor),
@@ -104,13 +105,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 ),
               ),
               RangeSlider(
-                values: context.watch<SightSearchState>().radius,
+                values: context.watch<SerachInteractor>().radius,
                 min: _minRadius,
                 max: _maxRadius,
                 divisions: _maxRadius.round(),
                 onChanged: (RangeValues values) {
-                  context.read<SightSearchState>().radiusSet(values);
-                  context.read<SightSearchState>().filterByRadius();
+                  context.read<SerachInteractor>().radiusSet(values);
+                  context.read<SerachInteractor>().filterByRadius();
                 },
               ),
             ],
@@ -127,7 +128,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         builder: (context) => SightSearchScreen()));
               },
               child: Text(
-                "ПОКАЗАТЬ (${context.watch<SightSearchState>().searchResult.length})",
+                "ПОКАЗАТЬ (${context.watch<SerachInteractor>().searchResult.length})",
                 style: TextStyleSet().textBold,
               ),
             ),
@@ -160,8 +161,8 @@ class FiltersWidget extends StatelessWidget {
                 children: [
                   for (var j = colCnt * i; j < colCnt * (i + 1); j++)
                     if (lineCnt > 1) Expanded(
-                      child: FilterItemWidget(text: context.watch<SightSearchState>().titles[j], path: ImagesPaths.ticks[j],),
-                    ) else FilterItemWidget(text: context.watch<SightSearchState>().titles[j], path: ImagesPaths.ticks[j],),
+                      child: FilterItemWidget(text: context.watch<SerachInteractor>().titles[j], path: ImagesPaths.ticks[j],),
+                    ) else FilterItemWidget(text: context.watch<SerachInteractor>().titles[j], path: ImagesPaths.ticks[j],),
                 ],
               ),
               SizedBox(
@@ -192,13 +193,13 @@ class FilterItemWidget extends StatelessWidget {
                 icon: SvgPicture.asset(path),
                 onPressed: () {
                   context
-                      .read<SightSearchState>()
+                      .read<SerachInteractor>()
                       .changeFilter(text);
                 },
               ),
             ),
             if (context
-                .watch<SightSearchState>()
+                .watch<SerachInteractor>()
                 .filterValue(text))
               Positioned(
                 child:
