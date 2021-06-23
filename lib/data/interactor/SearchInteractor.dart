@@ -44,7 +44,7 @@ class SerachInteractor {
   }
 
   void filterByRadius() {
-    _searchResult = _searchResult.where((f) => inDistans(f)).toList();
+    _searchResult = _searchResult.where(inDistans).toList();
   }
 
   List<PlaceDto> get searchResult => _searchResult;
