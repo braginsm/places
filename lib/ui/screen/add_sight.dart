@@ -8,6 +8,8 @@ import 'package:places/ui/screen/widgets/add_image_item.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
 import 'package:provider/provider.dart';
 
+import 'select_category.dart';
+
 class AddSightScreen extends StatefulWidget {
   AddSightScreen({Key key}) : super(key: key);
 
@@ -29,11 +31,11 @@ class _AddSightScreenState extends State<AddSightScreen> {
   void _addPlace() {
     try {
       context.read<PlaceInteractor>().addNewPlace(Place(
-        name: nameController.text,
-        lat: double.parse(latController.text),
-        lon: double.parse(lonController.text),
-        description: descriptionController.text,
-      ));
+            name: nameController.text,
+            lat: double.parse(latController.text),
+            lon: double.parse(lonController.text),
+            description: descriptionController.text,
+          ));
       Navigator.pop(context);
     } on NetworkExeption catch (e) {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
@@ -102,9 +104,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
                               .textRegular16
                               .copyWith(color: Theme.of(context).hintColor),
                         ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 10,
+                        IconButton(
+                          icon: Icon(Icons.arrow_forward_ios, size: 10,),
+                          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SelectPlaceCategory(),)),
                         )
                       ],
                     ),
