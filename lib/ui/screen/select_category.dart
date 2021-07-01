@@ -35,17 +35,8 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ListView.builder(
-                  itemCount: 6,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Text(index.toString()),
-                    );
-                  },
-                ),
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(vertical: 8),
@@ -62,7 +53,8 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
                     ),
                   ),
                 ),
-              ]),
+              ],
+          ),
         ),
       ),
     );
