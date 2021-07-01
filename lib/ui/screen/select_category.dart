@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:places/data/model/Place.dart';
 import 'package:places/ui/res/text_styles.dart';
+
+import 'widgets/category_item.dart';
 
 class SelectPlaceCategory extends StatefulWidget {
   SelectPlaceCategory({Key key}) : super(key: key);
@@ -33,28 +36,35 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12),
-                      child: Text(
-                        "СОХРАНИТЬ",
-                        style: TextStyleSet()
-                            .textBold
-                            .copyWith(color: Theme.of(context).canvasColor),
-                      ),
+        child: Stack(
+          children: [
+            // ListView.builder(
+            //   itemCount: PlaceType.values.length,
+            //   itemBuilder: (context, index) {
+            //     return CategoryItemWidget(title: PlaceType.values[index].toString(),);
+            //   },
+            // ),
+            Positioned(
+              bottom: 16,
+              child: Container(
+                width: double.infinity,
+                height: 20,
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    child: Text(
+                      "СОХРАНИТЬ",
+                      style: TextStyleSet()
+                          .textBold
+                          .copyWith(color: Theme.of(context).canvasColor),
                     ),
                   ),
                 ),
-              ],
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );
