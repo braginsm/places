@@ -68,11 +68,11 @@ class _AddSightScreenState extends State<AddSightScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
@@ -99,14 +99,23 @@ class _AddSightScreenState extends State<AddSightScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Не выбрано",
+                          context.watch<AddSightState>().type == null
+                            ? "Не выбрано"
+                            : Place.ruPlaceTypeNames[context.watch<AddSightState>().type.index],
                           style: TextStyleSet()
                               .textRegular16
                               .copyWith(color: Theme.of(context).hintColor),
                         ),
                         IconButton(
-                          icon: Icon(Icons.arrow_forward_ios, size: 10,),
-                          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SelectPlaceCategory(),)),
+                          icon: Icon(
+                            Icons.arrow_forward_ios,
+                            size: 10,
+                          ),
+                          onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => SelectPlaceCategory(),
+                              )),
                         )
                       ],
                     ),
@@ -230,24 +239,24 @@ class _AddSightScreenState extends State<AddSightScreen> {
                   ),
                 ],
               ),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: ElevatedButton(
-                  onPressed: _addPlace,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    child: Text(
-                      "СОЗДАТЬ",
-                      style: TextStyleSet()
-                          .textBold
-                          .copyWith(color: Theme.of(context).canvasColor),
-                    ),
+            ),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: ElevatedButton(
+                onPressed: _addPlace,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  child: Text(
+                    "СОЗДАТЬ",
+                    style: TextStyleSet()
+                        .textBold
+                        .copyWith(color: Theme.of(context).canvasColor),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -267,6 +276,15 @@ class AddSightState with ChangeNotifier {
 
   void removeImage(img) {
     images.remove(img);
+    notifyListeners();
+  }
+
+  PlaceType _type;
+
+  PlaceType get type => _type;
+
+  void setType(int index) {
+    _type = PlaceType.values[index];
     notifyListeners();
   }
 }

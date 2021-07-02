@@ -72,7 +72,7 @@ class App extends StatelessWidget {
       child: MaterialApp(
         theme: context.watch<MainState>().theme,
         //home: SplashScreen(),
-        home: SelectPlaceCategory(),
+        home: AddSightScreen(),
         title: "Places",
       ),
     );

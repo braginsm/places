@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:places/data/model/Place.dart';
 import 'package:places/ui/res/text_styles.dart';
+import 'package:provider/provider.dart';
 
+import 'add_sight.dart';
 import 'widgets/category_item.dart';
 
 class SelectPlaceCategory extends StatefulWidget {
@@ -43,7 +45,7 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
               itemCount: PlaceType.values.length,
               itemBuilder: (context, index) {
                 return CategoryItemWidget(
-                  title: PlaceType.values[index].toString(),
+                  title: Place.ruPlaceTypeNames[index],
                   onTap: () => _changeSelectIndex(index),
                   select: index == _selectIndex,
                 );
@@ -56,17 +58,21 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
               height: 48,
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: _save,
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        _selectIndex != null
+                            ? Theme.of(context).accentColor
+                            : Theme.of(context).backgroundColor)),
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 12),
                   child: Container(
                     child: Text(
                       "СОХРАНИТЬ",
-                      style: TextStyleSet()
-                          .textBold
-                          .copyWith(
-                            color: _selectIndex != null ? Theme.of(context).canvasColor : Theme.of(context).unselectedWidgetColor
-                          ),
+                      style: TextStyleSet().textBold.copyWith(
+                          color: _selectIndex != null
+                              ? Theme.of(context).canvasColor
+                              : Theme.of(context).unselectedWidgetColor),
                     ),
                   ),
                 ),
@@ -82,6 +88,10 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
     setState(() {
       _selectIndex = index;
     });
-    print(index);
+  }
+
+  void _save() {
+    context.read<AddSightState>().setType(_selectIndex);
+    Navigator.pop(context);
   }
 }
