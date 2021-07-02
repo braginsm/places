@@ -12,6 +12,7 @@ class SelectPlaceCategory extends StatefulWidget {
 }
 
 class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
+  int _selectIndex;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,39 +35,53 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Stack(
-          children: [
-            // ListView.builder(
-            //   itemCount: PlaceType.values.length,
-            //   itemBuilder: (context, index) {
-            //     return CategoryItemWidget(title: PlaceType.values[index].toString(),);
-            //   },
-            // ),
-            Positioned(
-              bottom: 16,
-              child: Container(
-                width: double.infinity,
-                height: 20,
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: PlaceType.values.length,
+              itemBuilder: (context, index) {
+                return CategoryItemWidget(
+                  title: PlaceType.values[index].toString(),
+                  onTap: () => _changeSelectIndex(index),
+                  select: index == _selectIndex,
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: Container(
+              height: 48,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  child: Container(
                     child: Text(
                       "СОХРАНИТЬ",
                       style: TextStyleSet()
                           .textBold
-                          .copyWith(color: Theme.of(context).canvasColor),
+                          .copyWith(
+                            color: _selectIndex != null ? Theme.of(context).canvasColor : Theme.of(context).unselectedWidgetColor
+                          ),
                     ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+  }
+
+  void _changeSelectIndex(int index) {
+    setState(() {
+      _selectIndex = index;
+    });
+    print(index);
   }
 }

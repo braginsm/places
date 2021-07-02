@@ -12,15 +12,34 @@ class CategoryItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        title,
-        style: TextStyleSet()
-            .textRegular16
-            .copyWith(color: Theme.of(context).hintColor),
+    return Container(
+      height: 48,
+      padding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyleSet()
+                    .textRegular16
+                    .copyWith(color: Theme.of(context).primaryColor),
+              ),
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: select ? Icon(
+                  Icons.check,
+                  color: Theme.of(context).accentColor,
+                ) : SizedBox.expand(),
+              ) 
+            ),
+          ],
+        ),
       ),
-      trailing: select ? Icon(Icons.check) : SizedBox.expand(),
-      onTap: onTap,
     );
   }
 }
