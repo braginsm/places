@@ -58,6 +58,18 @@ class Place {
         placeType =
             EnumToString.fromString(PlaceType.values, data['placeType']);
 
+  Place copyWith({int id, String name, double lat, double lon, List<String> urls, String description, PlaceType placeType}) {
+    return Place(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      lat: lat ?? this.lat,
+      lon: lon ?? this.lon,
+      urls: urls ?? this.urls,
+      description: description ?? this.description,
+      placeType: placeType ?? this.placeType,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       "id": id,

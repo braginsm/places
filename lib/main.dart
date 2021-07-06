@@ -7,9 +7,8 @@ import 'package:places/data/redux/middleware/search_middleware.dart';
 import 'package:places/data/redux/reducer/reducer.dart';
 import 'package:places/data/redux/state/app_state.dart';
 import 'package:places/ui/res/themes.dart';
+import 'package:places/ui/screen/add_place/add_place_screen.dart';
 import 'package:places/ui/screen/add_sight.dart';
-import 'package:places/ui/screen/select_category.dart';
-import 'package:places/ui/screen/splash.dart';
 import 'package:provider/provider.dart';
 import 'package:redux/redux.dart';
 import 'data/interactor/SettingsInteractor.dart';
@@ -72,7 +71,7 @@ class App extends StatelessWidget {
       child: MaterialApp(
         theme: context.watch<MainState>().theme,
         //home: SplashScreen(),
-        home: AddSightScreen(),
+        home: AddPlaceScreen(),
         title: "Places",
       ),
     );

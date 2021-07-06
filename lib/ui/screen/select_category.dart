@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'add_sight.dart';
 import 'widgets/category_item.dart';
+import 'widgets/delimer.dart';
 
 class SelectPlaceCategory extends StatefulWidget {
   SelectPlaceCategory({Key key}) : super(key: key);
@@ -44,10 +45,15 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
             child: ListView.builder(
               itemCount: PlaceType.values.length,
               itemBuilder: (context, index) {
-                return CategoryItemWidget(
-                  title: Place.ruPlaceTypeNames[index],
-                  onTap: () => _changeSelectIndex(index),
-                  select: index == _selectIndex,
+                return Column(
+                  children: [
+                    CategoryItemWidget(
+                      title: Place.ruPlaceTypeNames[index],
+                      onTap: () => _changeSelectIndex(index),
+                      select: index == _selectIndex,
+                    ),
+                    Delimer(),
+                  ],
                 );
               },
             ),
