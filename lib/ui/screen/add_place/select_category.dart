@@ -3,15 +3,16 @@ import 'package:places/data/model/Place.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/widgets/category_item.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
+import 'package:provider/provider.dart';
 import 'package:relation/relation.dart';
 
-import '../smthError.dart';
+import 'add_place_wm.dart';
 
 class SelectPlaceCategory extends StatefulWidget {
-  final EntityStreamedState<Place> formPlaceState;
   final StreamedAction<int> editPlaceCategoryAction;
 
-  SelectPlaceCategory({Key key, this.formPlaceState, this.editPlaceCategoryAction}) : super(key: key);
+  SelectPlaceCategory({Key key, this.editPlaceCategoryAction})
+      : super(key: key);
 
   @override
   _SelectPlaceCategoryState createState() => _SelectPlaceCategoryState();
@@ -19,12 +20,11 @@ class SelectPlaceCategory extends StatefulWidget {
 
 class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
   int _selectIndex;
+
   @override
   Widget build(BuildContext context) {
-    return EntityStateBuilder<Place>(
-      streamedState: widget.formPlaceState,
-      errorBuilder: (context, e) => SmthError(),
-      builder: (context, place) {
+    return Consumer<AddPlaceScreenWidgetModel>(
+      builder: (context, widgetModel, _) {
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
@@ -71,7 +71,10 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
                   height: 48,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: _save,
+                    onPressed: () {
+                      widgetModel.editPlace(widgetModel.place.copyWith(placeType: PlaceType.values[_selectIndex]));
+                      Navigator.pop(context);
+                    },
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             _selectIndex != null
@@ -103,10 +106,5 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
     setState(() {
       _selectIndex = index;
     });
-  }
-
-  void _save() {
-    widget.editPlaceCategoryAction(_selectIndex);
-    Navigator.pop(context);
   }
 }
