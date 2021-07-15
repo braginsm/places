@@ -8,6 +8,8 @@ import 'package:places/ui/screen/widgets/add_image_item.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
 import 'package:provider/provider.dart';
 
+import 'select_category.dart';
+
 class AddSightScreen extends StatefulWidget {
   AddSightScreen({Key key}) : super(key: key);
 
@@ -29,11 +31,11 @@ class _AddSightScreenState extends State<AddSightScreen> {
   void _addPlace() {
     try {
       context.read<PlaceInteractor>().addNewPlace(Place(
-        name: nameController.text,
-        lat: double.parse(latController.text),
-        lon: double.parse(lonController.text),
-        description: descriptionController.text,
-      ));
+            name: nameController.text,
+            lat: double.parse(latController.text),
+            lon: double.parse(lonController.text),
+            description: descriptionController.text,
+          ));
       Navigator.pop(context);
     } on NetworkExeption catch (e) {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
@@ -66,11 +68,11 @@ class _AddSightScreenState extends State<AddSightScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
@@ -97,14 +99,23 @@ class _AddSightScreenState extends State<AddSightScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Не выбрано",
+                          context.watch<AddSightState>().type == null
+                            ? "Не выбрано"
+                            : Place.ruPlaceTypeNames[context.watch<AddSightState>().type.index],
                           style: TextStyleSet()
                               .textRegular16
                               .copyWith(color: Theme.of(context).hintColor),
                         ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 10,
+                        IconButton(
+                          icon: Icon(
+                            Icons.arrow_forward_ios,
+                            size: 10,
+                          ),
+                          onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => SelectPlaceCategory(),
+                              )),
                         )
                       ],
                     ),
@@ -228,24 +239,24 @@ class _AddSightScreenState extends State<AddSightScreen> {
                   ),
                 ],
               ),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: ElevatedButton(
-                  onPressed: _addPlace,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    child: Text(
-                      "СОЗДАТЬ",
-                      style: TextStyleSet()
-                          .textBold
-                          .copyWith(color: Theme.of(context).canvasColor),
-                    ),
+            ),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: ElevatedButton(
+                onPressed: _addPlace,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  child: Text(
+                    "СОЗДАТЬ",
+                    style: TextStyleSet()
+                        .textBold
+                        .copyWith(color: Theme.of(context).canvasColor),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -265,6 +276,15 @@ class AddSightState with ChangeNotifier {
 
   void removeImage(img) {
     images.remove(img);
+    notifyListeners();
+  }
+
+  PlaceType _type;
+
+  PlaceType get type => _type;
+
+  void setType(int index) {
+    _type = PlaceType.values[index];
     notifyListeners();
   }
 }

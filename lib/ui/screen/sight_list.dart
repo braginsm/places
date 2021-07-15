@@ -20,6 +20,8 @@ import 'package:provider/provider.dart';
 import 'package:places/ui/screen/visiting.dart';
 
 import '../res/text_styles.dart';
+import 'add_place/add_place_screen.dart';
+import 'add_place/add_place_wm.dart';
 
 class SightListScreen extends StatelessWidget {
   const SightListScreen({Key key}) : super(key: key);
@@ -71,7 +73,12 @@ class SightListScreen extends StatelessWidget {
               bottom: 16,
               child: InkWell(
                 onTap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddSightScreen())),
+                    MaterialPageRoute(
+                      builder: (context) => AddPlaceScreen(
+                        widgetModelBuilder: (BuildContext context) { return context.read<AddPlaceScreenWidgetModel>(); },
+                      ),
+                    ),
+                ),
                 child: Container(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
