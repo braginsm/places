@@ -21,12 +21,6 @@ dependencies:
   enum_to_string: ^2.0.1
   flutter_bloc: ^7.0.1
   equatable: ^2.0.2
-  mobx: ^2.0.1
-  flutter_mobx: ^2.0.0
-  redux: ^5.0.0
-  flutter_redux: ^0.8.2
-  mwwm: ^2.0.0
-  relation: ^3.1.0
 
 dev_dependencies:
   flutter_test:

@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/data/interactor/SearchInteractor.dart';
-import 'package:places/data/redux/action/search_action.dart';
-import 'package:places/data/redux/state/app_state.dart';
-import 'package:places/data/redux/state/search_state.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
@@ -138,7 +135,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                 ],
               ),
             ),
-          StoreConnector<AppState, SearchState>(
+          /*StoreConnector<AppState, SearchState>(
             onInit: (store) {
               store.dispatch(ResultSearch([]));
             },
@@ -228,7 +225,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
               }
               throw ArgumentError("Непредусмотренный state в SearchState");
             },
-          )
+          )*/
         ],
       ),
       bottomNavigationBar: BottomNavigation(),

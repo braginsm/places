@@ -8,13 +8,11 @@ import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
 import 'package:places/data/repository/NetworkExeption.dart';
 import 'package:places/ui/res/images.dart';
-import 'package:places/ui/screen/add_sight.dart';
 import 'package:places/ui/screen/sight_search.dart';
 import 'package:places/ui/screen/smthError.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:places/ui/screen/widgets/sight_item.dart';
-import 'package:places/data/store/place_list/place_list_store.dart';
 
 import 'package:provider/provider.dart';
 import 'package:places/ui/screen/visiting.dart';
