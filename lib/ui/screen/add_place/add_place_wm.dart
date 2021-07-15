@@ -19,6 +19,16 @@ class AddPlaceScreenWidgetModel extends WidgetModel with ChangeNotifier {
 
   Place place = Place();
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController latController = TextEditingController();
+  TextEditingController lonController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  FocusNode nameNode = FocusNode();
+  FocusNode latNode = FocusNode();
+  FocusNode lonNode = FocusNode();
+  FocusNode descriptionNode = FocusNode();
+
   AddPlaceScreenWidgetModel(
       WidgetModelDependencies baseDependencies, this._placeInteractor)
       : super(baseDependencies);
@@ -37,9 +47,15 @@ class AddPlaceScreenWidgetModel extends WidgetModel with ChangeNotifier {
     clearPlace();
   }
 
-  void savePlace(Place place) {
+  void savePlace() {
     formPlaceState.loading();
-    place = place.copyWith(urls: _images);
+    var place = Place(
+      name: nameController.text,
+      lat: double.parse(latController.text),
+      lon: double.parse(lonController.text),
+      description: descriptionController.text,
+      urls: _images,
+    );
     subscribeHandleError<Place>(_placeInteractor.addNewPlace(place).asStream(),
         (place) {
       formPlaceState.content(place);

@@ -26,24 +26,9 @@ class AddPlaceScreen extends CoreMwwmWidget<AddPlaceScreenWidgetModel> {
 
 class _AddPlaceScreenState
     extends WidgetState<AddPlaceScreen, AddPlaceScreenWidgetModel> {
-  
-  TextEditingController nameController = TextEditingController();
-  TextEditingController latController = TextEditingController();
-  TextEditingController lonController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-
-  FocusNode nameNode = FocusNode();
-  FocusNode latNode = FocusNode();
-  FocusNode lonNode = FocusNode();
-  FocusNode descriptionNode = FocusNode();
 
   void _addPlace() {
-    wm.savePlace(Place(
-      name: nameController.text,
-      lat: double.parse(latController.text),
-      lon: double.parse(lonController.text),
-      description: descriptionController.text,
-    ));
+    wm.savePlace();
     Navigator.pop(context);
   }
 
@@ -53,10 +38,10 @@ class _AddPlaceScreenState
       appBar: AppBar(
         leading: TextButton(
           onPressed: () {
-            nameController.clear();
-            latController.clear();
-            lonController.clear();
-            descriptionController.clear();
+            wm.nameController.clear();
+            wm.latController.clear();
+            wm.lonController.clear();
+            wm.descriptionController.clear();
           },
           child: Container(
               child: Text(
@@ -138,12 +123,12 @@ class _AddPlaceScreenState
                       padding: EdgeInsets.symmetric(vertical: 12),
                       child: TextField(
                         //autofocus: true,
-                        focusNode: nameNode,
+                        focusNode: wm.nameNode,
                         decoration: InputDecoration(
                           hintText: 'название',
                         ),
-                        controller: nameController,
-                        onSubmitted: (value) => latNode.requestFocus(),
+                        controller: wm.nameController,
+                        onSubmitted: (value) => wm.latNode.requestFocus(),
                       ),
                     ),
                     Padding(
@@ -163,18 +148,18 @@ class _AddPlaceScreenState
                                 Padding(
                                   padding: EdgeInsets.fromLTRB(0, 12, 8, 0),
                                   child: TextField(
-                                    controller: latController,
+                                    controller: wm.latController,
                                     decoration: InputDecoration(
                                       hintText: 'широта',
                                       suffixIcon: IconButton(
                                         icon: Icon(Icons.cancel_rounded),
-                                        onPressed: () => latController.clear(),
+                                        onPressed: () => wm.latController.clear(),
                                       ),
                                     ),
                                     keyboardType: TextInputType.number,
-                                    focusNode: latNode,
+                                    focusNode: wm.latNode,
                                     onSubmitted: (value) =>
-                                        lonNode.requestFocus(),
+                                        wm.lonNode.requestFocus(),
                                   ),
                                 ),
                               ],
@@ -195,16 +180,16 @@ class _AddPlaceScreenState
                                   Padding(
                                     padding: EdgeInsets.only(top: 12),
                                     child: TextField(
-                                      controller: lonController,
-                                      focusNode: lonNode,
+                                      controller: wm.lonController,
+                                      focusNode: wm.lonNode,
                                       onSubmitted: (value) =>
-                                          descriptionNode.requestFocus(),
+                                          wm.descriptionNode.requestFocus(),
                                       decoration: InputDecoration(
                                         hintText: 'долгота',
                                         suffixIcon: IconButton(
                                           icon: Icon(Icons.cancel_rounded),
                                           onPressed: () =>
-                                              lonController.clear(),
+                                              wm.lonController.clear(),
                                         ),
                                       ),
                                       keyboardType: TextInputType.number,
@@ -235,9 +220,9 @@ class _AddPlaceScreenState
                       ),
                     ),
                     TextField(
-                      controller: descriptionController,
-                      focusNode: descriptionNode,
-                      onSubmitted: (value) => descriptionNode.unfocus(),
+                      controller: wm.descriptionController,
+                      focusNode: wm.descriptionNode,
+                      onSubmitted: (value) => wm.descriptionNode.unfocus(),
                       maxLines: 4,
                       decoration: InputDecoration(
                         hintText: "введите текст",
