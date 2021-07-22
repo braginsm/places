@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,8 +18,6 @@ import 'package:provider/provider.dart';
 import 'package:places/ui/screen/visiting.dart';
 
 import '../res/text_styles.dart';
-import 'add_place/add_place_screen.dart';
-import 'add_place/add_place_wm.dart';
 
 class SightListScreen extends StatelessWidget {
   const SightListScreen({Key key}) : super(key: key);
