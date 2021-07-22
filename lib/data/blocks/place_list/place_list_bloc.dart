@@ -4,13 +4,13 @@ import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'place_list_event.dart';
 import 'place_list_state.dart';
 
-class PlaceListBlock extends Bloc<PlaceListEvent, PlaceListState> {
+class PlaceListBloc extends Bloc<PlaceListEvent, PlaceListState> {
   final PlaceInteractor _interactor;
 
-  PlaceListBlock(this._interactor) : super(PlaceListLoadingInProgressState());
+  PlaceListBloc(this._interactor) : super(PlaceListLoadingInProgressState());
 
   @override
-  Stream<PlaceListState> mapEventToState(PlaceListEvent event) {
+  Stream<PlaceListState> mapEventToState(PlaceListEvent event) async* {
     if (event is PlaceListLoadEvent) {
       yield* _mapPlaceListLoadEventToState();
     }

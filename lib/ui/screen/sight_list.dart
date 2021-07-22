@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobx/mobx.dart';
+import 'package:places/data/blocks/place_list/place_list_bloc.dart';
+import 'package:places/data/blocks/place_list/place_list_event.dart';
+import 'package:places/data/blocks/place_list/place_list_state.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
 import 'package:places/data/repository/NetworkExeption.dart';
@@ -70,13 +72,13 @@ class SightListScreen extends StatelessWidget {
             Positioned(
               bottom: 16,
               child: InkWell(
-                onTap: () => Navigator.push(context,
-                    MaterialPageRoute(
-                      builder: (context) => AddPlaceScreen(
-                        widgetModelBuilder: (BuildContext context) { return context.read<AddPlaceScreenWidgetModel>(); },
-                      ),
-                    ),
-                ),
+                // onTap: () => Navigator.push(context,
+                //     MaterialPageRoute(
+                //       builder: (context) => AddPlaceScreen(
+                //         widgetModelBuilder: (BuildContext context) { return context.read<AddPlaceScreenWidgetModel>(); },
+                //       ),
+                //     ),
+                // ),
                 child: Container(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -123,15 +125,14 @@ class StreamSliverList extends StatefulWidget {
 }
 
 class _StreamSliverListState extends State<StreamSliverList> {
-  StreamController _controller = new StreamController<List<Place>>();
-  PlaceListStore _store;
+  PlaceListBloc _bloc;
 
   @override
   void initState() {
     super.initState();
-    _store = PlaceListStore(context.read<PlaceInteractor>());
     try {
-      _store.getPlaceList();
+      _bloc = PlaceListBloc(context.read<PlaceInteractor>())
+        ..add(PlaceListLoadEvent());
     } on NetworkExeption catch (e) {
       Navigator.push(context, MaterialPageRoute(builder: (_) {
         return SmthError();
@@ -141,23 +142,18 @@ class _StreamSliverListState extends State<StreamSliverList> {
 
   @override
   Widget build(BuildContext context) {
-    return Provider<PlaceListStore>(
-      create: (_) => _store,
-      child: Observer(
-        builder: (BuildContext context) {
-          return (_store.getPlaceListFuture.status == FutureStatus.pending)
-              ? SliverPreloader()
-              : SightSliverList(
-                  _store.getPlaceListFuture.value, widget.orientation);
+    return BlocProvider<PlaceListBloc>(
+      create: (context) => _bloc,
+      child: BlocBuilder<PlaceListBloc, PlaceListState>(
+        builder: (context, state) {
+          if (state is PlaceListLoadingInProgressState)
+            return SliverPreloader();
+          if (state is PlaceListLoadingSuccessState)
+            return SightSliverList(state.placeList, widget.orientation);
+          throw ArgumentError("Неожиданное состояние в _StreamSliverListState");
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.close();
-    super.dispose();
   }
 }
 
@@ -181,7 +177,7 @@ class SightSliverList extends StatelessWidget {
                     actions: [
                       IconButton(
                         onPressed: () {
-                          context.read<PlaceListStore>().toggleFavorites(item);
+                          //context.read<PlaceListStore>().toggleFavorites(item);
                         },
                         icon: SvgPicture.asset(
                           ImagesPaths.favorite,
