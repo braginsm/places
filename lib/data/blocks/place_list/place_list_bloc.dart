@@ -14,7 +14,6 @@ class PlaceListBloc extends Bloc<PlaceListEvent, PlaceListState> {
     if (event is PlaceListLoadEvent) {
       yield* _mapPlaceListLoadEventToState();
     }
-    throw UnimplementedError();
   }
 
   Stream<PlaceListState> _mapPlaceListLoadEventToState() async* {

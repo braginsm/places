@@ -9,7 +9,9 @@ import 'widgets/delimer.dart';
 
 class SelectPlaceCategory extends StatefulWidget {
   final AddPlaceBloc bloc;
-  SelectPlaceCategory({Key key, this.bloc}) : super(key: key);
+  final int startSelectIndex;
+  SelectPlaceCategory({Key key, this.bloc, this.startSelectIndex})
+      : super(key: key);
 
   @override
   _SelectPlaceCategoryState createState() => _SelectPlaceCategoryState();
@@ -17,6 +19,13 @@ class SelectPlaceCategory extends StatefulWidget {
 
 class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
   int _selectIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.startSelectIndex != null) _selectIndex = widget.startSelectIndex;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,10 +74,13 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
               height: 48,
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => _selectIndex != null
-                    ? widget.bloc.add(AddPlaceTypeChangeEvent(
-                        PlaceType.values[_selectIndex]))
-                    : null,
+                onPressed: () {
+                  if (_selectIndex != null) {
+                    widget.bloc.add(AddPlaceTypeChangeEvent(
+                        PlaceType.values[_selectIndex]));
+                    Navigator.pop(context);
+                  }
+                },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         _selectIndex != null

@@ -108,7 +108,10 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                   onPressed: () => Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) => SelectPlaceCategory(),
+                                        builder: (_) => SelectPlaceCategory(
+                                          bloc: _bloc,
+                                          startSelectIndex: state.placeType.index,
+                                        ),
                                       )),
                                 )
                               ],
