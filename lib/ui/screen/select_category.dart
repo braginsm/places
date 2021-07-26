@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/data/blocks/add_place/add_place_bloc.dart';
 import 'package:places/data/blocks/add_place/add_place_event.dart';
+import 'package:places/data/blocks/add_place/add_place_state.dart';
 import 'package:places/data/model/Place.dart';
 import 'package:places/ui/res/text_styles.dart';
 
@@ -9,9 +10,7 @@ import 'widgets/delimer.dart';
 
 class SelectPlaceCategory extends StatefulWidget {
   final AddPlaceBloc bloc;
-  final int startSelectIndex;
-  SelectPlaceCategory({Key key, this.bloc, this.startSelectIndex})
-      : super(key: key);
+  SelectPlaceCategory({Key key, this.bloc}) : super(key: key);
 
   @override
   _SelectPlaceCategoryState createState() => _SelectPlaceCategoryState();
@@ -23,7 +22,8 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
   @override
   void initState() {
     super.initState();
-    if (widget.startSelectIndex != null) _selectIndex = widget.startSelectIndex;
+    AddPlaceLoadingSuccessState _state = widget.bloc.state;
+    if (_state.placeType != null) _selectIndex = _state.placeType.index;
   }
 
   @override

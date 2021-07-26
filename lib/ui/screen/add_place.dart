@@ -110,7 +110,6 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                       MaterialPageRoute(
                                         builder: (_) => SelectPlaceCategory(
                                           bloc: _bloc,
-                                          startSelectIndex: state.placeType.index,
                                         ),
                                       )),
                                 )
