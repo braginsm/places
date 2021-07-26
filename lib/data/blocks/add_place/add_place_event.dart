@@ -38,3 +38,11 @@ class AddPlaceTypeChangeEvent extends AddPlaceEvent {
 }
 
 class AddPlaceClearFormEvent extends AddPlaceEvent {}
+
+class AddPlaceDismissedImageEvent extends AddPlaceEvent {
+  final String img;
+  AddPlaceDismissedImageEvent(this.img) : super();
+
+  @override
+  List<Object> get props => [img];
+}

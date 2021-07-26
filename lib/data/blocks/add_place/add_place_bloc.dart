@@ -29,14 +29,24 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
       yield* _mapAddPlaceTypeChangeToState(event.type);
     }
 
+    if (event is AddPlaceDismissedImageEvent) {
+      yield* _mapAddPlaceDismissedImageToState(event.img);
+    }
+
     throw UnimplementedError();
+  }
+
+  Stream<AddPlaceState> _mapAddPlaceDismissedImageToState(String img) async* {
+    AddPlaceLoadingSuccessState _state = state;
+    _state.images.remove(img);
+    yield _state;
   }
 
   Stream<AddPlaceState> _mapAddPlaceTypeChangeToState(PlaceType type) async* {
     yield AddPlaceLoadingInProgressState();
-    var state = AddPlaceLoadingSuccessState();
-    state.placeType = type;
-    yield state;
+    AddPlaceLoadingSuccessState _state = state;
+    _state.placeType = type;
+    yield _state;
   }
 
   Stream<AddPlaceState> _mapAddPlaceSaveEventToState(Place place) async* {

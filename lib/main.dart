@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/interactor/SearchInteractor.dart';
 import 'package:places/ui/res/themes.dart';
-import 'package:places/ui/screen/add_sight.dart';
 import 'package:places/ui/screen/splash.dart';
 import 'package:provider/provider.dart';
 import 'data/interactor/SettingsInteractor.dart';
@@ -18,9 +17,6 @@ void main() {
         ),
         ChangeNotifierProvider(
           create: (BuildContext context) => VisitingState(),
-        ),
-        ChangeNotifierProvider(
-          create: (BuildContext context) => AddSightState(),
         ),
         Provider(
           create: (_) => PlaceInteractor(),
