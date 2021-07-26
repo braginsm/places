@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
+import 'package:places/data/repository/NetworkExeption.dart';
 
 import 'add_place_event.dart';
 import 'add_place_state.dart';
@@ -20,7 +21,32 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
       yield* _mapAddPlaceClearFormEventToState();
     }
 
+    if (event is AddPlaceSaveEvent) {
+      yield* _mapAddPlaceSaveEventToState(event.place);
+    }
+
+    if (event is AddPlaceTypeChangeEvent) {
+      yield* _mapAddPlaceTypeChangeToState(event.type);
+    }
+
     throw UnimplementedError();
+  }
+
+  Stream<AddPlaceState> _mapAddPlaceTypeChangeToState(PlaceType type) async* {
+    yield AddPlaceLoadingInProgressState();
+    var state = AddPlaceLoadingSuccessState();
+    state.placeType = type;
+    yield state;
+  }
+
+  Stream<AddPlaceState> _mapAddPlaceSaveEventToState(Place place) async* {
+    yield AddPlaceLoadingInProgressState();
+    try {
+      await _placeInteractor.addNewPlace(place);
+      yield AddPlaceLoadingSuccessState();
+    } on NetworkExeption catch (e) {
+      yield AddPlaceErrorState();
+    }
   }
 
   Stream<AddPlaceState> _mapAddPlaceClearFormEventToState() async* {

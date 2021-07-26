@@ -5,7 +5,6 @@ import 'package:places/data/blocks/add_place/add_place_event.dart';
 import 'package:places/data/blocks/add_place/add_place_state.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
-import 'package:places/data/repository/NetworkExeption.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/smthError.dart';
 import 'package:places/ui/screen/widgets/add_image_item.dart';
@@ -22,21 +21,6 @@ class AddPlaceScreen extends StatefulWidget {
 }
 
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
-  // void _addPlace() {
-  //   try {
-  //     context.read<PlaceInteractor>().addNewPlace(Place(
-  //           name: nameController.text,
-  //           lat: double.parse(latController.text),
-  //           lon: double.parse(lonController.text),
-  //           description: descriptionController.text,
-  //         ));
-  //     Navigator.pop(context);
-  //   } on NetworkExeption catch (e) {
-  //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-  //       return SmthError();
-  //     }));
-  //   }
-  // }
 
   AddPlaceBloc _bloc;
 
@@ -55,6 +39,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
         builder: (context, state) {
           if (state is AddPlaceLoadingInProgressState)
             return CircularProgressIndicator();
+          if (state is AddPlaceErrorState)
+            return SmthError();
           if (state is AddPlaceLoadingSuccessState)
             return Scaffold(
               appBar: AppBar(
@@ -90,12 +76,9 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                             padding: EdgeInsets.symmetric(vertical: 8),
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount:
-                                  context.watch<AddSightState>().images.length,
+                              itemCount: state.images.length,
                               itemBuilder: (context, index) {
-                                final img = context
-                                    .watch<AddSightState>()
-                                    .images[index];
+                                final img = state.images[index];
                                 return AddImageItem(img: img);
                               },
                             ),
@@ -111,12 +94,9 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  context.watch<AddSightState>().type == null
+                                  state.placeType == null
                                       ? "Не выбрано"
-                                      : Place.ruPlaceTypeNames[context
-                                          .watch<AddSightState>()
-                                          .type
-                                          .index],
+                                      : Place.ruPlaceTypeNames[state.placeType.index],
                                   style: TextStyleSet().textRegular16.copyWith(
                                       color: Theme.of(context).hintColor),
                                 ),
@@ -271,7 +251,14 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(vertical: 8),
                       child: ElevatedButton(
-                        onPressed: () => _bloc.add(AddPlaceSaveEvent()),
+                        onPressed: () => _bloc.add(AddPlaceSaveEvent(Place(
+                          name: state.nameController.text,
+                          description: state.descriptionController.text,
+                          lat: double.parse(state.latController.text),
+                          lon: double.parse(state.lonController.text),
+                          placeType: state.placeType,
+                          urls: state.images
+                        ))),
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 12),
                           child: Text(
@@ -291,31 +278,5 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
         },
       ),
     );
-  }
-}
-
-class AddSightState with ChangeNotifier {
-  ///Моковые данные картинок
-  List<String> _images = [
-    "",
-    "https://lifeglobe.net/x/entry/6591/1a.jpg",
-    "https://www.freezone.net/upload/medialibrary/7e9/7e9ba16fe427b1dfd99e07ea7cc522d2.jpg",
-    "https://tur-ray.ru/wp-content/uploads/2017/11/maska-skorbi.jpg"
-  ];
-
-  List<String> get images => _images;
-
-  void removeImage(img) {
-    images.remove(img);
-    notifyListeners();
-  }
-
-  PlaceType _type;
-
-  PlaceType get type => _type;
-
-  void setType(int index) {
-    _type = PlaceType.values[index];
-    notifyListeners();
   }
 }

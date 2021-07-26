@@ -19,6 +19,22 @@ class AddPlaceChangeEvent extends AddPlaceEvent {
   List<Object> get props => [place];
 }
 
-class AddPlaceSaveEvent extends AddPlaceEvent {}
+class AddPlaceSaveEvent extends AddPlaceEvent {
+  final Place place;
+
+  AddPlaceSaveEvent(this.place) : super();
+
+  @override
+  List<Object> get props => [place];
+}
+
+class AddPlaceTypeChangeEvent extends AddPlaceEvent {
+  final PlaceType type;
+
+  AddPlaceTypeChangeEvent(this.type) : super();
+
+  @override
+  List<Object> get props => [type];
+}
 
 class AddPlaceClearFormEvent extends AddPlaceEvent {}
