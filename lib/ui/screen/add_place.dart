@@ -33,7 +33,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return BlocProvider<AddPlaceBloc>(
       create: (context) => _bloc,
       child: BlocBuilder<AddPlaceBloc, AddPlaceState>(
         builder: (context, state) {
@@ -79,7 +79,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                               itemCount: state.images.length,
                               itemBuilder: (context, index) {
                                 final img = state.images[index];
-                                return AddImageItem(img: img);
+                                return AddImageItem(img: img, bloc: _bloc,);
                               },
                             ),
                           ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/data/blocks/add_place/add_place_bloc.dart';
 import 'package:places/data/blocks/add_place/add_place_event.dart';
@@ -8,14 +7,14 @@ import 'package:places/ui/res/text_styles.dart';
 
 class AddImageItem extends StatefulWidget {
   final String img;
-  AddImageItem({Key key, this.img}) : super(key: key);
+  final AddPlaceBloc bloc;
+  AddImageItem({Key key, this.img, this.bloc}) : super(key: key);
 
   @override
   _AddImageItemState createState() => _AddImageItemState();
 }
 
 class _AddImageItemState extends State<AddImageItem> {
-  AddPlaceBloc _bloc;
 
   void _showAddPhoto() {
     showDialog(
@@ -112,47 +111,45 @@ class _AddImageItemState extends State<AddImageItem> {
             iconSize: 72,
             onPressed: _showAddPhoto,
           )
-        : BlocProvider(
-            create: (context) => _bloc,
-            child: Dismissible(
-              key: ValueKey(widget.img),
-              direction: DismissDirection.up,
-              onDismissed: (direction) {
-                _bloc.add(AddPlaceDismissedImageEvent(widget.img));
-              },
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Stack(
-                  children: [
-                    GestureDetector(
-                      onTap: () => print(widget.img),
-                      child: Container(
-                        width: 72,
-                        height: 72,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          image: DecorationImage(
-                              image: Image.network(widget.img).image,
-                              fit: BoxFit.fill),
-                        ),
-                      ),
+        : Dismissible(
+          key: ValueKey(widget.img),
+          direction: DismissDirection.up,
+          onDismissed: (direction) {
+            widget.bloc.add(AddPlaceDismissedImageEvent(widget.img));
+          },
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Stack(
+              children: [
+                GestureDetector(
+                  onTap: () => print(widget.img),
+                  child: Container(
+                    width: 72,
+                    height: 72,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      image: DecorationImage(
+                          image: Image.network(widget.img).image,
+                          fit: BoxFit.fill),
                     ),
-                    Positioned(
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.cancel,
-                          color: Theme.of(context).backgroundColor,
-                        ),
-                        onPressed: () => _bloc.add(AddPlaceDismissedImageEvent(widget.img)),
-                        padding: EdgeInsets.all(0),
-                      ),
-                      right: -6,
-                      top: -6,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                Positioned(
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.cancel,
+                      color: Theme.of(context).backgroundColor,
+                    ),
+                    onPressed: () =>
+                        widget.bloc.add(AddPlaceDismissedImageEvent(widget.img)),
+                    padding: EdgeInsets.all(0),
+                  ),
+                  right: -6,
+                  top: -6,
+                ),
+              ],
             ),
-          );
+          ),
+        );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/data/interactor/SearchInteractor.dart';
 import 'package:places/ui/res/images.dart';
