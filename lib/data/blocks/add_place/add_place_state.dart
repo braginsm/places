@@ -12,20 +12,26 @@ abstract class AddPlaceState extends Equatable {
 class AddPlaceLoadingInProgressState extends AddPlaceState {}
 
 class AddPlaceLoadingSuccessState extends AddPlaceState {
-  final Place place;
+  AddPlaceLoadingSuccessState();
+    TextEditingController nameController = TextEditingController();
+    TextEditingController latController = TextEditingController();
+    TextEditingController lonController = TextEditingController();
+    TextEditingController descriptionController = TextEditingController();
 
-  AddPlaceLoadingSuccessState(this.place);
-
-  TextEditingController nameController = TextEditingController();
-  TextEditingController latController = TextEditingController();
-  TextEditingController lonController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-
-  FocusNode nameNode = FocusNode();
-  FocusNode latNode = FocusNode();
-  FocusNode lonNode = FocusNode();
-  FocusNode descriptionNode = FocusNode();
+    FocusNode nameNode = FocusNode();
+    FocusNode latNode = FocusNode();
+    FocusNode lonNode = FocusNode();
+    FocusNode descriptionNode = FocusNode();
 
   @override
-  List<Object> get props => [place, nameController, latController, lonController, descriptionController, nameNode, latNode, lonNode, descriptionNode];
+  List<Object> get props => [
+        nameController,
+        latController,
+        lonController,
+        descriptionController,
+        nameNode,
+        latNode,
+        lonNode,
+        descriptionNode
+      ];
 }

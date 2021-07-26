@@ -10,8 +10,6 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
 
   AddPlaceBloc(this._placeInteractor) : super(AddPlaceLoadingInProgressState());
 
-  Place _place = Place();
-
   @override
   Stream<AddPlaceState> mapEventToState(AddPlaceEvent event) async* {
     if (event is AddPlaceLoadEvent) {
@@ -26,10 +24,10 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
   }
 
   Stream<AddPlaceState> _mapAddPlaceClearFormEventToState() async* {
-    yield AddPlaceLoadingSuccessState(_place);
+    yield AddPlaceLoadingSuccessState();
   }
 
   Stream<AddPlaceState> _mapAddPlaceLoadEventToState() async* {
-    yield AddPlaceLoadingSuccessState(_place);
+    yield AddPlaceLoadingSuccessState();
   }
 }

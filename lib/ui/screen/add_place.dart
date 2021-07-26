@@ -271,7 +271,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(vertical: 8),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => _bloc.add(AddPlaceSaveEvent()),
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 12),
                           child: Text(
