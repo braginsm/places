@@ -13,14 +13,14 @@ import 'package:places/ui/screen/widgets/delimer.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
 
-class PlaceSearchScreen extends StatefulWidget {
-  PlaceSearchScreen({Key key}) : super(key: key);
+class SearchPlaceScreen extends StatefulWidget {
+  SearchPlaceScreen({Key key}) : super(key: key);
 
   @override
-  _PlaceSearchScreenState createState() => _PlaceSearchScreenState();
+  _SearchPlaceScreenState createState() => _SearchPlaceScreenState();
 }
 
-class _PlaceSearchScreenState extends State<PlaceSearchScreen> {
+class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
   TextEditingController searchController = TextEditingController();
 
   SearchPlaceBloc _bloc;

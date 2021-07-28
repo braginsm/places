@@ -8,7 +8,7 @@ import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
 import 'package:places/data/repository/NetworkExeption.dart';
 import 'package:places/ui/res/images.dart';
-import 'package:places/ui/screen/sight_search.dart';
+import 'package:places/ui/screen/search_place.dart';
 import 'package:places/ui/screen/smthError.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
@@ -55,7 +55,7 @@ class SightListScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SightSearchScreen(),
+                              builder: (context) => SearchPlaceScreen(),
                             ),
                           );
                         },

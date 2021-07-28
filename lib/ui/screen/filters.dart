@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/data/interactor/SearchInteractor.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
-import './sight_search.dart';
+import 'package:places/ui/screen/search_place.dart';
 import 'package:provider/provider.dart';
 
 class FiltersScreen extends StatefulWidget {
@@ -125,7 +125,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SightSearchScreen()));
+                        builder: (context) => SearchPlaceScreen()));
               },
               child: Text(
                 "ПОКАЗАТЬ (${context.watch<SerachInteractor>().searchResult.length})",
