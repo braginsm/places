@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:places/data/blocks/add_place/add_place_bloc.dart';
+import 'package:places/data/blocks/add_place/add_place_event.dart';
+import 'package:places/data/blocks/add_place/add_place_state.dart';
 import 'package:places/data/model/Place.dart';
 import 'package:places/ui/res/text_styles.dart';
-import 'package:provider/provider.dart';
 
-import 'add_sight.dart';
 import 'widgets/category_item.dart';
 import 'widgets/delimer.dart';
 
 class SelectPlaceCategory extends StatefulWidget {
-  SelectPlaceCategory({Key key}) : super(key: key);
+  final AddPlaceBloc bloc;
+  SelectPlaceCategory({Key key, this.bloc}) : super(key: key);
 
   @override
   _SelectPlaceCategoryState createState() => _SelectPlaceCategoryState();
@@ -16,6 +18,14 @@ class SelectPlaceCategory extends StatefulWidget {
 
 class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
   int _selectIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    AddPlaceLoadingSuccessState _state = widget.bloc.state;
+    if (_state.placeType != null) _selectIndex = _state.placeType.index;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +74,13 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
               height: 48,
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: _save,
+                onPressed: () {
+                  if (_selectIndex != null) {
+                    widget.bloc.add(AddPlaceTypeChangeEvent(
+                        PlaceType.values[_selectIndex]));
+                    Navigator.pop(context);
+                  }
+                },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         _selectIndex != null
@@ -94,10 +110,5 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
     setState(() {
       _selectIndex = index;
     });
-  }
-
-  void _save() {
-    context.read<AddSightState>().setType(_selectIndex);
-    Navigator.pop(context);
   }
 }
