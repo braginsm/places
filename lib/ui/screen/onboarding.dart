@@ -11,8 +11,35 @@ class OnboardingScreen extends StatefulWidget {
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends State<OnboardingScreen>
+    with SingleTickerProviderStateMixin {
   int _curentPage = 0;
+  AnimationController _animationController;
+  Animation _animation;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
+      upperBound: 1,
+      lowerBound: .1,
+    );
+    _animation = Tween<double>(
+      begin: 15, end: 104
+    ).animate(CurvedAnimation(
+      parent: _animationController, 
+      curve: Curves.linear,
+    ));
+    _animationController.forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +85,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 setState(() {
                   _curentPage = value;
                 });
+                _animationController.reset();
+                _animationController.forward();
               },
               itemCount: _tutorialItems.length,
               itemBuilder: (BuildContext context, int index) {
@@ -67,17 +96,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(40),
-                      child: SvgPicture.asset(
-                        ImagesPaths.tutorial[index],
-                        width: 104,
-                        height: 104,
+                      child: AnimatedBuilder(
+                        animation: _animationController,
+                        builder: (context, child) => Opacity(
+                          opacity: _animationController.value,
+                          child: SvgPicture.asset(
+                            ImagesPaths.tutorial[index],
+                            width: _animation.value,
+                            height: _animation.value,
+                          ),
+                        ),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 58),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 58),
                       child: Text(
                         _item.title,
-                        style: TextStyleSet().textBold24.copyWith(color: Theme.of(context).primaryColor),
+                        style: TextStyleSet()
+                            .textBold24
+                            .copyWith(color: Theme.of(context).primaryColor),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -85,11 +123,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 58),
                       child: Text(
                         _item.description,
-                        style: TextStyleSet().textRegular.copyWith(color: Theme.of(context).hintColor),
+                        style: TextStyleSet()
+                            .textRegular
+                            .copyWith(color: Theme.of(context).hintColor),
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    Container(height: 60,),
+                    Container(
+                      height: 60,
+                    ),
                   ],
                 );
               },
@@ -110,7 +152,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               margin: EdgeInsets.all(4),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: _curentPage == i ? Theme.of(context).accentColor : Theme.of(context).unselectedWidgetColor,
+                                color: _curentPage == i
+                                    ? Theme.of(context).accentColor
+                                    : Theme.of(context).unselectedWidgetColor,
                               ),
                             )
                         ],
@@ -121,20 +165,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     width: MediaQuery.of(context).size.width,
                     height: 64,
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: (_tutorialItems.length == _curentPage + 1) ? ElevatedButton(
-                      onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => SightListScreen(),),),
-                      child: Container(
-                        child: Padding(
-                          padding: EdgeInsets.all(16),
-                          child: Text(
-                            "НА СТАРТ",
-                            style: TextStyleSet()
-                                    .textBold
-                                    .copyWith(color: Theme.of(context).canvasColor),
-                          ),
-                        ),
-                      ),
-                    ) : SizedBox.shrink(),
+                    child: (_tutorialItems.length == _curentPage + 1)
+                        ? ElevatedButton(
+                            onPressed: () => Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (contex) => SightListScreen(),
+                              ),
+                            ),
+                            child: Container(
+                              child: Padding(
+                                padding: EdgeInsets.all(16),
+                                child: Text(
+                                  "НА СТАРТ",
+                                  style: TextStyleSet().textBold.copyWith(
+                                      color: Theme.of(context).canvasColor),
+                                ),
+                              ),
+                            ),
+                          )
+                        : SizedBox.shrink(),
                   ),
                 ],
               ),

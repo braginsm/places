@@ -37,6 +37,12 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -53,9 +59,7 @@ class _SplashScreenState extends State<SplashScreen>
           builder: (BuildContext context, Widget child) {
             return Transform.rotate(
               angle: -_animation.value,
-              child: SvgPicture.asset(
-                ImagesPaths.splash
-              ),
+              child: SvgPicture.asset(ImagesPaths.splash),
             );
           },
         ),
@@ -70,7 +74,6 @@ class _SplashScreenState extends State<SplashScreen>
     try {
       isInitialized = await Future.delayed(Duration(seconds: 2), () async {
         if (await dataUpload) {
-          print("${DateTime.now()}");
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
