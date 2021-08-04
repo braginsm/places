@@ -48,8 +48,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: context.watch<MainState>().theme,
-      //home: SplashScreen(),
-      home: VisitingScreen(),
+      home: SplashScreen(),
       title: "Places",
     );
   }

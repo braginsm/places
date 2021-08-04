@@ -15,7 +15,6 @@ import 'package:places/data/model/Place.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/widgets/empty_list.dart';
 import 'package:places/ui/screen/widgets/sight_item.dart';
-import 'package:places/ui/screen/widgets/tab_bar.dart';
 import '../res/text_styles.dart';
 import './widgets/bottom_navigation.dart';
 import 'package:provider/provider.dart';
@@ -39,62 +38,47 @@ class VisitingScreen extends StatefulWidget {
   _VisitingScreenState createState() => _VisitingScreenState();
 }
 
-class _VisitingScreenState extends State<VisitingScreen>
-    with SingleTickerProviderStateMixin {
-  TabController _tabController;
-
-  @override
-  void initState() {
-    _tabController = TabController(
-      length: 2, 
-      vsync: this
-    );
-    super.initState();
-  }
-
+class _VisitingScreenState extends State<VisitingScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leadingWidth: 0,
-        title: Padding(
-          padding: EdgeInsets.symmetric(vertical: 16),
-          child: Center(
-            child: Text(
-              "Избранное",
-              style: TextStyleSet()
-                  .textMedium18
-                  .copyWith(color: Theme.of(context).primaryColor),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          leadingWidth: 0,
+          title: Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Center(
+              child: Text(
+                "Избранное",
+                style: TextStyleSet()
+                    .textMedium18
+                    .copyWith(color: Theme.of(context).primaryColor),
+              ),
+            ),
+          ),
+          bottom: PreferredSize(
+            preferredSize: Size(double.infinity, 52),
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              decoration: BoxDecoration(
+                color: Theme.of(context).backgroundColor,
+                borderRadius: BorderRadius.circular(40),
+              ),
+              child: TabBar(
+                tabs: [Tab(text: "Хочу посетить"), Tab(text: "Посетил")],
+              ),
             ),
           ),
         ),
-        bottom: PreferredSize(
-          preferredSize: Size(double.infinity, 52),
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            decoration: BoxDecoration(
-              color: Theme.of(context).backgroundColor,
-              borderRadius: BorderRadius.circular(40),
-            ),
-            // child: TabBar(
-            //   controller: _tabController,
-            //   tabs: [Tab(text: "Хочу посетить"), Tab(text: "Посетил")],
-            // ),
-            child: TabBarWidget(
-              _tabController,
-              ["Хочу посетить", "Посетил"],
-            ),
-          ),
+        body: TabBarView(
+          children: [
+            _FavoritTabItemWidget(),
+            _VisitTabItemWidget(),
+          ],
         ),
+        bottomNavigationBar: BottomNavigation(),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          _FavoritTabItemWidget(),
-          _VisitTabItemWidget(),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigation(),
     );
   }
 }
