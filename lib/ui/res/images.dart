@@ -22,4 +22,5 @@ class ImagesPaths {
   static String photo = "res/images/photo.svg";
   static String file = "res/images/file.svg";
   static String delete = "res/images/delete.svg";
+  static String splash = "res/images/splash.svg";
 }
