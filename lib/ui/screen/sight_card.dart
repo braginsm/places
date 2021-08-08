@@ -72,7 +72,7 @@ class _SightCardState extends State<SightCard> {
                               final item = _place.urls[index];
                               return Container(
                                 width: double.infinity,
-                                child: ImageNetwork(item, fit: BoxFit.cover),
+                                child: ImageNetworkWithProgress(item, fit: BoxFit.cover),
                               );
                             },
                           ),

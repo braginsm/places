@@ -23,4 +23,5 @@ class ImagesPaths {
   static String file = "res/images/file.svg";
   static String delete = "res/images/delete.svg";
   static String splash = "res/images/splash.svg";
+  static String imgPlaceholder = "res/images/placeholder.png";
 }

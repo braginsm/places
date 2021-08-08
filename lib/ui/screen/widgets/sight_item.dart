@@ -35,7 +35,7 @@ class SightItem extends StatelessWidget {
               Container(
                 width: double.infinity,
                 height: 96,
-                child: ImageNetwork(sight.urls.first, fit: BoxFit.cover),
+                child: ImageNetworkWithPlaceholder(sight.urls.first, fit: BoxFit.cover),
               ),
               SizedBox(
                 height: 16,
