@@ -41,7 +41,7 @@ class BottomNavigation extends StatelessWidget {
           //   label: 'Карта',
           // ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(ImagesPaths.favorite),
+            icon: SvgPicture.asset(ImagesPaths.heart),
             label: 'Избранное',
           ),
           BottomNavigationBarItem(

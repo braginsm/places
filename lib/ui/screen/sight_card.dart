@@ -275,7 +275,7 @@ class _SightCardState extends State<SightCard> {
                                       Padding(
                                           padding: EdgeInsets.all(8),
                                           child: SvgPicture.asset(
-                                            ImagesPaths.favorite,
+                                            ImagesPaths.heart,
                                             color: Theme.of(context)
                                                 .secondaryHeaderColor,
                                           )),
