@@ -169,17 +169,7 @@ class SightSliverList extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: SightItem(
                     item,
-                    actions: [
-                      IconButton(
-                        onPressed: () {
-                          //context.read<PlaceListStore>().toggleFavorites(item);
-                        },
-                        icon: SvgPicture.asset(
-                          ImagesPaths.favorite,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                      ),
-                    ],
+                    favoritAction: true,
                   ),
                 );
               },
@@ -194,19 +184,7 @@ class SightSliverList extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: SightItem(
                     item,
-                    actions: [
-                      IconButton(
-                        onPressed: () {
-                          context
-                              .read<VisitingState>()
-                              .setWont(item, DateTime.now());
-                        },
-                        icon: SvgPicture.asset(
-                          ImagesPaths.favorite,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                      ),
-                    ],
+                    favoritAction: true,
                   ),
                 );
               },

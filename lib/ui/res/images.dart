@@ -24,5 +24,5 @@ class ImagesPaths {
   static String splash = "res/images/splash.svg";
   static String imgPlaceholder = "res/images/placeholder.png";
   static String heart = "res/images/heart.svg";
-  static String feartFull = "res/images/heart_full.svg";
+  static String heartFull = "res/images/heart_full.svg";
 }
