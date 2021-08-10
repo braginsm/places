@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:places/ui/screen/visiting.dart';
 
 import '../res/text_styles.dart';
+import 'widgets/preloader.dart';
 
 class SightCard extends StatefulWidget {
   final int id;
@@ -43,14 +44,7 @@ class _SightCardState extends State<SightCard> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: (_place == null)
-          ? Builder(
-              builder: (BuildContext context) {
-                _getPlace();
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            )
+          ? PreloaderWidget()
           : CustomScrollView(
               slivers: [
                 SliverAppBar(

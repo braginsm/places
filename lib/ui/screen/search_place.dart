@@ -13,6 +13,8 @@ import 'package:places/ui/screen/widgets/delimer.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
 
+import 'widgets/preloader.dart';
+
 class SearchPlaceScreen extends StatefulWidget {
   SearchPlaceScreen({Key key}) : super(key: key);
 
@@ -145,7 +147,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
               builder: (context, state) {
                 if (state is SearchPlaceLoadingInProgressState)
                   return Center(
-                      child: CircularProgressIndicator(),
+                      child: PreloaderWidget(),
                     );
                 if (state is SearchPlaceLoadingSuccessState) {
                   final placeList = state.result;

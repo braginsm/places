@@ -19,6 +19,7 @@ import 'package:places/ui/screen/visiting.dart';
 
 import '../res/text_styles.dart';
 import 'add_place.dart';
+import 'widgets/preloader.dart';
 
 class SightListScreen extends StatelessWidget {
   const SightListScreen({Key key}) : super(key: key);
@@ -206,11 +207,7 @@ class SliverPreloader extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Container(
         height: 200,
-        child: Center(
-          child: CircularProgressIndicator(
-            color: Theme.of(context).accentColor,
-          ),
-        ),
+        child: PreloaderWidget(),
       ),
     );
   }
