@@ -19,6 +19,8 @@ import '../res/text_styles.dart';
 import './widgets/bottom_navigation.dart';
 import 'package:provider/provider.dart';
 
+import 'widgets/preloader.dart';
+
 class VisitingState with ChangeNotifier {
   void setWont(Place place, DateTime date) {
     PlaceInteractor().toggleFavorites(place);
@@ -191,7 +193,7 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
       child: BlocBuilder<FavoritListBloc, FavoritListState>(
         builder: (context, state) {
           if (state is FavoritListLoadingInProgress) {
-            return _ListPreloaderWidget();
+            return PreloaderWidget();
           }
           if (state is FavoritListLoadingSuccess) {
             final placeList = state.favoritList;
@@ -307,7 +309,7 @@ class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
       child: BlocBuilder<VisitListBloc, VisitListState>(
         builder: (context, state) {
           if (state is VisitListLoadingInProgress) {
-            return _ListPreloaderWidget();
+            return PreloaderWidget();
           }
           if (state is VisitListLoadingSuccess) {
             final placeList = state.visitList;
@@ -367,21 +369,6 @@ class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
           }
           throw ArgumentError("Неожиданное состояние в _VisitTabItemWidget");
         },
-      ),
-    );
-  }
-}
-
-class _ListPreloaderWidget extends StatelessWidget {
-  const _ListPreloaderWidget({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: CircularProgressIndicator(
-          color: Theme.of(context).accentColor,
-        ),
       ),
     );
   }

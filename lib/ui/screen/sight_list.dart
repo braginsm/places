@@ -19,6 +19,7 @@ import 'package:places/ui/screen/visiting.dart';
 
 import '../res/text_styles.dart';
 import 'add_place.dart';
+import 'widgets/preloader.dart';
 
 class SightListScreen extends StatelessWidget {
   const SightListScreen({Key key}) : super(key: key);
@@ -169,17 +170,7 @@ class SightSliverList extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: SightItem(
                     item,
-                    actions: [
-                      IconButton(
-                        onPressed: () {
-                          //context.read<PlaceListStore>().toggleFavorites(item);
-                        },
-                        icon: SvgPicture.asset(
-                          ImagesPaths.favorite,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                      ),
-                    ],
+                    favoritAction: true,
                   ),
                 );
               },
@@ -194,19 +185,7 @@ class SightSliverList extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: SightItem(
                     item,
-                    actions: [
-                      IconButton(
-                        onPressed: () {
-                          context
-                              .read<VisitingState>()
-                              .setWont(item, DateTime.now());
-                        },
-                        icon: SvgPicture.asset(
-                          ImagesPaths.favorite,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                      ),
-                    ],
+                    favoritAction: true,
                   ),
                 );
               },
@@ -228,11 +207,7 @@ class SliverPreloader extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Container(
         height: 200,
-        child: Center(
-          child: CircularProgressIndicator(
-            color: Theme.of(context).accentColor,
-          ),
-        ),
+        child: PreloaderWidget(),
       ),
     );
   }

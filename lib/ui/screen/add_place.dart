@@ -12,6 +12,7 @@ import 'package:places/ui/screen/widgets/delimer.dart';
 import 'package:provider/provider.dart';
 
 import 'select_category.dart';
+import 'widgets/preloader.dart';
 
 class AddPlaceScreen extends StatefulWidget {
   AddPlaceScreen({Key key}) : super(key: key);
@@ -38,7 +39,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       child: BlocBuilder<AddPlaceBloc, AddPlaceState>(
         builder: (context, state) {
           if (state is AddPlaceLoadingInProgressState)
-            return CircularProgressIndicator();
+            return PreloaderWidget();
           if (state is AddPlaceErrorState)
             return SmthError();
           if (state is AddPlaceLoadingSuccessState)

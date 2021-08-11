@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/interactor/SearchInteractor.dart';
 import 'package:places/ui/res/themes.dart';
+import 'package:places/ui/screen/sight_list.dart';
 import 'package:places/ui/screen/splash.dart';
 import 'package:provider/provider.dart';
 import 'data/interactor/SettingsInteractor.dart';

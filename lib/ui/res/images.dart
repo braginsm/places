@@ -9,7 +9,6 @@ class ImagesPaths {
   static String info = "res/images/info.svg";
   static String buildRoute = "res/images/build_route.svg";
   static String toPlan = "res/images/to_plan.svg";
-  static String favorite = "res/images/favorite.svg";
   static String calendar = "res/images/calendar.svg";
   static String share = "res/images/share.svg";
   static String go = "res/images/go.svg";
@@ -23,4 +22,8 @@ class ImagesPaths {
   static String file = "res/images/file.svg";
   static String delete = "res/images/delete.svg";
   static String splash = "res/images/splash.svg";
+  static String imgPlaceholder = "res/images/placeholder.png";
+  static String heart = "res/images/heart.svg";
+  static String heartFull = "res/images/heart_full.svg";
+  static String ellipse = "res/images/ellipse.png";
 }

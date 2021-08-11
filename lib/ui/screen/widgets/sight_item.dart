@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/data/model/Place.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
+import 'package:places/ui/screen/widgets/place_favorit.dart';
 
 import 'package:places/ui/screen/widgets/sight_bottomsheet.dart';
 
@@ -10,11 +11,13 @@ import 'image_network.dart';
 
 class SightItem extends StatelessWidget {
   final Place sight;
+  final bool favoritAction;
   final List<Widget> actions;
   const SightItem(
     this.sight, {
     Key key,
     this.actions = const <Widget>[],
+    this.favoritAction,
   }) : super(key: key);
 
   @override
@@ -35,7 +38,8 @@ class SightItem extends StatelessWidget {
               Container(
                 width: double.infinity,
                 height: 96,
-                child: ImageNetwork(sight.urls.first, fit: BoxFit.cover),
+                child: ImageNetworkWithPlaceholder(sight.urls.first,
+                    fit: BoxFit.cover),
               ),
               SizedBox(
                 height: 16,
@@ -44,8 +48,9 @@ class SightItem extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   sight.name,
-                  style: TextStyleSet().textMedium16.copyWith(
-                      color: Theme.of(context).secondaryHeaderColor),
+                  style: TextStyleSet()
+                      .textMedium16
+                      .copyWith(color: Theme.of(context).secondaryHeaderColor),
                   textAlign: TextAlign.left,
                   maxLines: 2,
                 ),
@@ -112,7 +117,10 @@ class SightItem extends StatelessWidget {
           Positioned(
             right: 0,
             child: Row(
-              children: actions,
+              children: [
+                ...actions,
+                if (favoritAction) PlaceFavoritWidget(sight)
+              ],
             ),
           ),
           Padding(
@@ -134,7 +142,9 @@ class DismissibleSightItem extends StatelessWidget {
   final Place sight;
   final List<Widget> actions;
   final Function(DismissDirection) onDismissed;
-  const DismissibleSightItem(this.sight, {Key key, this.actions, @required this.onDismissed}) : super(key: key);
+  const DismissibleSightItem(this.sight,
+      {Key key, this.actions, @required this.onDismissed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
