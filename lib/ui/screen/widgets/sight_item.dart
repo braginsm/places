@@ -118,7 +118,7 @@ class SightItem extends StatelessWidget {
             right: 0,
             child: Row(
               children: [
-                for (var item in actions) item,
+                ...actions,
                 if (favoritAction) PlaceFavoritWidget(sight)
               ],
             ),
