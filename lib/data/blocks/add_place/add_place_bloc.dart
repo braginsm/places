@@ -52,7 +52,7 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
     try {
       await _placeInteractor.addNewPlace(place);
       yield AddPlaceLoadingSuccessState();
-    } on NetworkExeption catch (e) {
+    } on NetworkExeption catch (_) {
       yield AddPlaceErrorState();
     }
   }

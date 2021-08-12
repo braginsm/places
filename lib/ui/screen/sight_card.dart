@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
-import 'package:places/data/repository/NetworkExeption.dart';
 import 'package:places/ui/res/images.dart';
-import 'package:places/ui/screen/smthError.dart';
 import 'package:places/ui/screen/widgets/image_network.dart';
 import 'package:provider/provider.dart';
 import 'package:places/ui/screen/visiting.dart';
@@ -27,18 +24,6 @@ class _SightCardState extends State<SightCard> {
 
   Place _place;
 
-  void _getPlace() async {
-    try {
-      Place place = await context.read<PlaceInteractor>().getPlaceDetails(widget.id);
-      setState(() {
-        _place = place;
-      });
-    } on NetworkExeption catch (e) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-        return SmthError();
-      }));
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

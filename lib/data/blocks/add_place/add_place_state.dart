@@ -14,18 +14,19 @@ class AddPlaceLoadingInProgressState extends AddPlaceState {}
 class AddPlaceErrorState extends AddPlaceState {}
 
 class AddPlaceLoadingSuccessState extends AddPlaceState {
-  AddPlaceLoadingSuccessState();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController latController = TextEditingController();
-  TextEditingController lonController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController latController = TextEditingController();
+  final TextEditingController lonController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
 
-  FocusNode nameNode = FocusNode();
-  FocusNode latNode = FocusNode();
-  FocusNode lonNode = FocusNode();
-  FocusNode descriptionNode = FocusNode();
+  final FocusNode nameNode = FocusNode();
+  final FocusNode latNode = FocusNode();
+  final FocusNode lonNode = FocusNode();
+  final FocusNode descriptionNode = FocusNode();
 
   PlaceType placeType;
+
+  AddPlaceLoadingSuccessState({this.placeType});
 
   final List<String> images = [
     "",

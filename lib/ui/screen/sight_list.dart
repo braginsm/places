@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/data/blocks/place_list/place_list_bloc.dart';
 import 'package:places/data/blocks/place_list/place_list_event.dart';
 import 'package:places/data/blocks/place_list/place_list_state.dart';
 import 'package:places/data/interactor/PlaceInteractor.dart';
 import 'package:places/data/model/Place.dart';
 import 'package:places/data/repository/NetworkExeption.dart';
-import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/search_place.dart';
 import 'package:places/ui/screen/smthError.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
@@ -15,7 +13,6 @@ import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:places/ui/screen/widgets/sight_item.dart';
 
 import 'package:provider/provider.dart';
-import 'package:places/ui/screen/visiting.dart';
 
 import '../res/text_styles.dart';
 import 'add_place.dart';
@@ -129,7 +126,7 @@ class _StreamSliverListState extends State<StreamSliverList> {
     try {
       _bloc = PlaceListBloc(context.read<PlaceInteractor>())
         ..add(PlaceListLoadEvent());
-    } on NetworkExeption catch (e) {
+    } on NetworkExeption catch (_) {
       Navigator.push(context, MaterialPageRoute(builder: (_) {
         return SmthError();
       }));
