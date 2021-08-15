@@ -42,9 +42,7 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
 
   Stream<AddPlaceState> _mapAddPlaceTypeChangeToState(PlaceType type) async* {
     yield AddPlaceLoadingInProgressState();
-    AddPlaceLoadingSuccessState _state = state;
-    _state.placeType = type;
-    yield _state;
+    yield AddPlaceLoadingSuccessState(placeType: type);
   }
 
   Stream<AddPlaceState> _mapAddPlaceSaveEventToState(Place place) async* {
