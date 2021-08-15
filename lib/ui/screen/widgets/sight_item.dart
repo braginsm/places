@@ -10,12 +10,12 @@ import 'package:places/ui/screen/widgets/sight_bottomsheet.dart';
 import 'image_network.dart';
 
 class SightItem extends StatelessWidget {
-  final Place sight;
-  final bool favoritAction;
-  final List<Widget> actions;
+  final Place? sight;
+  final bool? favoritAction;
+  final List<Widget>? actions;
   const SightItem(
     this.sight, {
-    Key key,
+    Key? key,
     this.actions = const <Widget>[],
     this.favoritAction,
   }) : super(key: key);
@@ -38,7 +38,7 @@ class SightItem extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 height: 96,
-                child: ImageNetworkWithPlaceholder(sight.urls.first,
+                child: ImageNetworkWithPlaceholder(sight!.urls.first,
                     fit: BoxFit.cover),
               ),
               const SizedBox(
@@ -47,7 +47,7 @@ class SightItem extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  sight.name,
+                  sight!.name,
                   style: TextStyleSet()
                       .textMedium16
                       .copyWith(color: Theme.of(context).secondaryHeaderColor),
@@ -83,7 +83,7 @@ class SightItem extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
                 child: Text(
-                  sight.description,
+                  sight!.description,
                   style: TextStyleSet()
                       .textRegular16
                       .copyWith(color: Theme.of(context).hintColor),
@@ -118,15 +118,15 @@ class SightItem extends StatelessWidget {
             right: 0,
             child: Row(
               children: [
-                ...actions,
-                if (favoritAction) PlaceFavoritWidget(sight)
+                ...actions!,
+                if (favoritAction!) PlaceFavoritWidget(sight)
               ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: Text(
-              sight.placeTypeName,
+              sight!.placeTypeName,
               style: TextStyleSet()
                   .textRegular
                   .copyWith(color: Theme.of(context).canvasColor),
@@ -143,7 +143,7 @@ class DismissibleSightItem extends StatelessWidget {
   final List<Widget> actions;
   final Function(DismissDirection) onDismissed;
   const DismissibleSightItem(this.sight,
-      {Key key, this.actions, @required this.onDismissed})
+      {Key? key, this.actions = const [], required this.onDismissed})
       : super(key: key);
 
   @override

@@ -5,7 +5,7 @@ class ImageNetworkWithProgress extends StatelessWidget {
 
   final BoxFit fit;
 
-  const ImageNetworkWithProgress(this.url, {Key key, this.fit = BoxFit.fill})
+  const ImageNetworkWithProgress(this.url, {Key? key, this.fit = BoxFit.fill})
       : super(key: key);
 
   @override
@@ -14,14 +14,14 @@ class ImageNetworkWithProgress extends StatelessWidget {
       url,
       fit: fit,
       loadingBuilder: (BuildContext context, Widget child,
-          ImageChunkEvent loadingProgress) {
+          ImageChunkEvent? loadingProgress) {
         if (loadingProgress == null) return child;
         return Center(
           child: CircularProgressIndicator(
             color: Theme.of(context).accentColor,
             value: loadingProgress.expectedTotalBytes != null
                 ? loadingProgress.cumulativeBytesLoaded /
-                    loadingProgress.expectedTotalBytes
+                    loadingProgress.expectedTotalBytes!
                 : null,
           ),
         );
@@ -33,8 +33,8 @@ class ImageNetworkWithProgress extends StatelessWidget {
 class ImageNetworkWithPlaceholder extends StatefulWidget {
   final String url;
 
-  final BoxFit fit;
-  const ImageNetworkWithPlaceholder(this.url, {Key key, this.fit})
+  final BoxFit? fit;
+  const ImageNetworkWithPlaceholder(this.url, {Key? key, this.fit})
       : super(key: key);
 
   @override
@@ -45,13 +45,13 @@ class ImageNetworkWithPlaceholder extends StatefulWidget {
 class _ImageNetworkWithPlaceholderState
     extends State<ImageNetworkWithPlaceholder> {
 
-  Image _image;
+  Image? _image;
   CrossFadeState _crossFadeState = CrossFadeState.showFirst;
 
   @override
   void initState() {
     _image = Image.network(widget.url, fit: widget.fit,);
-    _image.image
+    _image!.image
         .resolve(const ImageConfiguration())
         .addListener(ImageStreamListener((_, __) {
           if (mounted) {

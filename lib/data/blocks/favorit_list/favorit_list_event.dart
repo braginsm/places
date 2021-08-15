@@ -6,7 +6,7 @@ abstract class FavoritListEvent extends Equatable {
   const FavoritListEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 /// событие начала закгрузки избранных мест
@@ -23,16 +23,16 @@ class VisitItemToFavoritEvent extends FavoritListEvent {
 
 /// событие удаления элемента списка из избранного
 class VisitItemRemoveFromFavoritEvent extends FavoritListEvent {
-  final Place place;
+  final Place? place;
   const VisitItemRemoveFromFavoritEvent(this.place) : super();
 
   @override
-  List<Object> get props => [place];
+  List<Object?> get props => [place];
 }
 
 /// событие перемещения элемента
 class FavoritItemMoveEvent extends FavoritListEvent {
-  final Place after;
+  final Place? after;
   final Place place;
   const FavoritItemMoveEvent(
     this.after, this.place,

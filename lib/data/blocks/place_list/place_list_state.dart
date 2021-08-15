@@ -15,7 +15,7 @@ class PlaceListLoadingInProgressState extends PlaceListState {
 
 ///состояние загруженных данных
 class PlaceListLoadingSuccessState extends PlaceListState {
-  final List<Place> placeList;
+  final List<Place?> placeList;
 
   const PlaceListLoadingSuccessState(this.placeList);
 

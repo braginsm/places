@@ -5,7 +5,7 @@ abstract class AddPlaceEvent extends Equatable {
   const AddPlaceEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class AddPlaceLoadEvent extends AddPlaceEvent {}
@@ -40,9 +40,9 @@ class AddPlaceTypeChangeEvent extends AddPlaceEvent {
 class AddPlaceClearFormEvent extends AddPlaceEvent {}
 
 class AddPlaceDismissedImageEvent extends AddPlaceEvent {
-  final String img;
+  final String? img;
   const AddPlaceDismissedImageEvent(this.img) : super();
 
   @override
-  List<Object> get props => [img];
+  List<Object?> get props => [img];
 }

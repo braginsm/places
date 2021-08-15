@@ -13,7 +13,7 @@ class FavoritListLoadingInProgress extends FavoritListState {}
 
 /// состояние загруженных посещенных мест
 class FavoritListLoadingSuccess extends FavoritListState {
-  final List<Place> favoritList;
+  final List<Place?> favoritList;
 
   const FavoritListLoadingSuccess(this.favoritList);
 

@@ -6,7 +6,7 @@ import 'package:places/ui/screen/sight_list.dart';
 import 'package:places/ui/screen/visiting.dart';
 
 class BottomNavigation extends StatelessWidget {
-  const BottomNavigation({Key key}) : super(key: key);
+  const BottomNavigation({Key? key}) : super(key: key);
 
   final List<Widget> _navScreens = const [
     SightListScreen(),
@@ -43,7 +43,7 @@ class BottomNavigation extends StatelessWidget {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               ImagesPaths.heart,
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).primaryColor,
             ),
             label: 'Избранное',
           ),

@@ -3,7 +3,7 @@ import 'package:places/ui/res/images.dart';
 import 'package:animated_rotation/animated_rotation.dart';
 
 class PreloaderWidget extends StatefulWidget {
-  const PreloaderWidget({Key key}) : super(key: key);
+  const PreloaderWidget({Key? key}) : super(key: key);
 
   @override
   _PreloaderWidgetState createState() => _PreloaderWidgetState();

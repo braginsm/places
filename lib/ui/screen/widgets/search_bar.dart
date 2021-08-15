@@ -9,11 +9,11 @@ import 'package:provider/provider.dart';
 class SearchBar extends StatefulWidget {
   final bool readOnly;
 
-  final Function onTap;
+  final Function? onTap;
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
 
-  const SearchBar({Key key, this.readOnly = false, this.onTap, this.controller})
+  const SearchBar({Key? key, this.readOnly = false, this.onTap, this.controller})
       : super(key: key);
 
   @override
@@ -43,9 +43,7 @@ class _SearchBarState extends State<SearchBar> {
   @override
   void initState() {
     super.initState();
-    if (context.read<SerachInteractor>().searchBarController != null) {
-      fieldController = context.read<SerachInteractor>().searchBarController;
-    }
+    fieldController = context.read<SerachInteractor>().searchBarController;
   }
 
   @override
@@ -65,7 +63,7 @@ class _SearchBarState extends State<SearchBar> {
           controller: fieldController,
           readOnly: widget.readOnly,
           onTap: () {
-            if (!_suffixTap && widget.onTap != null) widget.onTap();
+            if (!_suffixTap && widget.onTap != null) widget.onTap!();
           },
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(

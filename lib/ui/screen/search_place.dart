@@ -5,6 +5,7 @@ import 'package:places/data/blocks/search_place/search_place_bloc.dart';
 import 'package:places/data/blocks/search_place/search_place_event.dart';
 import 'package:places/data/blocks/search_place/search_place_state.dart';
 import 'package:places/data/interactor/search_interactor.dart';
+import 'package:places/data/model/place_dto.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/sight_card.dart';
@@ -16,7 +17,7 @@ import 'package:provider/provider.dart';
 import 'widgets/preloader.dart';
 
 class SearchPlaceScreen extends StatefulWidget {
-  const SearchPlaceScreen({Key key}) : super(key: key);
+  const SearchPlaceScreen({Key? key}) : super(key: key);
 
   @override
   _SearchPlaceScreenState createState() => _SearchPlaceScreenState();
@@ -25,7 +26,7 @@ class SearchPlaceScreen extends StatefulWidget {
 class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
   TextEditingController searchController = TextEditingController();
 
-  SearchPlaceBloc _bloc;
+  late SearchPlaceBloc _bloc;
 
   @override
   void initState() {
@@ -85,7 +86,8 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                           return Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
                                 child: InkWell(
                                   onTap: () {
                                     searchController.text = item.name;
@@ -99,7 +101,8 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                                         style: TextStyleSet()
                                             .textRegular16
                                             .copyWith(
-                                              color: Theme.of(context).hintColor,
+                                              color:
+                                                  Theme.of(context).hintColor,
                                             ),
                                       ),
                                       IconButton(
@@ -117,7 +120,8 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                                   ),
                                 ),
                               ),
-                              if (index < searchHistory.length - 1) const Delimer(),
+                              if (index < searchHistory.length - 1)
+                                const Delimer(),
                             ],
                           );
                         },
@@ -137,99 +141,99 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                             ),
                       ),
                       style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 8),
                       ),
                     ),
                   ],
                 ),
               ),
-            BlocBuilder(
-              builder: (context, state) {
-                if (state is SearchPlaceLoadingInProgressState) {
-                  return const Center(
-                      child: PreloaderWidget(),
-                    );
-                }
-                if (state is SearchPlaceLoadingSuccessState) {
-                  final placeList = state.result;
-                  return Flexible(
-                    child: ListView.builder(
-                      itemCount: placeList.length,
-                      itemBuilder: (context, index) {
-                        final item = placeList[index];
-                        return ListTile(
-                          leading: Container(
-                            width: 56,
-                            height: 56,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              image: DecorationImage(
-                                image: Image.network(item.urls.first).image,
-                                fit: BoxFit.cover,
-                              ),
+            BlocBuilder(builder: (context, dynamic state) {
+              if (state is SearchPlaceLoadingInProgressState) {
+                return const Center(
+                  child: PreloaderWidget(),
+                );
+              }
+              if (state is SearchPlaceLoadingSuccessState) {
+                final placeList = state.result as List<PlaceDto>;
+                return Flexible(
+                  child: ListView.builder(
+                    itemCount: placeList.length,
+                    itemBuilder: (context, index) {
+                      final item = placeList[index];
+                      return ListTile(
+                        leading: Container(
+                          width: 56,
+                          height: 56,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            image: DecorationImage(
+                              image: Image.network(item.urls.first).image,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                          title: Text(
-                            item.name,
-                            style: TextStyleSet().textMedium16,
-                          ),
-                          subtitle: Text(
-                            item.placeTypeName,
-                            style: TextStyleSet().textRegular.copyWith(
-                                  color: Theme.of(context).hintColor,
-                                ),
-                          ),
-                          onTap: () {
-                            setState(() {
-                              searchHistory.remove(item);
-                              searchHistory.insert(0, item);
-                            });
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SightCard(item.id),
-                                ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  );
-                }
-                if (state is SearchPlaceEmptyState) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      //crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(32),
-                          child: SvgPicture.asset(
-                            ImagesPaths.search,
-                            height: 50,
-                            width: 50,
-                          ),
                         ),
-                        Text(
-                          "Ничего не найдено.",
-                          style: TextStyleSet().textMedium18.copyWith(
+                        title: Text(
+                          item.name,
+                          style: TextStyleSet().textMedium16,
+                        ),
+                        subtitle: Text(
+                          item.placeTypeName,
+                          style: TextStyleSet().textRegular.copyWith(
+                                color: Theme.of(context).hintColor,
+                              ),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            searchHistory.remove(item);
+                            searchHistory.insert(0, item);
+                          });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SightCard(item.id),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                );
+              }
+              if (state is SearchPlaceEmptyState) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    //crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(32),
+                        child: SvgPicture.asset(
+                          ImagesPaths.search,
+                          height: 50,
+                          width: 50,
+                        ),
+                      ),
+                      Text(
+                        "Ничего не найдено.",
+                        style: TextStyleSet().textMedium18.copyWith(
+                            color: Theme.of(context).unselectedWidgetColor),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Text(
+                          "Попробуйте изменить параметры поиска",
+                          style: TextStyleSet().textRegular.copyWith(
                               color: Theme.of(context).unselectedWidgetColor),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Text(
-                            "Попробуйте изменить параметры поиска",
-                            style: TextStyleSet().textRegular.copyWith(
-                                color: Theme.of(context).unselectedWidgetColor),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-                throw ArgumentError("Не предусмотренное состояние в SearchPlaceScreen");
+                      ),
+                    ],
+                  ),
+                );
               }
-            ),
+              throw ArgumentError(
+                  "Не предусмотренное состояние в SearchPlaceScreen");
+            }),
           ],
         ),
         bottomNavigationBar: const BottomNavigation(),

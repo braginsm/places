@@ -5,7 +5,7 @@ import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/sight_list.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key key}) : super(key: key);
+  const OnboardingScreen({Key? key}) : super(key: key);
 
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
@@ -14,8 +14,8 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen>
     with SingleTickerProviderStateMixin {
   int _curentPage = 0;
-  AnimationController _animationController;
-  Animation _animation;
+  late AnimationController _animationController;
+  late Animation _animation;
 
   @override
   void initState() {
@@ -112,7 +112,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       padding:
                           const EdgeInsets.symmetric(vertical: 8, horizontal: 58),
                       child: Text(
-                        _item.title,
+                        _item.title!,
                         style: TextStyleSet()
                             .textBold24
                             .copyWith(color: Theme.of(context).primaryColor),
@@ -122,7 +122,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 58),
                       child: Text(
-                        _item.description,
+                        _item.description!,
                         style: TextStyleSet()
                             .textRegular
                             .copyWith(color: Theme.of(context).hintColor),
@@ -195,7 +195,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 }
 
 class TutorialItem {
-  String title = "";
-  String description = "";
+  String? title = "";
+  String? description = "";
   TutorialItem({this.title, this.description});
 }

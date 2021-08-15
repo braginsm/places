@@ -5,19 +5,19 @@ class PlacesFilterRequestDto {
   ///Модель данных с параметрами фильтра. Все поля не обязательные, но параметры "lat", "lat" и "radius" зависят друг от друга, поэтому если указан один из них, то остальные два становятся обязательными
 
   ///Широта
-  double lat;
+  double? lat;
 
   ///Долгота
-  double lon;
+  double? lon;
 
   ///Радиус поиска в метрах
-  double radius;
+  double? radius;
 
   ///Фильтр со списком типов мест
-  List<String> typeFilter;
+  List<String>? typeFilter;
 
   ///Фильтр по наименованию места
-  String nameFilter;
+  String? nameFilter;
 
   PlacesFilterRequestDto(
       {this.lat, this.lon, this.nameFilter, this.radius, this.typeFilter});

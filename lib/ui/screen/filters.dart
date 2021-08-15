@@ -7,7 +7,7 @@ import 'package:places/ui/screen/search_place.dart';
 import 'package:provider/provider.dart';
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({Key key}) : super(key: key);
+  const FiltersScreen({Key? key}) : super(key: key);
 
   @override
   _FiltersScreenState createState() => _FiltersScreenState();
@@ -144,7 +144,7 @@ class FiltersWidget extends StatelessWidget {
 
   final int colCnt;
 
-  const FiltersWidget({Key key, @required this.lineCnt, @required this.colCnt})
+  const FiltersWidget({Key? key, required this.lineCnt, required this.colCnt})
       : super(key: key);
 
   @override
@@ -176,9 +176,9 @@ class FiltersWidget extends StatelessWidget {
 }
 
 class FilterItemWidget extends StatelessWidget {
-  final String text;
-  final String path;
-  const FilterItemWidget({Key key, this.text, this.path}) : super(key: key);
+  final String? text;
+  final String? path;
+  const FilterItemWidget({Key? key, this.text, this.path}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +190,7 @@ class FilterItemWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: IconButton(
                 iconSize: 64,
-                icon: SvgPicture.asset(path),
+                icon: SvgPicture.asset(path!),
                 onPressed: () {
                   context
                       .read<SerachInteractor>()
@@ -210,7 +210,7 @@ class FilterItemWidget extends StatelessWidget {
           ],
         ),
         Text(
-          text,
+          text!,
           style: TextStyleSet().textRegular12.copyWith(
               color: Theme.of(context).primaryColor),
           maxLines: 1,

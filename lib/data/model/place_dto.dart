@@ -3,17 +3,17 @@ import 'package:places/data/model/place.dart';
 ///Модель данных ответа на запрос фильтра мест. От модели данных места Place отличается наличием поля distance, в котором при ответе будет расстояние от запрошенной точки
 class PlaceDto extends Place {
   ///расстояние от запрошенной точки
-  double distance;
+  double? distance;
 
   /// конструктор
   PlaceDto(
-      {String description,
-      int id,
-      double lat,
-      double lon,
-      String name,
-      PlaceType placeType,
-      List<String> urls,
+      {required String description,
+      required int id,
+      required double lat,
+      required double lon,
+      required String name,
+      required PlaceType placeType,
+      required List<String> urls,
       this.distance})
       : super(
             description: description,

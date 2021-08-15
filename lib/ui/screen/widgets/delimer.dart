@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Delimer extends StatelessWidget {
   /// Разделитель элементов списка
-  const Delimer({Key key}) : super(key: key);
+  const Delimer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

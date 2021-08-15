@@ -6,9 +6,9 @@ import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 class AddImageItem extends StatefulWidget {
-  final String img;
-  final AddPlaceBloc bloc;
-  const AddImageItem({Key key, this.img, this.bloc}) : super(key: key);
+  final String? img;
+  final AddPlaceBloc? bloc;
+  const AddImageItem({Key? key, this.img, this.bloc}) : super(key: key);
 
   @override
   _AddImageItemState createState() => _AddImageItemState();
@@ -105,7 +105,7 @@ class _AddImageItemState extends State<AddImageItem> {
 
   @override
   Widget build(BuildContext context) {
-    return (widget.img == null || widget.img.isEmpty)
+    return (widget.img == null || widget.img!.isEmpty)
         ? IconButton(
             icon: SvgPicture.asset(ImagesPaths.plus),
             iconSize: 72,
@@ -115,7 +115,7 @@ class _AddImageItemState extends State<AddImageItem> {
           key: ValueKey(widget.img),
           direction: DismissDirection.up,
           onDismissed: (direction) {
-            widget.bloc.add(AddPlaceDismissedImageEvent(widget.img));
+            widget.bloc!.add(AddPlaceDismissedImageEvent(widget.img));
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -130,7 +130,7 @@ class _AddImageItemState extends State<AddImageItem> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       image: DecorationImage(
-                          image: Image.network(widget.img).image,
+                          image: Image.network(widget.img!).image,
                           fit: BoxFit.fill),
                     ),
                   ),
@@ -142,7 +142,7 @@ class _AddImageItemState extends State<AddImageItem> {
                       color: Theme.of(context).backgroundColor,
                     ),
                     onPressed: () =>
-                        widget.bloc.add(AddPlaceDismissedImageEvent(widget.img)),
+                        widget.bloc!.add(AddPlaceDismissedImageEvent(widget.img)),
                     padding: const EdgeInsets.all(0),
                   ),
                   right: -6,

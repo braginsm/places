@@ -22,7 +22,7 @@ import 'package:provider/provider.dart';
 import 'widgets/preloader.dart';
 
 class VisitingState with ChangeNotifier {
-  void setWont(Place place, DateTime date) {
+  void setWont(Place? place, DateTime? date) {
     PlaceInteractor().toggleFavorites(place);
     notifyListeners();
   }
@@ -34,7 +34,7 @@ class VisitingState with ChangeNotifier {
 }
 
 class VisitingScreen extends StatefulWidget {
-  const VisitingScreen({Key key}) : super(key: key);
+  const VisitingScreen({Key? key}) : super(key: key);
 
   @override
   _VisitingScreenState createState() => _VisitingScreenState();
@@ -86,21 +86,21 @@ class _VisitingScreenState extends State<VisitingScreen> {
 }
 
 class VisitingDragTarget extends StatelessWidget {
-  final Place item;
-  final bool show;
+  final Place? item;
+  final bool? show;
   final Function onAccept;
   const VisitingDragTarget(
-      {Key key, @required this.item, this.show, this.onAccept(sight)})
+      {Key? key, required this.item, this.show, required this.onAccept(sight)})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DragTarget<Place>(
-      onAccept: onAccept,
+      onAccept: onAccept as void Function(Place)?,
       builder: (context, a, b) {
         return Container(
           width: double.infinity,
-          height: show ? 20 : 0,
+          height: show! ? 20 : 0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             color: Theme.of(context).backgroundColor,
@@ -112,8 +112,8 @@ class VisitingDragTarget extends StatelessWidget {
 }
 
 class CupertinoWontDateModal extends StatefulWidget {
-  final Place sight;
-  const CupertinoWontDateModal(this.sight, {Key key}) : super(key: key);
+  final Place? sight;
+  const CupertinoWontDateModal(this.sight, {Key? key}) : super(key: key);
 
   @override
   _CupertinoWontDateModalState createState() => _CupertinoWontDateModalState();
@@ -163,14 +163,14 @@ class _CupertinoWontDateModalState extends State<CupertinoWontDateModal> {
 }
 
 class _FavoritTabItemWidget extends StatefulWidget {
-  const _FavoritTabItemWidget({Key key}) : super(key: key);
+  const _FavoritTabItemWidget({Key? key}) : super(key: key);
 
   @override
   __FavoritTabItemWidgetState createState() => __FavoritTabItemWidgetState();
 }
 
 class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
-  FavoritListBloc _block;
+  late FavoritListBloc _block;
   bool _showTarget = false;
 
   @override
@@ -208,7 +208,7 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
                         child: Column(
                           children: [
                             DismissibleSightItem(
-                              item,
+                              item!,
                               onDismissed: (dismissDirection) => _block
                                   .add(VisitItemRemoveFromFavoritEvent(item)),
                               actions: [
@@ -268,7 +268,7 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
   }
 }
 
-Future<void> _showDatePicker(BuildContext context, Place item) async {
+Future<void> _showDatePicker(BuildContext context, Place? item) async {
   if (Platform.isIOS) {
     showCupertinoModalPopup(
       context: context,
@@ -286,14 +286,14 @@ Future<void> _showDatePicker(BuildContext context, Place item) async {
 }
 
 class _VisitTabItemWidget extends StatefulWidget {
-  const _VisitTabItemWidget({Key key}) : super(key: key);
+  const _VisitTabItemWidget({Key? key}) : super(key: key);
 
   @override
   __VisitTabItemWidgetState createState() => __VisitTabItemWidgetState();
 }
 
 class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
-  VisitListBloc _block;
+  late VisitListBloc _block;
 
   @override
   void initState() {

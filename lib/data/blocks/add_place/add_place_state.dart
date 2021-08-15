@@ -15,7 +15,7 @@ class AddPlaceErrorState extends AddPlaceState {}
 
 class AddPlaceLoadingSuccessState extends AddPlaceState {
 
-  final PlaceType placeType;
+  final PlaceType? placeType;
 
   AddPlaceLoadingSuccessState({this.placeType}) : super();
 

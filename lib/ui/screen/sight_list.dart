@@ -19,7 +19,7 @@ import 'add_place.dart';
 import 'widgets/preloader.dart';
 
 class SightListScreen extends StatelessWidget {
-  const SightListScreen({Key key}) : super(key: key);
+  const SightListScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,14 +111,14 @@ class SightListScreen extends StatelessWidget {
 class StreamSliverList extends StatefulWidget {
   final Orientation orientation;
 
-  const StreamSliverList(this.orientation, {Key key}) : super(key: key);
+  const StreamSliverList(this.orientation, {Key? key}) : super(key: key);
 
   @override
   _StreamSliverListState createState() => _StreamSliverListState();
 }
 
 class _StreamSliverListState extends State<StreamSliverList> {
-  PlaceListBloc _bloc;
+  late PlaceListBloc _bloc;
 
   @override
   void initState() {
@@ -153,9 +153,9 @@ class _StreamSliverListState extends State<StreamSliverList> {
 }
 
 class SightSliverList extends StatelessWidget {
-  final List<Place> placeList;
+  final List<Place?> placeList;
   final Orientation orientation;
-  const SightSliverList(this.placeList, this.orientation, {Key key})
+  const SightSliverList(this.placeList, this.orientation, {Key? key})
       : super(key: key);
 
   @override
@@ -199,7 +199,7 @@ class SightSliverList extends StatelessWidget {
 }
 
 class SliverPreloader extends StatelessWidget {
-  const SliverPreloader({Key key}) : super(key: key);
+  const SliverPreloader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

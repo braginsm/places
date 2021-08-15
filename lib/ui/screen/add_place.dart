@@ -15,7 +15,7 @@ import 'select_category.dart';
 import 'widgets/preloader.dart';
 
 class AddPlaceScreen extends StatefulWidget {
-  const AddPlaceScreen({Key key}) : super(key: key);
+  const AddPlaceScreen({Key? key}) : super(key: key);
 
   @override
   _AddPlaceScreenState createState() => _AddPlaceScreenState();
@@ -23,7 +23,7 @@ class AddPlaceScreen extends StatefulWidget {
 
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
-  AddPlaceBloc _bloc;
+  AddPlaceBloc? _bloc;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AddPlaceBloc>(
-      create: (context) => _bloc,
+      create: (context) => _bloc!,
       child: BlocBuilder<AddPlaceBloc, AddPlaceState>(
         builder: (context, state) {
           if (state is AddPlaceLoadingInProgressState) {
@@ -98,7 +98,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                 Text(
                                   state.placeType == null
                                       ? "Не выбрано"
-                                      : Place.ruPlaceTypeNames[state.placeType.index],
+                                      : Place.ruPlaceTypeNames[state.placeType!.index],
                                   style: TextStyleSet().textRegular16.copyWith(
                                       color: Theme.of(context).hintColor),
                                 ),
@@ -255,12 +255,13 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: ElevatedButton(
-                        onPressed: () => _bloc.add(AddPlaceSaveEvent(Place(
+                        onPressed: () => _bloc!.add(AddPlaceSaveEvent(Place(
+                          id: 0,
                           name: state.nameController.text,
                           description: state.descriptionController.text,
                           lat: double.parse(state.latController.text),
                           lon: double.parse(state.lonController.text),
-                          placeType: state.placeType,
+                          placeType: state.placeType!,
                           urls: state.images
                         ))),
                         child: Padding(

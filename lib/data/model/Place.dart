@@ -38,13 +38,13 @@ class Place {
 
   /// конструктор
   Place(
-      {this.description,
-      this.id,
-      this.lat,
-      this.lon,
-      this.name,
-      this.placeType,
-      this.urls});
+      {this.description = "",
+      this.id = 0,
+      this.lat = .0,
+      this.lon = .0,
+      required this.name,
+      this.placeType = PlaceType.temple,
+      this.urls = const []});
 
   /// конструктор по данным
   Place.fromJson(Map<String, dynamic> data)
@@ -56,9 +56,9 @@ class Place {
             (data['urls'] as List<dynamic>).map((e) => e.toString()).toList(),
         description = data['description'],
         placeType =
-            EnumToString.fromString(PlaceType.values, data['placeType']);
+            EnumToString.fromString(PlaceType.values, data['placeType']) ?? PlaceType.temple;
 
-  Place copyWith({int id, String name, double lat, double lon, List<String> urls, String description, PlaceType placeType}) {
+  Place copyWith({int? id, String? name, double? lat, double? lon, List<String>? urls, String? description, PlaceType? placeType}) {
     return Place(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -86,8 +86,8 @@ class Place {
   double getDistans(double currentLat, double currentlon) {
     const double ky = 40000 / 0.36;
     final double kx = cos(pi * lat / 180) * ky;
-    var dx = (currentLat - (lon ?? 0)).abs() * kx;
-    var dy = (currentlon - (lat ?? 0)).abs() * ky;
+    var dx = (currentLat - lon).abs() * kx;
+    var dy = (currentlon - lat).abs() * ky;
     return sqrt(dx * dx + dy * dy);
   }
 

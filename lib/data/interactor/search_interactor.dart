@@ -22,7 +22,7 @@ class SerachInteractor {
 
   ///Определяет, попадает ли достопримечательность в выбанный радиус
   bool inDistans(PlaceDto place) {
-    return _radius.start <= place.distance && _radius.end >= place.distance;
+    return _radius.start <= place.distance! && _radius.end >= place.distance!;
   }
 
   TextEditingController searchBarController = TextEditingController();
@@ -64,14 +64,14 @@ class SerachInteractor {
   /// хранение значений фильтров
   List<bool> _filterValues = List.generate(PlaceType.other.index, (index) => false);
 
-  bool filterValue(String name) => _filterValues[_titles.indexOf(name)];
+  bool filterValue(String? name) => _filterValues[_titles.indexOf(name)];
 
   /// подписи фильтров
-  final List<String> _titles = Place.ruPlaceTypeNames;
+  final List<String?> _titles = Place.ruPlaceTypeNames;
 
-  List<String> get titles => _titles;
+  List<String?> get titles => _titles;
 
-  void changeFilter(String name) {
+  void changeFilter(String? name) {
     final index = _titles.indexOf(name);
     _filterValues[index] = !_filterValues[index];
   }

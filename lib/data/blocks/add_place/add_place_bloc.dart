@@ -34,8 +34,8 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
     }
   }
 
-  Stream<AddPlaceState> _mapAddPlaceDismissedImageToState(String img) async* {
-    AddPlaceLoadingSuccessState _state = state;
+  Stream<AddPlaceState> _mapAddPlaceDismissedImageToState(String? img) async* {
+    AddPlaceLoadingSuccessState _state = state as AddPlaceLoadingSuccessState;
     _state.images.remove(img);
     yield _state;
   }

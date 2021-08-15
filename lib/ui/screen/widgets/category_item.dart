@@ -3,9 +3,9 @@ import 'package:places/ui/res/text_styles.dart';
 
 class CategoryItemWidget extends StatelessWidget {
   final String title;
-  final Function onTap;
-  final bool select;
-  const CategoryItemWidget({Key key, @required this.title, this.onTap, this.select})
+  final Function? onTap;
+  final bool? select;
+  const CategoryItemWidget({Key? key, required this.title, this.onTap, this.select})
       : super(key: key);
 
   @override
@@ -14,7 +14,7 @@ class CategoryItemWidget extends StatelessWidget {
       height: 48,
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       child: GestureDetector(
-        onTap: onTap,
+        onTap: onTap as void Function()?,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -29,7 +29,7 @@ class CategoryItemWidget extends StatelessWidget {
             Expanded(
               child: Align(
                 alignment: Alignment.centerRight,
-                child: select ? Icon(
+                child: select! ? Icon(
                   Icons.check,
                   color: Theme.of(context).accentColor,
                 ) : const SizedBox.expand(),

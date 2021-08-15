@@ -31,12 +31,12 @@ class PlaceRepository extends Repository {
 
   /// получение списка мест по параметрам
   Future<List<Place>> getByParameters({
-    int count,
-    int offset,
-    String pageBy,
-    String pageAfter,
-    String pagePrior,
-    List<String> sortBy,
+    int? count,
+    int? offset,
+    String? pageBy,
+    String? pageAfter,
+    String? pagePrior,
+    List<String>? sortBy,
   }) async {
     Map<String, dynamic> queryParameters = {};
     if (count != null) queryParameters['count'] = count;

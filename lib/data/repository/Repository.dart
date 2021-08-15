@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 class Repository {
-  Dio dio;
+  late Dio dio;
   Repository() {
     BaseOptions _options = BaseOptions(
       baseUrl: "https://test-backend-flutter.surfstudio.ru",
@@ -34,11 +34,9 @@ class Repository {
         // ignore: avoid_print
         print("responce data: ${response.data}");
         return handler.next(response);
-        break;
       case 400:
       case 409:
         throw Exception(response.data['error']);
-        break;
       case 404:
         throw Exception("No object found.");
       default:

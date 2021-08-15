@@ -9,21 +9,21 @@ import 'widgets/category_item.dart';
 import 'widgets/delimer.dart';
 
 class SelectPlaceCategory extends StatefulWidget {
-  final AddPlaceBloc bloc;
-  const SelectPlaceCategory({Key key, this.bloc}) : super(key: key);
+  final AddPlaceBloc? bloc;
+  const SelectPlaceCategory({Key? key, this.bloc}) : super(key: key);
 
   @override
   _SelectPlaceCategoryState createState() => _SelectPlaceCategoryState();
 }
 
 class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
-  int _selectIndex;
+  int? _selectIndex;
 
   @override
   void initState() {
     super.initState();
-    AddPlaceLoadingSuccessState _state = widget.bloc.state;
-    if (_state.placeType != null) _selectIndex = _state.placeType.index;
+    AddPlaceLoadingSuccessState _state = widget.bloc!.state as AddPlaceLoadingSuccessState;
+    if (_state.placeType != null) _selectIndex = _state.placeType!.index;
   }
 
   @override
@@ -76,8 +76,8 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_selectIndex != null) {
-                    widget.bloc.add(AddPlaceTypeChangeEvent(
-                        PlaceType.values[_selectIndex]));
+                    widget.bloc!.add(AddPlaceTypeChangeEvent(
+                        PlaceType.values[_selectIndex!]));
                     Navigator.pop(context);
                   }
                 },

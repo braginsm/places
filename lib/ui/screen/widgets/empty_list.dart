@@ -12,7 +12,7 @@ class EmptyListWont extends StatelessWidget {
   final title = "Пусто";
   final description = "Отмечайте понравившиеся места и они появиятся здесь.";
 
-  EmptyListWont({Key key}) : super(key: key);
+  EmptyListWont({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class EmptyListWont extends StatelessWidget {
 }
 
 class EmptyListVisited extends EmptyListWont {
-  EmptyListVisited({Key key}) : super(key: key);
+  EmptyListVisited({Key? key}) : super(key: key);
 
   @override
   final icon = SizedBox(

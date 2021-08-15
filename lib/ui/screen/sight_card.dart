@@ -11,7 +11,7 @@ import 'widgets/preloader.dart';
 
 class SightCard extends StatefulWidget {
   final int id;
-  const SightCard(this.id, {Key key}) : super(key: key);
+  const SightCard(this.id, {Key? key}) : super(key: key);
 
   @override
   _SightCardState createState() => _SightCardState();
@@ -22,7 +22,7 @@ class _SightCardState extends State<SightCard> {
 
   final bool _inWont = false;
 
-  Place _place;
+  Place? _place;
 
 
   @override
@@ -41,14 +41,14 @@ class _SightCardState extends State<SightCard> {
                       child: Stack(
                         children: [
                           PageView.builder(
-                            itemCount: _place.urls.length,
+                            itemCount: _place!.urls.length,
                             onPageChanged: (value) {
                               setState(() {
                                 _curentImage = value;
                               });
                             },
                             itemBuilder: (context, index) {
-                              final item = _place.urls[index];
+                              final item = _place!.urls[index];
                               return SizedBox(
                                 width: double.infinity,
                                 child: ImageNetworkWithProgress(item, fit: BoxFit.cover),
@@ -62,7 +62,7 @@ class _SightCardState extends State<SightCard> {
                               width: MediaQuery.of(context).size.width,
                               child: Row(
                                 children: [
-                                  for (var i = 0; i < _place.urls.length; i++)
+                                  for (var i = 0; i < _place!.urls.length; i++)
                                     Expanded(
                                       child: Container(
                                         decoration: BoxDecoration(
@@ -112,7 +112,7 @@ class _SightCardState extends State<SightCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _place.name,
+                          _place!.name,
                           style: TextStyleSet()
                               .textBold24
                               .copyWith(color: Theme.of(context).primaryColor),
@@ -124,7 +124,7 @@ class _SightCardState extends State<SightCard> {
                           child: Row(
                             children: [
                               Text(
-                                _place.placeTypeName,
+                                _place!.placeTypeName,
                                 style: TextStyleSet().textBold.copyWith(
                                     color: Theme.of(context).hintColor),
                                 maxLines: 1,
@@ -145,7 +145,7 @@ class _SightCardState extends State<SightCard> {
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 24),
                           child: Text(
-                            _place.description,
+                            _place!.description,
                             style: TextStyleSet().textRegular.copyWith(
                                 color: Theme.of(context).secondaryHeaderColor),
                           ),

@@ -4,7 +4,7 @@ import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 class SmthError extends StatelessWidget {
-  const SmthError({Key key}) : super(key: key);
+  const SmthError({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/images.dart';
@@ -6,7 +8,7 @@ import 'package:places/ui/screen/onboarding.dart';
 import 'dart:math' as math;
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key key}) : super(key: key);
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -14,9 +16,9 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  Future isInitialized;
-  AnimationController _animationController;
-  Animation _animation;
+  Future? isInitialized;
+  late AnimationController _animationController;
+  late Animation _animation;
 
   @override
   void initState() {
@@ -56,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen>
       child: Center(
         child: AnimatedBuilder(
           animation: _animationController,
-          builder: (BuildContext context, Widget child) {
+          builder: (BuildContext context, Widget? child) {
             return Transform.rotate(
               angle: -_animation.value,
               child: SvgPicture.asset(ImagesPaths.splash),
@@ -73,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     try {
       isInitialized = await Future.delayed(const Duration(seconds: 2), () async {
-        if (await dataUpload) {
+        if (await (dataUpload as FutureOr<bool>)) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
