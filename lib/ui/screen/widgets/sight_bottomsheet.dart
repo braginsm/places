@@ -11,7 +11,7 @@ class SightBottomheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
@@ -25,7 +25,7 @@ class SightBottomheet extends StatelessWidget {
               maxHeight: MediaQuery.of(context).size.height - 100,
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
               ),

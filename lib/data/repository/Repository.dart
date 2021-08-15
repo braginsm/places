@@ -13,12 +13,14 @@ class Repository {
     dio = Dio(_options);
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+        // ignore: avoid_print
         print(
             'send request to URL:${options.baseUrl}${options.path} with params: ${options.queryParameters} ${options.data}');
         return handler.next(options);
       },
       onResponse: _onResponse,
       onError: (DioError err, ErrorInterceptorHandler handler) {
+        // ignore: avoid_print
         print("Error: ${err.error.toString()}");
         handler.next(err);
       },
@@ -29,6 +31,7 @@ class Repository {
     /// Проверка статуса запроса
     switch (response.statusCode) {
       case 200:
+        // ignore: avoid_print
         print("responce data: ${response.data}");
         return handler.next(response);
         break;

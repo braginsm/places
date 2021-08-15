@@ -34,7 +34,7 @@ class VisitingState with ChangeNotifier {
 }
 
 class VisitingScreen extends StatefulWidget {
-  VisitingScreen({Key key}) : super(key: key);
+  const VisitingScreen({Key key}) : super(key: key);
 
   @override
   _VisitingScreenState createState() => _VisitingScreenState();
@@ -49,7 +49,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
         appBar: AppBar(
           leadingWidth: 0,
           title: Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: Center(
               child: Text(
                 "Избранное",
@@ -60,26 +60,26 @@ class _VisitingScreenState extends State<VisitingScreen> {
             ),
           ),
           bottom: PreferredSize(
-            preferredSize: Size(double.infinity, 52),
+            preferredSize: const Size(double.infinity, 52),
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
               decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,
                 borderRadius: BorderRadius.circular(40),
               ),
-              child: TabBar(
+              child: const TabBar(
                 tabs: [Tab(text: "Хочу посетить"), Tab(text: "Посетил")],
               ),
             ),
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             _FavoritTabItemWidget(),
             _VisitTabItemWidget(),
           ],
         ),
-        bottomNavigationBar: BottomNavigation(),
+        bottomNavigationBar: const BottomNavigation(),
       ),
     );
   }
@@ -125,10 +125,10 @@ class _CupertinoWontDateModalState extends State<CupertinoWontDateModal> {
   Widget build(BuildContext context) {
     return Container(
       height: 250,
-      color: Color.fromARGB(255, 255, 255, 255),
+      color: const Color.fromARGB(255, 255, 255, 255),
       child: Column(
         children: [
-          Container(
+          SizedBox(
             height: 180,
             child: CupertinoDatePicker(
                 initialDateTime: DateTime.now(),
@@ -142,11 +142,11 @@ class _CupertinoWontDateModalState extends State<CupertinoWontDateModal> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               CupertinoButton(
-                child: Text("Отмена"),
+                child: const Text("Отмена"),
                 onPressed: () => Navigator.pop(context),
               ),
               CupertinoButton(
-                child: Text("ОК"),
+                child: const Text("ОК"),
                 onPressed: () {
                   context
                       .read<VisitingState>()
@@ -193,7 +193,7 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
       child: BlocBuilder<FavoritListBloc, FavoritListState>(
         builder: (context, state) {
           if (state is FavoritListLoadingInProgress) {
-            return PreloaderWidget();
+            return const PreloaderWidget();
           }
           if (state is FavoritListLoadingSuccess) {
             final placeList = state.favoritList;
@@ -204,7 +204,7 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
                     itemBuilder: (context, index) {
                       final item = placeList[index];
                       return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
                           children: [
                             DismissibleSightItem(
@@ -215,13 +215,13 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
                                 Draggable<Place>(
                                   data: item,
                                   child: Padding(
-                                    padding: EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(8),
                                     child: Icon(
                                       Icons.sort,
                                       color: Theme.of(context).canvasColor,
                                     ),
                                   ),
-                                  feedback: Container(
+                                  feedback: SizedBox(
                                     child: SightItem(item),
                                     width: 300,
                                   ),
@@ -279,7 +279,7 @@ Future<void> _showDatePicker(BuildContext context, Place item) async {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 90)),
+      lastDate: DateTime.now().add(const Duration(days: 90)),
     );
     context.read<VisitingState>().setWont(item, res);
   }
@@ -309,7 +309,7 @@ class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
       child: BlocBuilder<VisitListBloc, VisitListState>(
         builder: (context, state) {
           if (state is VisitListLoadingInProgress) {
-            return PreloaderWidget();
+            return const PreloaderWidget();
           }
           if (state is VisitListLoadingSuccess) {
             final placeList = state.visitList;
@@ -320,7 +320,7 @@ class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
                     itemBuilder: (context, index) {
                       final item = placeList[index];
                       return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
                           children: [
                             DismissibleSightItem(
@@ -331,19 +331,20 @@ class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
                                 Draggable<Place>(
                                   data: item,
                                   child: Padding(
-                                    padding: EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(8),
                                     child: Icon(
                                       Icons.sort,
                                       color: Theme.of(context).canvasColor,
                                     ),
                                   ),
-                                  feedback: Container(
+                                  feedback: SizedBox(
                                     child: SightItem(item),
                                     width: 300,
                                   ),
                                 ),
                                 IconButton(
                                   onPressed: () {
+                                    // ignore: avoid_print
                                     print("Поделиться");
                                   },
                                   icon: SvgPicture.asset(

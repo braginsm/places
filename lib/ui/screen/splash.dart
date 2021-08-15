@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
     );
     _animation = Tween<double>(
       begin: 0,
@@ -69,22 +69,24 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _navigateToNext() async {
     // имитация запроса данных
-    Future dataUpload = Future.delayed(Duration(seconds: 5), () => true);
+    Future dataUpload = Future.delayed(const Duration(seconds: 5), () => true);
 
     try {
-      isInitialized = await Future.delayed(Duration(seconds: 2), () async {
+      isInitialized = await Future.delayed(const Duration(seconds: 2), () async {
         if (await dataUpload) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (_) => OnboardingScreen(),
+              builder: (_) => const OnboardingScreen(),
             ),
           );
-        } else
+        } else {
           throw Exception("Ошибка загрузки данных");
+        }
         return;
       });
     } catch (e) {
+      // ignore: avoid_print
       print(e.toString());
     }
   }

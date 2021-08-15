@@ -7,7 +7,7 @@ import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/repository/network_exeption.dart';
 import 'package:places/ui/screen/search_place.dart';
-import 'package:places/ui/screen/smthError.dart';
+import 'package:places/ui/screen/smth_error.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:places/ui/screen/widgets/sight_item.dart';
@@ -30,7 +30,7 @@ class SightListScreen extends StatelessWidget {
             OrientationBuilder(builder: (context, orientation) {
               return CustomScrollView(
                 slivers: [
-                  SliverAppBar(
+                  const SliverAppBar(
                     leadingWidth: 0,
                     pinned: true,
                     automaticallyImplyLeading: false,
@@ -46,14 +46,14 @@ class SightListScreen extends StatelessWidget {
                   ),
                   SliverToBoxAdapter(
                     child: PreferredSize(
-                      preferredSize: Size(double.infinity, 64),
+                      preferredSize: const Size(double.infinity, 64),
                       child: SearchBar(
                         readOnly: true,
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SearchPlaceScreen(),
+                              builder: (context) => const SearchPlaceScreen(),
                             ),
                           );
                         },
@@ -69,7 +69,7 @@ class SightListScreen extends StatelessWidget {
               child: InkWell(
                 onTap: () => Navigator.push(context,
                     MaterialPageRoute(
-                      builder: (context) => AddPlaceScreen(),
+                      builder: (context) => const AddPlaceScreen(),
                     ),
                 ),
                 child: Container(
@@ -103,7 +103,7 @@ class SightListScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigation(),
+      bottomNavigationBar: const BottomNavigation(),
     );
   }
 }
@@ -111,7 +111,7 @@ class SightListScreen extends StatelessWidget {
 class StreamSliverList extends StatefulWidget {
   final Orientation orientation;
 
-  StreamSliverList(this.orientation, {Key key}) : super(key: key);
+  const StreamSliverList(this.orientation, {Key key}) : super(key: key);
 
   @override
   _StreamSliverListState createState() => _StreamSliverListState();
@@ -128,7 +128,7 @@ class _StreamSliverListState extends State<StreamSliverList> {
         ..add(PlaceListLoadEvent());
     } on NetworkExeption catch (_) {
       Navigator.push(context, MaterialPageRoute(builder: (_) {
-        return SmthError();
+        return const SmthError();
       }));
     }
   }
@@ -139,10 +139,12 @@ class _StreamSliverListState extends State<StreamSliverList> {
       create: (context) => _bloc,
       child: BlocBuilder<PlaceListBloc, PlaceListState>(
         builder: (context, state) {
-          if (state is PlaceListLoadingInProgressState)
-            return SliverPreloader();
-          if (state is PlaceListLoadingSuccessState)
+          if (state is PlaceListLoadingInProgressState) {
+            return const SliverPreloader();
+          }
+          if (state is PlaceListLoadingSuccessState) {
             return SightSliverList(state.placeList, widget.orientation);
+          }
           throw ArgumentError("Неожиданное состояние в _StreamSliverListState");
         },
       ),
@@ -164,7 +166,7 @@ class SightSliverList extends StatelessWidget {
               (BuildContext context, int index) {
                 final item = placeList[index];
                 return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SightItem(
                     item,
                     favoritAction: true,
@@ -179,7 +181,7 @@ class SightSliverList extends StatelessWidget {
               (BuildContext context, int index) {
                 final item = placeList[index];
                 return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SightItem(
                     item,
                     favoritAction: true,
@@ -188,7 +190,7 @@ class SightSliverList extends StatelessWidget {
               },
               childCount: placeList.length,
             ),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 1.5,
             ),
@@ -201,8 +203,8 @@ class SliverPreloader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Container(
+    return const SliverToBoxAdapter(
+      child: SizedBox(
         height: 200,
         child: PreloaderWidget(),
       ),

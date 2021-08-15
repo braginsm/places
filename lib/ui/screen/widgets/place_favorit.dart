@@ -7,7 +7,7 @@ import 'package:places/ui/res/images.dart';
 class PlaceFavoritWidget extends StatefulWidget {
   final Place place;
   final Color color;
-  PlaceFavoritWidget(this.place, {Key key, this.color}) : super(key: key);
+  const PlaceFavoritWidget(this.place, {Key key, this.color}) : super(key: key);
 
   @override
   _PlaceFavoritWidgetState createState() => _PlaceFavoritWidgetState();
@@ -39,7 +39,7 @@ class _PlaceFavoritWidgetState extends State<PlaceFavoritWidget> {
     return IconButton(
       onPressed: () => _togleFavorit(widget.place),
       icon: AnimatedSwitcher(
-        duration: Duration(seconds: 1),
+        duration: const Duration(seconds: 1),
         child: _child,
       ),
     );

@@ -8,7 +8,7 @@ import 'package:places/ui/res/text_styles.dart';
 class AddImageItem extends StatefulWidget {
   final String img;
   final AddPlaceBloc bloc;
-  AddImageItem({Key key, this.img, this.bloc}) : super(key: key);
+  const AddImageItem({Key key, this.img, this.bloc}) : super(key: key);
 
   @override
   _AddImageItemState createState() => _AddImageItemState();
@@ -21,7 +21,7 @@ class _AddImageItemState extends State<AddImageItem> {
       context: context,
       builder: (_) {
         return Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             vertical: 8,
             horizontal: 16,
           ),
@@ -38,38 +38,38 @@ class _AddImageItemState extends State<AddImageItem> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(right: 16),
+                            padding: const EdgeInsets.only(right: 16),
                             child: SvgPicture.asset(ImagesPaths.camera),
                           ),
-                          Text("Камера"),
+                          const Text("Камера"),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(right: 16),
+                            padding: const EdgeInsets.only(right: 16),
                             child: SvgPicture.asset(ImagesPaths.photo),
                           ),
-                          Text("Фотография"),
+                          const Text("Фотография"),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(right: 16),
+                            padding: const EdgeInsets.only(right: 16),
                             child: SvgPicture.asset(ImagesPaths.file),
                           ),
-                          Text("Файл"),
+                          const Text("Файл"),
                         ],
                       ),
                     ),
@@ -77,12 +77,12 @@ class _AddImageItemState extends State<AddImageItem> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 8),
+                margin: const EdgeInsets.only(top: 8),
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () => Navigator.pop(context),
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: Text(
                       "ОТМЕНА",
                       style: TextStyleSet().textBold.copyWith(
@@ -118,10 +118,11 @@ class _AddImageItemState extends State<AddImageItem> {
             widget.bloc.add(AddPlaceDismissedImageEvent(widget.img));
           },
           child: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Stack(
               children: [
                 GestureDetector(
+                  // ignore: avoid_print
                   onTap: () => print(widget.img),
                   child: Container(
                     width: 72,
@@ -142,7 +143,7 @@ class _AddImageItemState extends State<AddImageItem> {
                     ),
                     onPressed: () =>
                         widget.bloc.add(AddPlaceDismissedImageEvent(widget.img)),
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                   ),
                   right: -6,
                   top: -6,

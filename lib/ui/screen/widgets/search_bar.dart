@@ -13,7 +13,7 @@ class SearchBar extends StatefulWidget {
 
   final TextEditingController controller;
 
-  SearchBar({Key key, this.readOnly = false, this.onTap, this.controller})
+  const SearchBar({Key key, this.readOnly = false, this.onTap, this.controller})
       : super(key: key);
 
   @override
@@ -32,7 +32,7 @@ class _SearchBarState extends State<SearchBar> {
       _suffixTap = true;
     });
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => FiltersScreen()));
+        context, MaterialPageRoute(builder: (context) => const FiltersScreen()));
   }
 
   void onClearPress() {
@@ -43,15 +43,16 @@ class _SearchBarState extends State<SearchBar> {
   @override
   void initState() {
     super.initState();
-    if (context.read<SerachInteractor>().searchBarController != null)
+    if (context.read<SerachInteractor>().searchBarController != null) {
       fieldController = context.read<SerachInteractor>().searchBarController;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     _suffixTap = false;
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+      margin: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: Theme.of(context).backgroundColor,
@@ -59,6 +60,7 @@ class _SearchBarState extends State<SearchBar> {
       child: Center(
         child: TextField(
           focusNode: textFieldFocusNode,
+          // ignore: avoid_print
           onChanged: (value) => /*StoreProvider.of<AppState>(context).dispatch(LoadSearch(value))*/print(value),
           controller: fieldController,
           readOnly: widget.readOnly,
@@ -66,7 +68,7 @@ class _SearchBarState extends State<SearchBar> {
             if (!_suffixTap && widget.onTap != null) widget.onTap();
           },
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
+            contentPadding: const EdgeInsets.symmetric(
               vertical: 10,
             ),
             hintText: "Поиск",
@@ -80,12 +82,12 @@ class _SearchBarState extends State<SearchBar> {
             fillColor: Theme.of(context).backgroundColor,
             focusColor: Theme.of(context).backgroundColor,
             prefixIcon: Padding(
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               child: SvgPicture.asset(
                 ImagesPaths.search,
               ),
             ),
-            prefixIconConstraints: BoxConstraints(
+            prefixIconConstraints: const BoxConstraints(
               maxHeight: 40,
               maxWidth: 44,
             ),
@@ -101,7 +103,7 @@ class _SearchBarState extends State<SearchBar> {
                       color: Theme.of(context).primaryColor,
                     ),
             ),
-            suffixIconConstraints: BoxConstraints(
+            suffixIconConstraints: const BoxConstraints(
               maxHeight: 40,
               maxWidth: 44,
             ),

@@ -10,7 +10,7 @@ import 'widgets/delimer.dart';
 
 class SelectPlaceCategory extends StatefulWidget {
   final AddPlaceBloc bloc;
-  SelectPlaceCategory({Key key, this.bloc}) : super(key: key);
+  const SelectPlaceCategory({Key key, this.bloc}) : super(key: key);
 
   @override
   _SelectPlaceCategoryState createState() => _SelectPlaceCategoryState();
@@ -39,7 +39,7 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Column(
-          children: [
+          children: const [
             Padding(
               padding: EdgeInsets.all(16),
               child: Text("Категория"),
@@ -62,15 +62,15 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
                       onTap: () => _changeSelectIndex(index),
                       select: index == _selectIndex,
                     ),
-                    Delimer(),
+                    const Delimer(),
                   ],
                 );
               },
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: SizedBox(
               height: 48,
               width: double.infinity,
               child: ElevatedButton(
@@ -87,15 +87,13 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
                             ? Theme.of(context).accentColor
                             : Theme.of(context).backgroundColor)),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  child: Container(
-                    child: Text(
-                      "СОХРАНИТЬ",
-                      style: TextStyleSet().textBold.copyWith(
-                          color: _selectIndex != null
-                              ? Theme.of(context).canvasColor
-                              : Theme.of(context).unselectedWidgetColor),
-                    ),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Text(
+                    "СОХРАНИТЬ",
+                    style: TextStyleSet().textBold.copyWith(
+                        color: _selectIndex != null
+                            ? Theme.of(context).canvasColor
+                            : Theme.of(context).unselectedWidgetColor),
                   ),
                 ),
               ),

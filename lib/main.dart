@@ -25,7 +25,7 @@ void main() {
           create: (_) => SerachInteractor(),
         ),
       ],
-      child: App(),
+      child: const App(),
     ),
   );
 }
@@ -48,7 +48,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: context.watch<MainState>().theme,
-      home: SplashScreen(),
+      home: const SplashScreen(),
       title: "Places",
     );
   }

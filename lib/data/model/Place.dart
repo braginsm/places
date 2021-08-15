@@ -84,7 +84,7 @@ class Place {
 
   ///Возвращает кол-во метров от Place до точки с координатами lat, lon
   double getDistans(double currentLat, double currentlon) {
-    final double ky = 40000 / 0.36;
+    const double ky = 40000 / 0.36;
     final double kx = cos(pi * lat / 180) * ky;
     var dx = (currentLat - (lon ?? 0)).abs() * kx;
     var dy = (currentlon - (lat ?? 0)).abs() * ky;

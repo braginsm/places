@@ -25,7 +25,7 @@ class SightItem extends StatelessWidget {
     return Card(
       color: Theme.of(context).backgroundColor,
       elevation: 0,
-      margin: EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -35,17 +35,17 @@ class SightItem extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 width: double.infinity,
                 height: 96,
                 child: ImageNetworkWithPlaceholder(sight.urls.first,
                     fit: BoxFit.cover),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   sight.name,
                   style: TextStyleSet()
@@ -57,7 +57,7 @@ class SightItem extends StatelessWidget {
               ),
               // if (sight.wontVisit || sight.visit)
               //   Padding(
-              //     padding: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+              //     padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
               //     child: Text(
               //       sight.visit
               //           ? "Цель достигнута ${DateFormat.yMMMd().format(sight.visitDate)}"
@@ -71,7 +71,7 @@ class SightItem extends StatelessWidget {
               //     ),
               //   ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
                 child: Text(
                   "закрыто до 09:00",
                   style: TextStyleSet()
@@ -81,7 +81,7 @@ class SightItem extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
                 child: Text(
                   sight.description,
                   style: TextStyleSet()
@@ -91,7 +91,7 @@ class SightItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
             ],
@@ -108,7 +108,7 @@ class SightItem extends StatelessWidget {
                 },
                 isScrollControlled: true,
               ),
-              child: Container(
+              child: const SizedBox(
                 width: double.infinity,
                 height: 188,
               ),
@@ -124,7 +124,7 @@ class SightItem extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: Text(
               sight.placeTypeName,
               style: TextStyleSet()
@@ -156,18 +156,18 @@ class DismissibleSightItem extends StatelessWidget {
           : DismissDirection.none,
       background: Container(
         alignment: AlignmentDirectional.centerEnd,
-        margin: EdgeInsets.symmetric(vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           color: Theme.of(context).errorColor,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: SvgPicture.asset(
                   ImagesPaths.basket,
                   width: 24,

@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'widgets/preloader.dart';
 
 class SearchPlaceScreen extends StatefulWidget {
-  SearchPlaceScreen({Key key}) : super(key: key);
+  const SearchPlaceScreen({Key key}) : super(key: key);
 
   @override
   _SearchPlaceScreenState createState() => _SearchPlaceScreenState();
@@ -31,7 +31,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
   void initState() {
     super.initState();
     _bloc = SearchPlaceBloc(context.read<SerachInteractor>())
-      ..add(SearchPlacePrintQueryEvent(""));
+      ..add(const SearchPlacePrintQueryEvent(""));
   }
 
   @override
@@ -49,7 +49,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
             onPressed: () => Navigator.pop(context),
           ),
           title: Column(
-            children: [
+            children: const [
               Padding(
                 padding: EdgeInsets.all(16),
                 child: Text("Список интересных мест"),
@@ -59,7 +59,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
           centerTitle: true,
           bottom: PreferredSize(
             child: SearchBar(controller: searchController),
-            preferredSize: Size(double.infinity, 64),
+            preferredSize: const Size(double.infinity, 64),
           ),
         ),
         body: Column(
@@ -67,7 +67,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
           children: [
             if (searchHistory.isNotEmpty)
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -76,7 +76,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                       style: TextStyleSet().textRegular.copyWith(
                           color: Theme.of(context).unselectedWidgetColor),
                     ),
-                    Container(
+                    SizedBox(
                       height: 64.0 * searchHistory.length,
                       child: ListView.builder(
                         itemCount: searchHistory.length,
@@ -85,7 +85,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                           return Column(
                             children: [
                               Padding(
-                                padding: EdgeInsets.symmetric(vertical: 8),
+                                padding: const EdgeInsets.symmetric(vertical: 8),
                                 child: InkWell(
                                   onTap: () {
                                     searchController.text = item.name;
@@ -117,7 +117,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                                   ),
                                 ),
                               ),
-                              if (index < searchHistory.length - 1) Delimer(),
+                              if (index < searchHistory.length - 1) const Delimer(),
                             ],
                           );
                         },
@@ -137,7 +137,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                             ),
                       ),
                       style: TextButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                       ),
                     ),
                   ],
@@ -145,10 +145,11 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
               ),
             BlocBuilder(
               builder: (context, state) {
-                if (state is SearchPlaceLoadingInProgressState)
-                  return Center(
+                if (state is SearchPlaceLoadingInProgressState) {
+                  return const Center(
                       child: PreloaderWidget(),
                     );
+                }
                 if (state is SearchPlaceLoadingSuccessState) {
                   final placeList = state.result;
                   return Flexible(
@@ -195,14 +196,14 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                     ),
                   );
                 }
-                if (state is SearchPlaceEmptyState)
+                if (state is SearchPlaceEmptyState) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       //crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.all(32),
+                          padding: const EdgeInsets.all(32),
                           child: SvgPicture.asset(
                             ImagesPaths.search,
                             height: 50,
@@ -215,7 +216,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                               color: Theme.of(context).unselectedWidgetColor),
                         ),
                         Padding(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: Text(
                             "Попробуйте изменить параметры поиска",
                             style: TextStyleSet().textRegular.copyWith(
@@ -225,12 +226,13 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                       ],
                     ),
                   );
+                }
                 throw ArgumentError("Не предусмотренное состояние в SearchPlaceScreen");
               }
             ),
           ],
         ),
-        bottomNavigationBar: BottomNavigation(),
+        bottomNavigationBar: const BottomNavigation(),
       ),
     );
   }

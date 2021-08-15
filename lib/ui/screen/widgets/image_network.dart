@@ -5,7 +5,7 @@ class ImageNetworkWithProgress extends StatelessWidget {
 
   final BoxFit fit;
 
-  ImageNetworkWithProgress(this.url, {Key key, this.fit = BoxFit.fill})
+  const ImageNetworkWithProgress(this.url, {Key key, this.fit = BoxFit.fill})
       : super(key: key);
 
   @override
@@ -50,9 +50,9 @@ class _ImageNetworkWithPlaceholderState
 
   @override
   void initState() {
-    _image = new Image.network(widget.url, fit: widget.fit,);
+    _image = Image.network(widget.url, fit: widget.fit,);
     _image.image
-        .resolve(ImageConfiguration())
+        .resolve(const ImageConfiguration())
         .addListener(ImageStreamListener((_, __) {
           if (mounted) {
             setState(() {
@@ -67,9 +67,9 @@ class _ImageNetworkWithPlaceholderState
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
       firstChild: Center(child: Image.asset("res/images/placeholder.png", fit: widget.fit,)), 
-      secondChild: Container(child: _image, width: double.infinity,), 
+      secondChild: SizedBox(child: _image, width: double.infinity,), 
       crossFadeState: _crossFadeState, 
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
     );
   }
 }

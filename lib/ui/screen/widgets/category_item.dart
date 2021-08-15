@@ -12,7 +12,7 @@ class CategoryItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 48,
-      padding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       child: GestureDetector(
         onTap: onTap,
         child: Row(
@@ -32,7 +32,7 @@ class CategoryItemWidget extends StatelessWidget {
                 child: select ? Icon(
                   Icons.check,
                   color: Theme.of(context).accentColor,
-                ) : SizedBox.expand(),
+                ) : const SizedBox.expand(),
               ) 
             ),
           ],

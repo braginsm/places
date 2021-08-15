@@ -4,7 +4,7 @@ import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 class EmptyListWont extends StatelessWidget {
-  final icon = Container(
+  final icon = SizedBox(
     width: 64,
     height: 64,
     child: SvgPicture.asset(ImagesPaths.card),
@@ -22,21 +22,22 @@ class EmptyListWont extends StatelessWidget {
         children: [
           icon,
           Container(
-            margin: EdgeInsets.only(top: 24),
-            child: Text(title,
-                style: TextStyleSet()
-                    .textMedium18
-                    .copyWith(color: Theme.of(context).hintColor.withOpacity(0.56),),),
+            margin: const EdgeInsets.only(top: 24),
+            child: Text(
+              title,
+              style: TextStyleSet().textMedium18.copyWith(
+                    color: Theme.of(context).hintColor.withOpacity(0.56),
+                  ),
+            ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 53, vertical: 8),
+            margin: const EdgeInsets.symmetric(horizontal: 53, vertical: 8),
             child: Text(
               description,
               maxLines: 2,
               textAlign: TextAlign.center,
-              style: TextStyleSet()
-                  .textRegular
-                  .copyWith(color: Theme.of(context).hintColor.withOpacity(0.56)),
+              style: TextStyleSet().textRegular.copyWith(
+                  color: Theme.of(context).hintColor.withOpacity(0.56)),
             ),
           ),
         ],
@@ -46,10 +47,15 @@ class EmptyListWont extends StatelessWidget {
 }
 
 class EmptyListVisited extends EmptyListWont {
-  final icon = Container(
+  EmptyListVisited({Key key}) : super(key: key);
+
+  @override
+  final icon = SizedBox(
     width: 64,
     height: 64,
     child: SvgPicture.asset(ImagesPaths.go),
   );
+
+  @override
   final description = "Завершите маршрут, чтобы место попало сюда.";
 }

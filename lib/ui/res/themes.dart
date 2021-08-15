@@ -67,7 +67,7 @@ final lightThema = ThemeData(
     headline6: TextStyleSet().textMedium18.copyWith(color: ColorsLightSet.main),
   ),
   inputDecorationTheme: InputDecorationTheme(
-    contentPadding: EdgeInsets.all(16),
+    contentPadding: const EdgeInsets.all(16),
     hintStyle: TextStyleSet().textRegular16.copyWith(color: ColorsLightSet.inactiveBlack),
     isDense: true,
     enabledBorder: OutlineInputBorder(
@@ -87,10 +87,10 @@ final lightThema = ThemeData(
   ),
   scrollbarTheme: ScrollbarThemeData(
     thumbColor: MaterialStateProperty.all(ColorsLightSet.main),
-    radius: Radius.circular(8),
+    radius: const Radius.circular(8),
     thickness: MaterialStateProperty.all(8),
   ),
-  bottomSheetTheme: BottomSheetThemeData(
+  bottomSheetTheme: const BottomSheetThemeData(
     backgroundColor: Colors.transparent,
   ),
 );

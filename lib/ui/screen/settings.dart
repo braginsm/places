@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../../main.dart';
 
 class SettingsScreen extends StatefulWidget {
-  SettingsScreen({Key key}) : super(key: key);
+  const SettingsScreen({Key key}) : super(key: key);
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -21,8 +21,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.all(16),
+        title: const Padding(
+          padding: EdgeInsets.all(16),
           child: Text("Натройки"),
         ),
         centerTitle: true,
@@ -53,7 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ],
             ),
-            Delimer(),
+            const Delimer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -66,16 +66,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 IconButton(
                   icon: SvgPicture.asset(ImagesPaths.info),
                   onPressed: () {
+                    // ignore: avoid_print
                     print('Смотреть туториал');
                   },
                 )
               ],
             ),
-            Delimer(),
+            const Delimer(),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigation(),
+      bottomNavigationBar: const BottomNavigation(),
     );
   }
 }

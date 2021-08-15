@@ -31,14 +31,12 @@ class _PreloaderWidgetState extends State<PreloaderWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: AnimatedRotation(
-          duration: Duration(seconds: _duration),
-          angle: _angle,
-          child: Image.asset(
-            ImagesPaths.ellipse,
-          ),
+    return Center(
+      child: AnimatedRotation(
+        duration: Duration(seconds: _duration),
+        angle: _angle,
+        child: Image.asset(
+          ImagesPaths.ellipse,
         ),
       ),
     );

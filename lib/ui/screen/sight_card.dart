@@ -20,7 +20,7 @@ class SightCard extends StatefulWidget {
 class _SightCardState extends State<SightCard> {
   int _curentImage = 0;
 
-  bool _inWont = false;
+  final bool _inWont = false;
 
   Place _place;
 
@@ -29,14 +29,14 @@ class _SightCardState extends State<SightCard> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: (_place == null)
-          ? PreloaderWidget()
+          ? const PreloaderWidget()
           : CustomScrollView(
               slivers: [
                 SliverAppBar(
                   automaticallyImplyLeading: false,
                   expandedHeight: 360,
                   flexibleSpace: FlexibleSpaceBar(
-                    background: Container(
+                    background: SizedBox(
                       width: double.infinity,
                       child: Stack(
                         children: [
@@ -49,7 +49,7 @@ class _SightCardState extends State<SightCard> {
                             },
                             itemBuilder: (context, index) {
                               final item = _place.urls[index];
-                              return Container(
+                              return SizedBox(
                                 width: double.infinity,
                                 child: ImageNetworkWithProgress(item, fit: BoxFit.cover),
                               );
@@ -57,7 +57,7 @@ class _SightCardState extends State<SightCard> {
                           ),
                           Positioned(
                             bottom: 0,
-                            child: Container(
+                            child: SizedBox(
                               height: 8,
                               width: MediaQuery.of(context).size.width,
                               child: Row(
@@ -107,7 +107,7 @@ class _SightCardState extends State<SightCard> {
                 ),
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -120,7 +120,7 @@ class _SightCardState extends State<SightCard> {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 2),
+                          margin: const EdgeInsets.only(top: 2),
                           child: Row(
                             children: [
                               Text(
@@ -130,7 +130,7 @@ class _SightCardState extends State<SightCard> {
                                 maxLines: 1,
                               ),
                               Container(
-                                  margin: EdgeInsets.only(left: 16),
+                                  margin: const EdgeInsets.only(left: 16),
                                   child: Text(
                                     "закрыто до 09:00",
                                     style: TextStyleSet().textRegular.copyWith(
@@ -143,7 +143,7 @@ class _SightCardState extends State<SightCard> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.symmetric(vertical: 24),
+                          margin: const EdgeInsets.symmetric(vertical: 24),
                           child: Text(
                             _place.description,
                             style: TextStyleSet().textRegular.copyWith(
@@ -151,19 +151,20 @@ class _SightCardState extends State<SightCard> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(bottom: 24),
+                          margin: const EdgeInsets.only(bottom: 24),
                           child: ElevatedButton(
                             onPressed: () {
+                              // ignore: avoid_print
                               print("Построить маршрут");
                             },
                             child: Center(
                               child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 12),
+                                padding: const EdgeInsets.symmetric(vertical: 12),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(right: 8),
+                                      padding: const EdgeInsets.only(right: 8),
                                       child: SvgPicture.asset(
                                           ImagesPaths.buildRoute),
                                     ),
@@ -179,99 +180,98 @@ class _SightCardState extends State<SightCard> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(bottom: 24),
+                          margin: const EdgeInsets.only(bottom: 24),
                           width: double.infinity,
                           height: 1.6,
                           color: Theme.of(context)
                               .unselectedWidgetColor
                               .withOpacity(0.24),
                         ),
-                        Container(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Center(
-                                  child: TextButton(
-                                    onPressed: () async {
-                                      var res = await showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime.now(),
-                                        lastDate: DateTime.now()
-                                            .add(Duration(days: 90)),
-                                      );
-                                      print(res);
-                                      // if (res != null) {
-                                      //   mocks[mocks.indexOf(_place)].wontDate =
-                                      //       res;
-                                      //   setState(() {
-                                      //     _inWont = mocks[mocks.indexOf(_place)].wontVisit;
-                                      //   });
-                                      // }
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8),
-                                          child: SvgPicture.asset(
-                                            ImagesPaths.toPlan,
-                                            color: _inWont
-                                                ? Theme.of(context)
-                                                    .hintColor
-                                                    .withOpacity(0.56)
-                                                : Theme.of(context)
-                                                    .primaryColor,
-                                          ),
-                                        ),
-                                        Text(
-                                          'Запланировать',
-                                          style: TextStyleSet()
-                                              .textRegular
-                                              .copyWith(
-                                                color: _inWont
-                                                    ? Theme.of(context)
-                                                        .hintColor
-                                                        .withOpacity(0.56)
-                                                    : Theme.of(context)
-                                                        .primaryColor,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Center(
-                                    child: TextButton(
-                                  onPressed: () {
-                                    context
-                                        .read<VisitingState>()
-                                        .setWont(_place, DateTime.now());
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Center(
+                                child: TextButton(
+                                  onPressed: () async {
+                                    var res = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime.now()
+                                          .add(const Duration(days: 90)),
+                                    );
+                                    // ignore: avoid_print
+                                    print(res);
+                                    // if (res != null) {
+                                    //   mocks[mocks.indexOf(_place)].wontDate =
+                                    //       res;
+                                    //   setState(() {
+                                    //     _inWont = mocks[mocks.indexOf(_place)].wontVisit;
+                                    //   });
+                                    // }
                                   },
                                   child: Row(
                                     children: [
                                       Padding(
-                                          padding: EdgeInsets.all(8),
-                                          child: SvgPicture.asset(
-                                            ImagesPaths.heart,
-                                            color: Theme.of(context)
-                                                .secondaryHeaderColor,
-                                          )),
+                                        padding: const EdgeInsets.all(8),
+                                        child: SvgPicture.asset(
+                                          ImagesPaths.toPlan,
+                                          color: _inWont
+                                              ? Theme.of(context)
+                                                  .hintColor
+                                                  .withOpacity(0.56)
+                                              : Theme.of(context)
+                                                  .primaryColor,
+                                        ),
+                                      ),
                                       Text(
-                                        'В Избранное',
-                                        style:
-                                            TextStyleSet().textRegular.copyWith(
-                                                  color: Theme.of(context)
-                                                      .secondaryHeaderColor,
-                                                ),
+                                        'Запланировать',
+                                        style: TextStyleSet()
+                                            .textRegular
+                                            .copyWith(
+                                              color: _inWont
+                                                  ? Theme.of(context)
+                                                      .hintColor
+                                                      .withOpacity(0.56)
+                                                  : Theme.of(context)
+                                                      .primaryColor,
+                                            ),
                                       ),
                                     ],
                                   ),
-                                )),
-                              )
-                            ],
-                          ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Center(
+                                  child: TextButton(
+                                onPressed: () {
+                                  context
+                                      .read<VisitingState>()
+                                      .setWont(_place, DateTime.now());
+                                },
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: SvgPicture.asset(
+                                          ImagesPaths.heart,
+                                          color: Theme.of(context)
+                                              .secondaryHeaderColor,
+                                        )),
+                                    Text(
+                                      'В Избранное',
+                                      style:
+                                          TextStyleSet().textRegular.copyWith(
+                                                color: Theme.of(context)
+                                                    .secondaryHeaderColor,
+                                              ),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                            )
+                          ],
                         )
                       ],
                     ),

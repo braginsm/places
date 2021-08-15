@@ -6,9 +6,9 @@ import 'package:places/ui/screen/sight_list.dart';
 import 'package:places/ui/screen/visiting.dart';
 
 class BottomNavigation extends StatelessWidget {
-  BottomNavigation({Key key}) : super(key: key);
+  const BottomNavigation({Key key}) : super(key: key);
 
-  final List<Widget> _navScreens = [
+  final List<Widget> _navScreens = const [
     SightListScreen(),
     VisitingScreen(),
     SettingsScreen()
@@ -31,7 +31,7 @@ class BottomNavigation extends StatelessWidget {
               MaterialPageRoute(builder: (context) => _navScreens[value]));
         },
         items: [
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.list_alt_rounded),
             label: 'Список',
           ),
@@ -41,10 +41,13 @@ class BottomNavigation extends StatelessWidget {
           //   label: 'Карта',
           // ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(ImagesPaths.heart),
+            icon: SvgPicture.asset(
+              ImagesPaths.heart,
+              color: Theme.of(context).accentColor,
+            ),
             label: 'Избранное',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Натройки',
           ),

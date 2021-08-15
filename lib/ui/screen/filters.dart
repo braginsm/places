@@ -7,7 +7,7 @@ import 'package:places/ui/screen/search_place.dart';
 import 'package:provider/provider.dart';
 
 class FiltersScreen extends StatefulWidget {
-  FiltersScreen({Key key}) : super(key: key);
+  const FiltersScreen({Key key}) : super(key: key);
 
   @override
   _FiltersScreenState createState() => _FiltersScreenState();
@@ -44,7 +44,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               context.read<SerachInteractor>().cleanFilter();
               context
                   .read<SerachInteractor>()
-                  .radiusSet(RangeValues(_minRadius, _maxRadius));
+                  .radiusSet(const RangeValues(_minRadius, _maxRadius));
               context.read<SerachInteractor>().filterByRadius();
             },
             child: Text(
@@ -63,7 +63,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   vertical: 8,
                   horizontal: 16,
                 ),
@@ -85,7 +85,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 lineCnt: lineCnt, 
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -117,7 +117,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
             ],
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             width: double.infinity,
             height: 48,
             child: ElevatedButton(
@@ -125,7 +125,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SearchPlaceScreen()));
+                        builder: (context) => const SearchPlaceScreen()));
               },
               child: Text(
                 "ПОКАЗАТЬ (${context.watch<SerachInteractor>().searchResult.length})",
@@ -150,7 +150,7 @@ class FiltersWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -165,7 +165,7 @@ class FiltersWidget extends StatelessWidget {
                     ) else FilterItemWidget(text: context.watch<SerachInteractor>().titles[j], path: ImagesPaths.ticks[j],),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
             ]),
@@ -187,7 +187,7 @@ class FilterItemWidget extends StatelessWidget {
         Stack(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: IconButton(
                 iconSize: 64,
                 icon: SvgPicture.asset(path),

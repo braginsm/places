@@ -21,7 +21,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   void initState() {
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       upperBound: 1,
       lowerBound: .1,
     );
@@ -43,7 +43,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
   @override
   Widget build(BuildContext context) {
-    final int _coutnPage = 3;
+    const int _coutnPage = 3;
     final List<TutorialItem> _tutorialItems = [
       TutorialItem(
         title: "Добро пожаловать в Путеводитель",
@@ -64,7 +64,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           TextButton(
             onPressed: () => Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => SightListScreen()),
+              MaterialPageRoute(builder: (context) => const SightListScreen()),
             ),
             child: Text(
               "Пропустить",
@@ -110,7 +110,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     ),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(vertical: 8, horizontal: 58),
+                          const EdgeInsets.symmetric(vertical: 8, horizontal: 58),
                       child: Text(
                         _item.title,
                         style: TextStyleSet()
@@ -120,7 +120,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 58),
+                      padding: const EdgeInsets.symmetric(horizontal: 58),
                       child: Text(
                         _item.description,
                         style: TextStyleSet()
@@ -141,7 +141,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(24),
                     child: Center(
                       child: Row(
                         children: [
@@ -149,7 +149,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                             Container(
                               width: _curentPage == i ? 24 : 8,
                               height: 8,
-                              margin: EdgeInsets.all(4),
+                              margin: const EdgeInsets.all(4),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 color: _curentPage == i
@@ -164,27 +164,25 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: 64,
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     child: (_tutorialItems.length == _curentPage + 1)
                         ? ElevatedButton(
                             onPressed: () => Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (contex) => SightListScreen(),
+                                builder: (contex) => const SightListScreen(),
                               ),
                             ),
-                            child: Container(
-                              child: Padding(
-                                padding: EdgeInsets.all(16),
-                                child: Text(
-                                  "НА СТАРТ",
-                                  style: TextStyleSet().textBold.copyWith(
-                                      color: Theme.of(context).canvasColor),
-                                ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Text(
+                                "НА СТАРТ",
+                                style: TextStyleSet().textBold.copyWith(
+                                    color: Theme.of(context).canvasColor),
                               ),
                             ),
                           )
-                        : SizedBox.shrink(),
+                        : const SizedBox.shrink(),
                   ),
                 ],
               ),

@@ -6,7 +6,7 @@ import 'package:places/data/blocks/add_place/add_place_state.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/ui/res/text_styles.dart';
-import 'package:places/ui/screen/smthError.dart';
+import 'package:places/ui/screen/smth_error.dart';
 import 'package:places/ui/screen/widgets/add_image_item.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +15,7 @@ import 'select_category.dart';
 import 'widgets/preloader.dart';
 
 class AddPlaceScreen extends StatefulWidget {
-  AddPlaceScreen({Key key}) : super(key: key);
+  const AddPlaceScreen({Key key}) : super(key: key);
 
   @override
   _AddPlaceScreenState createState() => _AddPlaceScreenState();
@@ -38,11 +38,13 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       create: (context) => _bloc,
       child: BlocBuilder<AddPlaceBloc, AddPlaceState>(
         builder: (context, state) {
-          if (state is AddPlaceLoadingInProgressState)
-            return PreloaderWidget();
-          if (state is AddPlaceErrorState)
-            return SmthError();
-          if (state is AddPlaceLoadingSuccessState)
+          if (state is AddPlaceLoadingInProgressState) {
+            return const PreloaderWidget();
+          }
+          if (state is AddPlaceErrorState) {
+            return const SmthError();
+          }
+          if (state is AddPlaceLoadingSuccessState) {
             return Scaffold(
               appBar: AppBar(
                 leading: TextButton(
@@ -52,19 +54,18 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                     state.lonController.clear();
                     state.descriptionController.clear();
                   },
-                  child: Container(
-                      child: Text(
+                  child: Text(
                     "Отмена",
                     style: TextStyleSet()
-                        .textMedium16
-                        .copyWith(color: Theme.of(context).hintColor),
-                  )),
+                    .textMedium16
+                    .copyWith(color: Theme.of(context).hintColor),
+                  ),
                 ),
                 leadingWidth: 90,
-                title: Text("Новое место"),
+                title: const Text("Новое место"),
               ),
               body: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -74,7 +75,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                         children: [
                           Container(
                             height: 100,
-                            padding: EdgeInsets.symmetric(vertical: 8),
+                            padding: const EdgeInsets.symmetric(vertical: 8),
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: state.images.length,
@@ -90,7 +91,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                 color: Theme.of(context).unselectedWidgetColor),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(vertical: 14),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -102,7 +103,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                       color: Theme.of(context).hintColor),
                                 ),
                                 IconButton(
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.arrow_forward_ios,
                                     size: 10,
                                   ),
@@ -117,7 +118,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                               ],
                             ),
                           ),
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.only(bottom: 24),
                             child: Delimer(),
                           ),
@@ -127,11 +128,11 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                 color: Theme.of(context).unselectedWidgetColor),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(vertical: 12),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
                             child: TextField(
                               //autofocus: true,
                               focusNode: state.nameNode,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'название',
                               ),
                               controller: state.nameController,
@@ -140,7 +141,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(vertical: 12),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
                             child: Row(
                               children: [
                                 Expanded(
@@ -158,13 +159,13 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                       ),
                                       Padding(
                                         padding:
-                                            EdgeInsets.fromLTRB(0, 12, 8, 0),
+                                            const EdgeInsets.fromLTRB(0, 12, 8, 0),
                                         child: TextField(
                                           controller: state.latController,
                                           decoration: InputDecoration(
                                             hintText: 'широта',
                                             suffixIcon: IconButton(
-                                              icon: Icon(Icons.cancel_rounded),
+                                              icon: const Icon(Icons.cancel_rounded),
                                               onPressed: () =>
                                                   state.latController.clear(),
                                             ),
@@ -180,7 +181,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8),
+                                    padding: const EdgeInsets.only(left: 8),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -194,7 +195,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                                       .unselectedWidgetColor),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 12),
+                                          padding: const EdgeInsets.only(top: 12),
                                           child: TextField(
                                             controller: state.lonController,
                                             focusNode: state.lonNode,
@@ -205,7 +206,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                               hintText: 'долгота',
                                               suffixIcon: IconButton(
                                                 icon:
-                                                    Icon(Icons.cancel_rounded),
+                                                    const Icon(Icons.cancel_rounded),
                                                 onPressed: () =>
                                                     state.lonController.clear(),
                                               ),
@@ -221,7 +222,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.fromLTRB(0, 3, 0, 25),
+                            padding: const EdgeInsets.fromLTRB(0, 3, 0, 25),
                             child: Text(
                               "Указать на карте",
                               style: TextStyleSet().textMedium16.copyWith(
@@ -229,7 +230,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(vertical: 12),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
                             child: Text(
                               "ОПИСАНИЕ",
                               style: TextStyleSet().textRegular.copyWith(
@@ -243,7 +244,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                             onSubmitted: (value) =>
                                 state.descriptionNode.unfocus(),
                             maxLines: 4,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: "введите текст",
                             ),
                           ),
@@ -252,7 +253,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                     ),
                     Container(
                       width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       child: ElevatedButton(
                         onPressed: () => _bloc.add(AddPlaceSaveEvent(Place(
                           name: state.nameController.text,
@@ -263,7 +264,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                           urls: state.images
                         ))),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
                           child: Text(
                             "СОЗДАТЬ",
                             style: TextStyleSet()
@@ -277,6 +278,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 ),
               ),
             );
+          }
           throw ArgumentError("Неожиданное состояние в _StreamSliverListState");
         },
       ),

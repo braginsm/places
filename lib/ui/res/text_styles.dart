@@ -3,7 +3,7 @@ import 'package:flutter/painting.dart';
 /// Стили текстов
 class TextStyleSet {
   /// Поуолчаию
-  TextStyle _text = const TextStyle(
+  final TextStyle _text = const TextStyle(
     fontStyle: FontStyle.normal,
     fontSize: 14
   );
