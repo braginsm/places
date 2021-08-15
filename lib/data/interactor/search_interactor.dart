@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:places/data/interactor/PlaceInteractor.dart';
-import 'package:places/data/model/Place.dart';
-import 'package:places/data/model/PlaceDto.dart';
-import 'package:places/data/model/PlacesFilterRequestDto.dart';
-import 'package:places/data/repository/PlaceDtoRepository.dart';
+import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/place.dart';
+import 'package:places/data/model/place_dto.dart';
+import 'package:places/data/model/places_filter_request_dto.dart';
+import 'package:places/data/repository/place_dto_repository.dart';
 
 List<PlaceDto> searchHistory = [];
 
@@ -35,7 +35,7 @@ class SerachInteractor {
 
   void search(String value) async {
     showPreloader = true;
-    if (value.length > 0) {
+    if (value.isNotEmpty) {
       _searchResult = await SerachInteractor().searchPlacesByName(value, radius: _radius.end);
     } else {
       _searchResult = [];
@@ -53,7 +53,7 @@ class SerachInteractor {
     _searchResult.clear();
   }
 
-  RangeValues _radius = RangeValues(100, 10000);
+  RangeValues _radius = const RangeValues(100, 10000);
 
   RangeValues get radius => _radius;
 

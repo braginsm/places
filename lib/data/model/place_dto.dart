@@ -1,4 +1,4 @@
-import 'package:places/data/model/Place.dart';
+import 'package:places/data/model/place.dart';
 
 ///Модель данных ответа на запрос фильтра мест. От модели данных места Place отличается наличием поля distance, в котором при ответе будет расстояние от запрошенной точки
 class PlaceDto extends Place {
@@ -27,6 +27,6 @@ class PlaceDto extends Place {
   /// конструктор по данным
   PlaceDto.fromJson(Map<String, dynamic> data)
       : super.fromJson(data) {
-        this.distance = data['distance'];
+        distance = data['distance'];
       }
 }

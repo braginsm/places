@@ -1,19 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:places/data/blocks/search_place/search_place_event.dart';
 import 'package:places/data/blocks/search_place/search_place_state.dart';
-import 'package:places/data/interactor/SearchInteractor.dart';
-import 'package:places/data/model/PlaceDto.dart';
+import 'package:places/data/interactor/search_interactor.dart';
+import 'package:places/data/model/place_dto.dart';
 
 class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
   final SerachInteractor _interactor;
-  SearchPlaceBloc(this._interactor) : super(SearchPlaceLoadingSuccessState([]));
+  SearchPlaceBloc(this._interactor) : super(const SearchPlaceLoadingSuccessState([]));
 
   @override
   Stream<SearchPlaceState> mapEventToState(SearchPlaceEvent event) async* {
     if (event is SearchPlaceShowEvent) yield* _mapSearchPlaceShowEventToState();
 
-    if (event is SearchPlacePrintQueryEvent)
+    if (event is SearchPlacePrintQueryEvent) {
       yield* _mapSearchPlacePrintQueryToState(event.query);
+    }
   }
 
   Stream<SearchPlaceState> _mapSearchPlacePrintQueryToState(
@@ -24,6 +25,6 @@ class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
   }
 
   Stream<SearchPlaceState> _mapSearchPlaceShowEventToState() async* {
-    yield SearchPlaceLoadingSuccessState([]);
+    yield const SearchPlaceLoadingSuccessState([]);
   }
 }

@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:places/data/model/Place.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/data/repository/repository.dart';
-import 'package:places/data/res/endPoints.dart';
+import 'package:places/data/res/end_points.dart';
 
-import 'NetworkExeption.dart';
+import 'network_exeption.dart';
 
 class PlaceRepository extends Repository {
   /// Получение места по его id

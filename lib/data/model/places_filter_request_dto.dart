@@ -1,5 +1,5 @@
 import 'package:enum_to_string/enum_to_string.dart';
-import 'package:places/data/model/Place.dart';
+import 'package:places/data/model/place.dart';
 
 class PlacesFilterRequestDto {
   ///Модель данных с параметрами фильтра. Все поля не обязательные, но параметры "lat", "lat" и "radius" зависят друг от друга, поэтому если указан один из них, то остальные два становятся обязательными

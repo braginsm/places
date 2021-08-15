@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:places/data/interactor/PlaceInteractor.dart';
-import 'package:places/data/model/Place.dart';
+import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/place.dart';
 
 import 'visit_list_event.dart';
 import 'vizit_list_state.dart';

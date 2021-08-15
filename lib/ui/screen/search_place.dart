@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/data/blocks/search_place/search_place_bloc.dart';
 import 'package:places/data/blocks/search_place/search_place_event.dart';
 import 'package:places/data/blocks/search_place/search_place_state.dart';
-import 'package:places/data/interactor/SearchInteractor.dart';
+import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/sight_card.dart';

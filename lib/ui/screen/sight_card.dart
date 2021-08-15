@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/data/model/Place.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/widgets/image_network.dart';
 import 'package:provider/provider.dart';

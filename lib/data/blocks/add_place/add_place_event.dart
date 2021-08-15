@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:places/data/model/Place.dart';
+import 'package:places/data/model/place.dart';
 
 abstract class AddPlaceEvent extends Equatable {
   const AddPlaceEvent();
@@ -13,7 +13,7 @@ class AddPlaceLoadEvent extends AddPlaceEvent {}
 class AddPlaceChangeEvent extends AddPlaceEvent {
   final Place place;
 
-  AddPlaceChangeEvent(this.place) : super();
+  const AddPlaceChangeEvent(this.place) : super();
 
   @override
   List<Object> get props => [place];
@@ -22,7 +22,7 @@ class AddPlaceChangeEvent extends AddPlaceEvent {
 class AddPlaceSaveEvent extends AddPlaceEvent {
   final Place place;
 
-  AddPlaceSaveEvent(this.place) : super();
+  const AddPlaceSaveEvent(this.place) : super();
 
   @override
   List<Object> get props => [place];
@@ -31,7 +31,7 @@ class AddPlaceSaveEvent extends AddPlaceEvent {
 class AddPlaceTypeChangeEvent extends AddPlaceEvent {
   final PlaceType type;
 
-  AddPlaceTypeChangeEvent(this.type) : super();
+  const AddPlaceTypeChangeEvent(this.type) : super();
 
   @override
   List<Object> get props => [type];
@@ -41,7 +41,7 @@ class AddPlaceClearFormEvent extends AddPlaceEvent {}
 
 class AddPlaceDismissedImageEvent extends AddPlaceEvent {
   final String img;
-  AddPlaceDismissedImageEvent(this.img) : super();
+  const AddPlaceDismissedImageEvent(this.img) : super();
 
   @override
   List<Object> get props => [img];

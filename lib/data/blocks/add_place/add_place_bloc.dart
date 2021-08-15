@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:places/data/interactor/PlaceInteractor.dart';
-import 'package:places/data/model/Place.dart';
-import 'package:places/data/repository/NetworkExeption.dart';
+import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/place.dart';
+import 'package:places/data/repository/network_exeption.dart';
 
 import 'add_place_event.dart';
 import 'add_place_state.dart';

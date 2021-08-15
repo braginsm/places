@@ -14,7 +14,7 @@ class SearchPlaceShowEvent extends SearchPlaceEvent {}
 class SearchPlacePrintQueryEvent extends SearchPlaceEvent {
   final String query;
 
-  SearchPlacePrintQueryEvent(this.query);
+  const SearchPlacePrintQueryEvent(this.query);
   @override
   List<Object> get props => [query];
 }

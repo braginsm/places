@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:places/data/model/Place.dart';
+import 'package:places/data/model/place.dart';
 
 /// базовый эвент списка избранных мест
 abstract class VisitListEvent extends Equatable {

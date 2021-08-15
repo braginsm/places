@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:places/data/model/Place.dart';
+import 'package:places/data/model/place.dart';
 
 abstract class PlaceListState extends Equatable {
   const PlaceListState();
@@ -17,7 +17,7 @@ class PlaceListLoadingInProgressState extends PlaceListState {
 class PlaceListLoadingSuccessState extends PlaceListState {
   final List<Place> placeList;
 
-  PlaceListLoadingSuccessState(this.placeList);
+  const PlaceListLoadingSuccessState(this.placeList);
 
   @override
   List<Object> get props => [placeList];

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/data/blocks/add_place/add_place_bloc.dart';
 import 'package:places/data/blocks/add_place/add_place_event.dart';
 import 'package:places/data/blocks/add_place/add_place_state.dart';
-import 'package:places/data/model/Place.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 import 'widgets/category_item.dart';

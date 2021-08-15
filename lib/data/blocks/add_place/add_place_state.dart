@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:places/data/model/Place.dart';
+import 'package:places/data/model/place.dart';
 
 abstract class AddPlaceState extends Equatable {
   const AddPlaceState();
@@ -26,7 +26,7 @@ class AddPlaceLoadingSuccessState extends AddPlaceState {
 
   PlaceType placeType;
 
-  AddPlaceLoadingSuccessState({this.placeType});
+  AddPlaceLoadingSuccessState({this.placeType}) : super();
 
   final List<String> images = [
     "",

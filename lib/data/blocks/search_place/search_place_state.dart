@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:places/data/model/Place.dart';
+import 'package:places/data/model/place.dart';
 
 abstract class SearchPlaceState extends Equatable {
   const SearchPlaceState();
@@ -15,7 +15,7 @@ class SearchPlaceEmptyState extends SearchPlaceState {}
 class SearchPlaceLoadingSuccessState extends SearchPlaceState {
   final List<Place> result;
 
-  SearchPlaceLoadingSuccessState(this.result);
+  const SearchPlaceLoadingSuccessState(this.result);
 
   @override
   List<Object> get props => [result];

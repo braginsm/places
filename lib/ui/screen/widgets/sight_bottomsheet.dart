@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:places/data/model/Place.dart';
+import 'package:places/data/model/place.dart';
 
 import '../sight_card.dart';
 

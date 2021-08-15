@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:places/data/interactor/PlaceInteractor.dart';
+import 'package:places/data/interactor/place_interactor.dart';
 
 import 'place_list_event.dart';
 import 'place_list_state.dart';
