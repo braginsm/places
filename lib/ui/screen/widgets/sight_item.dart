@@ -153,9 +153,7 @@ class DismissibleSightItem extends StatelessWidget {
     return Dismissible(
       key: ValueKey(sight),
       onDismissed: onDismissed,
-      direction: onDismissed != null
-          ? DismissDirection.endToStart
-          : DismissDirection.none,
+      direction: DismissDirection.endToStart,
       background: Container(
         alignment: AlignmentDirectional.centerEnd,
         margin: const EdgeInsets.symmetric(vertical: 8),
