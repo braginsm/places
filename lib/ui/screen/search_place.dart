@@ -8,12 +8,12 @@ import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/data/model/place_dto.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
-import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
 
+import 'place_card.dart';
 import 'widgets/preloader.dart';
 
 class SearchPlaceScreen extends StatefulWidget {
@@ -191,7 +191,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SightCard(item.id),
+                              builder: (context) => PlaceCardScreen(item.id),
                             ),
                           );
                         },

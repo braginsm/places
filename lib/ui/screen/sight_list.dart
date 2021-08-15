@@ -168,7 +168,7 @@ class SightSliverList extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SightItem(
-                    item,
+                    item!,
                     favoritAction: true,
                   ),
                 );
@@ -183,7 +183,7 @@ class SightSliverList extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SightItem(
-                    item,
+                    item!,
                     favoritAction: true,
                   ),
                 );

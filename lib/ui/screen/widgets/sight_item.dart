@@ -7,10 +7,11 @@ import 'package:places/ui/screen/widgets/place_favorit.dart';
 
 import 'package:places/ui/screen/widgets/sight_bottomsheet.dart';
 
+import '../place_card.dart';
 import 'image_network.dart';
 
 class SightItem extends StatelessWidget {
-  final Place? sight;
+  final Place sight;
   final bool? favoritAction;
   final List<Widget>? actions;
   const SightItem(
@@ -38,7 +39,7 @@ class SightItem extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 height: 96,
-                child: ImageNetworkWithPlaceholder(sight!.urls.first,
+                child: ImageNetworkWithPlaceholder(sight.urls.first,
                     fit: BoxFit.cover),
               ),
               const SizedBox(
@@ -47,7 +48,7 @@ class SightItem extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  sight!.name,
+                  sight.name,
                   style: TextStyleSet()
                       .textMedium16
                       .copyWith(color: Theme.of(context).secondaryHeaderColor),
@@ -83,7 +84,7 @@ class SightItem extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
                 child: Text(
-                  sight!.description,
+                  sight.description,
                   style: TextStyleSet()
                       .textRegular16
                       .copyWith(color: Theme.of(context).hintColor),
@@ -108,6 +109,7 @@ class SightItem extends StatelessWidget {
                 },
                 isScrollControlled: true,
               ),
+              onLongPress: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PlaceCardScreen(sight.id))),
               child: const SizedBox(
                 width: double.infinity,
                 height: 188,
@@ -126,7 +128,7 @@ class SightItem extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: Text(
-              sight!.placeTypeName,
+              sight.placeTypeName,
               style: TextStyleSet()
                   .textRegular
                   .copyWith(color: Theme.of(context).canvasColor),
