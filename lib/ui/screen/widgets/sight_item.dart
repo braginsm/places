@@ -39,8 +39,13 @@ class SightItem extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 height: 96,
-                child: ImageNetworkWithPlaceholder(sight.urls.first,
-                    fit: BoxFit.cover),
+                child: Hero(
+                  tag: sight.id,
+                  child: ImageNetworkWithPlaceholder(
+                    sight.urls.first,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 16,
@@ -72,7 +77,8 @@ class SightItem extends StatelessWidget {
               //     ),
               //   ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
                 child: Text(
                   "закрыто до 09:00",
                   style: TextStyleSet()
@@ -82,7 +88,8 @@ class SightItem extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
                 child: Text(
                   sight.description,
                   style: TextStyleSet()
@@ -109,7 +116,16 @@ class SightItem extends StatelessWidget {
                 },
                 isScrollControlled: true,
               ),
-              onLongPress: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PlaceCardScreen(sight.id))),
+              onLongPress: () => Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (BuildContext context,
+                      Animation<double> animation,
+                      Animation<double> secondaryAnimation) {
+                    return SafeArea(child: Scaffold(body: PlaceWidget(sight)));
+                  },
+                ),
+              ),
               child: const SizedBox(
                 width: double.infinity,
                 height: 188,
