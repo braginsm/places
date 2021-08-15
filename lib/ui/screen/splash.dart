@@ -71,11 +71,11 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _navigateToNext() async {
     // имитация запроса данных
-    Future dataUpload = Future.delayed(const Duration(seconds: 5), () => true);
+    Future<bool> dataUpload = Future.delayed(const Duration(seconds: 5), () => true);
 
     try {
       isInitialized = await Future.delayed(const Duration(seconds: 2), () async {
-        if (await (dataUpload as FutureOr<bool>)) {
+        if (await dataUpload) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(

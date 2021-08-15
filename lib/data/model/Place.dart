@@ -51,7 +51,7 @@ class Place {
       : id = data['id'],
         name = data['name'],
         lat = data['lat'],
-        lon = data['lon'],
+        lon = data['lng'],
         urls =
             (data['urls'] as List<dynamic>).map((e) => e.toString()).toList(),
         description = data['description'],

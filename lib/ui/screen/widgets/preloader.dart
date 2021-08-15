@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:animated_rotation/animated_rotation.dart';
@@ -9,36 +11,42 @@ class PreloaderWidget extends StatefulWidget {
   _PreloaderWidgetState createState() => _PreloaderWidgetState();
 }
 
-class _PreloaderWidgetState extends State<PreloaderWidget> {
-  int _angle = 0;
-  final int _duration = 2;
+class _PreloaderWidgetState extends State<PreloaderWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
 
   @override
   void initState() {
-    _animation();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+      upperBound: 2 * pi,
+      lowerBound: 0,
+    );
+    _animationController.repeat();
     super.initState();
   }
 
-  Future<void> _animation() async {
-    await Future.delayed(Duration.zero);
-    while (0 < 1) {
-      setState(() {
-        _angle = _angle - 360;
-      });
-      await Future.delayed(Duration(seconds: _duration));
-    }
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: AnimatedRotation(
-        duration: Duration(seconds: _duration),
-        angle: _angle,
-        child: Image.asset(
-          ImagesPaths.ellipse,
-        ),
-      ),
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        return Center(
+          child: Transform.rotate(
+            angle: -_animationController.value,
+            child: Image.asset(
+              ImagesPaths.ellipse,
+            ),
+          ),
+        );
+      },
     );
   }
 }
