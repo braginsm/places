@@ -105,8 +105,13 @@ class _PlaceWidgetState extends State<PlaceWidget> {
                       final item = widget.place.urls[index];
                       return SizedBox(
                         width: double.infinity,
-                        child:
-                            ImageNetworkWithProgress(item, fit: BoxFit.cover),
+                        child: Hero(
+                          tag: widget.place.id,
+                          child: ImageNetworkWithPlaceholder(
+                            item, 
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       );
                     },
                   ),
