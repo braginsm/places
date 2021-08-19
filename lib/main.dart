@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:places/data/interactor/place_interactor.dart';
-import 'package:places/data/interactor/search_interactor.dart';
-import 'package:places/ui/res/themes.dart';
-import 'package:places/ui/screen/place_card.dart';
-import 'package:places/ui/screen/splash.dart';
 import 'package:provider/provider.dart';
+
+import 'data/interactor/place_interactor.dart';
+import 'data/interactor/search_interactor.dart';
 import 'data/interactor/settings_interactor.dart';
+import 'ui/res/themes.dart';
+import 'ui/screen/splash.dart';
 import 'ui/screen/visiting.dart';
 
 void main() {
