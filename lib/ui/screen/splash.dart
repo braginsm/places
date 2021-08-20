@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/ui/screen/sight_list.dart';
 import 'package:provider/provider.dart';
 
 import 'package:places/data/interactor/user_property_interactor.dart';
@@ -73,11 +74,19 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _navigateToNext() async {
+    Widget _nextWidget = const OnboardingScreen();
+
     /// получение начальных данных приложения
     Future<bool> appDataInit = Future(() async {
+      /// Получение текущей темы
       context.read<MainState>().changeTheme(
-        await context.read<UserPropertyInteractor>().getDarkTheme()
-      );
+          await context.read<UserPropertyInteractor>().getDarkTheme());
+
+      /// Получение признака первого открытия
+      if (await context.read<UserPropertyInteractor>().getIsNotFirst()) {
+        _nextWidget = const SightListScreen();
+      }
+      
       return true;
     });
 
@@ -88,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen>
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (_) => const OnboardingScreen(),
+              builder: (_) => _nextWidget,
             ),
           );
         } else {
