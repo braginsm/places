@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:places/data/interactor/user_property_interactor.dart';
 import 'package:provider/provider.dart';
 
 import 'data/interactor/place_interactor.dart';
@@ -24,6 +25,9 @@ void main() {
         ),
         Provider(
           create: (_) => SerachInteractor(),
+        ),
+        Provider(
+          create: (_) => UserPropertyInteractor(),
         ),
       ],
       child: const App(),

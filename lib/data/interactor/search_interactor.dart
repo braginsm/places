@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:places/data/interactor/place_interactor.dart';
-import 'package:places/data/model/place.dart';
 import 'package:places/data/model/place_dto.dart';
 import 'package:places/data/model/places_filter_request_dto.dart';
 import 'package:places/data/repository/place_dto_repository.dart';
@@ -59,24 +58,5 @@ class SerachInteractor {
 
   void radiusSet(RangeValues radius) {
     _radius = radius;
-  }
-
-  /// хранение значений фильтров
-  List<bool> _filterValues = List.generate(PlaceType.other.index, (index) => false);
-
-  bool filterValue(String? name) => _filterValues[_titles.indexOf(name)];
-
-  /// подписи фильтров
-  final List<String?> _titles = Place.ruPlaceTypeNames;
-
-  List<String?> get titles => _titles;
-
-  void changeFilter(String? name) {
-    final index = _titles.indexOf(name);
-    _filterValues[index] = !_filterValues[index];
-  }
-
-  void cleanFilter() {
-    _filterValues = List.generate(6, (index) => false);
   }
 }

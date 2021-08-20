@@ -22,7 +22,7 @@ class UserPropertyInteractor {
     final property =
         await UserPropertyRepository().getDouble("maxSearchRadius");
     var value = property.value;
-    return value <= 0 ? double.infinity : value;
+    return value <= 0 ? 10000 : value;
   }
 
   /// Сохранение максимального радиуса поиска
@@ -42,11 +42,17 @@ class UserPropertyInteractor {
     return result;
   }
 
+  /// Сохранение выбранной в фильтре категорий
+  Future<bool> setCategoryFIlters(int index, bool value) async {
+    final property = UserProperty<bool>('categoryFilter_$index', value);
+    return UserPropertyRepository().setBool(property);
+  }
+
   /// Сохранение выбранных в фильтре категорий
-  Future<bool> setCategoryFIlters(List<bool> value) async {
+  Future<bool> cleanCategoryFIlters() async {
     bool result = false;
-    for (var i = 0; i < value.length; i++) {
-      final property = UserProperty<bool>('categoryFilter_$i', value[i]);
+    for (var i = 0; i < PlaceType.values.length; i++) {
+      final property = UserProperty<bool>('categoryFilter_$i', false);
       result &= await UserPropertyRepository().setBool(property);
     }
     return result;
@@ -54,8 +60,7 @@ class UserPropertyInteractor {
 
   /// Получение признака включения темной темы
   Future<bool> getDarkTheme() async {
-    final property =
-        await UserPropertyRepository().getBool("darkTheme");
+    final property = await UserPropertyRepository().getBool("darkTheme");
     return property.value;
   }
 
@@ -67,8 +72,7 @@ class UserPropertyInteractor {
 
   /// Получение признака НЕ первого входа
   Future<bool> getIsNotFirst() async {
-    final property =
-        await UserPropertyRepository().getBool("isNotFirst");
+    final property = await UserPropertyRepository().getBool("isNotFirst");
     return property.value;
   }
 

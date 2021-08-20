@@ -37,7 +37,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return BlocProvider<SearchPlaceBloc>(
       create: (context) => _bloc,
       child: Scaffold(
         appBar: AppBar(
