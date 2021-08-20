@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+
+import 'package:places/data/interactor/user_property_interactor.dart';
+import 'package:places/main.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/onboarding.dart';
-
-import 'dart:math' as math;
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -70,12 +73,18 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _navigateToNext() async {
-    // имитация запроса данных
-    Future<bool> dataUpload = Future.delayed(const Duration(seconds: 5), () => true);
+    /// получение начальных данных приложения
+    Future<bool> appDataInit = Future(() async {
+      context.read<MainState>().changeTheme(
+        await context.read<UserPropertyInteractor>().getDarkTheme()
+      );
+      return true;
+    });
 
     try {
-      isInitialized = await Future.delayed(const Duration(seconds: 2), () async {
-        if (await dataUpload) {
+      isInitialized =
+          await Future.delayed(const Duration(seconds: 2), () async {
+        if (await appDataInit) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -88,8 +97,7 @@ class _SplashScreenState extends State<SplashScreen>
         return;
       });
     } catch (e) {
-      // ignore: avoid_print
-      print(e.toString());
+      rethrow;
     }
   }
 }
