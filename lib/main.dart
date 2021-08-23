@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:places/data/interactor/place_interactor.dart';
-import 'package:places/data/interactor/search_interactor.dart';
-import 'package:places/ui/res/themes.dart';
-import 'package:places/ui/screen/place_card.dart';
-import 'package:places/ui/screen/splash.dart';
 import 'package:provider/provider.dart';
-import 'data/interactor/settings_interactor.dart';
+
+import 'data/interactor/place_interactor.dart';
+import 'data/interactor/search_interactor.dart';
+import 'data/interactor/user_property_interactor.dart';
+import 'ui/res/themes.dart';
+import 'ui/screen/splash.dart';
 import 'ui/screen/visiting.dart';
 
 void main() {
@@ -25,6 +25,9 @@ void main() {
         Provider(
           create: (_) => SerachInteractor(),
         ),
+        Provider(
+          create: (_) => UserPropertyInteractor(),
+        ),
       ],
       child: const App(),
     ),
@@ -32,12 +35,11 @@ void main() {
 }
 
 class MainState with ChangeNotifier {
-  ThemeData get theme => themeIsBlack ? darkThema : lightThema;
+  ThemeData theme = lightThema;
+  bool get isDark => theme == darkThema;
 
-  bool get isDark => themeIsBlack;
-
-  void changeTheme() {
-    SettingsInteractor().toggleTheme();
+  void changeTheme(bool value) {
+    theme = value ? darkThema : lightThema;
     notifyListeners();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:places/data/interactor/user_property_interactor.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
@@ -17,6 +18,16 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  late bool _dark =context.read<MainState>().isDark;
+
+  Future<void> _onToggle(bool value) async {
+    await context.read<UserPropertyInteractor>().setDarkTheme(value);
+    setState(() {
+      _dark = value;
+    });
+    context.read<MainState>().changeTheme(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +54,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: FlutterSwitch(
-                    onToggle: (bool value) => context.read<MainState>().changeTheme(), 
-                    value: context.watch<MainState>().isDark,
+                    onToggle: _onToggle,
+                    value: _dark,
                     inactiveColor: Theme.of(context).unselectedWidgetColor,
                     activeColor: Theme.of(context).accentColor,
                     toggleSize: 28,
