@@ -6,6 +6,7 @@ import 'package:places/data/blocks/search_place/search_place_event.dart';
 import 'package:places/data/blocks/search_place/search_place_state.dart';
 import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/data/model/place_dto.dart';
+import 'package:places/database/database.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
@@ -27,12 +28,20 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
   TextEditingController searchController = TextEditingController();
 
   late SearchPlaceBloc _bloc;
+  late AppDb _db;
+  late List<SearchRequest> _list;
 
   @override
   void initState() {
     super.initState();
     _bloc = SearchPlaceBloc(context.read<SerachInteractor>())
       ..add(const SearchPlacePrintQueryEvent(""));
+    _db = context.read<AppDb>();
+  }
+
+  void _loadSearchHistory() async {
+    // TODO: переделать на Bloc
+    _list = await _db.allSearchRequestEntries;
   }
 
   @override
