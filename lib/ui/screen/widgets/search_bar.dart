@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/data/blocks/search_place/search_place_bloc.dart';
 import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
@@ -8,12 +9,16 @@ import 'package:provider/provider.dart';
 
 class SearchBar extends StatefulWidget {
   final bool readOnly;
-
   final Function? onTap;
-
   final TextEditingController? controller;
+  final SearchPlaceBloc? searchPlacebloc;
 
-  const SearchBar({Key? key, this.readOnly = false, this.onTap, this.controller})
+  const SearchBar(
+      {Key? key,
+      this.readOnly = false,
+      this.onTap,
+      this.controller,
+      this.searchPlacebloc})
       : super(key: key);
 
   @override
@@ -31,8 +36,8 @@ class _SearchBarState extends State<SearchBar> {
     setState(() {
       _suffixTap = true;
     });
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const FiltersScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const FiltersScreen()));
   }
 
   void onClearPress() {
@@ -59,7 +64,9 @@ class _SearchBarState extends State<SearchBar> {
         child: TextField(
           focusNode: textFieldFocusNode,
           // ignore: avoid_print
-          onChanged: (value) => /*StoreProvider.of<AppState>(context).dispatch(LoadSearch(value))*/print(value),
+          onChanged:
+              (value) => /*StoreProvider.of<AppState>(context).dispatch(LoadSearch(value))*/ print(
+                  value),
           controller: fieldController,
           readOnly: widget.readOnly,
           onTap: () {

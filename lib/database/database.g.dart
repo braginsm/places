@@ -11,12 +11,8 @@ class SearchRequest extends DataClass implements Insertable<SearchRequest> {
   final int id;
   final int placeId;
   final String placeName;
-  final String placeImage;
   SearchRequest(
-      {required this.id,
-      required this.placeId,
-      required this.placeName,
-      required this.placeImage});
+      {required this.id, required this.placeId, required this.placeName});
   factory SearchRequest.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
@@ -28,8 +24,6 @@ class SearchRequest extends DataClass implements Insertable<SearchRequest> {
           .mapFromDatabaseResponse(data['${effectivePrefix}place_id'])!,
       placeName: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}place_name'])!,
-      placeImage: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}place_image'])!,
     );
   }
   @override
@@ -38,7 +32,6 @@ class SearchRequest extends DataClass implements Insertable<SearchRequest> {
     map['id'] = Variable<int>(id);
     map['place_id'] = Variable<int>(placeId);
     map['place_name'] = Variable<String>(placeName);
-    map['place_image'] = Variable<String>(placeImage);
     return map;
   }
 
@@ -47,7 +40,6 @@ class SearchRequest extends DataClass implements Insertable<SearchRequest> {
       id: Value(id),
       placeId: Value(placeId),
       placeName: Value(placeName),
-      placeImage: Value(placeImage),
     );
   }
 
@@ -58,7 +50,6 @@ class SearchRequest extends DataClass implements Insertable<SearchRequest> {
       id: serializer.fromJson<int>(json['id']),
       placeId: serializer.fromJson<int>(json['placeId']),
       placeName: serializer.fromJson<String>(json['placeName']),
-      placeImage: serializer.fromJson<String>(json['placeImage']),
     );
   }
   @override
@@ -68,85 +59,70 @@ class SearchRequest extends DataClass implements Insertable<SearchRequest> {
       'id': serializer.toJson<int>(id),
       'placeId': serializer.toJson<int>(placeId),
       'placeName': serializer.toJson<String>(placeName),
-      'placeImage': serializer.toJson<String>(placeImage),
     };
   }
 
-  SearchRequest copyWith(
-          {int? id, int? placeId, String? placeName, String? placeImage}) =>
+  SearchRequest copyWith({int? id, int? placeId, String? placeName}) =>
       SearchRequest(
         id: id ?? this.id,
         placeId: placeId ?? this.placeId,
         placeName: placeName ?? this.placeName,
-        placeImage: placeImage ?? this.placeImage,
       );
   @override
   String toString() {
     return (StringBuffer('SearchRequest(')
           ..write('id: $id, ')
           ..write('placeId: $placeId, ')
-          ..write('placeName: $placeName, ')
-          ..write('placeImage: $placeImage')
+          ..write('placeName: $placeName')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode,
-      $mrjc(placeId.hashCode, $mrjc(placeName.hashCode, placeImage.hashCode))));
+  int get hashCode =>
+      $mrjf($mrjc(id.hashCode, $mrjc(placeId.hashCode, placeName.hashCode)));
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is SearchRequest &&
           other.id == this.id &&
           other.placeId == this.placeId &&
-          other.placeName == this.placeName &&
-          other.placeImage == this.placeImage);
+          other.placeName == this.placeName);
 }
 
 class SearchRequestsCompanion extends UpdateCompanion<SearchRequest> {
   final Value<int> id;
   final Value<int> placeId;
   final Value<String> placeName;
-  final Value<String> placeImage;
   const SearchRequestsCompanion({
     this.id = const Value.absent(),
     this.placeId = const Value.absent(),
     this.placeName = const Value.absent(),
-    this.placeImage = const Value.absent(),
   });
   SearchRequestsCompanion.insert({
     this.id = const Value.absent(),
     required int placeId,
     required String placeName,
-    required String placeImage,
   })  : placeId = Value(placeId),
-        placeName = Value(placeName),
-        placeImage = Value(placeImage);
+        placeName = Value(placeName);
   static Insertable<SearchRequest> custom({
     Expression<int>? id,
     Expression<int>? placeId,
     Expression<String>? placeName,
-    Expression<String>? placeImage,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (placeId != null) 'place_id': placeId,
       if (placeName != null) 'place_name': placeName,
-      if (placeImage != null) 'place_image': placeImage,
     });
   }
 
   SearchRequestsCompanion copyWith(
-      {Value<int>? id,
-      Value<int>? placeId,
-      Value<String>? placeName,
-      Value<String>? placeImage}) {
+      {Value<int>? id, Value<int>? placeId, Value<String>? placeName}) {
     return SearchRequestsCompanion(
       id: id ?? this.id,
       placeId: placeId ?? this.placeId,
       placeName: placeName ?? this.placeName,
-      placeImage: placeImage ?? this.placeImage,
     );
   }
 
@@ -162,9 +138,6 @@ class SearchRequestsCompanion extends UpdateCompanion<SearchRequest> {
     if (placeName.present) {
       map['place_name'] = Variable<String>(placeName.value);
     }
-    if (placeImage.present) {
-      map['place_image'] = Variable<String>(placeImage.value);
-    }
     return map;
   }
 
@@ -173,8 +146,7 @@ class SearchRequestsCompanion extends UpdateCompanion<SearchRequest> {
     return (StringBuffer('SearchRequestsCompanion(')
           ..write('id: $id, ')
           ..write('placeId: $placeId, ')
-          ..write('placeName: $placeName, ')
-          ..write('placeImage: $placeImage')
+          ..write('placeName: $placeName')
           ..write(')'))
         .toString();
   }
@@ -199,12 +171,8 @@ class $SearchRequestsTable extends SearchRequests
   late final GeneratedColumn<String?> placeName = GeneratedColumn<String?>(
       'place_name', aliasedName, false,
       typeName: 'TEXT', requiredDuringInsert: true);
-  final VerificationMeta _placeImageMeta = const VerificationMeta('placeImage');
-  late final GeneratedColumn<String?> placeImage = GeneratedColumn<String?>(
-      'place_image', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, placeId, placeName, placeImage];
+  List<GeneratedColumn> get $columns => [id, placeId, placeName];
   @override
   String get aliasedName => _alias ?? 'search_requests';
   @override
@@ -228,14 +196,6 @@ class $SearchRequestsTable extends SearchRequests
           placeName.isAcceptableOrUnknown(data['place_name']!, _placeNameMeta));
     } else if (isInserting) {
       context.missing(_placeNameMeta);
-    }
-    if (data.containsKey('place_image')) {
-      context.handle(
-          _placeImageMeta,
-          placeImage.isAcceptableOrUnknown(
-              data['place_image']!, _placeImageMeta));
-    } else if (isInserting) {
-      context.missing(_placeImageMeta);
     }
     return context;
   }

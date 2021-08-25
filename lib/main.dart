@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'data/interactor/place_interactor.dart';
+import 'data/interactor/search_history_interactor.dart';
 import 'data/interactor/search_interactor.dart';
 import 'data/interactor/user_property_interactor.dart';
-import 'database/database.dart';
 import 'ui/res/themes.dart';
 import 'ui/screen/splash.dart';
 import 'ui/screen/visiting.dart';
@@ -30,7 +30,7 @@ void main() {
           create: (_) => UserPropertyInteractor(),
         ),
         Provider(
-          create: (_) => AppDb(),
+          create: (_) => SearchHistoryInteractor(),
         ),
       ],
       child: const App(),

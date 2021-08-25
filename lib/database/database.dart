@@ -14,22 +14,6 @@ class AppDb extends _$AppDb {
 
   @override
   int get schemaVersion => 1;
-
-  // TODO: пределать на отдельный класс
-  Future<List<SearchRequest>> get allSearchRequestEntries =>
-      select(searchRequests).get();
-
-  Future<int> saveSearchRequest(SearchRequestsCompanion requests) {
-    return into(searchRequests).insert(requests);
-  }
-
-  Future<void> deleteSearchRequest(int placeId) async {
-    return delete(searchRequests).where((tbl) => tbl.placeId.equals(placeId));
-  }
-
-  Future<void> clearSearchHistory() async {
-    return delete(searchRequests).where((tbl) => tbl.placeId.isNotNull());
-  }
 }
 
 LazyDatabase _openConnection() {

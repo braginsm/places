@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/data/blocks/search_history/search_history_bloc.dart';
+import 'package:places/data/blocks/search_history/search_history_event.dart';
+import 'package:places/data/blocks/search_history/search_history_state.dart';
 import 'package:places/data/blocks/search_place/search_place_bloc.dart';
 import 'package:places/data/blocks/search_place/search_place_event.dart';
 import 'package:places/data/blocks/search_place/search_place_state.dart';
 import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/data/model/place_dto.dart';
 import 'package:places/database/database.dart';
+import 'package:places/data/interactor/search_history_interactor.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
@@ -27,27 +31,23 @@ class SearchPlaceScreen extends StatefulWidget {
 class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
   TextEditingController searchController = TextEditingController();
 
-  late SearchPlaceBloc _bloc;
-  late AppDb _db;
-  late List<SearchRequest> _list;
+  late SearchPlaceBloc _searchBloc;
+  late SearchHistoryBloc _searchHistoryBloc;
 
   @override
   void initState() {
     super.initState();
-    _bloc = SearchPlaceBloc(context.read<SerachInteractor>())
+    _searchBloc = SearchPlaceBloc(context.read<SerachInteractor>())
       ..add(const SearchPlacePrintQueryEvent(""));
-    _db = context.read<AppDb>();
-  }
-
-  void _loadSearchHistory() async {
-    // TODO: переделать на Bloc
-    _list = await _db.allSearchRequestEntries;
+    _searchHistoryBloc =
+        SearchHistoryBloc(context.read<SearchHistoryInteractor>())
+          ..add(SearchHistoryLoadingEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SearchPlaceBloc>(
-      create: (context) => _bloc,
+      create: (context) => _searchBloc,
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -68,7 +68,8 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
           ),
           centerTitle: true,
           bottom: PreferredSize(
-            child: SearchBar(controller: searchController),
+            child: SearchBar(
+                controller: searchController, searchPlacebloc: _searchBloc),
             preferredSize: const Size(double.infinity, 64),
           ),
         ),
@@ -86,53 +87,18 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                       style: TextStyleSet().textRegular.copyWith(
                           color: Theme.of(context).unselectedWidgetColor),
                     ),
-                    SizedBox(
-                      height: 64.0 * searchHistory.length,
-                      child: ListView.builder(
-                        itemCount: searchHistory.length,
-                        itemBuilder: (context, index) {
-                          final item = searchHistory[index];
-                          return Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8),
-                                child: InkWell(
-                                  onTap: () {
-                                    searchController.text = item.name;
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        item.name,
-                                        style: TextStyleSet()
-                                            .textRegular16
-                                            .copyWith(
-                                              color:
-                                                  Theme.of(context).hintColor,
-                                            ),
-                                      ),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.close,
-                                          color: Theme.of(context).hintColor,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            searchHistory.removeAt(index);
-                                          });
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              if (index < searchHistory.length - 1)
-                                const Delimer(),
-                            ],
-                          );
+                    BlocProvider<SearchHistoryBloc>(
+                      create: (context) => _searchHistoryBloc,
+                      child: BlocBuilder<SearchHistoryBloc, SearchHistoryState>(
+                        builder: (context, state) {
+                          if (state is SearchHistoryLoadingSuccessState) {
+                            return _SearchHistoryListWidget(
+                              list: state.list,
+                              searchHistoryBloc: _searchHistoryBloc,
+                            );
+                          }
+                          throw ArgumentError(
+                              "Не предусмотренное состояние SerchHistoryBloc");
                         },
                       ),
                     ),
@@ -157,7 +123,8 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                   ],
                 ),
               ),
-            BlocBuilder(builder: (context, dynamic state) {
+            BlocBuilder<SearchPlaceBloc, SearchPlaceState>(
+                builder: (context, dynamic state) {
               if (state is SearchPlaceLoadingInProgressState) {
                 return const Center(
                   child: PreloaderWidget(),
@@ -246,6 +213,62 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
           ],
         ),
         bottomNavigationBar: const BottomNavigation(),
+      ),
+    );
+  }
+}
+
+class _SearchHistoryListWidget extends StatelessWidget {
+  final SearchHistoryBloc searchHistoryBloc;
+  final List<SearchRequest> list;
+  const _SearchHistoryListWidget({Key? key, required this.searchHistoryBloc, required this.list}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 64.0 * list.length,
+      child: ListView.builder(
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          final item = list[index];
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                ),
+                child: InkWell(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PlaceCardScreen(item.placeId))),
+                  child: Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        item.placeName,
+                        style: TextStyleSet()
+                            .textRegular16
+                            .copyWith(
+                              color: Theme.of(context)
+                                  .hintColor,
+                            ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.close,
+                          color: Theme.of(context)
+                              .hintColor,
+                        ),
+                        onPressed: () => searchHistoryBloc.add(SearchHistoryDeleteByIdEvent(item.id)),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              if (index < list.length - 1)
+                const Delimer(),
+            ],
+          );
+        },
       ),
     );
   }
