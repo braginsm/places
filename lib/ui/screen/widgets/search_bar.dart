@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/data/blocks/search_place/search_place_bloc.dart';
 import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
@@ -11,14 +10,14 @@ class SearchBar extends StatefulWidget {
   final bool readOnly;
   final Function? onTap;
   final TextEditingController? controller;
-  final SearchPlaceBloc? searchPlacebloc;
+  final Function(String)? onChanged;
 
   const SearchBar(
       {Key? key,
       this.readOnly = false,
       this.onTap,
       this.controller,
-      this.searchPlacebloc})
+      this.onChanged})
       : super(key: key);
 
   @override
@@ -64,9 +63,7 @@ class _SearchBarState extends State<SearchBar> {
         child: TextField(
           focusNode: textFieldFocusNode,
           // ignore: avoid_print
-          onChanged:
-              (value) => /*StoreProvider.of<AppState>(context).dispatch(LoadSearch(value))*/ print(
-                  value),
+          onChanged: widget.onChanged,
           controller: fieldController,
           readOnly: widget.readOnly,
           onTap: () {

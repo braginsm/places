@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:places/data/model/place.dart';
+import 'package:places/data/model/place_dto.dart';
 
 abstract class SearchPlaceState extends Equatable {
   const SearchPlaceState();
@@ -13,7 +13,7 @@ class SearchPlaceLoadingInProgressState extends SearchPlaceState {}
 class SearchPlaceEmptyState extends SearchPlaceState {}
 
 class SearchPlaceLoadingSuccessState extends SearchPlaceState {
-  final List<Place> result;
+  final List<PlaceDto> result;
 
   const SearchPlaceLoadingSuccessState(this.result);
 

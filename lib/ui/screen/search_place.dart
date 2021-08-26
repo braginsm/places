@@ -8,7 +8,6 @@ import 'package:places/data/blocks/search_place/search_place_bloc.dart';
 import 'package:places/data/blocks/search_place/search_place_event.dart';
 import 'package:places/data/blocks/search_place/search_place_state.dart';
 import 'package:places/data/interactor/search_interactor.dart';
-import 'package:places/data/model/place_dto.dart';
 import 'package:places/database/database.dart';
 import 'package:places/data/interactor/search_history_interactor.dart';
 import 'package:places/ui/res/images.dart';
@@ -69,7 +68,9 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
           centerTitle: true,
           bottom: PreferredSize(
             child: SearchBar(
-                controller: searchController, searchPlacebloc: _searchBloc),
+              controller: searchController, 
+              onChanged: (value) => _searchBloc.add(SearchPlacePrintQueryEvent(value)),
+            ),
             preferredSize: const Size(double.infinity, 64),
           ),
         ),
@@ -131,7 +132,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                 );
               }
               if (state is SearchPlaceLoadingSuccessState) {
-                final placeList = state.result as List<PlaceDto>;
+                final placeList = state.result;
                 return Flexible(
                   child: ListView.builder(
                     itemCount: placeList.length,

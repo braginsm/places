@@ -198,7 +198,7 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
           if (state is FavoritListLoadingSuccess) {
             final placeList = state.favoritList;
             return placeList.isEmpty
-                ? EmptyListWont()
+                ? const EmptyListWont()
                 : ListView.builder(
                     itemCount: placeList.length,
                     itemBuilder: (context, index) {
@@ -314,7 +314,7 @@ class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
           if (state is VisitListLoadingSuccess) {
             final placeList = state.visitList;
             return placeList.isEmpty
-                ? EmptyListVisited()
+                ? const EmptyListVisited()
                 : ListView.builder(
                     itemCount: placeList.length,
                     itemBuilder: (context, index) {

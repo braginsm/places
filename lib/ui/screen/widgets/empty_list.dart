@@ -4,15 +4,15 @@ import 'package:places/ui/res/images.dart';
 import 'package:places/ui/res/text_styles.dart';
 
 class EmptyListWont extends StatelessWidget {
-  final icon = SizedBox(
+  get icon => SizedBox(
     width: 64,
     height: 64,
     child: SvgPicture.asset(ImagesPaths.card),
   );
   final title = "Пусто";
-  final description = "Отмечайте понравившиеся места и они появиятся здесь.";
+  get description => "Отмечайте понравившиеся места и они появиятся здесь.";
 
-  EmptyListWont({Key? key}) : super(key: key);
+  const EmptyListWont({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,15 +47,15 @@ class EmptyListWont extends StatelessWidget {
 }
 
 class EmptyListVisited extends EmptyListWont {
-  EmptyListVisited({Key? key}) : super(key: key);
+  const EmptyListVisited({Key? key}) : super(key: key);
 
   @override
-  final icon = SizedBox(
+  get icon => SizedBox(
     width: 64,
     height: 64,
     child: SvgPicture.asset(ImagesPaths.go),
   );
 
   @override
-  final description = "Завершите маршрут, чтобы место попало сюда.";
+  get description => "Завершите маршрут, чтобы место попало сюда.";
 }
