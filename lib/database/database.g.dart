@@ -8,38 +8,40 @@ part of 'database.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class SearchRequest extends DataClass implements Insertable<SearchRequest> {
-  final int id;
   final int placeId;
   final String placeName;
+  final DateTime dateInsert;
   SearchRequest(
-      {required this.id, required this.placeId, required this.placeName});
+      {required this.placeId,
+      required this.placeName,
+      required this.dateInsert});
   factory SearchRequest.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return SearchRequest(
-      id: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       placeId: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}place_id'])!,
       placeName: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}place_name'])!,
+      dateInsert: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}date_insert'])!,
     );
   }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
     map['place_id'] = Variable<int>(placeId);
     map['place_name'] = Variable<String>(placeName);
+    map['date_insert'] = Variable<DateTime>(dateInsert);
     return map;
   }
 
   SearchRequestsCompanion toCompanion(bool nullToAbsent) {
     return SearchRequestsCompanion(
-      id: Value(id),
       placeId: Value(placeId),
       placeName: Value(placeName),
+      dateInsert: Value(dateInsert),
     );
   }
 
@@ -47,96 +49,100 @@ class SearchRequest extends DataClass implements Insertable<SearchRequest> {
       {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return SearchRequest(
-      id: serializer.fromJson<int>(json['id']),
       placeId: serializer.fromJson<int>(json['placeId']),
       placeName: serializer.fromJson<String>(json['placeName']),
+      dateInsert: serializer.fromJson<DateTime>(json['dateInsert']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
       'placeId': serializer.toJson<int>(placeId),
       'placeName': serializer.toJson<String>(placeName),
+      'dateInsert': serializer.toJson<DateTime>(dateInsert),
     };
   }
 
-  SearchRequest copyWith({int? id, int? placeId, String? placeName}) =>
+  SearchRequest copyWith(
+          {int? placeId, String? placeName, DateTime? dateInsert}) =>
       SearchRequest(
-        id: id ?? this.id,
         placeId: placeId ?? this.placeId,
         placeName: placeName ?? this.placeName,
+        dateInsert: dateInsert ?? this.dateInsert,
       );
   @override
   String toString() {
     return (StringBuffer('SearchRequest(')
-          ..write('id: $id, ')
           ..write('placeId: $placeId, ')
-          ..write('placeName: $placeName')
+          ..write('placeName: $placeName, ')
+          ..write('dateInsert: $dateInsert')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      $mrjf($mrjc(id.hashCode, $mrjc(placeId.hashCode, placeName.hashCode)));
+  int get hashCode => $mrjf(
+      $mrjc(placeId.hashCode, $mrjc(placeName.hashCode, dateInsert.hashCode)));
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is SearchRequest &&
-          other.id == this.id &&
           other.placeId == this.placeId &&
-          other.placeName == this.placeName);
+          other.placeName == this.placeName &&
+          other.dateInsert == this.dateInsert);
 }
 
 class SearchRequestsCompanion extends UpdateCompanion<SearchRequest> {
-  final Value<int> id;
   final Value<int> placeId;
   final Value<String> placeName;
+  final Value<DateTime> dateInsert;
   const SearchRequestsCompanion({
-    this.id = const Value.absent(),
     this.placeId = const Value.absent(),
     this.placeName = const Value.absent(),
+    this.dateInsert = const Value.absent(),
   });
   SearchRequestsCompanion.insert({
-    this.id = const Value.absent(),
     required int placeId,
     required String placeName,
+    required DateTime dateInsert,
   })  : placeId = Value(placeId),
-        placeName = Value(placeName);
+        placeName = Value(placeName),
+        dateInsert = Value(dateInsert);
   static Insertable<SearchRequest> custom({
-    Expression<int>? id,
     Expression<int>? placeId,
     Expression<String>? placeName,
+    Expression<DateTime>? dateInsert,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
       if (placeId != null) 'place_id': placeId,
       if (placeName != null) 'place_name': placeName,
+      if (dateInsert != null) 'date_insert': dateInsert,
     });
   }
 
   SearchRequestsCompanion copyWith(
-      {Value<int>? id, Value<int>? placeId, Value<String>? placeName}) {
+      {Value<int>? placeId,
+      Value<String>? placeName,
+      Value<DateTime>? dateInsert}) {
     return SearchRequestsCompanion(
-      id: id ?? this.id,
       placeId: placeId ?? this.placeId,
       placeName: placeName ?? this.placeName,
+      dateInsert: dateInsert ?? this.dateInsert,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
     if (placeId.present) {
       map['place_id'] = Variable<int>(placeId.value);
     }
     if (placeName.present) {
       map['place_name'] = Variable<String>(placeName.value);
+    }
+    if (dateInsert.present) {
+      map['date_insert'] = Variable<DateTime>(dateInsert.value);
     }
     return map;
   }
@@ -144,9 +150,9 @@ class SearchRequestsCompanion extends UpdateCompanion<SearchRequest> {
   @override
   String toString() {
     return (StringBuffer('SearchRequestsCompanion(')
-          ..write('id: $id, ')
           ..write('placeId: $placeId, ')
-          ..write('placeName: $placeName')
+          ..write('placeName: $placeName, ')
+          ..write('dateInsert: $dateInsert')
           ..write(')'))
         .toString();
   }
@@ -157,12 +163,6 @@ class $SearchRequestsTable extends SearchRequests
   final GeneratedDatabase _db;
   final String? _alias;
   $SearchRequestsTable(this._db, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
-      'id', aliasedName, false,
-      typeName: 'INTEGER',
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _placeIdMeta = const VerificationMeta('placeId');
   late final GeneratedColumn<int?> placeId = GeneratedColumn<int?>(
       'place_id', aliasedName, false,
@@ -171,8 +171,12 @@ class $SearchRequestsTable extends SearchRequests
   late final GeneratedColumn<String?> placeName = GeneratedColumn<String?>(
       'place_name', aliasedName, false,
       typeName: 'TEXT', requiredDuringInsert: true);
+  final VerificationMeta _dateInsertMeta = const VerificationMeta('dateInsert');
+  late final GeneratedColumn<DateTime?> dateInsert = GeneratedColumn<DateTime?>(
+      'date_insert', aliasedName, false,
+      typeName: 'INTEGER', requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, placeId, placeName];
+  List<GeneratedColumn> get $columns => [placeId, placeName, dateInsert];
   @override
   String get aliasedName => _alias ?? 'search_requests';
   @override
@@ -182,9 +186,6 @@ class $SearchRequestsTable extends SearchRequests
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
     if (data.containsKey('place_id')) {
       context.handle(_placeIdMeta,
           placeId.isAcceptableOrUnknown(data['place_id']!, _placeIdMeta));
@@ -197,11 +198,19 @@ class $SearchRequestsTable extends SearchRequests
     } else if (isInserting) {
       context.missing(_placeNameMeta);
     }
+    if (data.containsKey('date_insert')) {
+      context.handle(
+          _dateInsertMeta,
+          dateInsert.isAcceptableOrUnknown(
+              data['date_insert']!, _dateInsertMeta));
+    } else if (isInserting) {
+      context.missing(_dateInsertMeta);
+    }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
   SearchRequest map(Map<String, dynamic> data, {String? tablePrefix}) {
     return SearchRequest.fromData(data, _db,

@@ -68,8 +68,9 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
           centerTitle: true,
           bottom: PreferredSize(
             child: SearchBar(
-              controller: searchController, 
-              onChanged: (value) => _searchBloc.add(SearchPlacePrintQueryEvent(value)),
+              controller: searchController,
+              onChanged: (value) =>
+                  _searchBloc.add(SearchPlacePrintQueryEvent(value)),
             ),
             preferredSize: const Size(double.infinity, 64),
           ),
@@ -104,12 +105,8 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {
-                        setState(() {
-                          searchHistory.clear();
-                          searchController.clear();
-                        });
-                      },
+                      onPressed: () =>
+                          _searchHistoryBloc.add(SearchHistoryClearEvent()),
                       child: Text(
                         "Очистить историю",
                         style: TextStyleSet().textMedium16.copyWith(
@@ -161,10 +158,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                               ),
                         ),
                         onTap: () {
-                          setState(() {
-                            searchHistory.remove(item);
-                            searchHistory.insert(0, item);
-                          });
+                          _searchHistoryBloc.add(SearchHistoryAddEvent(item));
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -222,7 +216,9 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
 class _SearchHistoryListWidget extends StatelessWidget {
   final SearchHistoryBloc searchHistoryBloc;
   final List<SearchRequest> list;
-  const _SearchHistoryListWidget({Key? key, required this.searchHistoryBloc, required this.list}) : super(key: key);
+  const _SearchHistoryListWidget(
+      {Key? key, required this.searchHistoryBloc, required this.list})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -239,34 +235,32 @@ class _SearchHistoryListWidget extends StatelessWidget {
                   vertical: 8,
                 ),
                 child: InkWell(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PlaceCardScreen(item.placeId))),
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PlaceCardScreen(item.placeId))),
                   child: Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         item.placeName,
-                        style: TextStyleSet()
-                            .textRegular16
-                            .copyWith(
-                              color: Theme.of(context)
-                                  .hintColor,
+                        style: TextStyleSet().textRegular16.copyWith(
+                              color: Theme.of(context).hintColor,
                             ),
                       ),
                       IconButton(
                         icon: Icon(
                           Icons.close,
-                          color: Theme.of(context)
-                              .hintColor,
+                          color: Theme.of(context).hintColor,
                         ),
-                        onPressed: () => searchHistoryBloc.add(SearchHistoryDeleteByIdEvent(item.id)),
+                        onPressed: () => searchHistoryBloc
+                            .add(SearchHistoryDeleteByIdEvent(item.placeId)),
                       )
                     ],
                   ),
                 ),
               ),
-              if (index < list.length - 1)
-                const Delimer(),
+              if (index < list.length - 1) const Delimer(),
             ],
           );
         },
