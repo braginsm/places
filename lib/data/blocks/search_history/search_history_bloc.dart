@@ -30,10 +30,7 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
 
   Stream<SearchHistoryState> _mapSearchHistoryAddEventToState(
       SearchHistoryAddEvent event) async* {
-    await _searchHistoryInteractor.saveSearchRequest(SearchRequestsCompanion(
-      placeId: Value(event.place.id),
-      placeName: Value(event.place.name),
-    ));
+    await _searchHistoryInteractor.saveSearchRequest(event.place);
     add(SearchHistoryLoadingEvent());
   }
 }

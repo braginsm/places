@@ -23,7 +23,7 @@ class VisitItemToFavoritEvent extends FavoritListEvent {
 
 /// событие удаления элемента списка из избранного
 class VisitItemRemoveFromFavoritEvent extends FavoritListEvent {
-  final Place? place;
+  final Place place;
   const VisitItemRemoveFromFavoritEvent(this.place) : super();
 
   @override
@@ -32,7 +32,7 @@ class VisitItemRemoveFromFavoritEvent extends FavoritListEvent {
 
 /// событие перемещения элемента
 class FavoritItemMoveEvent extends FavoritListEvent {
-  final Place? after;
+  final Place after;
   final Place place;
   const FavoritItemMoveEvent(
     this.after, this.place,

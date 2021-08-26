@@ -6,7 +6,7 @@ const double currentLat = /*56.84987946580704;*/ 55.749054;
 const double currentLon = /*53.247889685270756;*/ 37.623162;
 
 /// временное хранение списков
-List<Place?> favoriteList = [];
+List<Place> favoriteList = [];
 List<Place> visitList = [];
 
 class PlaceInteractor {
@@ -41,19 +41,19 @@ class PlaceInteractor {
   List<Place?> getFavoritesPlaces() => _sortByDistance(favoriteList);
 
   ///Добавить место в список избранных
-  void addToFavorites(Place? place) =>
+  void addToFavorites(Place place) =>
       favoriteList.contains(place) ? null : favoriteList.add(place);
 
   /// добавляет/удаляет место из избранного
-  void toggleFavorites(Place? place) => favoriteList.contains(place)
+  void toggleFavorites(Place place) => favoriteList.contains(place)
       ? removeFromFavorites(place)
       : addToFavorites(place);
 
   ///Удалить место из списка избранных
-  void removeFromFavorites(Place? place) => favoriteList.remove(place);
+  void removeFromFavorites(Place place) => favoriteList.remove(place);
 
   ///Перемещает place за after
-  void moveFavorites(Place? after, Place place) {
+  void moveFavorites(Place after, Place place) {
     favoriteList.remove(place);
     favoriteList.insert(favoriteList.indexOf(after) + 1, place);
   }

@@ -5,7 +5,7 @@ import 'package:places/data/model/place.dart';
 import 'package:places/ui/res/images.dart';
 
 class PlaceFavoritWidget extends StatefulWidget {
-  final Place? place;
+  final Place place;
   final Color? color;
   const PlaceFavoritWidget(this.place, {Key? key, this.color}) : super(key: key);
 
@@ -45,7 +45,7 @@ class _PlaceFavoritWidgetState extends State<PlaceFavoritWidget> {
     );
   }
 
-  void _togleFavorit(Place? place) {
+  void _togleFavorit(Place place) {
     Widget? _current;
     if (favoriteList.contains(place)) {
       favoriteList.remove(place);

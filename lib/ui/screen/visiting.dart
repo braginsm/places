@@ -22,7 +22,7 @@ import 'package:provider/provider.dart';
 import 'widgets/preloader.dart';
 
 class VisitingState with ChangeNotifier {
-  void setWont(Place? place, DateTime? date) {
+  void setWont(Place place, DateTime? date) {
     PlaceInteractor().toggleFavorites(place);
     notifyListeners();
   }
@@ -112,7 +112,7 @@ class VisitingDragTarget extends StatelessWidget {
 }
 
 class CupertinoWontDateModal extends StatefulWidget {
-  final Place? sight;
+  final Place sight;
   const CupertinoWontDateModal(this.sight, {Key? key}) : super(key: key);
 
   @override
@@ -268,7 +268,7 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
   }
 }
 
-Future<void> _showDatePicker(BuildContext context, Place? item) async {
+Future<void> _showDatePicker(BuildContext context, Place item) async {
   if (Platform.isIOS) {
     showCupertinoModalPopup(
       context: context,
