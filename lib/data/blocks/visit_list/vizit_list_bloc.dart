@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/interactor/place_visit_interactor.dart';
 import 'package:places/data/model/place.dart';
 
 import 'visit_list_event.dart';
@@ -7,7 +7,7 @@ import 'vizit_list_state.dart';
 
 /// блок экрана списка избанных мест
 class VisitListBloc extends Bloc<VisitListEvent, VisitListState> {
-  final PlaceInteractor _placeInteractor;
+  final PlaceVisitInteractor _placeInteractor;
 
   VisitListBloc(this._placeInteractor) : super(VisitListLoadingInProgress());
 
@@ -27,21 +27,20 @@ class VisitListBloc extends Bloc<VisitListEvent, VisitListState> {
   }
 
   Stream<VisitListState> _mapVisitListLoadEventToState() async* {
-    final List<Place> vizitList = _placeInteractor.getVisitPlaces();
+    yield VisitListLoadingInProgress();
+    final List<Place> vizitList = await _placeInteractor.getAll();
     yield VisitListLoadingSuccess(vizitList);
   }
 
   Stream<VisitListState> _mapVisitItemToVisitEventToState(
       VisitItemToVisitEvent event) async* {
-    _placeInteractor.addToVisitingPlaces(event.place);
-    yield VisitListLoadingInProgress();
-    yield VisitListLoadingSuccess(_placeInteractor.getVisitPlaces());
+    _placeInteractor.addPlace(event.place);
+    add(VisitListLoadEvent());
   }
 
   Stream<VisitListState> _mapVisitItemRemoveFromVisitEventToState(
       VisitItemRemoveFromVisitEvent event) async* {
-    _placeInteractor.removeFromFavorites(event.place);
-    yield VisitListLoadingInProgress();
-    yield VisitListLoadingSuccess(_placeInteractor.getVisitPlaces());
+    _placeInteractor.removePlace(event.place);
+    add(VisitListLoadEvent());
   }
 }
