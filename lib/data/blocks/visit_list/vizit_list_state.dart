@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:places/data/model/place.dart';
+import 'package:places/data/model/place_visit.dart';
 
 abstract class VisitListState extends Equatable {
   const VisitListState();
@@ -13,7 +13,7 @@ class VisitListLoadingInProgress extends VisitListState {}
 
 /// состояние загруженных посещенных мест
 class VisitListLoadingSuccess extends VisitListState {
-  final List<Place> visitList;
+  final List<PlaceVisit> visitList;
 
   const VisitListLoadingSuccess(this.visitList);
 

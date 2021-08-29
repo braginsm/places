@@ -10,8 +10,10 @@ import 'package:places/data/blocks/favorit_list/favorit_list_state.dart';
 import 'package:places/data/blocks/visit_list/visit_list_event.dart';
 import 'package:places/data/blocks/visit_list/vizit_list_bloc.dart';
 import 'package:places/data/blocks/visit_list/vizit_list_state.dart';
-import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/interactor/place_favorit_interactor.dart';
+import 'package:places/data/interactor/place_visit_interactor.dart';
 import 'package:places/data/model/place.dart';
+import 'package:places/data/model/place_favorit.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/widgets/empty_list.dart';
 import 'package:places/ui/screen/widgets/sight_item.dart';
@@ -20,18 +22,6 @@ import './widgets/bottom_navigation.dart';
 import 'package:provider/provider.dart';
 
 import 'widgets/preloader.dart';
-
-class VisitingState with ChangeNotifier {
-  void setWont(Place place, DateTime? date) {
-    PlaceInteractor().toggleFavorites(place);
-    notifyListeners();
-  }
-
-  void setVizit(Place place, DateTime date) {
-    PlaceInteractor().addToVisitingPlaces(place);
-    notifyListeners();
-  }
-}
 
 class VisitingScreen extends StatefulWidget {
   const VisitingScreen({Key? key}) : super(key: key);
@@ -147,12 +137,7 @@ class _CupertinoWontDateModalState extends State<CupertinoWontDateModal> {
               ),
               CupertinoButton(
                 child: const Text("ОК"),
-                onPressed: () {
-                  context
-                      .read<VisitingState>()
-                      .setWont(widget.sight, _dateTime);
-                  Navigator.pop(context);
-                },
+                onPressed: () {},
               ),
             ],
           ),
@@ -176,7 +161,7 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
   @override
   void initState() {
     super.initState();
-    _block = FavoritListBloc(context.read<PlaceInteractor>())
+    _block = FavoritListBloc(context.read<PlaceFavoritInteractor>())
       ..add(FavoritListLoadEvent());
   }
 
@@ -208,7 +193,7 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
                         child: Column(
                           children: [
                             DismissibleSightItem(
-                              item!,
+                              item,
                               onDismissed: (dismissDirection) => _block
                                   .add(VisitItemRemoveFromFavoritEvent(item)),
                               actions: [
@@ -281,7 +266,7 @@ Future<void> _showDatePicker(BuildContext context, Place item) async {
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 90)),
     );
-    context.read<VisitingState>().setWont(item, res);
+    context.read<PlaceFavoritInteractor>().addPlace(PlaceFavorit.fromPlace(item, 1));
   }
 }
 
@@ -298,7 +283,7 @@ class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
   @override
   void initState() {
     super.initState();
-    _block = VisitListBloc(context.read<PlaceInteractor>())
+    _block = VisitListBloc(context.read<PlaceVisitInteractor>())
       ..add(VisitListLoadEvent());
   }
 

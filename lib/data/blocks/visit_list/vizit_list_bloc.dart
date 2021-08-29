@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:places/data/interactor/place_visit_interactor.dart';
-import 'package:places/data/model/place.dart';
+import 'package:places/data/model/place_visit.dart';
 
 import 'visit_list_event.dart';
 import 'vizit_list_state.dart';
@@ -28,7 +28,7 @@ class VisitListBloc extends Bloc<VisitListEvent, VisitListState> {
 
   Stream<VisitListState> _mapVisitListLoadEventToState() async* {
     yield VisitListLoadingInProgress();
-    final List<Place> vizitList = await _placeInteractor.getAll();
+    final List<PlaceVisit> vizitList = await _placeInteractor.getAll();
     yield VisitListLoadingSuccess(vizitList);
   }
 

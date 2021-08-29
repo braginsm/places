@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/data/interactor/place_favorit_interactor.dart';
 import 'package:places/data/model/place.dart';
+import 'package:places/data/model/place_favorit.dart';
 import 'package:provider/provider.dart';
 
 import 'package:places/data/blocks/place/place_bloc.dart';
@@ -10,7 +12,6 @@ import 'package:places/data/blocks/place/place_state.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/widgets/image_network.dart';
-import 'package:places/ui/screen/visiting.dart';
 
 import '../res/text_styles.dart';
 import 'widgets/preloader.dart';
@@ -77,8 +78,8 @@ class _PlaceWidgetState extends State<PlaceWidget> {
   }
 
   void _setInFavorit() {
-    setState(() {
-      _inFavorit = favoriteList.contains(widget.place);
+    setState(() async {
+      _inFavorit = await context.read<PlaceFavoritInteractor>().inFavorit(widget.place);
     });
   }
 
@@ -108,7 +109,7 @@ class _PlaceWidgetState extends State<PlaceWidget> {
                         child: Hero(
                           tag: widget.place.id,
                           child: ImageNetworkWithPlaceholder(
-                            item, 
+                            item,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -296,30 +297,27 @@ class _PlaceWidgetState extends State<PlaceWidget> {
                     ),
                     Expanded(
                       child: Center(
-                          child: TextButton(
-                        onPressed: () {
-                          context
-                              .read<VisitingState>()
-                              .setWont(widget.place, DateTime.now());
-                        },
-                        child: Row(
-                          children: [
-                            Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: SvgPicture.asset(
-                                  ImagesPaths.heart,
-                                  color: Theme.of(context).secondaryHeaderColor,
-                                )),
-                            Text(
-                              'В Избранное',
-                              style: TextStyleSet().textRegular.copyWith(
-                                    color:
-                                        Theme.of(context).secondaryHeaderColor,
-                                  ),
-                            ),
-                          ],
+                        child: TextButton(
+                          onPressed: () => context.read<PlaceFavoritInteractor>().addPlace(PlaceFavorit.fromPlace(widget.place, 1)),
+                          child: Row(
+                            children: [
+                              Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: SvgPicture.asset(
+                                    ImagesPaths.heart,
+                                    color: Theme.of(context).secondaryHeaderColor,
+                                  )),
+                              Text(
+                                'В Избранное',
+                                style: TextStyleSet().textRegular.copyWith(
+                                      color:
+                                          Theme.of(context).secondaryHeaderColor,
+                                    ),
+                              ),
+                            ],
+                          ),
                         ),
-                      )),
+                      ),
                     )
                   ],
                 )
