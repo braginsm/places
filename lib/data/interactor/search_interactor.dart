@@ -4,11 +4,9 @@ import 'package:places/data/model/place_dto.dart';
 import 'package:places/data/model/places_filter_request_dto.dart';
 import 'package:places/data/repository/place_dto_repository.dart';
 
-List<PlaceDto> searchHistory = [];
-
 class SerachInteractor {
   Future<List<PlaceDto>> searchPlacesByName(String name,
-      {double radius = 100000000.0}) async {
+      {double radius = 10000.0}) async {
     var filter = PlacesFilterRequestDto(
       lat: currentLat,
       lon: currentLon,
@@ -28,14 +26,15 @@ class SerachInteractor {
 
   set controller(TextEditingController val) => searchBarController = val;
 
-  List<PlaceDto> _searchResult = searchHistory;
+  List<PlaceDto> _searchResult = [];
 
   bool showPreloader = false;
 
   void search(String value) async {
     showPreloader = true;
     if (value.isNotEmpty) {
-      _searchResult = await SerachInteractor().searchPlacesByName(value, radius: _radius.end);
+      _searchResult = await SerachInteractor()
+          .searchPlacesByName(value, radius: _radius.end);
     } else {
       _searchResult = [];
     }

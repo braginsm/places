@@ -1,13 +1,12 @@
-import 'package:moor/moor.dart';
 import 'package:places/data/model/place.dart';
 
 import '../../database/database.dart';
 
-class SearchHistoryInteractor extends AppDb {
+class SearchHistoryInteractor {
   SearchHistoryInteractor() : super();
 
   Future<List<SearchRequest>> get allSearchRequestEntries =>
-      select(searchRequests).get();
+      dbConnection.select(dbConnection.searchRequests).get();
 
   Future<void> saveSearchRequest(Place place) async {
     final request = SearchRequest(
@@ -15,21 +14,21 @@ class SearchHistoryInteractor extends AppDb {
       placeName: place.name,
       dateInsert: DateTime.now(),
     );
-    final res = await (select(searchRequests)
+    final res = await (dbConnection.select(dbConnection.searchRequests)
           ..where((tbl) => tbl.placeId.equals(place.id)))
         .getSingleOrNull();
     if (res == null) {
-      into(searchRequests).insert(request);
+      dbConnection.into(dbConnection.searchRequests).insert(request);
     } else {
-      (update(searchRequests)..where((tbl) => tbl.placeId.equals(place.id))).write(request);
+      (dbConnection.update(dbConnection.searchRequests)..where((tbl) => tbl.placeId.equals(place.id))).write(request);
     }
   }
 
-  Future<void> deleteSearchRequest(int placeId) async {
-    return delete(searchRequests).where((tbl) => tbl.placeId.equals(placeId));
+  Future<void> deleteSearchRequest(int id) async {
+    return dbConnection.customStatement('DELETE FROM search_requests WHERE place_id = $id');
   }
 
-  Future<void> clearSearchHistory() async {
-    return delete(searchRequests).where((tbl) => tbl.placeId.isNotNull());
+  Future<int> clearSearchHistory() async {
+    return dbConnection.delete(dbConnection.searchRequests).go();
   }
 }

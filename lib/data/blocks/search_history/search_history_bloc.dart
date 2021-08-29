@@ -19,6 +19,14 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
     if (event is SearchHistoryAddEvent) {
       yield* _mapSearchHistoryAddEventToState(event);
     }
+
+    if (event is SearchHistoryDeleteByIdEvent) {
+      yield* _mapSearchHistoryDeleteByIdEventToState(event);
+    }
+
+    if (event is SearchHistoryClearEvent) {
+      yield* _mapSearchHistoryClearEventToState(event);
+    }
   }
 
   Stream<SearchHistoryState> _mapSearchHistoryLoadingEventToState() async* {
@@ -29,6 +37,18 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
   Stream<SearchHistoryState> _mapSearchHistoryAddEventToState(
       SearchHistoryAddEvent event) async* {
     await _searchHistoryInteractor.saveSearchRequest(event.place);
+    add(SearchHistoryLoadingEvent());
+  }
+
+  Stream<SearchHistoryState> _mapSearchHistoryDeleteByIdEventToState(
+      SearchHistoryDeleteByIdEvent event) async* {
+    await _searchHistoryInteractor.deleteSearchRequest(event.id);
+    add(SearchHistoryLoadingEvent());
+  }
+
+  Stream<SearchHistoryState> _mapSearchHistoryClearEventToState(
+      SearchHistoryClearEvent event) async* {
+    await _searchHistoryInteractor.clearSearchHistory();
     add(SearchHistoryLoadingEvent());
   }
 }
