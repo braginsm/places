@@ -35,18 +35,17 @@ class PlaceFavoritRepository {
     try {
       final dbPlaceFavorit = await (dbConnection.select(dbConnection.dbPlaceFavorits)
             ..where((tbl) => tbl.id.equals(id)))
-          .getSingleOrNull();
-      return dbPlaceFavorit == null
-          ? null
-          : PlaceFavorit.fromDb(dbPlaceFavorit);
+          .getSingle();
+      return PlaceFavorit.fromDb(dbPlaceFavorit);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<void> deleteById(int id) async {
+  Future<void> delete(PlaceFavorit place) async {
+    final request = _requestByPlaceFavorit(place);
     try {
-      dbConnection.delete(dbConnection.dbPlaceFavorits).where((tbl) => tbl.id.equals(id));
+      dbConnection.delete(dbConnection.dbPlaceFavorits).delete(request);
     } catch (e) {
       rethrow;
     }

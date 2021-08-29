@@ -7,12 +7,16 @@ class PlaceFavoritInteractor {
     return await PlaceFavoritRepository().getAll();
   }
 
+  Future<PlaceFavorit?> getById(int id) {
+    return PlaceFavoritRepository().getById(id);
+  }
+
   ///Добавить место в список избранных
   void addPlace(PlaceFavorit place) => PlaceFavoritRepository().save(place);
 
   ///Удалить место из списка избранных
-  void removePlace(Place place) =>
-      PlaceFavoritRepository().deleteById(place.id);
+  void removePlace(PlaceFavorit place) =>
+      PlaceFavoritRepository().delete(place);
 
   ///Перемещает place за after
   Future<void> move(PlaceFavorit after, PlaceFavorit place) async {

@@ -20,6 +20,7 @@ class _PlaceFavoritWidgetState extends State<PlaceFavoritWidget> {
   late Widget _heart;
   late Widget _heartFull;
   bool _inFavorit = false;
+  late PlaceFavorit _placeFavorit;
 
   @override
   void initState() {
@@ -56,9 +57,13 @@ class _PlaceFavoritWidgetState extends State<PlaceFavoritWidget> {
     );
   }
 
-  void _togleFavorit(Place place) {
+  Future<void> _togleFavorit(Place place) async {
     if (_inFavorit) {
-      context.read<PlaceFavoritInteractor>().removePlace(place);
+      final _place =
+          await context.read<PlaceFavoritInteractor>().getById(place.id);
+      if (_place != null) {
+        context.read<PlaceFavoritInteractor>().removePlace(_place);
+      }
     } else {
       context
           .read<PlaceFavoritInteractor>()
