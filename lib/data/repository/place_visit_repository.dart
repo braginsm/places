@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:places/data/model/place_visit.dart';
 import 'package:places/database/database.dart';
 
-class PlaceVisitRepository extends AppDb {
+class PlaceVisitRepository {
   DbPlaceVisit _requestByPlaceVisit(PlaceVisit place) => DbPlaceVisit(
         description: place.description,
         id: place.id,
@@ -18,11 +18,11 @@ class PlaceVisitRepository extends AppDb {
   Future<void> save(PlaceVisit place) async {
     final request = _requestByPlaceVisit(place);
     try {
-      final res = await (select(dbPlaceVisits)
+      final res = await (dbConnection.select(dbConnection.dbPlaceVisits)
             ..where((tbl) => tbl.id.equals(place.id)))
           .getSingleOrNull();
       if (res == null) {
-        into(dbPlaceVisits).insert(request);
+        dbConnection.into(dbConnection.dbPlaceVisits).insert(request);
       } else {
         updateItem(place);
       }
@@ -33,7 +33,7 @@ class PlaceVisitRepository extends AppDb {
 
   Future<PlaceVisit> getById(int id) async {
     try {
-      final dbPlaceVisit = await (select(dbPlaceVisits)
+      final dbPlaceVisit = await (dbConnection.select(dbConnection.dbPlaceVisits)
             ..where((tbl) => tbl.id.equals(id)))
           .getSingle();
       return PlaceVisit.fromDb(dbPlaceVisit);
@@ -44,7 +44,7 @@ class PlaceVisitRepository extends AppDb {
 
   Future<void> deleteById(int id) async {
     try {
-      delete(dbPlaceVisits).where((tbl) => tbl.id.equals(id));
+      dbConnection.delete(dbConnection.dbPlaceVisits).where((tbl) => tbl.id.equals(id));
     } catch (e) {
       rethrow;
     }
@@ -53,7 +53,7 @@ class PlaceVisitRepository extends AppDb {
   Future<void> updateItem(PlaceVisit place) async {
     final request = _requestByPlaceVisit(place);
     try {
-      (update(dbPlaceVisits)..where((tbl) => tbl.id.equals(place.id)))
+      (dbConnection.update(dbConnection.dbPlaceVisits)..where((tbl) => tbl.id.equals(place.id)))
           .replace(request);
     } catch (e) {
       rethrow;
@@ -62,7 +62,7 @@ class PlaceVisitRepository extends AppDb {
 
   Future<List<PlaceVisit>> getAll() async {
     try {
-      return (await select(dbPlaceVisits).get())
+      return (await dbConnection.select(dbConnection.dbPlaceVisits).get())
           .map((e) => PlaceVisit.fromDb(e))
           .toList();
     } catch (e) {

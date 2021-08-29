@@ -25,7 +25,7 @@ class PlaceFavorit extends Place {
           lon: dbPlacesFavorit.lon,
           name: dbPlacesFavorit.name,
           placeType: PlaceType.values[dbPlacesFavorit.placeTypeId],
-          urls: jsonDecode(dbPlacesFavorit.urlsJson) as List<String>,
+          urls: (jsonDecode(dbPlacesFavorit.urlsJson) as List<dynamic>).map((e) => e.toString()).toList(),
         ) {
           sort = dbPlacesFavorit.sort;
         }

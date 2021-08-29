@@ -38,9 +38,10 @@ class _PlaceFavoritWidgetState extends State<PlaceFavoritWidget> {
   }
 
   Future<void> _setInFavorit() async {
-    setState(() async {
-      _inFavorit =
-          await context.read<PlaceFavoritInteractor>().inFavorit(widget.place);
+    final _res =
+        await context.read<PlaceFavoritInteractor>().inFavorit(widget.place);
+    setState(() {
+      _inFavorit = _res;
     });
   }
 
@@ -59,7 +60,9 @@ class _PlaceFavoritWidgetState extends State<PlaceFavoritWidget> {
     if (_inFavorit) {
       context.read<PlaceFavoritInteractor>().removePlace(place);
     } else {
-      context.read<PlaceFavoritInteractor>().addPlace(PlaceFavorit.fromPlace(place, 1));
+      context
+          .read<PlaceFavoritInteractor>()
+          .addPlace(PlaceFavorit.fromPlace(place, 1));
     }
 
     setState(() {

@@ -25,3 +25,5 @@ LazyDatabase _openConnection() {
     return VmDatabase(file);
   });
 }
+
+AppDb dbConnection = AppDb();

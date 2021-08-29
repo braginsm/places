@@ -68,8 +68,8 @@ class PlaceWidget extends StatefulWidget {
 }
 
 class _PlaceWidgetState extends State<PlaceWidget> {
-  late int _curentImage = 0;
-  late bool _inFavorit;
+  int _curentImage = 0;
+  bool _inFavorit = false;
 
   @override
   void initState() {
@@ -77,9 +77,11 @@ class _PlaceWidgetState extends State<PlaceWidget> {
     _setInFavorit();
   }
 
-  void _setInFavorit() {
-    setState(() async {
-      _inFavorit = await context.read<PlaceFavoritInteractor>().inFavorit(widget.place);
+  void _setInFavorit() async {
+    final _res =
+        await context.read<PlaceFavoritInteractor>().inFavorit(widget.place);
+    setState(() {
+      _inFavorit = _res;
     });
   }
 
@@ -298,20 +300,24 @@ class _PlaceWidgetState extends State<PlaceWidget> {
                     Expanded(
                       child: Center(
                         child: TextButton(
-                          onPressed: () => context.read<PlaceFavoritInteractor>().addPlace(PlaceFavorit.fromPlace(widget.place, 1)),
+                          onPressed: () => context
+                              .read<PlaceFavoritInteractor>()
+                              .addPlace(
+                                  PlaceFavorit.fromPlace(widget.place, 1)),
                           child: Row(
                             children: [
                               Padding(
                                   padding: const EdgeInsets.all(8),
                                   child: SvgPicture.asset(
                                     ImagesPaths.heart,
-                                    color: Theme.of(context).secondaryHeaderColor,
+                                    color:
+                                        Theme.of(context).secondaryHeaderColor,
                                   )),
                               Text(
                                 'В Избранное',
                                 style: TextStyleSet().textRegular.copyWith(
-                                      color:
-                                          Theme.of(context).secondaryHeaderColor,
+                                      color: Theme.of(context)
+                                          .secondaryHeaderColor,
                                     ),
                               ),
                             ],

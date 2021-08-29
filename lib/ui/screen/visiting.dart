@@ -193,7 +193,7 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
                         child: Column(
                           children: [
                             DismissibleSightItem(
-                              item,
+                              place: item,
                               onDismissed: (dismissDirection) => _block
                                   .add(VisitItemRemoveFromFavoritEvent(item)),
                               actions: [
@@ -207,7 +207,7 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
                                     ),
                                   ),
                                   feedback: SizedBox(
-                                    child: SightItem(item),
+                                    child: SightItem(place: item),
                                     width: 300,
                                   ),
                                   onDragStarted: _togleShowTarget,
@@ -309,7 +309,7 @@ class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
                         child: Column(
                           children: [
                             DismissibleSightItem(
-                              item,
+                              place: item,
                               onDismissed: (dismissDirection) => _block
                                   .add(VisitItemRemoveFromVisitEvent(item)),
                               actions: [
@@ -323,7 +323,7 @@ class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
                                     ),
                                   ),
                                   feedback: SizedBox(
-                                    child: SightItem(item),
+                                    child: SightItem(place: item),
                                     width: 300,
                                   ),
                                 ),

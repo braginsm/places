@@ -17,14 +17,15 @@ class PlaceFavoritInteractor {
   ///Перемещает place за after
   Future<void> move(PlaceFavorit after, PlaceFavorit place) async {
     final _after = await PlaceFavoritRepository().getById(after.id);
+    if (_after == null) throw ArgumentError();
     place.sort = _after.sort + 1;
     await PlaceFavoritRepository().updateItem(place);
   }
 
   Future<bool> inFavorit(Place place) async {
     try {
-      await PlaceFavoritRepository().getById(place.id);
-      return true;
+      final _list = await PlaceFavoritRepository().getAll();
+      return _list.any((element) => element.id == place.id);
     } catch (_) {
       return false;
     }

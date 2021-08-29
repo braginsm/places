@@ -8,6 +8,9 @@ class DbPlaces extends Table {
   TextColumn get urlsJson => text()();
   TextColumn get description => text()();
   IntColumn get placeTypeId => integer()();
+
+  @override
+  Set<Column>? get primaryKey => {id};
 }
 
 class DbPlaceFavorits extends DbPlaces {

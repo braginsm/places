@@ -401,7 +401,7 @@ class DbPlaceFavoritsCompanion extends UpdateCompanion<DbPlaceFavorit> {
     this.sort = const Value.absent(),
   });
   DbPlaceFavoritsCompanion.insert({
-    required int id,
+    this.id = const Value.absent(),
     required String name,
     required double lat,
     required double lon,
@@ -409,8 +409,7 @@ class DbPlaceFavoritsCompanion extends UpdateCompanion<DbPlaceFavorit> {
     required String description,
     required int placeTypeId,
     required int sort,
-  })  : id = Value(id),
-        name = Value(name),
+  })  : name = Value(name),
         lat = Value(lat),
         lon = Value(lon),
         urlsJson = Value(urlsJson),
@@ -514,7 +513,7 @@ class $DbPlaceFavoritsTable extends DbPlaceFavorits
   final VerificationMeta _idMeta = const VerificationMeta('id');
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
       'id', aliasedName, false,
-      typeName: 'INTEGER', requiredDuringInsert: true);
+      typeName: 'INTEGER', requiredDuringInsert: false);
   final VerificationMeta _nameMeta = const VerificationMeta('name');
   late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
       'name', aliasedName, false,
@@ -559,8 +558,6 @@ class $DbPlaceFavoritsTable extends DbPlaceFavorits
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -612,7 +609,7 @@ class $DbPlaceFavoritsTable extends DbPlaceFavorits
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   DbPlaceFavorit map(Map<String, dynamic> data, {String? tablePrefix}) {
     return DbPlaceFavorit.fromData(data, _db,
@@ -804,7 +801,7 @@ class DbPlaceVisitsCompanion extends UpdateCompanion<DbPlaceVisit> {
     this.dateVisit = const Value.absent(),
   });
   DbPlaceVisitsCompanion.insert({
-    required int id,
+    this.id = const Value.absent(),
     required String name,
     required double lat,
     required double lon,
@@ -812,8 +809,7 @@ class DbPlaceVisitsCompanion extends UpdateCompanion<DbPlaceVisit> {
     required String description,
     required int placeTypeId,
     required DateTime dateVisit,
-  })  : id = Value(id),
-        name = Value(name),
+  })  : name = Value(name),
         lat = Value(lat),
         lon = Value(lon),
         urlsJson = Value(urlsJson),
@@ -917,7 +913,7 @@ class $DbPlaceVisitsTable extends DbPlaceVisits
   final VerificationMeta _idMeta = const VerificationMeta('id');
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
       'id', aliasedName, false,
-      typeName: 'INTEGER', requiredDuringInsert: true);
+      typeName: 'INTEGER', requiredDuringInsert: false);
   final VerificationMeta _nameMeta = const VerificationMeta('name');
   late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
       'name', aliasedName, false,
@@ -962,8 +958,6 @@ class $DbPlaceVisitsTable extends DbPlaceVisits
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -1015,7 +1009,7 @@ class $DbPlaceVisitsTable extends DbPlaceVisits
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   DbPlaceVisit map(Map<String, dynamic> data, {String? tablePrefix}) {
     return DbPlaceVisit.fromData(data, _db,

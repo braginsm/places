@@ -41,9 +41,9 @@ class PlaceInteractor {
     return PlaceRepository().save(place);
   }
 
-  Future<bool> inFavorit(Place place) async {
+  Future<bool> inFavorit(PlaceFavoritInteractor interactor, Place place) async {
     try {
-      final list = await PlaceFavoritInteractor().getAll();
+      final list = await interactor.getAll();
       return list.any((element) => element.id == place.id);
     } catch (_) {
       return false;
