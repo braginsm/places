@@ -25,7 +25,7 @@ class PlaceVisit extends Place {
           lon: dbPlacesVisit.lon,
           name: dbPlacesVisit.name,
           placeType: PlaceType.values[dbPlacesVisit.placeTypeId],
-          urls: jsonDecode(dbPlacesVisit.urlsJson) as List<String>,
+          urls: (jsonDecode(dbPlacesVisit.urlsJson) as List<dynamic>).map((e) => e.toString()).toList(),
         ) {
           dateVisit = dbPlacesVisit.dateVisit;
         }

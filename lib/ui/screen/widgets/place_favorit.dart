@@ -20,7 +20,6 @@ class _PlaceFavoritWidgetState extends State<PlaceFavoritWidget> {
   late Widget _heart;
   late Widget _heartFull;
   bool _inFavorit = false;
-  late PlaceFavorit _placeFavorit;
 
   @override
   void initState() {
