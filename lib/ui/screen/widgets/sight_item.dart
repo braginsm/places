@@ -11,14 +11,14 @@ import '../place_card.dart';
 import 'image_network.dart';
 
 class SightItem extends StatelessWidget {
-  final Place sight;
-  final bool? favoritAction;
+  final Place place;
+  final bool favoritAction;
   final List<Widget>? actions;
-  const SightItem(
-    this.sight, {
+  const SightItem({
     Key? key,
     this.actions = const <Widget>[],
-    this.favoritAction,
+    this.favoritAction = false, 
+    required this.place,
   }) : super(key: key);
 
   @override
@@ -40,9 +40,9 @@ class SightItem extends StatelessWidget {
                 width: double.infinity,
                 height: 96,
                 child: Hero(
-                  tag: sight.id,
+                  tag: place.id,
                   child: ImageNetworkWithPlaceholder(
-                    sight.urls.first,
+                    place.urls.first,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -53,7 +53,7 @@ class SightItem extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  sight.name,
+                  place.name,
                   style: TextStyleSet()
                       .textMedium16
                       .copyWith(color: Theme.of(context).secondaryHeaderColor),
@@ -91,7 +91,7 @@ class SightItem extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
                 child: Text(
-                  sight.description,
+                  place.description,
                   style: TextStyleSet()
                       .textRegular16
                       .copyWith(color: Theme.of(context).hintColor),
@@ -112,7 +112,7 @@ class SightItem extends StatelessWidget {
               onTap: () => showModalBottomSheet(
                 context: context,
                 builder: (_) {
-                  return SightBottomheet(sight: sight);
+                  return SightBottomheet(sight: place);
                 },
                 isScrollControlled: true,
               ),
@@ -122,7 +122,7 @@ class SightItem extends StatelessWidget {
                   pageBuilder: (BuildContext context,
                       Animation<double> animation,
                       Animation<double> secondaryAnimation) {
-                    return SafeArea(child: Scaffold(body: PlaceWidget(sight)));
+                    return SafeArea(child: Scaffold(body: PlaceWidget(place)));
                   },
                 ),
               ),
@@ -137,14 +137,14 @@ class SightItem extends StatelessWidget {
             child: Row(
               children: [
                 ...actions!,
-                if (favoritAction!) PlaceFavoritWidget(sight)
+                if (favoritAction) PlaceFavoritWidget(place)
               ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: Text(
-              sight.placeTypeName,
+              place.placeTypeName,
               style: TextStyleSet()
                   .textRegular
                   .copyWith(color: Theme.of(context).canvasColor),
@@ -157,17 +157,17 @@ class SightItem extends StatelessWidget {
 }
 
 class DismissibleSightItem extends StatelessWidget {
-  final Place sight;
+  final Place place;
   final List<Widget> actions;
   final Function(DismissDirection) onDismissed;
-  const DismissibleSightItem(this.sight,
-      {Key? key, this.actions = const [], required this.onDismissed})
+  const DismissibleSightItem(
+      {Key? key, this.actions = const [], required this.onDismissed, required this.place})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ValueKey(sight),
+      key: ValueKey(place),
       onDismissed: onDismissed,
       direction: DismissDirection.endToStart,
       background: Container(
@@ -201,7 +201,7 @@ class DismissibleSightItem extends StatelessWidget {
         ),
       ),
       child: SightItem(
-        sight,
+        place: place,
         actions: actions,
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:places/data/model/place.dart';
+import 'package:places/data/model/place_favorit.dart';
 
 /// базовый эвент списка избранных мест
 abstract class FavoritListEvent extends Equatable {
@@ -14,7 +14,7 @@ class FavoritListLoadEvent extends FavoritListEvent {}
 
 /// событие добавления элемента списка в избранное
 class VisitItemToFavoritEvent extends FavoritListEvent {
-  final Place place;
+  final PlaceFavorit place;
   const VisitItemToFavoritEvent(this.place) : super();
 
   @override
@@ -23,7 +23,7 @@ class VisitItemToFavoritEvent extends FavoritListEvent {
 
 /// событие удаления элемента списка из избранного
 class VisitItemRemoveFromFavoritEvent extends FavoritListEvent {
-  final Place? place;
+  final PlaceFavorit place;
   const VisitItemRemoveFromFavoritEvent(this.place) : super();
 
   @override
@@ -32,8 +32,8 @@ class VisitItemRemoveFromFavoritEvent extends FavoritListEvent {
 
 /// событие перемещения элемента
 class FavoritItemMoveEvent extends FavoritListEvent {
-  final Place? after;
-  final Place place;
+  final PlaceFavorit after;
+  final PlaceFavorit place;
   const FavoritItemMoveEvent(
     this.after, this.place,
   ) : super();

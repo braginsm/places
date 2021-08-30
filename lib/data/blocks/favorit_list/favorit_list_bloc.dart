@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/interactor/place_favorit_interactor.dart';
 
 import 'favorit_list_event.dart';
 import 'favorit_list_state.dart';
 
 /// блок экрана списка избанных мест
 class FavoritListBloc extends Bloc<FavoritListEvent, FavoritListState> {
-  final PlaceInteractor _placeInteractor;
+  final PlaceFavoritInteractor _placeInteractor;
 
   FavoritListBloc(this._placeInteractor)
       : super(FavoritListLoadingInProgress());
@@ -31,27 +31,25 @@ class FavoritListBloc extends Bloc<FavoritListEvent, FavoritListState> {
   }
 
   Stream<FavoritListState> _mapFavoritListLoadEventToState() async* {
-    yield FavoritListLoadingSuccess(_placeInteractor.getFavoritesPlaces());
+    yield FavoritListLoadingInProgress();
+    yield FavoritListLoadingSuccess(await _placeInteractor.getAll());
   }
 
   Stream<FavoritListState> _mapVisitItemToFavoritEventToState(
       VisitItemToFavoritEvent event) async* {
-    _placeInteractor.addToFavorites(event.place);
-    yield FavoritListLoadingInProgress();
-    yield FavoritListLoadingSuccess(_placeInteractor.getFavoritesPlaces());
+    _placeInteractor.addPlace(event.place);
+    add(FavoritListLoadEvent());
   }
 
   Stream<FavoritListState> _mapVisitItemRemoveFromFavoritEventToState(
       VisitItemRemoveFromFavoritEvent event) async* {
-    _placeInteractor.removeFromFavorites(event.place);
-    yield FavoritListLoadingInProgress();
-    yield FavoritListLoadingSuccess(_placeInteractor.getFavoritesPlaces());
+    _placeInteractor.removePlace(event.place);
+    add(FavoritListLoadEvent());
   }
 
   Stream<FavoritListState> _mapFavoritItemMoveEventToState(
       FavoritItemMoveEvent event) async* {
-    _placeInteractor.moveFavorites(event.after, event.place);
-    yield FavoritListLoadingInProgress();
-    yield FavoritListLoadingSuccess(_placeInteractor.getFavoritesPlaces());
+    _placeInteractor.move(event.after, event.place);
+    add(FavoritListLoadEvent());
   }
 }

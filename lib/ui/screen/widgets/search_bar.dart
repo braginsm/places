@@ -8,12 +8,16 @@ import 'package:provider/provider.dart';
 
 class SearchBar extends StatefulWidget {
   final bool readOnly;
-
   final Function? onTap;
-
   final TextEditingController? controller;
+  final Function(String)? onChanged;
 
-  const SearchBar({Key? key, this.readOnly = false, this.onTap, this.controller})
+  const SearchBar(
+      {Key? key,
+      this.readOnly = false,
+      this.onTap,
+      this.controller,
+      this.onChanged})
       : super(key: key);
 
   @override
@@ -31,8 +35,8 @@ class _SearchBarState extends State<SearchBar> {
     setState(() {
       _suffixTap = true;
     });
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const FiltersScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const FiltersScreen()));
   }
 
   void onClearPress() {
@@ -59,7 +63,7 @@ class _SearchBarState extends State<SearchBar> {
         child: TextField(
           focusNode: textFieldFocusNode,
           // ignore: avoid_print
-          onChanged: (value) => /*StoreProvider.of<AppState>(context).dispatch(LoadSearch(value))*/print(value),
+          onChanged: widget.onChanged,
           controller: fieldController,
           readOnly: widget.readOnly,
           onTap: () {

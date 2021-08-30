@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:places/data/model/place.dart';
+import 'package:places/data/model/place_favorit.dart';
 
 abstract class FavoritListState extends Equatable {
   const FavoritListState();
@@ -13,7 +13,7 @@ class FavoritListLoadingInProgress extends FavoritListState {}
 
 /// состояние загруженных посещенных мест
 class FavoritListLoadingSuccess extends FavoritListState {
-  final List<Place?> favoritList;
+  final List<PlaceFavorit> favoritList;
 
   const FavoritListLoadingSuccess(this.favoritList);
 
