@@ -32,6 +32,10 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
     if (event is AddPlaceDismissedImageEvent) {
       yield* _mapAddPlaceDismissedImageToState(event.img);
     }
+
+    if (event is AddPlaceAddImageEvent) {
+      yield* _mapAddPlaceAddImageEventToState(event);
+    }
   }
 
   Stream<AddPlaceState> _mapAddPlaceDismissedImageToState(String? img) async* {
@@ -60,6 +64,12 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
   }
 
   Stream<AddPlaceState> _mapAddPlaceLoadEventToState() async* {
+    yield AddPlaceLoadingSuccessState();
+  }
+
+  Stream<AddPlaceState> _mapAddPlaceAddImageEventToState(
+      AddPlaceAddImageEvent event) async* {
+    state.images.add(event.img);
     yield AddPlaceLoadingSuccessState();
   }
 }

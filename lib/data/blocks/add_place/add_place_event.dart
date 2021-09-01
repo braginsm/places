@@ -46,3 +46,11 @@ class AddPlaceDismissedImageEvent extends AddPlaceEvent {
   @override
   List<Object?> get props => [img];
 }
+
+class AddPlaceAddImageEvent extends AddPlaceEvent {
+  final String img;
+  const AddPlaceAddImageEvent(this.img) : super();
+
+  @override
+  List<Object?> get props => [img];
+}

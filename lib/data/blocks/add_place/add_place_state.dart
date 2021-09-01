@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:places/data/model/place.dart';
 
 abstract class AddPlaceState extends Equatable {
-  const AddPlaceState();
+  final List<String> images;
+  const AddPlaceState({this.images = const [""]});
 
   @override
   List<Object> get props => [];
@@ -14,7 +15,6 @@ class AddPlaceLoadingInProgressState extends AddPlaceState {}
 class AddPlaceErrorState extends AddPlaceState {}
 
 class AddPlaceLoadingSuccessState extends AddPlaceState {
-
   final PlaceType? placeType;
 
   AddPlaceLoadingSuccessState({this.placeType}) : super();
@@ -29,13 +29,6 @@ class AddPlaceLoadingSuccessState extends AddPlaceState {
   final FocusNode lonNode = FocusNode();
   final FocusNode descriptionNode = FocusNode();
 
-  final List<String> images = [
-    "",
-    "https://lifeglobe.net/x/entry/6591/1a.jpg",
-    "https://www.freezone.net/upload/medialibrary/7e9/7e9ba16fe427b1dfd99e07ea7cc522d2.jpg",
-    "https://tur-ray.ru/wp-content/uploads/2017/11/maska-skorbi.jpg"
-  ];
-
   @override
   List<Object> get props => [
         nameController,
@@ -45,6 +38,7 @@ class AddPlaceLoadingSuccessState extends AddPlaceState {
         nameNode,
         latNode,
         lonNode,
-        descriptionNode
+        descriptionNode,
+        images
       ];
 }

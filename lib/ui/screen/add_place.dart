@@ -23,7 +23,7 @@ class AddPlaceScreen extends StatefulWidget {
 
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
-  AddPlaceBloc? _bloc;
+  late AddPlaceBloc _bloc;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AddPlaceBloc>(
-      create: (context) => _bloc!,
+      create: (context) => _bloc,
       child: BlocBuilder<AddPlaceBloc, AddPlaceState>(
         builder: (context, state) {
           if (state is AddPlaceLoadingInProgressState) {
@@ -255,7 +255,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: ElevatedButton(
-                        onPressed: () => _bloc!.add(AddPlaceSaveEvent(Place(
+                        onPressed: () => _bloc.add(AddPlaceSaveEvent(Place(
                           id: 0,
                           name: state.nameController.text,
                           description: state.descriptionController.text,
