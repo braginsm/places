@@ -47,9 +47,7 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
   Stream<AddPlaceState> _mapAddPlaceTypeChangeToState(PlaceType type) async* {
     yield AddPlaceLoadingInProgressState();
     yield AddPlaceLoadingSuccessState(
-      placeType: type, 
-      images: (state as AddPlaceLoadingSuccessState).images
-    );
+        placeType: type, images: (state as AddPlaceLoadingSuccessState).images);
   }
 
   Stream<AddPlaceState> _mapAddPlaceSaveEventToState(Place place) async* {
@@ -63,7 +61,12 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
   }
 
   Stream<AddPlaceState> _mapAddPlaceClearFormEventToState() async* {
-    yield AddPlaceLoadingSuccessState();
+    var _state = state as AddPlaceLoadingSuccessState;
+    _state.nameController.clear();
+    _state.latController.clear();
+    _state.lonController.clear();
+    _state.descriptionController.clear();
+    yield _state;
   }
 
   Stream<AddPlaceState> _mapAddPlaceLoadEventToState() async* {
@@ -73,8 +76,7 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
   Stream<AddPlaceState> _mapAddPlaceAddImageEventToState(
       AddPlaceAddImageEvent event) async* {
     yield AddPlaceLoadingSuccessState(
-      images: event.images, 
-      placeType: (state as AddPlaceLoadingSuccessState).placeType
-    );
+        images: event.images,
+        placeType: (state as AddPlaceLoadingSuccessState).placeType);
   }
 }

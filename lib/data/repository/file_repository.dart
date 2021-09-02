@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:http_parser/http_parser.dart';
 
 import 'package:dio/dio.dart';
 import 'package:places/data/repository/repository.dart';
@@ -13,11 +14,15 @@ class FileRepository extends Repository {
     try {
       Map<String, MultipartFile> _map = {};
       for (var path in paths) {
+        if (path.isEmpty) continue;
         final fileName = path.split('/').last;
-        _map[fileName] = await MultipartFile.fromFile(path, filename: fileName);
+        final ext = fileName.split('.').last;
+        _map[fileName] = await MultipartFile.fromFile(path,
+            filename: fileName,
+            contentType: MediaType.parse("image/$ext"));
       }
       FormData formData = FormData.fromMap(_map);
-      Response res = await dio.put(EndPoint.uploadFile, data: formData);
+      Response res = await dio.post(EndPoint.uploadFile, data: formData);
       var result = <String>[];
       res.headers.forEach((name, values) {
         if (name == 'location' && values.isNotEmpty) {
