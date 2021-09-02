@@ -6,6 +6,7 @@ import 'package:places/data/model/place.dart';
 import 'package:places/data/repository/repository.dart';
 import 'package:places/data/res/end_points.dart';
 
+import 'file_repository.dart';
 import 'network_exeption.dart';
 
 class PlaceRepository extends Repository {
@@ -56,6 +57,10 @@ class PlaceRepository extends Repository {
   /// Сохранение нового места
   Future<Place> save(Place place) async {
     try {
+      if (place.urls.isNotEmpty) {
+        final _urls = await FileRepository().upload(place.urls);
+        place = place.copyWith(urls: _urls);
+      }
       Response res = await dio.post(EndPoint.place, data: jsonEncode(place));
       return Place.fromJson(res.data);
     } on DioError catch (e) {
