@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:places/data/model/place.dart';
 
 abstract class AddPlaceState extends Equatable {
-  final List<String> images;
-  const AddPlaceState({this.images = const [""]});
+  const AddPlaceState();
 
   @override
   List<Object> get props => [];
@@ -16,8 +15,8 @@ class AddPlaceErrorState extends AddPlaceState {}
 
 class AddPlaceLoadingSuccessState extends AddPlaceState {
   final PlaceType? placeType;
-
-  AddPlaceLoadingSuccessState({this.placeType}) : super();
+  final List<String> images;
+  AddPlaceLoadingSuccessState({this.placeType, this.images  = const [""]});
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController latController = TextEditingController();
