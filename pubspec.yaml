@@ -27,6 +27,8 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.0
   path: ^1.8.0
   image_picker: ^0.8.4
+  yandex_mapkit: ^1.1.1
+  geolocator: ^7.6.0
 
 dev_dependencies:
   flutter_test:
