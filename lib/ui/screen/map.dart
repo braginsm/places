@@ -86,31 +86,29 @@ class _MapScreenState extends State<MapScreen> {
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,
         children: [
-          Expanded(
-            child: YandexMap(
-              onMapCreated: (YandexMapController yandexMapController) async {
-                controller = yandexMapController;
-              },
-              onMapRendered: () async {
-                print('Map rendered');
-                var tiltGesturesEnabled = await controller!.isTiltGesturesEnabled();
-                var zoomGesturesEnabled = await controller!.isZoomGesturesEnabled();
+          YandexMap(
+            onMapCreated: (YandexMapController yandexMapController) async {
+              controller = yandexMapController;
+            },
+            onMapRendered: () async {
+              print('Map rendered');
+              var tiltGesturesEnabled = await controller!.isTiltGesturesEnabled();
+              var zoomGesturesEnabled = await controller!.isZoomGesturesEnabled();
         
-                var zoom    = await controller!.getZoom();
-                var minZoom = await controller!.getMinZoom();
-                var maxZoom = await controller!.getMaxZoom();
+              var zoom    = await controller!.getZoom();
+              var minZoom = await controller!.getMinZoom();
+              var maxZoom = await controller!.getMaxZoom();
         
-                print('Current zoom: $zoom, minZoom: $minZoom, maxZoom: $maxZoom');
+              print('Current zoom: $zoom, minZoom: $minZoom, maxZoom: $maxZoom');
         
-                setState(() {
-                  isTiltGesturesEnabled = tiltGesturesEnabled;
-                  isZoomGesturesEnabled = zoomGesturesEnabled;
-                });
-              },
-              onMapSizeChanged: (MapSize size) => print('Map size changed to ${size.width}x${size.height}'),
-              onMapTap: (Point point) => print('Tapped map at ${point.latitude},${point.longitude}'),
-              onMapLongTap: (Point point) => print('Long tapped map at ${point.latitude},${point.longitude}')
-            )
+              setState(() {
+                isTiltGesturesEnabled = tiltGesturesEnabled;
+                isZoomGesturesEnabled = zoomGesturesEnabled;
+              });
+            },
+            onMapSizeChanged: (MapSize size) => print('Map size changed to ${size.width}x${size.height}'),
+            onMapTap: (Point point) => print('Tapped map at ${point.latitude},${point.longitude}'),
+            onMapLongTap: (Point point) => print('Long tapped map at ${point.latitude},${point.longitude}')
           ),
           const AddNewPlaceButton(),
         ]
