@@ -2,12 +2,15 @@ import 'dart:convert';
 import 'package:http_parser/http_parser.dart';
 
 import 'package:dio/dio.dart';
+import 'package:mime_type/mime_type.dart';
 import 'package:places/data/repository/repository.dart';
 import 'package:places/data/res/end_points.dart';
 
 import 'network_exeption.dart';
 
 class FileRepository extends Repository {
+  final extList = ['jpeg', 'png', 'gif', 'svg+xml'];
+
   /// Загрузка файлов
   Future<List<String>> upload(List<String> paths) async {
     assert(paths.isNotEmpty);
@@ -16,10 +19,14 @@ class FileRepository extends Repository {
       for (var path in paths) {
         if (path.isEmpty) continue;
         final fileName = path.split('/').last;
-        final ext = fileName.split('.').last;
-        _map[fileName] = await MultipartFile.fromFile(path,
+        final mimeList = mime(fileName)!.split('/');
+        if (extList.contains(mimeList.last)) {
+          _map[fileName] = await MultipartFile.fromFile(
+            path,
             filename: fileName,
-            contentType: MediaType.parse("image/$ext"));
+            contentType: MediaType(mimeList.first, mimeList.last),
+          );
+        }
       }
       FormData formData = FormData.fromMap(_map);
       Response res = await dio.post(EndPoint.uploadFile, data: formData);
