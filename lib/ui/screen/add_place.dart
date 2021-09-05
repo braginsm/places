@@ -6,6 +6,7 @@ import 'package:places/data/blocks/add_place/add_place_state.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/ui/res/text_styles.dart';
+import 'package:places/ui/screen/map.dart';
 import 'package:places/ui/screen/smth_error.dart';
 import 'package:places/ui/screen/widgets/add_image_item.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
@@ -242,17 +243,21 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(0, 3, 0, 25),
-                              child: Text(
-                                "Указать на карте",
-                                style: TextStyleSet().textMedium16.copyWith(
+                              padding: const EdgeInsets.fromLTRB(0, 3, 0, 25),
+                              child: TextButton(
+                                child: Text(
+                                  "Указать на карте",
+                                  style: TextStyleSet().textMedium16.copyWith(
                                     color: Theme.of(context).accentColor),
+                                ),
+                                onPressed: () => Navigator.push(
+                                  context, 
+                                  MaterialPageRoute(builder: (context) => const MapScreen()),
+                                ),
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 12),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
                               child: Text(
                                 "ОПИСАНИЕ",
                                 style: TextStyleSet().textRegular.copyWith(

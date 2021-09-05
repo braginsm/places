@@ -26,4 +26,10 @@ class ImagesPaths {
   static String heart = "res/images/heart.svg";
   static String heartFull = "res/images/heart_full.svg";
   static String ellipse = "res/images/ellipse.png";
+  static String list = "res/images/list.svg";
+  static String listFull = "res/images/list.svg";
+  static String map = "res/images/map_full.svg";
+  static String mapFull = "res/images/map_full.svg";
+  static String settings = "res/images/settings.svg";
+  static String settingsFull = "res/images/settings.svg";
 }

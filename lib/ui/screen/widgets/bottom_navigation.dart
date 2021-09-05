@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/images.dart';
+import 'package:places/ui/screen/map.dart';
 import 'package:places/ui/screen/settings.dart';
 import 'package:places/ui/screen/sight_list.dart';
 import 'package:places/ui/screen/visiting.dart';
 
 class BottomNavigation extends StatelessWidget {
-  const BottomNavigation({Key? key}) : super(key: key);
+  final int? activeIndex;
+  const BottomNavigation({Key? key, this.activeIndex}) : super(key: key);
 
   final List<Widget> _navScreens = const [
     SightListScreen(),
+    MapScreen(),
     VisitingScreen(),
     SettingsScreen()
   ];
@@ -31,15 +34,14 @@ class BottomNavigation extends StatelessWidget {
               MaterialPageRoute(builder: (context) => _navScreens[value]));
         },
         items: [
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt_rounded),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(ImagesPaths.list),
             label: 'Список',
           ),
-          // Раскомментировать когда будет экран с картой
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.map_outlined),
-          //   label: 'Карта',
-          // ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(ImagesPaths.map),
+            label: 'Карта',
+          ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               ImagesPaths.heart,
@@ -47,8 +49,8 @@ class BottomNavigation extends StatelessWidget {
             ),
             label: 'Избранное',
           ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(ImagesPaths.settings),
             label: 'Натройки',
           ),
         ],

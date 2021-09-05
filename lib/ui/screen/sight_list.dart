@@ -14,8 +14,7 @@ import 'package:places/ui/screen/widgets/sight_item.dart';
 
 import 'package:provider/provider.dart';
 
-import '../res/text_styles.dart';
-import 'add_place.dart';
+import 'widgets/add_new_place_widget.dart';
 import 'widgets/preloader.dart';
 
 class SightListScreen extends StatelessWidget {
@@ -64,46 +63,11 @@ class SightListScreen extends StatelessWidget {
                 ],
               );
             }),
-            Positioned(
-              bottom: 16,
-              child: InkWell(
-                onTap: () => Navigator.push(context,
-                    MaterialPageRoute(
-                      builder: (context) => const AddPlaceScreen(),
-                    ),
-                ),
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: Theme.of(context).tabBarTheme.labelColor,
-                        ),
-                        Text(
-                          " НОВОЕ МЕСТО",
-                          style: TextStyleSet().textBold.copyWith(
-                              color: Theme.of(context).tabBarTheme.labelColor),
-                        ),
-                      ],
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    gradient: LinearGradient(colors: [
-                      Theme.of(context).indicatorColor,
-                      Theme.of(context).accentColor
-                    ]),
-                  ),
-                ),
-              ),
-            ),
+            const AddNewPlaceButton(),
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavigation(),
+      bottomNavigationBar: const BottomNavigation(activeIndex: 0,),
     );
   }
 }
