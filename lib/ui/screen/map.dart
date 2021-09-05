@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/search_place.dart';
 import 'package:places/ui/screen/widgets/search_bar.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
@@ -110,7 +112,55 @@ class _MapScreenState extends State<MapScreen> {
             onMapTap: (Point point) => print('Tapped map at ${point.latitude},${point.longitude}'),
             onMapLongTap: (Point point) => print('Long tapped map at ${point.latitude},${point.longitude}')
           ),
-          const AddNewPlaceButton(),
+          Positioned(
+            bottom: 0,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(40),
+                        color: Theme.of(context).appBarTheme.backgroundColor,
+                      ),
+                      child: Center(
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                            ImagesPaths.refresh,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    ),
+                    const AddNewPlaceButton(),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(40),
+                        color: Theme.of(context).appBarTheme.backgroundColor,
+                      ),
+                      child: Center(
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                            ImagesPaths.geolocation,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    ),
+                  ]
+                ),
+              ),
+            ),
+          )
         ]
       ),
       bottomNavigationBar: const BottomNavigation(activeIndex: 1,),

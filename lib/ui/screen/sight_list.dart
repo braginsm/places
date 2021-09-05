@@ -63,11 +63,14 @@ class SightListScreen extends StatelessWidget {
                 ],
               );
             }),
-            const AddNewPlaceButton(),
+            const Positioned(
+              bottom: 16,
+              child: AddNewPlaceButton(),
+            )
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavigation(activeIndex: 0,),
+      bottomNavigationBar: const BottomNavigation(),
     );
   }
 }

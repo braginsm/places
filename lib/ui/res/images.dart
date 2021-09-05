@@ -32,4 +32,6 @@ class ImagesPaths {
   static String mapFull = "res/images/map_full.svg";
   static String settings = "res/images/settings.svg";
   static String settingsFull = "res/images/settings.svg";
+  static String refresh = "res/images/refresh.svg";
+  static String geolocation = "res/images/geolocation.svg";
 }

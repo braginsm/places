@@ -159,7 +159,8 @@ class _PlaceWidgetState extends State<PlaceWidget> {
                             },
                           ),
                         ),
-                      ))
+                      ),
+                  )
                 ],
               ),
             ),
