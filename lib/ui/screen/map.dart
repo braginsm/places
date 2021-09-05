@@ -7,6 +7,7 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import 'widgets/add_new_place_widget.dart';
 import 'widgets/bottom_navigation.dart';
+import 'widgets/round_button.dart';
 
 
 class MapScreen extends StatefulWidget {
@@ -121,40 +122,14 @@ class _MapScreenState extends State<MapScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        color: Theme.of(context).appBarTheme.backgroundColor,
-                      ),
-                      child: Center(
-                        child: IconButton(
-                          icon: SvgPicture.asset(
-                            ImagesPaths.refresh,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
+                    RoundButton(
+                      iconPath: ImagesPaths.refresh, 
+                      onPressed: () {  },
                     ),
                     const AddNewPlaceButton(),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        color: Theme.of(context).appBarTheme.backgroundColor,
-                      ),
-                      child: Center(
-                        child: IconButton(
-                          icon: SvgPicture.asset(
-                            ImagesPaths.geolocation,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
+                    RoundButton(
+                      iconPath: ImagesPaths.geolocation, 
+                      onPressed: () {  },
                     ),
                   ]
                 ),

@@ -15,6 +15,7 @@ import 'package:places/ui/screen/widgets/image_network.dart';
 
 import '../res/text_styles.dart';
 import 'widgets/preloader.dart';
+import 'widgets/round_button.dart';
 
 class PlaceCardScreen extends StatefulWidget {
   final int id;
@@ -141,25 +142,12 @@ class _PlaceWidgetState extends State<PlaceWidget> {
                     ),
                   ),
                   Positioned(
-                      top: 16,
-                      right: 16,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40),
-                          color: Theme.of(context).appBarTheme.backgroundColor,
-                        ),
-                        child: Center(
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.clear_rounded,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ),
-                      ),
+                    top: 16,
+                    right: 16,
+                    child: RoundButton(
+                      iconPath: ImagesPaths.close, 
+                      onPressed: () => Navigator.pop(context),
+                    ), 
                   )
                 ],
               ),
