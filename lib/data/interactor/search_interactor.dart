@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place_dto.dart';
 import 'package:places/data/model/places_filter_request_dto.dart';
 import 'package:places/data/repository/place_dto_repository.dart';
 
+import 'geo_interactor.dart';
+
 class SerachInteractor {
   Future<List<PlaceDto>> searchPlacesByName(String name,
       {double radius = 10000.0}) async {
+    final current = await GeoInteractor().currentPosition;
     var filter = PlacesFilterRequestDto(
-      lat: currentLat,
-      lon: currentLon,
+      lat: current.latitude,
+      lon: current.longitude,
       radius: radius,
       typeFilter: ['name'],
       nameFilter: name,

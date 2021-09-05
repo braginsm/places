@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:enum_to_string/enum_to_string.dart';
 
+import 'geo.dart';
+
 enum PlaceType {
   temple,
   monument,
@@ -83,11 +85,11 @@ class Place {
   }
 
   ///Возвращает кол-во метров от Place до точки с координатами lat, lon
-  double getDistans(double currentLat, double currentlon) {
+  double getDistans(Geo geo) {
     const double ky = 40000 / 0.36;
     final double kx = cos(pi * lat / 180) * ky;
-    var dx = (currentLat - lon).abs() * kx;
-    var dy = (currentlon - lat).abs() * ky;
+    var dx = (geo.latitude - lon).abs() * kx;
+    var dy = (geo.longitude - lat).abs() * ky;
     return sqrt(dx * dx + dy * dy);
   }
 

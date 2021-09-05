@@ -1,17 +1,15 @@
 import 'package:places/data/model/place.dart';
 import 'package:places/data/repository/place_repository.dart';
 
+import 'geo_interactor.dart';
 import 'place_favorit_interactor.dart';
 
-/// мок места положения
-const double currentLat = /*56.84987946580704;*/ 55.749054;
-const double currentLon = /*53.247889685270756;*/ 37.623162;
-
 class PlaceInteractor {
-  List<Place?> _sortByDistance(List<Place?> list) {
+  Future<List<Place?>> _sortByDistance(List<Place?> list) async {
+    final current = await GeoInteractor().currentPosition;
     list.sort((a, b) => a!
-        .getDistans(currentLat, currentLon)
-        .compareTo(b!.getDistans(currentLat, currentLon)));
+        .getDistans(current)
+        .compareTo(b!.getDistans(current)));
     return list;
   }
 
@@ -22,8 +20,9 @@ class PlaceInteractor {
       count: 5,
       offset: 0,
     );
+    final current = await GeoInteractor().currentPosition;
     places.forEach((element) {
-      if ((radius > 0 && radius < element.getDistans(currentLat, currentLon)) ||
+      if ((radius > 0 && radius < element.getDistans(current)) ||
           (category != '' && element.placeType.toString() != category)) {
         places.remove(element);
       }
