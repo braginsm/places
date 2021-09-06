@@ -35,4 +35,5 @@ class ImagesPaths {
   static String refresh = "res/images/refresh.svg";
   static String geolocation = "res/images/geolocation.svg";
   static String close = "res/images/close.svg";
+  static String iAmHere = "res/images/i_am_here.png";
 }
