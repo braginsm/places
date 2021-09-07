@@ -36,6 +36,10 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
     if (event is AddPlaceAddImageEvent) {
       yield* _mapAddPlaceAddImageEventToState(event);
     }
+
+    if (event is AddPlaceSetGeoEvent) {
+      yield* _mapAddPlaceSetGeoEventToState(event);
+    }
   }
 
   Stream<AddPlaceState> _mapAddPlaceDismissedImageToState(String? img) async* {
@@ -78,5 +82,16 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
     yield AddPlaceLoadingSuccessState(
         images: event.images,
         placeType: (state as AddPlaceLoadingSuccessState).placeType);
+  }
+
+  Stream<AddPlaceState> _mapAddPlaceSetGeoEventToState(
+      AddPlaceSetGeoEvent event) async* {
+    var _state = state as AddPlaceLoadingSuccessState;
+    _state.latController.text = event.geo.latitude.toString();
+    _state.lonController.text = event.geo.longitude.toString();
+    yield AddPlaceLoadingSuccessState(
+      images: _state.images,
+      placeType: _state.placeType,
+    );
   }
 }

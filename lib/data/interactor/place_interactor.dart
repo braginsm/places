@@ -5,28 +5,28 @@ import 'geo_interactor.dart';
 import 'place_favorit_interactor.dart';
 
 class PlaceInteractor {
-  Future<List<Place?>> _sortByDistance(List<Place?> list) async {
+  Future<List<Place>> _sortByDistance(List<Place> list) async {
     final current = await GeoInteractor().currentPosition;
-    list.sort((a, b) => a!
+    list.sort((a, b) => a
         .getDistans(current)
-        .compareTo(b!.getDistans(current)));
+        .compareTo(b.getDistans(current)));
     return list;
   }
 
   ///Получение списка интересных мест
-  Future<List<Place?>> getPlaces(
+  Future<List<Place>> getPlaces(
       {int radius = 0, String category = '', int offset = 0}) async {
     List<Place> places = await PlaceRepository().getByParameters(
-      count: 5,
+      count: 50,
       offset: 0,
     );
     final current = await GeoInteractor().currentPosition;
-    places.forEach((element) {
-      if ((radius > 0 && radius < element.getDistans(current)) ||
-          (category != '' && element.placeType.toString() != category)) {
-        places.remove(element);
+    for (var item in places) {
+      if ((radius > 0 && radius < item.getDistans(current)) ||
+          (category != '' && item.placeType.toString() != category)) {
+        places.remove(item);
       }
-    });
+    }
     return _sortByDistance(places);
   }
 

@@ -36,4 +36,5 @@ class ImagesPaths {
   static String geolocation = "res/images/geolocation.svg";
   static String close = "res/images/close.svg";
   static String iAmHere = "res/images/i_am_here.png";
+  static String mapPoint = "res/images/point.png";
 }

@@ -71,8 +71,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                           children: [
                             Container(
                               height: 100,
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8),
+                              padding: const EdgeInsets.symmetric(vertical: 8),
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: state.images.length,
@@ -88,12 +87,11 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                             Text(
                               "КАТЕГОРИЯ",
                               style: TextStyleSet().textRegular.copyWith(
-                                  color: Theme.of(context)
-                                      .unselectedWidgetColor),
+                                  color:
+                                      Theme.of(context).unselectedWidgetColor),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 14),
+                              padding: const EdgeInsets.symmetric(vertical: 14),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -106,8 +104,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                     style: TextStyleSet()
                                         .textRegular16
                                         .copyWith(
-                                            color: Theme.of(context)
-                                                .hintColor),
+                                            color: Theme.of(context).hintColor),
                                   ),
                                   IconButton(
                                     icon: const Icon(
@@ -117,8 +114,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                     onPressed: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (_) =>
-                                              SelectPlaceCategory(
+                                          builder: (_) => SelectPlaceCategory(
                                             bloc: _bloc,
                                           ),
                                         )),
@@ -133,12 +129,11 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                             Text(
                               "НАЗВАНИЕ",
                               style: TextStyleSet().textRegular.copyWith(
-                                  color: Theme.of(context)
-                                      .unselectedWidgetColor),
+                                  color:
+                                      Theme.of(context).unselectedWidgetColor),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 12),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
                               child: TextField(
                                 //autofocus: true,
                                 focusNode: state.nameNode,
@@ -151,8 +146,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 12),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -169,9 +163,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                                       .unselectedWidgetColor),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.fromLTRB(
-                                                  0, 12, 8, 0),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 12, 8, 0),
                                           child: TextField(
                                             controller: state.latController,
                                             decoration: InputDecoration(
@@ -179,17 +172,14 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                               suffixIcon: IconButton(
                                                 icon: const Icon(
                                                     Icons.cancel_rounded),
-                                                onPressed: () => state
-                                                    .latController
-                                                    .clear(),
+                                                onPressed: () =>
+                                                    state.latController.clear(),
                                               ),
                                             ),
-                                            keyboardType:
-                                                TextInputType.number,
+                                            keyboardType: TextInputType.number,
                                             focusNode: state.latNode,
-                                            onSubmitted: (value) => state
-                                                .lonNode
-                                                .requestFocus(),
+                                            onSubmitted: (value) =>
+                                                state.lonNode.requestFocus(),
                                           ),
                                         ),
                                       ],
@@ -197,8 +187,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 8),
+                                      padding: const EdgeInsets.only(left: 8),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -212,11 +201,10 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                                         .unselectedWidgetColor),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 12),
+                                            padding:
+                                                const EdgeInsets.only(top: 12),
                                             child: TextField(
-                                              controller:
-                                                  state.lonController,
+                                              controller: state.lonController,
                                               focusNode: state.lonNode,
                                               onSubmitted: (value) => state
                                                   .descriptionNode
@@ -243,16 +231,18 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 3, 0, 25),
+                              padding: const EdgeInsets.symmetric(vertical: 8),
                               child: TextButton(
                                 child: Text(
                                   "Указать на карте",
                                   style: TextStyleSet().textMedium16.copyWith(
-                                    color: Theme.of(context).accentColor),
+                                      color: Theme.of(context).accentColor),
                                 ),
                                 onPressed: () => Navigator.push(
-                                  context, 
-                                  MaterialPageRoute(builder: (context) => const MapScreen()),
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const MapScreen(),
+                                  ),
                                 ),
                               ),
                             ),
@@ -295,8 +285,9 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           child: Text(
                             "СОЗДАТЬ",
-                            style: TextStyleSet().textBold.copyWith(
-                                color: Theme.of(context).canvasColor),
+                            style: TextStyleSet()
+                                .textBold
+                                .copyWith(color: Theme.of(context).canvasColor),
                           ),
                         ),
                       ),

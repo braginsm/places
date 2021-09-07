@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:places/data/model/geo.dart';
 import 'package:places/data/model/place.dart';
 
 abstract class AddPlaceEvent extends Equatable {
@@ -53,4 +54,12 @@ class AddPlaceAddImageEvent extends AddPlaceEvent {
 
   @override
   List<Object?> get props => [images];
+}
+
+class AddPlaceSetGeoEvent extends AddPlaceEvent {
+  final Geo geo;
+
+  const AddPlaceSetGeoEvent(this.geo);
+  @override
+  List<Object?> get props => [geo];
 }
