@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/data/interactor/geo_interactor.dart';
 import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/geo.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/search_place.dart';
@@ -28,7 +28,7 @@ class _MapScreenState extends State<MapScreen> {
 
   bool _showPlaceCart = false;
 
-  late Place? _placeShow;
+  Place? _placeShow;
 
   void _onMapRendered() async {
     await controller.addPlacemark(Placemark(
@@ -45,7 +45,8 @@ class _MapScreenState extends State<MapScreen> {
     await controller.move(
         point: Point(
             latitude: currentGeo.latitude, longitude: currentGeo.longitude),
-        zoom: 12);
+        zoom: 12,
+    );
   }
 
   Future<void> _showPaceList() async {
@@ -78,11 +79,18 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   _onMapTap(Point point) async {
-    final place = await context.read<PlaceInteractor>().getPlaceDetails(123);
-    setState(() {
-      _placeShow = place;
-      _showPlaceCart = true;
-    });
+    try {
+      final place = _listPlace.where((element) =>
+        element.getDistans(Geo(point.latitude, point.longitude)) <= 300);
+      setState(() {
+        _placeShow = place.first;
+        _showPlaceCart = true;
+      });
+    } catch (_) {
+      setState(() {
+        _showPlaceCart = false;
+      });
+    }
   }
 
   @override
@@ -146,13 +154,14 @@ class _MapScreenState extends State<MapScreen> {
                       ),
                     ],
                   ),
-                  if (!_showPlaceCart && _placeShow != null) Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: SightItem(
-                      place: _placeShow!, 
-                      favoritAction: true,
+                  if (_showPlaceCart && _placeShow != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: SightItem(
+                        place: _placeShow!,
+                        favoritAction: true,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),

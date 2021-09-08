@@ -86,11 +86,27 @@ class Place {
 
   ///Возвращает кол-во метров от Place до точки с координатами lat, lon
   double getDistans(Geo geo) {
-    const double ky = 40000 / 0.36;
-    final double kx = cos(pi * lat / 180) * ky;
-    var dx = (geo.latitude - lon).abs() * kx;
-    var dy = (geo.longitude - lat).abs() * ky;
-    return sqrt(dx * dx + dy * dy);
+    // перевести координаты в радианы
+    final lat1 = lat * pi / 180;
+    final lat2 = geo.latitude * pi / 180;
+    final long1 = lon * pi / 180;
+    final long2 = geo.longitude * pi / 180;
+      
+    // косинусы и синусы широт и разницы долгот
+    final cl1 = cos(lat1);
+    final cl2 = cos(lat2);
+    final sl1 = sin(lat1);
+    final sl2 = sin(lat2);
+    final delta = long2 - long1;
+    final cdelta = cos(delta);
+    final sdelta = sin(delta);
+      
+    // вычисления длины большого круга
+    final y = sqrt(pow(cl2 * sdelta, 2) + pow(cl1 * sl2 - sl1 * cl2 * cdelta, 2));
+    final x = sl1 * sl2 + cl1 * cl2 * cdelta;
+    final ad = atan2(y, x);
+      
+    return ad * 6372795; // 6372795 - радиус земли
   }
 
   static final List<String> ruPlaceTypeNames = [
