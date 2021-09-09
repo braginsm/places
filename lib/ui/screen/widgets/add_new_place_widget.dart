@@ -36,7 +36,7 @@ class AddNewPlaceButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           gradient: LinearGradient(colors: [
             Theme.of(context).indicatorColor,
-            Theme.of(context).accentColor
+            Theme.of(context).colorScheme.secondary
           ]),
         ),
       ),

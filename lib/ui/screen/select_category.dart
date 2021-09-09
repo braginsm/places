@@ -84,7 +84,7 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         _selectIndex != null
-                            ? Theme.of(context).accentColor
+                            ? Theme.of(context).colorScheme.secondary
                             : Theme.of(context).backgroundColor)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),

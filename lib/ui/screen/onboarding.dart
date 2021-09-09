@@ -75,7 +75,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               "Пропустить",
               style: TextStyleSet()
                   .textMedium16
-                  .copyWith(color: Theme.of(context).accentColor),
+                  .copyWith(color: Theme.of(context).colorScheme.secondary),
             ),
           ),
         ],
@@ -158,7 +158,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 color: _curentPage == i
-                                    ? Theme.of(context).accentColor
+                                    ? Theme.of(context).colorScheme.secondary
                                     : Theme.of(context).unselectedWidgetColor,
                               ),
                             )

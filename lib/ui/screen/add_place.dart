@@ -236,7 +236,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                 child: Text(
                                   "Указать на карте",
                                   style: TextStyleSet().textMedium16.copyWith(
-                                      color: Theme.of(context).accentColor),
+                                      color: Theme.of(context).colorScheme.secondary),
                                 ),
                                 onPressed: () => Navigator.push(
                                   context,

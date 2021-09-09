@@ -59,7 +59,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 "Очистить",
                 style: TextStyleSet()
                     .textMedium16
-                    .copyWith(color: Theme.of(context).accentColor),
+                    .copyWith(color: Theme.of(context).colorScheme.secondary),
               ),
             )
           ],

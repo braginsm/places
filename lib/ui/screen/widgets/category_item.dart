@@ -31,7 +31,7 @@ class CategoryItemWidget extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: select! ? Icon(
                   Icons.check,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 ) : const SizedBox.expand(),
               ) 
             ),

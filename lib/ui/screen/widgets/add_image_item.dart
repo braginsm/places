@@ -109,7 +109,7 @@ class _AddImageItemState extends State<AddImageItem> {
                     child: Text(
                       "ОТМЕНА",
                       style: TextStyleSet().textBold.copyWith(
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                     ),
                   ),
