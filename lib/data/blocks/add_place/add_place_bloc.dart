@@ -42,24 +42,16 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
     }
   }
 
-  Future<AddPlaceLoadingSuccessState> _getLastLoadState() async {
-    final _state = await stream
-        .lastWhere((element) => element is AddPlaceLoadingSuccessState);
-    return _state is AddPlaceLoadingSuccessState
-        ? _state
-        : AddPlaceLoadingSuccessState();
-  }
+  AddPlaceLoadingSuccessState get _state =>
+      state as AddPlaceLoadingSuccessState;
 
   Stream<AddPlaceState> _mapAddPlaceDismissedImageToState(String? img) async* {
-    final _state = await _getLastLoadState();
     var _list = _state.images;
     _list.remove(img);
     yield _state.copiWith(images: _list);
   }
 
   Stream<AddPlaceState> _mapAddPlaceTypeChangeToState(PlaceType type) async* {
-    yield AddPlaceLoadingInProgressState();
-    final _state = await _getLastLoadState();
     yield _state.copiWith(placeType: type);
   }
 
@@ -74,7 +66,6 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
   }
 
   Stream<AddPlaceState> _mapAddPlaceClearFormEventToState() async* {
-    final _state = await _getLastLoadState();
     yield _state.copiWith(name: "", lat: 0, lon: 0, description: "");
   }
 
@@ -84,13 +75,11 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
 
   Stream<AddPlaceState> _mapAddPlaceAddImageEventToState(
       AddPlaceAddImageEvent event) async* {
-    final _state = await _getLastLoadState();
     yield _state.copiWith(images: event.images);
   }
 
   Stream<AddPlaceState> _mapAddPlaceSetGeoEventToState(
       AddPlaceSetGeoEvent event) async* {
-    final _state = await _getLastLoadState();
     yield _state.copiWith(lat: event.geo.latitude, lon: event.geo.longitude);
   }
 }

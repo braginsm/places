@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:http_parser/http_parser.dart';
 
 import 'package:dio/dio.dart';
@@ -33,10 +32,18 @@ class FileRepository extends Repository {
       var result = <String>[];
       res.headers.forEach((name, values) {
         if (name == 'location' && values.isNotEmpty) {
-          result.addAll(values);
+          result.add("${dio.options.baseUrl}${values.first}");
         }
       });
-      return result.isEmpty ? jsonDecode(res.data) : result;
+      if (result.isNotEmpty) {
+        return result;
+      }
+      if (res.data['urls'] != null) {
+        for (var item in res.data['urls']) {
+          result.add("${dio.options.baseUrl}$item");
+        }
+      }
+      return result;
     } on DioError catch (e) {
       throw NetworkExeption(e);
     }

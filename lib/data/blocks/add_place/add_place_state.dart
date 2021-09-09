@@ -14,7 +14,7 @@ class AddPlaceLoadingInProgressState extends AddPlaceState {}
 class AddPlaceErrorState extends AddPlaceState {}
 
 class AddPlaceLoadingSuccessState extends AddPlaceState {
-  final PlaceType? placeType;
+  final PlaceType placeType;
   final List<String> images;
   final String name;
   final double lat;
@@ -36,7 +36,7 @@ class AddPlaceLoadingSuccessState extends AddPlaceState {
       this.lat = 0,
       this.lon = 0,
       this.description = "",
-      this.placeType,
+      this.placeType = PlaceType.other,
       this.images = const [""]}) {
     nameController.text = name;
     descriptionController.text = description;
@@ -45,7 +45,7 @@ class AddPlaceLoadingSuccessState extends AddPlaceState {
   }
 
   @override
-  List<Object> get props => [name, lat, lon, description, images];
+  List<Object> get props => [name, lat, lon, description, images, placeType];
 
   AddPlaceLoadingSuccessState copiWith(
       {PlaceType? placeType,

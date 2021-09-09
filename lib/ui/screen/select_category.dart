@@ -23,7 +23,7 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
   void initState() {
     super.initState();
     AddPlaceLoadingSuccessState _state = widget.bloc!.state as AddPlaceLoadingSuccessState;
-    if (_state.placeType != null) _selectIndex = _state.placeType!.index;
+    _selectIndex = _state.placeType.index;
   }
 
   @override

@@ -104,14 +104,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    state.placeType == null
-                                        ? "Не выбрано"
-                                        : Place.ruPlaceTypeNames[
-                                            state.placeType!.index],
+                                    Place.ruPlaceTypeNames[state.placeType.index],
                                     style: TextStyleSet()
                                         .textRegular16
                                         .copyWith(
-                                            color: Theme.of(context).hintColor),
+                                          color: Theme.of(context).hintColor,
+                                        ),
                                   ),
                                   IconButton(
                                     icon: const Icon(
@@ -288,7 +286,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                             description: state.descriptionController.text,
                             lat: double.parse(state.latController.text),
                             lon: double.parse(state.lonController.text),
-                            placeType: state.placeType!,
+                            placeType: state.placeType,
                             urls: state.images))),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
