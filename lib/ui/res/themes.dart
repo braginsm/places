@@ -9,7 +9,9 @@ final ThemeData theme = ThemeData(
 
 final lightThema = theme.copyWith(
   primaryColor: ColorsLightSet.main,
-  colorScheme: theme.colorScheme.copyWith(secondary: ColorsLightSet.green),
+  colorScheme: theme.colorScheme.copyWith(
+    secondary: ColorsLightSet.green,
+  ),
   canvasColor: ColorsLightSet.white,
   secondaryHeaderColor: ColorsLightSet.secondary,
   hintColor: ColorsLightSet.secondary2,

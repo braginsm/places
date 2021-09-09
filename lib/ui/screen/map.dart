@@ -30,14 +30,13 @@ class _MapScreenState extends State<MapScreen> {
 
   Place? _placeShow;
 
-  void _onMapRendered() async {
+  Future<void> _serTargetPoint() async {
     await controller.addPlacemark(Placemark(
       point: await controller.getTargetPoint(),
       style: PlacemarkStyle(
         iconName: ImagesPaths.iAmHere,
       ),
     ));
-    await _moveCurrentPoint();
   }
 
   Future<void> _moveCurrentPoint() async {
@@ -123,16 +122,18 @@ class _MapScreenState extends State<MapScreen> {
       ),
       body: Stack(alignment: AlignmentDirectional.bottomCenter, children: [
         YandexMap(
-            onMapCreated: (YandexMapController yandexMapController) async {
-              controller = yandexMapController;
-              _moveCurrentPoint();
-            },
-            //onMapRendered: _onMapRendered,
-            onMapSizeChanged: (MapSize size) =>
-                print('Map size changed to ${size.width}x${size.height}'),
-            onMapTap: _onMapTap,
-            onMapLongTap: (Point point) => print(
-                'Long tapped map at ${point.latitude},${point.longitude}')),
+          onMapCreated: (YandexMapController yandexMapController) async {
+            controller = yandexMapController;
+            _moveCurrentPoint();
+            _serTargetPoint();
+          },
+          //onMapRendered: _onMapRendered,
+          // onMapSizeChanged: (MapSize size) =>
+          //     print('Map size changed to ${size.width}x${size.height}'),
+          // onMapTap: _onMapTap,
+          // onMapLongTap: (Point point) => print(
+          //     'Long tapped map at ${point.latitude},${point.longitude}'),
+        ),
         Positioned(
           bottom: 0,
           child: SizedBox(
