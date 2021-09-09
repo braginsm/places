@@ -43,9 +43,9 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> _moveCurrentPoint() async {
     final currentGeo = await context.read<GeoInteractor>().currentPosition;
     await controller.move(
-        point: Point(
-            latitude: currentGeo.latitude, longitude: currentGeo.longitude),
-        zoom: 12,
+      point:
+          Point(latitude: currentGeo.latitude, longitude: currentGeo.longitude),
+      zoom: 12,
     );
   }
 
@@ -81,7 +81,7 @@ class _MapScreenState extends State<MapScreen> {
   _onMapTap(Point point) async {
     try {
       final place = _listPlace.where((element) =>
-        element.getDistans(Geo(point.latitude, point.longitude)) <= 300);
+          element.getDistans(Geo(point.latitude, point.longitude)) <= 300);
       setState(() {
         _placeShow = place.first;
         _showPlaceCart = true;
@@ -125,8 +125,9 @@ class _MapScreenState extends State<MapScreen> {
         YandexMap(
             onMapCreated: (YandexMapController yandexMapController) async {
               controller = yandexMapController;
+              _moveCurrentPoint();
             },
-            onMapRendered: _onMapRendered,
+            //onMapRendered: _onMapRendered,
             onMapSizeChanged: (MapSize size) =>
                 print('Map size changed to ${size.width}x${size.height}'),
             onMapTap: _onMapTap,
@@ -160,6 +161,7 @@ class _MapScreenState extends State<MapScreen> {
                       child: SightItem(
                         place: _placeShow!,
                         favoritAction: true,
+                        goAction: true,
                       ),
                     ),
                 ],
