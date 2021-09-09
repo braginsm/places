@@ -127,12 +127,7 @@ class _MapScreenState extends State<MapScreen> {
             _moveCurrentPoint();
             _serTargetPoint();
           },
-          //onMapRendered: _onMapRendered,
-          // onMapSizeChanged: (MapSize size) =>
-          //     print('Map size changed to ${size.width}x${size.height}'),
-          // onMapTap: _onMapTap,
-          // onMapLongTap: (Point point) => print(
-          //     'Long tapped map at ${point.latitude},${point.longitude}'),
+          onMapTap: _onMapTap,
         ),
         Positioned(
           bottom: 0,

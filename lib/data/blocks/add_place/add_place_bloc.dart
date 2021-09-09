@@ -42,16 +42,25 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
     }
   }
 
+  Future<AddPlaceLoadingSuccessState> _getLastLoadState() async {
+    final _state = await stream
+        .lastWhere((element) => element is AddPlaceLoadingSuccessState);
+    return _state is AddPlaceLoadingSuccessState
+        ? _state
+        : AddPlaceLoadingSuccessState();
+  }
+
   Stream<AddPlaceState> _mapAddPlaceDismissedImageToState(String? img) async* {
-    AddPlaceLoadingSuccessState _state = state as AddPlaceLoadingSuccessState;
-    _state.images.remove(img);
-    yield _state;
+    final _state = await _getLastLoadState();
+    var _list = _state.images;
+    _list.remove(img);
+    yield _state.copiWith(images: _list);
   }
 
   Stream<AddPlaceState> _mapAddPlaceTypeChangeToState(PlaceType type) async* {
     yield AddPlaceLoadingInProgressState();
-    yield AddPlaceLoadingSuccessState(
-        placeType: type, images: (state as AddPlaceLoadingSuccessState).images);
+    final _state = await _getLastLoadState();
+    yield _state.copiWith(placeType: type);
   }
 
   Stream<AddPlaceState> _mapAddPlaceSaveEventToState(Place place) async* {
@@ -65,12 +74,8 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
   }
 
   Stream<AddPlaceState> _mapAddPlaceClearFormEventToState() async* {
-    var _state = state as AddPlaceLoadingSuccessState;
-    _state.nameController.clear();
-    _state.latController.clear();
-    _state.lonController.clear();
-    _state.descriptionController.clear();
-    yield _state;
+    final _state = await _getLastLoadState();
+    yield _state.copiWith(name: "", lat: 0, lon: 0, description: "");
   }
 
   Stream<AddPlaceState> _mapAddPlaceLoadEventToState() async* {
@@ -79,19 +84,13 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
 
   Stream<AddPlaceState> _mapAddPlaceAddImageEventToState(
       AddPlaceAddImageEvent event) async* {
-    yield AddPlaceLoadingSuccessState(
-        images: event.images,
-        placeType: (state as AddPlaceLoadingSuccessState).placeType);
+    final _state = await _getLastLoadState();
+    yield _state.copiWith(images: event.images);
   }
 
   Stream<AddPlaceState> _mapAddPlaceSetGeoEventToState(
       AddPlaceSetGeoEvent event) async* {
-    var _state = state as AddPlaceLoadingSuccessState;
-    _state.latController.text = event.geo.latitude.toString();
-    _state.lonController.text = event.geo.longitude.toString();
-    yield AddPlaceLoadingSuccessState(
-      images: _state.images,
-      placeType: _state.placeType,
-    );
+    final _state = await _getLastLoadState();
+    yield _state.copiWith(lat: event.geo.latitude, lon: event.geo.longitude);
   }
 }

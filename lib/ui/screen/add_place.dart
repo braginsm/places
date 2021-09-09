@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:places/data/blocks/add_place/add_place_bloc.dart';
 import 'package:places/data/blocks/add_place/add_place_event.dart';
 import 'package:places/data/blocks/add_place/add_place_state.dart';
+import 'package:places/data/interactor/geo_interactor.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/ui/res/text_styles.dart';
@@ -29,7 +30,13 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   void initState() {
     _bloc = AddPlaceBloc(context.read<PlaceInteractor>())
       ..add(AddPlaceLoadEvent());
+    _setCurentGeo();
     super.initState();
+  }
+
+  Future<void> _setCurentGeo() async {
+    final currentGeo = await context.read<GeoInteractor>().currentPosition;
+    _bloc.add(AddPlaceSetGeoEvent(currentGeo));
   }
 
   @override
@@ -236,7 +243,9 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                                 child: Text(
                                   "Указать на карте",
                                   style: TextStyleSet().textMedium16.copyWith(
-                                      color: Theme.of(context).colorScheme.secondary),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary),
                                 ),
                                 onPressed: () => Navigator.push(
                                   context,
