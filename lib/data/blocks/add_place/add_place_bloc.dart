@@ -9,7 +9,13 @@ import 'add_place_state.dart';
 class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
   final PlaceInteractor _placeInteractor;
 
-  AddPlaceBloc(this._placeInteractor) : super(AddPlaceLoadingInProgressState());
+  AddPlaceLoadingSuccessState _state = AddPlaceLoadingSuccessState();
+
+  AddPlaceBloc(this._placeInteractor) : super(AddPlaceLoadingInProgressState()) {
+    stream.listen((event) {
+      if (event is AddPlaceLoadingSuccessState) _state = event;
+    });
+  }
 
   @override
   Stream<AddPlaceState> mapEventToState(AddPlaceEvent event) async* {
@@ -42,16 +48,13 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
     }
   }
 
-  AddPlaceLoadingSuccessState get _state =>
-      state as AddPlaceLoadingSuccessState;
-
   Stream<AddPlaceState> _mapAddPlaceDismissedImageToState(String? img) async* {
     var _list = _state.images;
     _list.remove(img);
     yield _state.copiWith(images: _list);
   }
 
-  Stream<AddPlaceState> _mapAddPlaceTypeChangeToState(PlaceType type) async* {
+  Stream<AddPlaceState> _mapAddPlaceTypeChangeToState(PlaceType type) async* {   
     yield _state.copiWith(placeType: type);
   }
 
