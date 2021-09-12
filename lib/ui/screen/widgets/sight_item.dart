@@ -9,6 +9,7 @@ import 'package:places/ui/screen/widgets/sight_bottomsheet.dart';
 
 import '../place_card.dart';
 import 'image_network.dart';
+import 'place_map_button.dart';
 
 class SightItem extends StatelessWidget {
   final Place place;
@@ -61,7 +62,9 @@ class SightItem extends StatelessWidget {
                       textAlign: TextAlign.left,
                       maxLines: 2,
                     ),
-                    const SizedBox(height: 4,),
+                    const SizedBox(
+                      height: 4,
+                    ),
                     Row(
                       children: [
                         Expanded(
@@ -73,7 +76,9 @@ class SightItem extends StatelessWidget {
                                 style: TextStyleSet().textRegular.copyWith(
                                     color: Theme.of(context).hintColor),
                               ),
-                              const SizedBox(height: 4,),
+                              const SizedBox(
+                                height: 4,
+                              ),
                               Text(
                                 place.description,
                                 style: TextStyleSet().textRegular16.copyWith(
@@ -82,24 +87,6 @@ class SightItem extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ],
-                          ),
-                        ),
-                        if (goAction) IconButton(
-                          iconSize: 40,
-                          onPressed: () {},
-                          icon: Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondary,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Center(
-                              child: SvgPicture.asset(
-                                ImagesPaths.go,
-                                color: Theme.of(context).canvasColor,
-                                height: 24,
-                                width: 24,
-                              ),
-                            ),
                           ),
                         ),
                       ],
@@ -155,6 +142,16 @@ class SightItem extends StatelessWidget {
                   .copyWith(color: Theme.of(context).canvasColor),
             ),
           ),
+          if (goAction)
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 24, horizontal: 4),
+                child: PlaceMapButton(place: place,),
+              ),
+            ),
         ],
       ),
     );
