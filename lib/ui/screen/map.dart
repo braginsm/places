@@ -53,6 +53,14 @@ class _MapScreenState extends State<MapScreen> {
         "stylers": {
           "color": "dfdfdf"
         }
+      },
+      {
+        "tags": {
+          "all": ["region"]
+        },
+        "stylers": {
+          "color": "9d9d9d"
+        }
       }
     ]
   ''';
