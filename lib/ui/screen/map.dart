@@ -25,11 +25,44 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  late YandexMapController? controller;
+  YandexMapController? controller;
   late PlaceListBloc _block;
 
+  final String _mapStyle = '''
+    [
+      {
+        "tags": {
+          "all": ["road"]
+        },
+        "stylers": {
+          "color": "fff"
+        }
+      },
+      {
+        "tags": {
+          "all": ["water"]
+        },
+        "stylers": {
+          "color": "c0c0c0"
+        }
+      },
+      {
+        "tags": {
+          "all": ["landcover"]
+        },
+        "stylers": {
+          "color": "dfdfdf"
+        }
+      }
+    ]
+  ''';
+
+  Future<void> _setMapStyle() async {
+    await controller!.setMapStyle(style: _mapStyle);
+  }
+
   Future<void> _serTargetPoint() async {
-    await controller!.addPlacemark(Placemark(
+    controller!.addPlacemark(Placemark(
       point: await controller!.getTargetPoint(),
       style: PlacemarkStyle(
         iconName: ImagesPaths.iAmHere,
@@ -39,7 +72,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Future<void> _moveCurrentPoint() async {
     final currentGeo = await context.read<GeoInteractor>().currentPosition;
-    await controller!.move(
+    controller!.move(
       point:
           Point(latitude: currentGeo.latitude, longitude: currentGeo.longitude),
       zoom: 12,
@@ -95,9 +128,6 @@ class _MapScreenState extends State<MapScreen> {
         create: (BuildContext context) => _block,
         child: BlocBuilder<PlaceListBloc, PlaceListState>(
           builder: (context, state) {
-            if (state is PlaceListLoadingSuccessState) {
-              _showPaceList(state.placeList);
-            }
             return Stack(
               alignment: AlignmentDirectional.bottomCenter,
               children: [
@@ -105,8 +135,12 @@ class _MapScreenState extends State<MapScreen> {
                   onMapCreated:
                       (YandexMapController yandexMapController) async {
                     controller = yandexMapController;
-                    _moveCurrentPoint();
-                    _serTargetPoint();
+                    _setMapStyle();
+                    await _moveCurrentPoint();
+                    await _serTargetPoint();
+                    if (state is PlaceListLoadingSuccessState) {
+                      _showPaceList(state.placeList);
+                    }
                   },
                   onMapTap: (Point point) => _block.add(PlaceListMapTapEvent(
                       Geo(point.latitude, point.longitude))),
@@ -124,7 +158,9 @@ class _MapScreenState extends State<MapScreen> {
                             children: [
                               RoundButton(
                                 iconPath: ImagesPaths.refresh,
-                                onPressed: () => context.read<PlaceListBloc>().add(PlaceListLoadEvent()),
+                                onPressed: () => context
+                                    .read<PlaceListBloc>()
+                                    .add(PlaceListLoadEvent()),
                               ),
                               if (state is! PlaceListShowPlaceOnMapState)
                                 const AddNewPlaceButton(),
