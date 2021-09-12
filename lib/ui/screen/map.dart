@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:places/data/blocks/place_list/place_list_bloc.dart';
+import 'package:places/data/blocks/place_list/place_list_event.dart';
+import 'package:places/data/blocks/place_list/place_list_state.dart';
 import 'package:places/data/interactor/geo_interactor.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/geo.dart';
@@ -22,13 +26,9 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+
   late YandexMapController controller;
-
-  late List<Place> _listPlace;
-
-  bool _showPlaceCart = false;
-
-  Place? _placeShow;
+  late PlaceListBloc _block;
 
   Future<void> _serTargetPoint() async {
     await controller.addPlacemark(Placemark(
@@ -48,8 +48,8 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  Future<void> _showPaceList() async {
-    for (Place item in _listPlace) {
+  Future<void> _showPaceList(List<Place> list) async {
+    for (Place item in list) {
       await controller.addPlacemark(Placemark(
         point: Point(latitude: item.lat, longitude: item.lon),
         style: PlacemarkStyle(
@@ -59,37 +59,11 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  Future<void> _getPlaceList() async {
-    final list = await context.read<PlaceInteractor>().getPlaces();
-    setState(() {
-      _listPlace = list;
-    });
-  }
-
-  _init() async {
-    await _getPlaceList();
-    await _showPaceList();
-  }
-
   @override
   void initState() {
-    _init();
+    _block = PlaceListBloc(context.read<PlaceInteractor>())
+      ..add(PlaceListLoadEvent());
     super.initState();
-  }
-
-  _onMapTap(Point point) async {
-    try {
-      final place = _listPlace.where((element) =>
-          element.getDistans(Geo(point.latitude, point.longitude)) <= 300);
-      setState(() {
-        _placeShow = place.first;
-        _showPlaceCart = true;
-      });
-    } catch (_) {
-      setState(() {
-        _showPlaceCart = false;
-      });
-    }
   }
 
   @override
@@ -120,52 +94,68 @@ class _MapScreenState extends State<MapScreen> {
           preferredSize: const Size(double.infinity, 64),
         ),
       ),
-      body: Stack(alignment: AlignmentDirectional.bottomCenter, children: [
-        YandexMap(
-          onMapCreated: (YandexMapController yandexMapController) async {
-            controller = yandexMapController;
-            _moveCurrentPoint();
-            _serTargetPoint();
-          },
-          onMapTap: _onMapTap,
-        ),
-        Positioned(
-          bottom: 0,
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RoundButton(
-                        iconPath: ImagesPaths.refresh,
-                        onPressed: () {},
-                      ),
-                      if (!_showPlaceCart) const AddNewPlaceButton(),
-                      RoundButton(
-                        iconPath: ImagesPaths.geolocation,
-                        onPressed: _moveCurrentPoint,
-                      ),
-                    ],
+      body: BlocProvider<PlaceListBloc>(
+        create: (BuildContext context) => _block,
+        child: BlocBuilder<PlaceListBloc, PlaceListState>(
+          builder: (context, state) {
+            if (state is PlaceListLoadingSuccessState) {
+              _showPaceList(state.placeList);
+            }
+            return Stack(
+              alignment: AlignmentDirectional.bottomCenter,
+              children: [
+                YandexMap(
+                  onMapCreated:
+                      (YandexMapController yandexMapController) async {
+                    controller = yandexMapController;
+                    _moveCurrentPoint();
+                    _serTargetPoint();
+                  },
+                  onMapTap: (Point point) => _block.add(PlaceListMapTapEvent(
+                    Geo(point.latitude, point.longitude))
                   ),
-                  if (_showPlaceCart && _placeShow != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: SightItem(
-                        place: _placeShow!,
-                        favoritAction: true,
-                        goAction: true,
+                ),
+                Positioned(
+                  bottom: 0,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              RoundButton(
+                                iconPath: ImagesPaths.refresh,
+                                onPressed: () {},
+                              ),
+                              if (state is! PlaceListShowPlaceOnMapState) const AddNewPlaceButton(),
+                              RoundButton(
+                                iconPath: ImagesPaths.geolocation,
+                                onPressed: _moveCurrentPoint,
+                              ),
+                            ],
+                          ),
+                          if (state is PlaceListShowPlaceOnMapState)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16),
+                              child: SightItem(
+                                place: state.place,
+                                favoritAction: true,
+                                goAction: true,
+                              ),
+                            ),
+                        ],
                       ),
                     ),
-                ],
-              ),
-            ),
-          ),
-        )
-      ]),
+                  ),
+                )
+              ],
+            );
+          },
+        ),
+      ),
       bottomNavigationBar: const BottomNavigation(
         activeIndex: 1,
       ),
