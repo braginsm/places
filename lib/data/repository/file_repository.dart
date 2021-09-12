@@ -32,7 +32,7 @@ class FileRepository extends Repository {
       var result = <String>[];
       res.headers.forEach((name, values) {
         if (name == 'location' && values.isNotEmpty) {
-          result.add("${dio.options.baseUrl}${values.first}");
+          result.add("${dio.options.baseUrl}/${values.first}");
         }
       });
       if (result.isNotEmpty) {

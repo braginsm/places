@@ -9,7 +9,7 @@ import 'add_place_state.dart';
 class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
   final PlaceInteractor _placeInteractor;
 
-  AddPlaceLoadingSuccessState _state = AddPlaceLoadingSuccessState();
+  AddPlaceLoadingSuccessState _state = const AddPlaceLoadingSuccessState();
 
   AddPlaceBloc(this._placeInteractor) : super(AddPlaceLoadingInProgressState()) {
     stream.listen((event) {
@@ -62,7 +62,7 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
     yield AddPlaceLoadingInProgressState();
     try {
       await _placeInteractor.addNewPlace(place);
-      yield AddPlaceLoadingSuccessState();
+      yield const AddPlaceLoadingSuccessState();
     } on NetworkExeption catch (_) {
       yield AddPlaceErrorState();
     }
@@ -73,7 +73,7 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
   }
 
   Stream<AddPlaceState> _mapAddPlaceLoadEventToState() async* {
-    yield AddPlaceLoadingSuccessState();
+    yield const AddPlaceLoadingSuccessState();
   }
 
   Stream<AddPlaceState> _mapAddPlaceAddImageEventToState(

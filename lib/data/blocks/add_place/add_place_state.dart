@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:places/data/model/place.dart';
 
 abstract class AddPlaceState extends Equatable {
@@ -21,28 +20,13 @@ class AddPlaceLoadingSuccessState extends AddPlaceState {
   final double lon;
   final String description;
 
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController latController = TextEditingController();
-  final TextEditingController lonController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-
-  final FocusNode nameNode = FocusNode();
-  final FocusNode latNode = FocusNode();
-  final FocusNode lonNode = FocusNode();
-  final FocusNode descriptionNode = FocusNode();
-
-  AddPlaceLoadingSuccessState(
+  const AddPlaceLoadingSuccessState(
       {this.name = "",
       this.lat = 0,
       this.lon = 0,
       this.description = "",
       this.placeType = PlaceType.other,
-      this.images = const [""]}) {
-    nameController.text = name;
-    descriptionController.text = description;
-    latController.text = lat == 0 ? "" : lat.toString();
-    lonController.text = lon == 0 ? "" : lon.toString();
-  }
+      this.images = const [""]});
 
   @override
   List<Object> get props => [name, lat, lon, description, images, placeType];

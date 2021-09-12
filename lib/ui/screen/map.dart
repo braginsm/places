@@ -138,6 +138,7 @@ class _MapScreenState extends State<MapScreen> {
                             Padding(
                               padding: const EdgeInsets.only(top: 16),
                               child: SightItem(
+                                key: Key(state.place.key),
                                 place: state.place,
                                 favoritAction: true,
                                 goAction: true,
