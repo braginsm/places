@@ -4,7 +4,6 @@ import 'package:places/data/blocks/place_list/place_list_bloc.dart';
 import 'package:places/data/blocks/place_list/place_list_event.dart';
 import 'package:places/data/blocks/place_list/place_list_state.dart';
 import 'package:places/data/interactor/geo_interactor.dart';
-import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/geo.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/ui/res/images.dart';
@@ -26,13 +25,12 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-
-  late YandexMapController controller;
+  late YandexMapController? controller;
   late PlaceListBloc _block;
 
   Future<void> _serTargetPoint() async {
-    await controller.addPlacemark(Placemark(
-      point: await controller.getTargetPoint(),
+    await controller!.addPlacemark(Placemark(
+      point: await controller!.getTargetPoint(),
       style: PlacemarkStyle(
         iconName: ImagesPaths.iAmHere,
       ),
@@ -41,7 +39,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Future<void> _moveCurrentPoint() async {
     final currentGeo = await context.read<GeoInteractor>().currentPosition;
-    await controller.move(
+    await controller!.move(
       point:
           Point(latitude: currentGeo.latitude, longitude: currentGeo.longitude),
       zoom: 12,
@@ -50,7 +48,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Future<void> _showPaceList(List<Place> list) async {
     for (Place item in list) {
-      await controller.addPlacemark(Placemark(
+      await controller!.addPlacemark(Placemark(
         point: Point(latitude: item.lat, longitude: item.lon),
         style: PlacemarkStyle(
           iconName: ImagesPaths.mapPoint,
@@ -61,8 +59,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   void initState() {
-    _block = PlaceListBloc(context.read<PlaceInteractor>())
-      ..add(PlaceListLoadEvent());
+    _block = context.read<PlaceListBloc>()..add(PlaceListLoadEvent());
     super.initState();
   }
 
@@ -112,8 +109,7 @@ class _MapScreenState extends State<MapScreen> {
                     _serTargetPoint();
                   },
                   onMapTap: (Point point) => _block.add(PlaceListMapTapEvent(
-                    Geo(point.latitude, point.longitude))
-                  ),
+                      Geo(point.latitude, point.longitude))),
                 ),
                 Positioned(
                   bottom: 0,
@@ -128,9 +124,10 @@ class _MapScreenState extends State<MapScreen> {
                             children: [
                               RoundButton(
                                 iconPath: ImagesPaths.refresh,
-                                onPressed: () {},
+                                onPressed: () => context.read<PlaceListBloc>().add(PlaceListLoadEvent()),
                               ),
-                              if (state is! PlaceListShowPlaceOnMapState) const AddNewPlaceButton(),
+                              if (state is! PlaceListShowPlaceOnMapState)
+                                const AddNewPlaceButton(),
                               RoundButton(
                                 iconPath: ImagesPaths.geolocation,
                                 onPressed: _moveCurrentPoint,

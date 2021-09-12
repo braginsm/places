@@ -44,31 +44,42 @@ class ImageNetworkWithPlaceholder extends StatefulWidget {
 
 class _ImageNetworkWithPlaceholderState
     extends State<ImageNetworkWithPlaceholder> {
-
   Image? _image;
   CrossFadeState _crossFadeState = CrossFadeState.showFirst;
+  String _url = "";
 
   @override
   void initState() {
-    _image = Image.network(widget.url, fit: widget.fit,);
+    _url = widget.url.contains('://') ? widget.url : "https://test-backend-flutter.surfstudio.ru/${widget.url}";
+    _image = Image.network(
+      _url,
+      fit: widget.fit,
+    );
     _image!.image
         .resolve(const ImageConfiguration())
         .addListener(ImageStreamListener((_, __) {
-          if (mounted) {
-            setState(() {
-              _crossFadeState = CrossFadeState.showSecond;
-            });
-          }
-        }));
+      if (mounted) {
+        setState(() {
+          _crossFadeState = CrossFadeState.showSecond;
+        });
+      }
+    }));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
-      firstChild: Center(child: Image.asset("res/images/placeholder.png", fit: widget.fit,)), 
-      secondChild: SizedBox(child: _image, width: double.infinity,), 
-      crossFadeState: _crossFadeState, 
+      firstChild: Center(
+          child: Image.asset(
+        "res/images/placeholder.png",
+        fit: widget.fit,
+      )),
+      secondChild: SizedBox(
+        child: _image,
+        width: double.infinity,
+      ),
+      crossFadeState: _crossFadeState,
       duration: const Duration(seconds: 1),
     );
   }

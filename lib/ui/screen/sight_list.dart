@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:places/data/blocks/place_list/place_list_bloc.dart';
 import 'package:places/data/blocks/place_list/place_list_event.dart';
 import 'package:places/data/blocks/place_list/place_list_state.dart';
-import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/repository/network_exeption.dart';
 import 'package:places/ui/screen/search_place.dart';
@@ -91,8 +90,7 @@ class _StreamSliverListState extends State<StreamSliverList> {
   void initState() {
     super.initState();
     try {
-      _bloc = PlaceListBloc(context.read<PlaceInteractor>())
-        ..add(PlaceListLoadEvent());
+      _bloc = context.read<PlaceListBloc>()..add(PlaceListLoadEvent());
     } on NetworkExeption catch (_) {
       Navigator.push(context, MaterialPageRoute(builder: (_) {
         return const SmthError();
