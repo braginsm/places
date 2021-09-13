@@ -8,6 +8,7 @@ import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/ui/res/text_styles.dart';
 import 'package:places/ui/screen/map.dart';
+import 'package:places/ui/screen/place_card.dart';
 import 'package:places/ui/screen/smth_error.dart';
 import 'package:places/ui/screen/widgets/add_image_item.dart';
 import 'package:places/ui/screen/widgets/delimer.dart';
@@ -76,6 +77,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 images: state.images,
               );
             }
+            if (state is AddPlaceCompleteState) {
+              Future.delayed(
+                Duration.zero,
+                () => Navigator.push(context, MaterialPageRoute(builder: (context) => PlaceCardScreen(state.place.id)))
+              );
+            }
             throw ArgumentError(
                 "Неожиданное состояние в _StreamSliverListState");
           },
@@ -120,13 +127,14 @@ class _AddPlaceFormWidgetState extends State<AddPlaceFormWidget> {
   final FocusNode descriptionNode = FocusNode();
 
   Place get _currentPlace => Place(
-    name: nameController.text,
-    description: descriptionController.text,
-    lat: double.parse(latController.text.isNotEmpty ? latController.text : "0"),
-    lon: double.parse(lonController.text.isNotEmpty ? lonController.text : "0"),
-    placeType: widget.placeType,
-    urls: widget.images
-  );
+      name: nameController.text,
+      description: descriptionController.text,
+      lat: double.parse(
+          latController.text.isNotEmpty ? latController.text : "0"),
+      lon: double.parse(
+          lonController.text.isNotEmpty ? lonController.text : "0"),
+      placeType: widget.placeType,
+      urls: widget.images);
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +218,7 @@ class _AddPlaceFormWidgetState extends State<AddPlaceFormWidget> {
                       ),
                       controller: nameController,
                       onSubmitted: (value) => latNode.requestFocus(),
-                      onChanged: (value) =>
+                      onEditingComplete: () =>
                           widget.bloc.add(AddPlaceChangeEvent(_currentPlace)),
                     ),
                   ),
@@ -241,8 +249,10 @@ class _AddPlaceFormWidgetState extends State<AddPlaceFormWidget> {
                                   ),
                                   keyboardType: TextInputType.number,
                                   focusNode: latNode,
-                                  onSubmitted: (value) => lonNode.requestFocus(),
-                                  onChanged: (value) => widget.bloc.add(AddPlaceChangeEvent(_currentPlace)),
+                                  onSubmitted: (value) =>
+                                      lonNode.requestFocus(),
+                                  onEditingComplete: () => widget.bloc
+                                      .add(AddPlaceChangeEvent(_currentPlace)),
                                 ),
                               ),
                             ],
@@ -275,7 +285,8 @@ class _AddPlaceFormWidgetState extends State<AddPlaceFormWidget> {
                                       ),
                                     ),
                                     keyboardType: TextInputType.number,
-                                    onChanged: (value) => widget.bloc.add(AddPlaceChangeEvent(_currentPlace)),
+                                    onEditingComplete: () => widget.bloc.add(
+                                        AddPlaceChangeEvent(_currentPlace)),
                                   ),
                                 ),
                               ],
@@ -317,7 +328,8 @@ class _AddPlaceFormWidgetState extends State<AddPlaceFormWidget> {
                     decoration: const InputDecoration(
                       hintText: "введите текст",
                     ),
-                    onChanged: (value) => widget.bloc.add(AddPlaceChangeEvent(_currentPlace)),
+                    onEditingComplete: () =>
+                        widget.bloc.add(AddPlaceChangeEvent(_currentPlace)),
                   ),
                 ],
               ),
@@ -327,7 +339,8 @@ class _AddPlaceFormWidgetState extends State<AddPlaceFormWidget> {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: ElevatedButton(
-              onPressed: () => widget.bloc.add(AddPlaceSaveEvent(_currentPlace)),
+              onPressed: () =>
+                  widget.bloc.add(AddPlaceSaveEvent(_currentPlace)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Text(

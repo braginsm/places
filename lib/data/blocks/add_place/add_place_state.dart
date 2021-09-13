@@ -48,3 +48,12 @@ class AddPlaceLoadingSuccessState extends AddPlaceState {
     );
   }
 }
+
+class AddPlaceCompleteState extends AddPlaceState {
+  final Place place;
+
+  const AddPlaceCompleteState(this.place);
+
+  @override
+  List<Object> get props => [place];
+}
