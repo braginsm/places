@@ -98,7 +98,7 @@ class _SearchBarState extends State<SearchBar> {
               icon: widget.readOnly
                   ? SvgPicture.asset(
                       ImagesPaths.filter,
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).colorScheme.secondary,
                     )
                   : Icon(
                       Icons.cancel,

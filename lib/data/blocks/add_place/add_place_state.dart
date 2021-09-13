@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:places/data/model/place.dart';
 
 abstract class AddPlaceState extends Equatable {
@@ -14,37 +13,47 @@ class AddPlaceLoadingInProgressState extends AddPlaceState {}
 class AddPlaceErrorState extends AddPlaceState {}
 
 class AddPlaceLoadingSuccessState extends AddPlaceState {
+  final PlaceType placeType;
+  final List<String> images;
+  final String name;
+  final double lat;
+  final double lon;
+  final String description;
 
-  final PlaceType? placeType;
-
-  AddPlaceLoadingSuccessState({this.placeType}) : super();
-
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController latController = TextEditingController();
-  final TextEditingController lonController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-
-  final FocusNode nameNode = FocusNode();
-  final FocusNode latNode = FocusNode();
-  final FocusNode lonNode = FocusNode();
-  final FocusNode descriptionNode = FocusNode();
-
-  final List<String> images = [
-    "",
-    "https://lifeglobe.net/x/entry/6591/1a.jpg",
-    "https://www.freezone.net/upload/medialibrary/7e9/7e9ba16fe427b1dfd99e07ea7cc522d2.jpg",
-    "https://tur-ray.ru/wp-content/uploads/2017/11/maska-skorbi.jpg"
-  ];
+  const AddPlaceLoadingSuccessState(
+      {this.name = "",
+      this.lat = 0,
+      this.lon = 0,
+      this.description = "",
+      this.placeType = PlaceType.other,
+      this.images = const [""]});
 
   @override
-  List<Object> get props => [
-        nameController,
-        latController,
-        lonController,
-        descriptionController,
-        nameNode,
-        latNode,
-        lonNode,
-        descriptionNode
-      ];
+  List<Object> get props => [name, lat, lon, description, images, placeType];
+
+  AddPlaceLoadingSuccessState copiWith(
+      {PlaceType? placeType,
+      List<String>? images,
+      String? name,
+      double? lat,
+      double? lon,
+      String? description}) {
+    return AddPlaceLoadingSuccessState(
+      name: name ?? this.name,
+      lat: lat ?? this.lat,
+      lon: lon ?? this.lon,
+      description: description ?? this.description,
+      images: images ?? this.images,
+      placeType: placeType ?? this.placeType,
+    );
+  }
+}
+
+class AddPlaceCompleteState extends AddPlaceState {
+  final Place place;
+
+  const AddPlaceCompleteState(this.place);
+
+  @override
+  List<Object> get props => [place];
 }

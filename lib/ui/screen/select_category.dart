@@ -23,7 +23,7 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
   void initState() {
     super.initState();
     AddPlaceLoadingSuccessState _state = widget.bloc!.state as AddPlaceLoadingSuccessState;
-    if (_state.placeType != null) _selectIndex = _state.placeType!.index;
+    _selectIndex = _state.placeType.index;
   }
 
   @override
@@ -84,7 +84,7 @@ class _SelectPlaceCategoryState extends State<SelectPlaceCategory> {
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         _selectIndex != null
-                            ? Theme.of(context).accentColor
+                            ? Theme.of(context).colorScheme.secondary
                             : Theme.of(context).backgroundColor)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),

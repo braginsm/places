@@ -6,6 +6,7 @@ import 'package:places/data/model/place.dart';
 import 'package:places/data/repository/repository.dart';
 import 'package:places/data/res/end_points.dart';
 
+import 'file_repository.dart';
 import 'network_exeption.dart';
 
 class PlaceRepository extends Repository {
@@ -46,7 +47,8 @@ class PlaceRepository extends Repository {
     if (pagePrior != null) queryParameters['pagePrior'] = pagePrior;
     if (sortBy != null) queryParameters['sortBy'] = sortBy;
     try {
-      Response res = await dio.get(EndPoint.place, queryParameters: queryParameters);
+      Response res =
+          await dio.get(EndPoint.place, queryParameters: queryParameters);
       return (res.data as List<dynamic>).map((e) => Place.fromJson(e)).toList();
     } on DioError catch (e) {
       throw NetworkExeption(e);
@@ -56,7 +58,15 @@ class PlaceRepository extends Repository {
   /// Сохранение нового места
   Future<Place> save(Place place) async {
     try {
-      Response res = await dio.post(EndPoint.place, data: jsonEncode(place));
+      if (place.urls.isNotEmpty) {
+        final _urls = await FileRepository().upload(place.urls);
+        place = place.copyWith(urls: _urls);
+      }
+      var data = place.toJson();
+      if (place.id == 0) {
+        data.remove('id');
+      }
+      Response res = await dio.post(EndPoint.place, data: data);
       return Place.fromJson(res.data);
     } on DioError catch (e) {
       throw NetworkExeption(e);
@@ -66,8 +76,8 @@ class PlaceRepository extends Repository {
   /// Обновление данных места
   Future<Place> update(Place place) async {
     try {
-      Response res =
-          await dio.put('${EndPoint.place}/${place.id}', data: jsonEncode(place));
+      Response res = await dio.put('${EndPoint.place}/${place.id}',
+          data: jsonEncode(place));
       return Place.fromJson(res.data);
     } on DioError catch (e) {
       throw NetworkExeption(e);

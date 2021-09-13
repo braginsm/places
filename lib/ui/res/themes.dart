@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 import 'text_styles.dart';
 
-final lightThema = ThemeData(
+final ThemeData theme = ThemeData(
+  fontFamily: 'Roboto',
+);
+
+final lightThema = theme.copyWith(
   primaryColor: ColorsLightSet.main,
-  accentColor: ColorsLightSet.green,
-  buttonColor: ColorsLightSet.green,
+  colorScheme: theme.colorScheme.copyWith(
+    secondary: ColorsLightSet.green,
+  ),
   canvasColor: ColorsLightSet.white,
   secondaryHeaderColor: ColorsLightSet.secondary,
   hintColor: ColorsLightSet.secondary2,
@@ -39,7 +44,6 @@ final lightThema = ThemeData(
     titleTextStyle: TextStyleSet().textMedium16.copyWith(color: ColorsLightSet.main),
     centerTitle: true,
   ),
-  fontFamily: 'Roboto',
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(
@@ -95,10 +99,10 @@ final lightThema = ThemeData(
   ),
 );
 
-final darkThema = ThemeData(
+final darkThema = theme.copyWith(
   scaffoldBackgroundColor: ColorsDarkSet.main,
   primaryColor: ColorsDarkSet.white,
-  accentColor: ColorsDarkSet.green,
+  colorScheme: theme.colorScheme.copyWith(secondary: ColorsDarkSet.green),
   canvasColor: ColorsDarkSet.white,
   //secondaryHeaderColor: ColorsDarkSet.secondary2,
   hintColor: ColorsDarkSet.secondary2,
@@ -130,7 +134,6 @@ final darkThema = ThemeData(
     titleTextStyle: TextStyleSet().textMedium16.copyWith(color: ColorsDarkSet.main),
     centerTitle: true,
   ),
-  fontFamily: 'Roboto',
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(

@@ -1,33 +1,32 @@
 import 'package:places/data/model/place.dart';
 import 'package:places/data/repository/place_repository.dart';
 
+import 'geo_interactor.dart';
 import 'place_favorit_interactor.dart';
 
-/// мок места положения
-const double currentLat = /*56.84987946580704;*/ 55.749054;
-const double currentLon = /*53.247889685270756;*/ 37.623162;
-
 class PlaceInteractor {
-  List<Place?> _sortByDistance(List<Place?> list) {
-    list.sort((a, b) => a!
-        .getDistans(currentLat, currentLon)
-        .compareTo(b!.getDistans(currentLat, currentLon)));
+  Future<List<Place>> _sortByDistance(List<Place> list) async {
+    final current = await GeoInteractor().currentPosition;
+    list.sort((a, b) => a
+        .getDistans(current)
+        .compareTo(b.getDistans(current)));
     return list;
   }
 
   ///Получение списка интересных мест
-  Future<List<Place?>> getPlaces(
+  Future<List<Place>> getPlaces(
       {int radius = 0, String category = '', int offset = 0}) async {
     List<Place> places = await PlaceRepository().getByParameters(
-      count: 5,
+      count: 50,
       offset: 0,
     );
-    places.forEach((element) {
-      if ((radius > 0 && radius < element.getDistans(currentLat, currentLon)) ||
-          (category != '' && element.placeType.toString() != category)) {
-        places.remove(element);
+    final current = await GeoInteractor().currentPosition;
+    for (var item in places) {
+      if ((radius > 0 && radius < item.getDistans(current)) ||
+          (category != '' && item.placeType.toString() != category)) {
+        places.remove(item);
       }
-    });
+    }
     return _sortByDistance(places);
   }
 

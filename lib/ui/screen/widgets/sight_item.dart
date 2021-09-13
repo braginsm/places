@@ -9,15 +9,18 @@ import 'package:places/ui/screen/widgets/sight_bottomsheet.dart';
 
 import '../place_card.dart';
 import 'image_network.dart';
+import 'place_map_button.dart';
 
 class SightItem extends StatelessWidget {
   final Place place;
   final bool favoritAction;
+  final bool goAction;
   final List<Widget>? actions;
   const SightItem({
     Key? key,
     this.actions = const <Widget>[],
-    this.favoritAction = false, 
+    this.favoritAction = false,
+    this.goAction = false,
     required this.place,
   }) : super(key: key);
 
@@ -47,60 +50,49 @@ class SightItem extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 16,
-              ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  place.name,
-                  style: TextStyleSet()
-                      .textMedium16
-                      .copyWith(color: Theme.of(context).secondaryHeaderColor),
-                  textAlign: TextAlign.left,
-                  maxLines: 2,
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      place.name,
+                      style: TextStyleSet().textMedium16.copyWith(
+                          color: Theme.of(context).secondaryHeaderColor),
+                      textAlign: TextAlign.left,
+                      maxLines: 2,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "закрыто до 09:00",
+                                style: TextStyleSet().textRegular.copyWith(
+                                    color: Theme.of(context).hintColor),
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                place.description,
+                                style: TextStyleSet().textRegular16.copyWith(
+                                    color: Theme.of(context).hintColor),
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ),
-              // if (sight.wontVisit || sight.visit)
-              //   Padding(
-              //     padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-              //     child: Text(
-              //       sight.visit
-              //           ? "Цель достигнута ${DateFormat.yMMMd().format(sight.visitDate)}"
-              //           : "Запланировано на ${DateFormat.yMMMd().format(sight.wontDate)}",
-              //       style: TextStyleSet().textRegular.copyWith(
-              //             color: sight.visit
-              //                 ? Theme.of(context).hintColor
-              //                 : Theme.of(context).accentColor,
-              //           ),
-              //       textAlign: TextAlign.left,
-              //     ),
-              //   ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-                child: Text(
-                  "закрыто до 09:00",
-                  style: TextStyleSet()
-                      .textRegular
-                      .copyWith(color: Theme.of(context).hintColor),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-                child: Text(
-                  place.description,
-                  style: TextStyleSet()
-                      .textRegular16
-                      .copyWith(color: Theme.of(context).hintColor),
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              const SizedBox(
-                height: 16,
               ),
             ],
           ),
@@ -150,6 +142,16 @@ class SightItem extends StatelessWidget {
                   .copyWith(color: Theme.of(context).canvasColor),
             ),
           ),
+          if (goAction)
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 24, horizontal: 4),
+                child: PlaceMapButton(place: place,),
+              ),
+            ),
         ],
       ),
     );
@@ -161,7 +163,10 @@ class DismissibleSightItem extends StatelessWidget {
   final List<Widget> actions;
   final Function(DismissDirection) onDismissed;
   const DismissibleSightItem(
-      {Key? key, this.actions = const [], required this.onDismissed, required this.place})
+      {Key? key,
+      this.actions = const [],
+      required this.onDismissed,
+      required this.place})
       : super(key: key);
 
   @override

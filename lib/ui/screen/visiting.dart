@@ -207,7 +207,7 @@ class __FavoritTabItemWidgetState extends State<_FavoritTabItemWidget> {
                                     ),
                                   ),
                                   feedback: SizedBox(
-                                    child: SightItem(place: item),
+                                    child: SightItem(place: item, key: Key(item.key),),
                                     width: 300,
                                   ),
                                   onDragStarted: _togleShowTarget,
@@ -323,7 +323,7 @@ class __VisitTabItemWidgetState extends State<_VisitTabItemWidget> {
                                     ),
                                   ),
                                   feedback: SizedBox(
-                                    child: SightItem(place: item),
+                                    child: SightItem(place: item, key: Key(item.key),),
                                     width: 300,
                                   ),
                                 ),

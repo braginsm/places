@@ -57,7 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onToggle: _onToggle,
                     value: _dark,
                     inactiveColor: Theme.of(context).unselectedWidgetColor,
-                    activeColor: Theme.of(context).accentColor,
+                    activeColor: Theme.of(context).colorScheme.secondary,
                     toggleSize: 28,
                     toggleColor: Theme.of(context).scaffoldBackgroundColor,
                   ),

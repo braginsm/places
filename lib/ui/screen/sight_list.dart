@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:places/data/blocks/place_list/place_list_bloc.dart';
 import 'package:places/data/blocks/place_list/place_list_event.dart';
 import 'package:places/data/blocks/place_list/place_list_state.dart';
-import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/repository/network_exeption.dart';
 import 'package:places/ui/screen/search_place.dart';
@@ -14,8 +13,7 @@ import 'package:places/ui/screen/widgets/sight_item.dart';
 
 import 'package:provider/provider.dart';
 
-import '../res/text_styles.dart';
-import 'add_place.dart';
+import 'widgets/add_new_place_widget.dart';
 import 'widgets/preloader.dart';
 
 class SightListScreen extends StatelessWidget {
@@ -64,42 +62,10 @@ class SightListScreen extends StatelessWidget {
                 ],
               );
             }),
-            Positioned(
+            const Positioned(
               bottom: 16,
-              child: InkWell(
-                onTap: () => Navigator.push(context,
-                    MaterialPageRoute(
-                      builder: (context) => const AddPlaceScreen(),
-                    ),
-                ),
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: Theme.of(context).tabBarTheme.labelColor,
-                        ),
-                        Text(
-                          " НОВОЕ МЕСТО",
-                          style: TextStyleSet().textBold.copyWith(
-                              color: Theme.of(context).tabBarTheme.labelColor),
-                        ),
-                      ],
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    gradient: LinearGradient(colors: [
-                      Theme.of(context).indicatorColor,
-                      Theme.of(context).accentColor
-                    ]),
-                  ),
-                ),
-              ),
-            ),
+              child: AddNewPlaceButton(),
+            )
           ],
         ),
       ),
@@ -124,8 +90,7 @@ class _StreamSliverListState extends State<StreamSliverList> {
   void initState() {
     super.initState();
     try {
-      _bloc = PlaceListBloc(context.read<PlaceInteractor>())
-        ..add(PlaceListLoadEvent());
+      _bloc = context.read<PlaceListBloc>()..add(PlaceListLoadEvent());
     } on NetworkExeption catch (_) {
       Navigator.push(context, MaterialPageRoute(builder: (_) {
         return const SmthError();
@@ -168,7 +133,8 @@ class SightSliverList extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SightItem(
-                    place: item!,
+                    key: Key(item!.key),
+                    place: item,
                     favoritAction: true,
                   ),
                 );
@@ -183,7 +149,8 @@ class SightSliverList extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SightItem(
-                    place: item!,
+                    key: Key(item!.key),
+                    place: item,
                     favoritAction: true,
                   ),
                 );

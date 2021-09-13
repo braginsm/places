@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:places/data/interactor/geo_interactor.dart';
 import 'package:provider/provider.dart';
 
+import 'data/blocks/place_list/place_list_bloc.dart';
 import 'data/interactor/place_favorit_interactor.dart';
 import 'data/interactor/place_interactor.dart';
 import 'data/interactor/place_visit_interactor.dart';
@@ -35,6 +37,12 @@ void main() {
         ),
         Provider(
           create: (_) => PlaceVisitInteractor(),
+        ),
+        Provider(
+          create: (_) => GeoInteractor(),
+        ),
+        Provider(
+          create: (_) => PlaceListBloc(PlaceInteractor()),
         ),
       ],
       child: const App(),

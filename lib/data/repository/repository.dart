@@ -31,6 +31,7 @@ class Repository {
     /// Проверка статуса запроса
     switch (response.statusCode) {
       case 200:
+      case 201:
         // ignore: avoid_print
         print("responce data: ${response.data}");
         return handler.next(response);

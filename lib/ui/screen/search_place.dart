@@ -115,7 +115,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                                 child: Text(
                                   "Очистить историю",
                                   style: TextStyleSet().textMedium16.copyWith(
-                                        color: Theme.of(context).accentColor,
+                                        color: Theme.of(context).colorScheme.secondary,
                                       ),
                                 ),
                                 style: TextButton.styleFrom(

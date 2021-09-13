@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen>
         gradient: LinearGradient(
           colors: [
             Theme.of(context).indicatorColor,
-            Theme.of(context).accentColor
+            Theme.of(context).colorScheme.secondary
           ],
         ),
       ),

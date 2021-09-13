@@ -9,7 +9,13 @@ import 'add_place_state.dart';
 class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
   final PlaceInteractor _placeInteractor;
 
-  AddPlaceBloc(this._placeInteractor) : super(AddPlaceLoadingInProgressState());
+  AddPlaceLoadingSuccessState _state = const AddPlaceLoadingSuccessState();
+
+  AddPlaceBloc(this._placeInteractor) : super(AddPlaceLoadingInProgressState()) {
+    stream.listen((event) {
+      if (event is AddPlaceLoadingSuccessState) _state = event;
+    });
+  }
 
   @override
   Stream<AddPlaceState> mapEventToState(AddPlaceEvent event) async* {
@@ -32,34 +38,65 @@ class AddPlaceBloc extends Bloc<AddPlaceEvent, AddPlaceState> {
     if (event is AddPlaceDismissedImageEvent) {
       yield* _mapAddPlaceDismissedImageToState(event.img);
     }
+
+    if (event is AddPlaceAddImageEvent) {
+      yield* _mapAddPlaceAddImageEventToState(event);
+    }
+
+    if (event is AddPlaceSetGeoEvent) {
+      yield* _mapAddPlaceSetGeoEventToState(event);
+    }
+
+    if (event is AddPlaceChangeEvent) {
+      yield* _mapAddPlaceChangeEventToState(event);
+    }
   }
 
   Stream<AddPlaceState> _mapAddPlaceDismissedImageToState(String? img) async* {
-    AddPlaceLoadingSuccessState _state = state as AddPlaceLoadingSuccessState;
-    _state.images.remove(img);
-    yield _state;
+    var _list = _state.images;
+    _list.remove(img);
+    yield _state.copiWith(images: _list);
   }
 
-  Stream<AddPlaceState> _mapAddPlaceTypeChangeToState(PlaceType type) async* {
-    yield AddPlaceLoadingInProgressState();
-    yield AddPlaceLoadingSuccessState(placeType: type);
+  Stream<AddPlaceState> _mapAddPlaceTypeChangeToState(PlaceType type) async* {   
+    yield _state.copiWith(placeType: type);
   }
 
   Stream<AddPlaceState> _mapAddPlaceSaveEventToState(Place place) async* {
     yield AddPlaceLoadingInProgressState();
     try {
       await _placeInteractor.addNewPlace(place);
-      yield AddPlaceLoadingSuccessState();
+      yield const AddPlaceLoadingSuccessState();
     } on NetworkExeption catch (_) {
       yield AddPlaceErrorState();
     }
   }
 
   Stream<AddPlaceState> _mapAddPlaceClearFormEventToState() async* {
-    yield AddPlaceLoadingSuccessState();
+    yield _state.copiWith(name: "", lat: 0, lon: 0, description: "");
   }
 
   Stream<AddPlaceState> _mapAddPlaceLoadEventToState() async* {
-    yield AddPlaceLoadingSuccessState();
+    yield const AddPlaceLoadingSuccessState();
+  }
+
+  Stream<AddPlaceState> _mapAddPlaceAddImageEventToState(
+      AddPlaceAddImageEvent event) async* {
+    yield _state.copiWith(images: event.images);
+  }
+
+  Stream<AddPlaceState> _mapAddPlaceSetGeoEventToState(
+      AddPlaceSetGeoEvent event) async* {
+    yield _state.copiWith(lat: event.geo.latitude, lon: event.geo.longitude);
+  }
+
+  Stream<AddPlaceState> _mapAddPlaceChangeEventToState(
+      AddPlaceChangeEvent event) async* {
+    yield _state.copiWith(
+      name: event.place.name,
+      description: event.place.description,
+      lat: event.place.lat,
+      lon: event.place.lon,
+    );
   }
 }

@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:enum_to_string/enum_to_string.dart';
 
+import 'geo.dart';
+
 enum PlaceType {
   temple,
   monument,
@@ -56,9 +58,17 @@ class Place {
             (data['urls'] as List<dynamic>).map((e) => e.toString()).toList(),
         description = data['description'],
         placeType =
-            EnumToString.fromString(PlaceType.values, data['placeType']) ?? PlaceType.temple;
+            EnumToString.fromString(PlaceType.values, data['placeType']) ??
+                PlaceType.temple;
 
-  Place copyWith({int? id, String? name, double? lat, double? lon, List<String>? urls, String? description, PlaceType? placeType}) {
+  Place copyWith(
+      {int? id,
+      String? name,
+      double? lat,
+      double? lon,
+      List<String>? urls,
+      String? description,
+      PlaceType? placeType}) {
     return Place(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -83,12 +93,29 @@ class Place {
   }
 
   ///Возвращает кол-во метров от Place до точки с координатами lat, lon
-  double getDistans(double currentLat, double currentlon) {
-    const double ky = 40000 / 0.36;
-    final double kx = cos(pi * lat / 180) * ky;
-    var dx = (currentLat - lon).abs() * kx;
-    var dy = (currentlon - lat).abs() * ky;
-    return sqrt(dx * dx + dy * dy);
+  double getDistans(Geo geo) {
+    // перевести координаты в радианы
+    final lat1 = lat * pi / 180;
+    final lat2 = geo.latitude * pi / 180;
+    final long1 = lon * pi / 180;
+    final long2 = geo.longitude * pi / 180;
+
+    // косинусы и синусы широт и разницы долгот
+    final cl1 = cos(lat1);
+    final cl2 = cos(lat2);
+    final sl1 = sin(lat1);
+    final sl2 = sin(lat2);
+    final delta = long2 - long1;
+    final cdelta = cos(delta);
+    final sdelta = sin(delta);
+
+    // вычисления длины большого круга
+    final y =
+        sqrt(pow(cl2 * sdelta, 2) + pow(cl1 * sl2 - sl1 * cl2 * cdelta, 2));
+    final x = sl1 * sl2 + cl1 * cl2 * cdelta;
+    final ad = atan2(y, x);
+
+    return ad * 6372795; // 6372795 - радиус земли
   }
 
   static final List<String> ruPlaceTypeNames = [
@@ -104,4 +131,6 @@ class Place {
   ];
 
   String get placeTypeName => ruPlaceTypeNames.elementAt(placeType.index);
+
+  String get key => "place_$id";
 }
