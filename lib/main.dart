@@ -17,7 +17,7 @@ void main() {
 }
 
 void _defineEnvironment(BuildConfig buildConfig) {
-  Environment.init(buildConfig, BuildType.dev);
+  Environment.init(buildConfig, BuildType.prod);
 }
 
 BuildConfig _setUpConfig() {

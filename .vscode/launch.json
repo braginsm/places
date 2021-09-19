@@ -14,7 +14,7 @@
             "name": "debug",
             "request": "launch",
             "type": "dart",
-            "args": ["-t", "lib/main_dev.dart"]
+            "args": ["-t", "lib/main_debug.dart"]
         },
         {
             "name": "profile",
