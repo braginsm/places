@@ -8,13 +8,13 @@
             "name": "prod",
             "request": "launch",
             "type": "dart",
-            "args": ["--release"]
+            "args": ["--release", "--flavor=prod"]
         },
         {
             "name": "debug",
             "request": "launch",
             "type": "dart",
-            "args": ["-t", "lib/main_debug.dart"]
+            "args": ["-t", "lib/main_debug.dart", "--flavor=dev"]
         },
         {
             "name": "profile",

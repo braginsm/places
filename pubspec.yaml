@@ -38,14 +38,21 @@ dev_dependencies:
   flutter_lints: ^1.0.4
   moor_generator: ^4.4.1
   build_runner: ^2.1.1
+  flutter_launcher_icons: ^0.9.2
 
 flutter:
   uses-material-design: true
   assets:
     - res/images/
+    - res/icons/
   fonts:
     - family: Roboto
       fonts:
         - asset: res/fonts/Roboto/Roboto-Regular.ttf
         - asset: res/fonts/Roboto/Roboto-Bold.ttf
           weight: 700
+
+flutter_icons:
+  image_path: "res/icons/icon_dev.png"
+  android: true
+  ios: false
