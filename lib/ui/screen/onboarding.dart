@@ -45,7 +45,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     context.read<UserPropertyInteractor>().setIsNotFirst(true);
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const SightListScreen()),
+      MaterialPageRoute(builder: (context) => SightListScreen()),
     );
   }
 

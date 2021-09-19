@@ -7,7 +7,7 @@ import 'package:places/ui/screen/sight_list.dart';
 import 'package:provider/provider.dart';
 
 import 'package:places/data/interactor/user_property_interactor.dart';
-import 'package:places/main.dart';
+import 'package:places/app.dart';
 import 'package:places/ui/res/images.dart';
 import 'package:places/ui/screen/onboarding.dart';
 
@@ -84,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen>
 
       /// Получение признака первого открытия
       if (await context.read<UserPropertyInteractor>().getIsNotFirst()) {
-        _nextWidget = const SightListScreen();
+        _nextWidget = SightListScreen();
       }
       
       return true;

@@ -5,6 +5,7 @@ import 'package:places/data/blocks/place_list/place_list_event.dart';
 import 'package:places/data/blocks/place_list/place_list_state.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/repository/network_exeption.dart';
+import 'package:places/environment/environment.dart';
 import 'package:places/ui/screen/search_place.dart';
 import 'package:places/ui/screen/smth_error.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
@@ -17,7 +18,10 @@ import 'widgets/add_new_place_widget.dart';
 import 'widgets/preloader.dart';
 
 class SightListScreen extends StatelessWidget {
-  const SightListScreen({Key? key}) : super(key: key);
+  SightListScreen({Key? key}) : super(key: key);
+
+  final String _sufString = Environment.instance().buildConfig.sufString;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,18 +32,18 @@ class SightListScreen extends StatelessWidget {
             OrientationBuilder(builder: (context, orientation) {
               return CustomScrollView(
                 slivers: [
-                  const SliverAppBar(
+                  SliverAppBar(
                     leadingWidth: 0,
                     pinned: true,
                     automaticallyImplyLeading: false,
                     expandedHeight: 150,
                     flexibleSpace: FlexibleSpaceBar(
                       title: Text(
-                        "Список интересных мест",
+                        "Список интересных мест $_sufString",
                         maxLines: 2,
                       ),
                       centerTitle: true,
-                      titlePadding: EdgeInsets.all(16),
+                      titlePadding: const EdgeInsets.all(16),
                     ),
                   ),
                   SliverToBoxAdapter(
@@ -69,7 +73,7 @@ class SightListScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavigation(),
+      bottomNavigationBar: BottomNavigation(),
     );
   }
 }

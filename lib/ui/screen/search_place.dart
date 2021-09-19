@@ -218,7 +218,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
             ),
           ],
         ),
-        bottomNavigationBar: const BottomNavigation(),
+        bottomNavigationBar: BottomNavigation(),
       ),
     );
   }
