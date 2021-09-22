@@ -8,7 +8,7 @@ import 'package:places/ui/screen/widgets/delimer.dart';
 import 'package:places/ui/screen/widgets/bottom_navigation.dart';
 import 'package:provider/provider.dart';
 
-import '../../main.dart';
+import '../../app.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -87,7 +87,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavigation(),
+      bottomNavigationBar: BottomNavigation(),
     );
   }
 }

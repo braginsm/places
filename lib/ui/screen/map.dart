@@ -198,7 +198,7 @@ class _MapScreenState extends State<MapScreen> {
           },
         ),
       ),
-      bottomNavigationBar: const BottomNavigation(
+      bottomNavigationBar: BottomNavigation(
         activeIndex: 1,
       ),
     );

@@ -69,7 +69,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
             _VisitTabItemWidget(),
           ],
         ),
-        bottomNavigationBar: const BottomNavigation(),
+        bottomNavigationBar: BottomNavigation(),
       ),
     );
   }

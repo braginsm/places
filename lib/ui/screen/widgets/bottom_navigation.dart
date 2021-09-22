@@ -8,13 +8,13 @@ import 'package:places/ui/screen/visiting.dart';
 
 class BottomNavigation extends StatelessWidget {
   final int? activeIndex;
-  const BottomNavigation({Key? key, this.activeIndex}) : super(key: key);
+  BottomNavigation({Key? key, this.activeIndex}) : super(key: key);
 
-  final List<Widget> _navScreens = const [
+  final List<Widget> _navScreens = [
     SightListScreen(),
-    MapScreen(),
-    VisitingScreen(),
-    SettingsScreen()
+    const MapScreen(),
+    const VisitingScreen(),
+    const SettingsScreen()
   ];
 
   @override
